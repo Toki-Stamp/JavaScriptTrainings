@@ -50,4 +50,5 @@
 	Tomcat
 	GlassFish
 	JBoss
-11. Изучение протоколов HTTP и HTTPS
+11. Изучение протоколов HTTP и HTTPS ( https://ru.wikipedia.org/wiki/HTTP ) ( https://ru.wikipedia.org/wiki/HTTPS )
+( https://habrahabr.ru/company/tuthost/blog/150433/ )

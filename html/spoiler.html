@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>spoiler</title>
+    <link rel="stylesheet" type="text/css" href="../css/spoiler.css">
+</head>
+<body>
+<div class="spoiler">
+    <span class="header">Click to <strong>toggle</strong> content down below!</span>
+    <ul>
+        <li>Text line 1 Text line 1 Text line 1</li>
+        <li>Text line 2 Text line 2 Text line 2</li>
+        <li>Text line 3 Text line 3 Text line 3</li>
+    </ul>
+</div>
+<p>Text line 4 Text line 4 Text line 4</p>
+<p>Text line 5 Text line 5 Text line 5</p>
+<p>Text line 6 Text line 6 Text line 6</p>
+<script>
+    var menuElem = document.getElementsByClassName('spoiler')[0];
+    var headerElem = menuElem.querySelector('.header');
+    headerElem.onclick = function () { // DOM Level 0
+        menuElem.classList.toggle('open');
+    };
+</script>
+</body>
+</html>

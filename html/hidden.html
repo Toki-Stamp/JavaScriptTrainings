@@ -11,9 +11,9 @@
 <div id="target2">Some colored text goes here!</div>
 <script>
     document.getElementById('target2').style.background = 'red';
-    function showHide() {
-        var target = document.getElementById('target');
-        target.hidden = !target.hidden;
+    function showHide(target) {
+        var hideThis = document.getElementById(target);
+        hideThis.hidden = !hideThis.hidden;
     }
     function entourage() {
         var target2 = document.getElementById('target2');
@@ -23,9 +23,9 @@
             target2.style.background = 'red';
         }
     }
-    //    document.getElementById('thing').onclick = showHide; // Only single handler on event click can be added
-    document.getElementById('toggle').addEventListener('click', showHide); // multiple handlers can be added on event
-    document.getElementById('toggle').addEventListener('click', entourage); // multiple handlers can be added on event
+    //    document.getElementById('thing').onclick = showHide; // Only single handler on event click can be added                   DOM Level 0
+    document.getElementById('toggle').addEventListener('click', showHide('target')); // multiple handlers can be added on event     DOM Level 2
+    document.getElementById('toggle').addEventListener('click', entourage); // multiple handlers can be added on event              DOM Level 2
 </script>
 </body>
 </html>
