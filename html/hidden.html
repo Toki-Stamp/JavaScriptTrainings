@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hidden</title>
+</head>
+<body>
+<input id="toggle" type="button" value="Toggle">
+
+<div id="target">Some secret text goes here!</div>
+<div id="target2">Some colored text goes here!</div>
+<script>
+    document.getElementById('target2').style.background = 'red';
+    function showHide() {
+        var target = document.getElementById('target');
+        target.hidden = !target.hidden;
+    }
+    function entourage() {
+        var target2 = document.getElementById('target2');
+        if (target2.style.background === 'red') {
+            target2.style.background = 'yellow';
+        } else {
+            target2.style.background = 'red';
+        }
+    }
+    //    document.getElementById('thing').onclick = showHide; // Only single handler on event click can be added
+    document.getElementById('toggle').addEventListener('click', showHide); // multiple handlers can be added on event
+    document.getElementById('toggle').addEventListener('click', entourage); // multiple handlers can be added on event
+</script>
+</body>
+</html>

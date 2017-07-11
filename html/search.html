@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form name="search">
+    <label>Поиск по сайту:
+        <input type="text" name="search">
+    </label>
+    <input type="submit" value="Искать!">
+</form>
+
+<hr>
+
+<form name="search-person">
+    Поиск по посетителям:
+    <table id="age-table">
+        <tr>
+            <td>Возраст:</td>
+            <td id="age-list">
+                <label>
+                    <input type="radio" name="age" value="young">до 18</label>
+                <label>
+                    <input type="radio" name="age" value="mature">18-50</label>
+                <label>
+                    <input type="radio" name="age" value="senior">более 50</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Дополнительно:</td>
+            <td>
+                <input type="text" name="info[0]">
+                <input type="text" name="info[1]">
+                <input type="text" name="info[2]">
+            </td>
+        </tr>
+
+    </table>
+
+    <input type="submit" value="Искать!">
+</form>
+<script>
+    var tables = document.getElementsByTagName('table');
+    var labels = tables[0].getElementsByTagName('label');
+    console.log('Все элементы label внутри таблицы. Должно быть 3 элемента.');
+    console.log(labels);
+    var cells = tables[0].getElementsByTagName('td');
+    console.log('Первую ячейку таблицы (со словом "Возраст"):');
+    console.log(cells[0]);
+    var forms = document.getElementsByTagName('form');
+    console.log('Вторую форму в документе.');
+    console.log(forms[1]);
+    var searchForm = document.querySelector('form[name="search"]');
+    console.log('Форму с именем search, без использования её позиции в документе.');
+    console.log(searchForm);
+    var firstInput = document.querySelector('form[name="search"] input');
+    console.log('Элемент input в форме с именем search. Если их несколько, то нужен первый.');
+    console.log(firstInput);
+    var info0 = document.getElementsByName('info[0]')[0];
+    console.log('Элемент с именем info[0], без точного знания его позиции в документе.');
+    console.log(info0);
+    var info0FormSearh = document.querySelector('form[name="search-person"] [name="info[0]"]');
+    console.log('Элемент с именем info[0], внутри формы с именем search-person.');
+    console.log(info0FormSearh);
+</script>
+</body>
+</html>

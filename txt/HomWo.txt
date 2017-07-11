@@ -1,0 +1,53 @@
+1. HTML
+	Теги
+	Div, span
+	DOM
+2. CSS
+	Стили
+	Селекторы
+	Резиновая верстка
+3. JavaScript ( http://eslint.org/ )
+	Всплытие переменных ( https://habrahabr.ru/post/127482/ ), замыкания, анонимные функции ( https://learn.javascript.ru/functions-closures )
+	Работа с деревом DOM ( https://learn.javascript.ru/document )
+	События (DOM level 0 и 2) ( https://learn.javascript.ru/events-and-interfaces )
+	Работа со стилями
+	JQuery и реализация в нем вышеуказанных пунктов
+	AJAX
+4. Java SE
+	Stream и streamreader
+	JUnit
+	Mockito
+	JSON, XML
+	JDBC
+5. Hibernate
+	Орм
+	Транзакции
+	Использование кэша (1 и 2)
+	HQL
+6. Spring
+	CDI
+	Security
+	Transaction
+	MVC
+7. Java EE
+	Servlet, Jsp
+	CDI
+	JPA, орм
+	JTA
+	EJB
+	REST
+	SOAP
+8. Git
+	commit
+	merge
+	checkout
+	rebase
+	branch
+9. Oracle SQL
+	DDL, DML, TCL
+	PL\SQL
+10. Сервера приложений Java
+	Tomcat
+	GlassFish
+	JBoss
+11. Изучение протоколов HTTP и HTTPS

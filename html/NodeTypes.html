@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!-- comment -->
+<div>Читатели:</div>
+<ul>
+    <li>Вася</li>
+    <li>Петя</li>
+</ul>
+
+<!-- комментарий -->
+
+<script>
+    var childNodes = document.body.childNodes;
+
+    for (var i = 0; i < childNodes.length; i++) {
+        if (childNodes[i].nodeType != 1) continue; //looking only for ELEMENT_NODE = 1;
+        console.log(childNodes[i]);
+    }
+</script>
+</body>
+</html>

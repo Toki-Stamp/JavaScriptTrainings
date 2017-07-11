@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>getBy</title>
+</head>
+<body>
+<div id="content-holder">
+    <div id="content-1">Выделим этот текст красным</div>
+    <div id="content-2">Этот текст без выделения</div>
+    <div id="content-3">Этот текст так же без выделения</div>
+    <div id="content-4">Выделим этот текст жёлтым</div>
+</div>
+<script>
+    var element = document.getElementById('content-1');
+    element.style.backgroundColor = 'red';
+    element = document.getElementById('content-4');
+    element.style.backgroundColor = 'yellow';
+    var divs = document.getElementsByTagName('div');
+    console.log('Getting all \<div\> elements');
+    console.log(divs);
+    console.log('Getting all "document" elements');
+    console.log(document.getElementsByTagName('*'));
+    console.log('Getting all "content-colder" children elements');
+    console.log(document.getElementById('content-holder').getElementsByTagName('div'));
+</script>
+</body>
+</html>

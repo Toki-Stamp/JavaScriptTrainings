@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+<div>Пользователи:</div>
+<ul>
+    <li>Маша</li>
+    <!-- комментарий -->
+    <li>Вовочка</li>
+</ul>
+
+<script>
+    var dde = document.documentElement;
+    console.log('Getting document elements');
+    for (var i = 0; i < dde.childElementCount; i++) {
+        console.log(dde.children[i]);
+    }
+    console.log('Getting head element by 3 ways:');
+    console.log(dde.firstChild);
+    console.log(dde.children[0]);
+    console.log(document.head);
+    console.log('Getting body element by 3 ways:');
+    console.log(dde.lastChild);
+    console.log(dde.children[1]);
+    console.log(document.body);
+    var db = document.body;
+    console.log('Getting body elements');
+    for (i = 0; i < db.childElementCount; i++) {
+        console.log(db.children[i]);
+    }
+    console.log('Getting ul element');
+    console.log(db.children[1]);
+    var ul = db.children[1];
+    console.log('Getting li elements');
+    for (i = 0; i < ul.childElementCount; i++) {
+        console.log(ul.children[i]);
+    }
+    console.log('Getting 2nd li element');
+    console.log(ul.children[1]);
+</script>
+</body>
+
+</html>
