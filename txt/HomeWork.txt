@@ -12,30 +12,45 @@
 	События (DOM level 0 и 2) ( https://learn.javascript.ru/events-and-interfaces )
 	Работа со стилями
 	JQuery и реализация в нем вышеуказанных пунктов
+	( https://jsehelper.blogspot.com.by/2016/04/jquery-1.html )
+	( https://jsehelper.blogspot.com.by/2016/04/jquery-2.html )
 	AJAX
 4. Java SE
-	Stream и streamreader
-	JUnit
+	Stream и Streamreader
+	( https://jsehelper.blogspot.com.by/2016/02/java-1.html )
+	( https://jsehelper.blogspot.com.by/2016/02/java-2.html )
+	JUnit ( https://jsehelper.blogspot.com.by/2016/01/junit.html )
 	Mockito
-	JSON, XML
-	JDBC
+	JSON, XML ( https://jsehelper.blogspot.com.by/2016/04/json.html )
+	JDBC ( https://jsehelper.blogspot.com.by/2016/01/jdbc.html )
 5. Hibernate
-	Орм
+	ОRM
+	( https://jsehelper.blogspot.com.by/2016/01/object-relational-mapping-orm-hibernate.html )
+	( https://jsehelper.blogspot.com.by/2016/03/object-relational-mapping-orm-hibernate.html )
 	Транзакции
 	Использование кэша (1 и 2)
 	HQL
 6. Spring
-	CDI
+( https://jsehelper.blogspot.com.by/2016/02/spring-framework-1.html )
+( https://jsehelper.blogspot.com.by/2016/03/spring-framework-2.html )
+( https://jsehelper.blogspot.com.by/2016/03/spring-framework-3.html )
+	CDI ( https://habrahabr.ru/post/136140/ )
 	Security
 	Transaction
 	MVC
 7. Java EE
-	Servlet, Jsp
+	Servlet, JSP
+	( https://jsehelper.blogspot.com.by/2016/01/jsp-servlets-jstl.html )
+	( https://jsehelper.blogspot.com.by/2016/05/jsp-servlets-jstl-2.html )
+	( https://jsehelper.blogspot.com.by/2016/05/jsp-servlets-jstl-3.html )
+	( https://jsehelper.blogspot.com.by/2016/05/jsp-servlets-jstl-4.html )
 	CDI
-	JPA, орм
+	JPA
+	( https://jsehelper.blogspot.com.by/2016/03/java-persistence-api-jpa-1.html )
+	( https://jsehelper.blogspot.com.by/2016/03/java-persistence-api-jpa-2.html )
 	JTA
 	EJB
-	REST
+	REST ( https://jsehelper.blogspot.com.by/2016/04/web-services.html )
 	SOAP
 8. Git
 	commit
@@ -43,9 +58,11 @@
 	checkout
 	rebase
 	branch
-9. Oracle SQL
+9. Oracle SQL ( https://jsehelper.blogspot.com.by/2016/01/blog-post_13.html )
 	DDL, DML, TCL
-	PL\SQL
+	PL \ SQL
+	( https://jsehelper.blogspot.com.by/2016/01/sql-1.html )
+	( https://jsehelper.blogspot.com.by/2016/01/sql-2.html )
 10. Сервера приложений Java
 	Tomcat
 	GlassFish
