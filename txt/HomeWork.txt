@@ -1,12 +1,18 @@
-1. HTML
+01. Git
+	commit
+	merge
+	checkout
+	rebase
+	branch
+02. HTML
 	Теги
 	Div, span
 	DOM
-2. CSS
+03. CSS
 	Стили
 	Селекторы
 	Резиновая верстка
-3. JavaScript ( http://eslint.org/ )
+04. JavaScript ( http://eslint.org/ )
 	Всплытие переменных ( https://habrahabr.ru/post/127482/ ), замыкания, анонимные функции ( https://learn.javascript.ru/functions-closures )
 	Работа с деревом DOM ( https://learn.javascript.ru/document )
 	События (DOM level 0 и 2) ( https://learn.javascript.ru/events-and-interfaces )
@@ -15,7 +21,7 @@
 	( https://jsehelper.blogspot.com.by/2016/04/jquery-1.html )
 	( https://jsehelper.blogspot.com.by/2016/04/jquery-2.html )
 	AJAX
-4. Java SE
+05. Java SE
 	Stream и Streamreader
 	( https://jsehelper.blogspot.com.by/2016/02/java-1.html )
 	( https://jsehelper.blogspot.com.by/2016/02/java-2.html )
@@ -23,22 +29,7 @@
 	Mockito
 	JSON, XML ( https://jsehelper.blogspot.com.by/2016/04/json.html )
 	JDBC ( https://jsehelper.blogspot.com.by/2016/01/jdbc.html )
-5. Hibernate
-	ОRM
-	( https://jsehelper.blogspot.com.by/2016/01/object-relational-mapping-orm-hibernate.html )
-	( https://jsehelper.blogspot.com.by/2016/03/object-relational-mapping-orm-hibernate.html )
-	Транзакции
-	Использование кэша (1 и 2)
-	HQL
-6. Spring
-( https://jsehelper.blogspot.com.by/2016/02/spring-framework-1.html )
-( https://jsehelper.blogspot.com.by/2016/03/spring-framework-2.html )
-( https://jsehelper.blogspot.com.by/2016/03/spring-framework-3.html )
-	CDI ( https://habrahabr.ru/post/136140/ )
-	Security
-	Transaction
-	MVC
-7. Java EE
+06. Java EE
 	Servlet, JSP
 	( https://jsehelper.blogspot.com.by/2016/01/jsp-servlets-jstl.html )
 	( https://jsehelper.blogspot.com.by/2016/05/jsp-servlets-jstl-2.html )
@@ -52,20 +43,31 @@
 	EJB
 	REST ( https://jsehelper.blogspot.com.by/2016/04/web-services.html )
 	SOAP
-8. Git
-	commit
-	merge
-	checkout
-	rebase
-	branch
-9. Oracle SQL ( https://jsehelper.blogspot.com.by/2016/01/blog-post_13.html )
+07. Сервера приложений Java
+	Tomcat
+	GlassFish
+	JBoss
+08. Hibernate
+	ОRM
+	( https://jsehelper.blogspot.com.by/2016/01/object-relational-mapping-orm-hibernate.html )
+	( https://jsehelper.blogspot.com.by/2016/03/object-relational-mapping-orm-hibernate.html )
+	Транзакции
+	Использование кэша (1 и 2)
+	HQL
+09. Spring
+	( https://jsehelper.blogspot.com.by/2016/02/spring-framework-1.html )
+	( https://jsehelper.blogspot.com.by/2016/03/spring-framework-2.html )
+	( https://jsehelper.blogspot.com.by/2016/03/spring-framework-3.html )
+	CDI ( https://habrahabr.ru/post/136140/ )
+	Security
+	Transaction
+	MVC
+10. Oracle SQL ( https://jsehelper.blogspot.com.by/2016/01/blog-post_13.html )
 	DDL, DML, TCL
 	PL \ SQL
 	( https://jsehelper.blogspot.com.by/2016/01/sql-1.html )
 	( https://jsehelper.blogspot.com.by/2016/01/sql-2.html )
-10. Сервера приложений Java
-	Tomcat
-	GlassFish
-	JBoss
-11. Изучение протоколов HTTP и HTTPS ( https://ru.wikipedia.org/wiki/HTTP ) ( https://ru.wikipedia.org/wiki/HTTPS )
-( https://habrahabr.ru/company/tuthost/blog/150433/ )
+11. Изучение протоколов HTTP и HTTPS
+	( https://ru.wikipedia.org/wiki/HTTP )
+	( https://ru.wikipedia.org/wiki/HTTPS )
+	( https://habrahabr.ru/company/tuthost/blog/150433/ )
