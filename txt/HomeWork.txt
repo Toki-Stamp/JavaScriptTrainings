@@ -38,7 +38,7 @@
 	CDI
 	JPA
 	( https://jsehelper.blogspot.com.by/2016/03/java-persistence-api-jpa-1.html )
-	( https://jsehelper.blogspot.com.by/2016/03/java-persistence-api-jpa-2.html )
+	( https://jsehelper.blogspot.com.by/2016/04/java-persistence-api-jpa-2.html )
 	JTA
 	EJB
 	REST ( https://jsehelper.blogspot.com.by/2016/04/web-services.html )
