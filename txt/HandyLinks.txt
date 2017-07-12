@@ -1,0 +1,1 @@
+Дебаг в Google Chrome: https://learn.javascript.ru/debugging-chrome
