@@ -12,13 +12,25 @@ body {
     font-family: monospace;
     background: cornsilk;
     margin: 5%;
-    text-align: justify;
 }
 
 h1 {
     padding-top: 0.5em;
     padding-bottom: 0.5em;
+    padding-left: 0.5em;
     border-radius: 0.5em;
-    text-align: center;
-    background: khaki;
+    border: solid gainsboro;
+    text-align: left;
+    background: lavender;
+}
+
+p {
+    margin-left: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    border-radius: 0.5em;
+    border: solid gainsboro;
+    text-align: justify;
+    background: lavender;
 }
