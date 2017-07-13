@@ -1,0 +1,24 @@
+/*
+    First  is  Top
+    Second is  Right
+    Third  is  Bottom
+    Fourth is  Left
+*/
+
+/* margin   - поле, отступ */
+/* padding  - отступ внутри поля */
+
+body {
+    font-family: monospace;
+    background: cornsilk;
+    margin: 5%;
+    text-align: justify;
+}
+
+h1 {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border-radius: 0.5em;
+    text-align: center;
+    background: khaki;
+}

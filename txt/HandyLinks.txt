@@ -1,1 +1,2 @@
 Дебаг в Google Chrome: https://learn.javascript.ru/debugging-chrome
+Скринкаст NODE.JS: http://learn.javascript.ru/screencast/nodejs
