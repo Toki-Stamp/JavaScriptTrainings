@@ -25,16 +25,22 @@ h1 {
 }
 
 p {
-	margin: 0.5em;
-	padding: 0;
+    margin: 0.5em;
+    padding: 0;
 }
 
 .content-holder {
     margin-left: 1em;
-	margin-right: 1em;
+    margin-right: 1em;
     padding: 0.5em;
     border-radius: 0.5em;
     border: solid gainsboro;
-    text-align: justify;	
+    text-align: left;
     background: lavender;
+}
+
+.block-vertical-centered {
+    height: 200px;
+    display: table-cell;
+    vertical-align: middle;
 }
