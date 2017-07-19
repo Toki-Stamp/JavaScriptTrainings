@@ -1,3 +1,4 @@
 Дебаг в Google Chrome: https://learn.javascript.ru/debugging-chrome
 Скринкаст NODE.JS: http://learn.javascript.ru/screencast/nodejs
 jQuery для начинающих: https://habrahabr.ru/post/155107/
+Блок / Элемент / Модификатор: https://ru.bem.info/methodology/quick-start/
