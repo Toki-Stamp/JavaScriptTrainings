@@ -3,50 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>jQueryStart</title>
+    <style>
+        body {
+            width: 100%;
+        }
+
+        p {
+            color: blue;
+            margin: 1em;
+        }
+
+        #inputDiv {
+            background: #f5f5f5;
+            border: 3px solid #f0f0f0;
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+            width: 25%;
+        }
+
+        table {
+            border-collapse: collapse;
+            /*width: 50%;*/
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5
+        }
+    </style>
     <script type="text/javascript" src="../libs/jquery-3.2.1.js"></script>
 </head>
 <body>
-<header>
-    <h1>Page Title</h1>
-
-    <p>Page Description</p>
-</header>
-<div id="content" class="wrapper box">
-    <article>
-        <h2>Article Title</h2>
-
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc urna metus, ultricies eu, congue vel,
-            laoreet...</p>
-    </article>
-    <article>
-        <h2>Article Title</h2>
-
-        <p>Morbi malesuada, ante at feugiat tincidunt, enim massa gravida metus, commodo lacinia massa diam vel
-            eros...</p></article>
+<div id="container">
+    <div id="sub">
+        <h1>div block</h1>
+    </div>
 </div>
-<footer>&copy;copyright 2014</footer>
-<script>
-    // мы пытаемся найти все элементы <h2> на странице
-    // и изменить цвет шрифта на синий
-    $(function () {
-        $("h2").css("color", "blue");
-    });
-    // можно создать функцию, передав в конструктор Function строку с кодом
-    var fun = new Function("arg1", "arg2", "return arg1 + arg2;");
-    console.log(fun(5, 10)); // => 15
+<div id="inputDiv">
+    <input type="text" name="uName" id="userName">
+</div>
+<table>
+    <tbody>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Points</th>
+    </tr>
+    <tr>
+        <td>Peter</td>
+        <td>Griffin</td>
+        <td>$100</td>
+    </tr>
+    <tr>
+        <td>Lois</td>
+        <td>Griffin</td>
+        <td>$150</td>
+    </tr>
+    <tr>
+        <td>Joe</td>
+        <td>Swanson</td>
+        <td>$300</td>
+    </tr>
+    <tr>
+        <td>Cleveland</td>
+        <td>Brown</td>
+        <td>$250</td>
+    </tr>
+    </tbody>
+</table>
 
-    function someFunction(arg1, arg2, callback) {
-        var result = Math.ceil(Math.random() * (arg1 - arg2) + arg2);
-        callback(result);
-    }
-    var output1 = function (result) {
-        console.log("callback v1! " + result);
-    };
-    var output2 = function (result) {
-        console.log("callback v2! " + result);
-    };
-    someFunction(1, 20, output1);
-    someFunction(40, 70, output2);
+<script>
+    $("#sub")
+            .prepend('<p>before first</p>')
+            .prepend('<p>before middle</p>')
+            .prepend('<p>before last</p>')
+            .append('<p>after first</p>')
+            .append('<p>after middle</p>')
+            .append('<p>after last</p>');
+    $("#userName").before('<h1>before</h1>').after('<h1>after</h1>');
 </script>
 </body>
 </html>
