@@ -3,40 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>jQueryStart</title>
-    <style>
-        body {
-            width: 100%;
-        }
-
-        p {
-            color: blue;
-            margin: 1em;
-        }
-
-        #inputDiv {
-            background: #f5f5f5;
-            border: 3px solid #f0f0f0;
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-            width: 25%;
-        }
-
-        table {
-            border-collapse: collapse;
-            /*width: 50%;*/
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../css/jQueryStart.css">
     <script type="text/javascript" src="../libs/jquery-3.2.1.js"></script>
 </head>
 <body>
@@ -77,7 +44,13 @@
     </tr>
     </tbody>
 </table>
+<div id="hideThis">
+    <p>Текст текст текст текст текст текст текст текст текст</p>
 
+    <p>Текст текст текст текст текст текст текст текст текст</p>
+
+    <p>Текст текст текст текст текст текст текст текст текст</p>
+</div>
 <script>
     $("#sub")
             .prepend('<p>before first</p>')
@@ -86,7 +59,11 @@
             .append('<p>after first</p>')
             .append('<p>after middle</p>')
             .append('<p>after last</p>');
-    $("#userName").before('<h1>before</h1>').after('<h1>after</h1>');
+    $("#userName").before('<h1>before</h1>').after('<h1>after</h1>').after('<input type="button" onclick="showHide()">');
+    function showHide() {
+        alert('We are here!');
+        $('#hideThis').hide();
+    }
 </script>
 </body>
 </html>
