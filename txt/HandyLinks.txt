@@ -3,3 +3,4 @@ jQuery для начинающих:          https://habrahabr.ru/post/155107/
 Блок / Элемент / Модификатор:   https://ru.bem.info/methodology/quick-start/
 АРХИВ КАТЕГОРИИ "УЧЕБНИК":      http://softwaremaniacs.org/blog/category/primer/
 Понимание callback-функций:     https://habrahabr.ru/post/151716/
+DWR Application:		http://www.jitendrazaa.com/blog/java/jsp/step-by-step-dwr-application-simple-ajax-in-java/
