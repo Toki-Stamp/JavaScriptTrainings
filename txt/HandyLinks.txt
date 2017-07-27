@@ -4,3 +4,4 @@ jQuery для начинающих:          https://habrahabr.ru/post/155107/
 АРХИВ КАТЕГОРИИ "УЧЕБНИК":      http://softwaremaniacs.org/blog/category/primer/
 Понимание callback-функций:     https://habrahabr.ru/post/151716/
 DWR Application:		http://www.jitendrazaa.com/blog/java/jsp/step-by-step-dwr-application-simple-ajax-in-java/
+Подключение БД к IntelliJ IDEA: http://javastudy.ru/webapp/create-mysql-connect-intellij-idea/
