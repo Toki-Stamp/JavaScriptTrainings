@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>jQueryStart</title>
     <link rel="stylesheet" type="text/css" href="../css/jQueryStart.css">
-    <script type="text/javascript" src="../libs/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="../libs/js/jquery-3.2.1.js"></script>
 </head>
 <body>
 <div id="container">
@@ -13,7 +13,7 @@
     </div>
 </div>
 <div id="inputDiv">
-    <input type="text" name="uName" id="userName">
+    <label for="userName">Username:</label><input type="text" name="uName" id="userName">
 </div>
 <table>
     <tbody>
@@ -44,7 +44,7 @@
     </tr>
     </tbody>
 </table>
-<div id="hideThis">
+<div id="hideThis" hidden>
     <p>Текст текст текст текст текст текст текст текст текст</p>
 
     <p>Текст текст текст текст текст текст текст текст текст</p>
@@ -61,8 +61,7 @@
             .append('<p>after last</p>');
     $("#userName").before('<h1>before</h1>').after('<h1>after</h1>').after('<input type="button" onclick="showHide()">');
     function showHide() {
-        alert('We are here!');
-        $('#hideThis').hide();
+        $('#hideThis').toggle();
     }
 </script>
 </body>
