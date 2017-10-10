@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>jQ-2</title>
+    <!-- Bootstrap -->
+    <link href="../libs/css/bootstrap.css" rel="stylesheet">
+    <link href="../libs/css/bootstrap-theme.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="../libs/css/jquery-ui.css" rel="stylesheet">
+    <!-- Custom css goes below -->
+    <link href="css/jQ-2.css" rel="stylesheet">
+</head>
+<body>
+<div id="dialog" class="non-visible" title="Поиск адреса">
+    <div class="container full-width">
+        <br>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading"><strong>Поиск&nbsp;АТЕ&nbsp;и&nbsp;ТЕ</strong></div>
+                <div class="panel-body">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-btn">
+                            <button id="find-button" class="btn btn-primary" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <input id="search-string" type="text" class="form-control"
+                               placeholder="Введите текст для поиска, затем нажите кнопку поиска слева (лупа)">
+                        <span class="input-group-btn">
+                            <button id="clear-search-string-button" class="btn btn-danger" type="button">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong>Административно-территориалльная&nbsp;принадлежность&nbsp;(Реестр&nbsp;АТЕ&nbsp;и&nbsp;ТЕ)</strong>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-8 text-left">
+                            <div class="form-control full-height"></div>
+                        </div>
+                        <div class="col-md-4 text-right border-left">
+                            <div id="buttons-container" class="btn-group-vertical btn-group-sm full-width">
+                                <button type="button" class="btn btn-default" value="1">Улицы</button>
+                                <button type="button" class="btn btn-default" value="2">
+                                    Садоводческие&nbsp;товарищества
+                                </button>
+                                <button type="button" class="btn btn-default" value="3">
+                                    Раздельные&nbsp;пункты&nbsp;БЖД
+                                </button>
+                                <button type="button" class="btn btn-default" value="4">Автодороги</button>
+                                <button type="button" class="btn btn-default" value="5">Иное</button>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div id="address-container">
+                            <div class="col-md-12">
+                                <div class="panel btn-default input-sm text-center">
+                                    <strong>Строка адреса</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div id="autocomplete-container">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-btn">
+                                <button id="open-autocomplete-list-button" class="btn btn-success" type="button">
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
+                            </span>
+                            <input id="autocomplete-list" type="text" class="form-control"
+                                   placeholder="Начните вводить текст для поиска, либо нажмите на кнопку раскрытия списка слева (стрелка вниз)">
+                            <span class="input-group-btn">
+                                <button id="clear-autocomplete-button" class="btn btn-danger" type="button">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="kilometers-container">
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">Километр</span>
+                                    <input type="text" class="form-control" placeholder="Числовое значение">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="capital-building-container">
+                        <br>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">Номер КС</span>
+                                    <input type="text" class="form-control" placeholder="Числовое значение">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">Корпус</span>
+                                    <input type="text" class="form-control" placeholder="Числовое значение">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">Индекс</span>
+                                    <input type="text" class="form-control" placeholder="Числовое значение">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="buttons-1-container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-success btn-sm full-width">
+                                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary btn-sm full-width">
+                                    <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Добавить&nbsp;как&nbsp;местоположение
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!------------------------- Scripts ------------------------->
+<!-- jQuery -->
+<script src="../libs/js/jquery-3.2.1.js"></script>
+<!-- Bootstrap -->
+<script src="../libs/js/bootstrap.js"></script>
+<!-- Bootstrap Select -->
+<script src="../libs/js/bootstrap-select.js"></script>
+<script src="../libs/js/i18n/defaults-ru_RU.js"></script>
+<!--jQuery UI -->
+<script src="../libs/js/jquery-ui.js"></script>
+<!-- Custom js goes below -->
+<script src="js/jQ-2.js"></script>
+</body>
+</html>

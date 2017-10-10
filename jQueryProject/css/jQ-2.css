@@ -1,0 +1,51 @@
+.non-visible {
+    display: none;
+}
+
+.full-width {
+    width: 99.74%;
+}
+
+.full-height {
+    height: 147px;
+}
+
+.error-input {
+    background: rgb(255, 249, 249);
+}
+
+input:not(.error-input):focus {
+    background: rgb(249, 255, 255);
+}
+
+.ui-autocomplete {
+    max-height: 134px; /* 5 inputs */
+    overflow-y: auto; /* prevent horizontal scrollbar */
+    overflow-x: hidden; /* add padding to account for vertical scrollbar */
+    z-index: 1000 !important;
+}
+
+.border-right {
+    border-right: 1px solid rgb(238, 238, 238);
+}
+
+.border-left {
+    border-left: 1px solid rgb(238, 238, 238);
+}
+
+.borders {
+    border-left: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+}
+
+.left-inner-addon {
+    position: relative;
+}
+.left-inner-addon input {
+    padding-left: 30px;
+}
+.left-inner-addon i {
+    position: absolute;
+    padding: 10px 12px;
+    pointer-events: none;
+}
