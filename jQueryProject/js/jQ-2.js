@@ -77,14 +77,14 @@ $(document).ready(function main() {
             var $target = $(this).parent();
             if ((ui.content.length === 0) && (!$target.hasClass('has-error'))) {
                 $target.addClass('has-error');
-                $target.children('input').addClass('error-input');
+                $target.children().addClass('error-input');
             } else if ((ui.content.length > 0) && ($target.hasClass('has-error'))) {
                 $target.removeClass('has-error');
-                $target.children('input').removeClass('error-input');
+                $target.children().removeClass('error-input');
             }
         }
     });
-    /* События по нажатию клавиши / клику мышкой / получению фокуса */
+    /* События по нажатию клавиши / клику мышкой по полю авто-завершения */
     $autocomplete.on('keypress click', function () {
         searchAutocomplete();
     });
@@ -96,7 +96,6 @@ $(document).ready(function main() {
         setDialogName('Добавить как местоположение');
     });
 
-
     /* Прячем фокус */
     function fadeFocus() {
         $('#dialog-container').parent().focus();
@@ -106,7 +105,6 @@ $(document).ready(function main() {
     function searchAutocomplete() {
         $autocomplete.focus().autocomplete('search');
     }
-
 
     /* Настройка имени диалога */
     function setDialogName(name) {

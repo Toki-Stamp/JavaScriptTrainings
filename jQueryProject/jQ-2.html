@@ -4,18 +4,21 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>jQ-2</title>
+    <!------------------------- CSS ----------------------------->
     <!-- Bootstrap -->
-    <link href="../libs/css/bootstrap.css" rel="stylesheet">
-    <link href="../libs/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../lib/css/bootstrap.css" rel="stylesheet">
+    <link href="../lib/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../lib/css/bootstrap-theme.css" rel="stylesheet">
     <!-- jQuery UI -->
-    <link href="../libs/css/jquery-ui.css" rel="stylesheet">
+    <link href="../lib/css/jquery-ui.css" rel="stylesheet">
+    <link href="../lib/css/jquery-ui.css" rel="stylesheet">
     <!-- Custom css goes below -->
     <link href="css/jQ-2.css" rel="stylesheet">
+    <!------------------------- CSS ----------------------------->
 </head>
 <body>
-<!-- main begin -->
+<!------------------------- Main ---------------------------->
 <div id="dialog-container" class="non-visible">
     <div class="container-fluid">
         <div class="row">
@@ -23,7 +26,7 @@
                 <!-- Блок поиск АТЕ и ТЕ-->
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading text-center">
                             <strong>
                                 Поиск&nbsp;АТЕ&nbsp;и&nbsp;ТЕ
                             </strong>
@@ -32,19 +35,19 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="input-group input-group-sm">
-                                    <span class="input-group-btn">
-                                        <button id="find-button" class="btn btn-primary" title="Поиск АТЕ и ТЕ">
-                                            <span class="glyphicon glyphicon-search"></span>
-                                        </button>
-                                    </span>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success" title="Раскрыть полный список">
+                                                <span class="glyphicon glyphicon-list"></span>
+                                            </button>
+                                        </span>
                                         <input id="search-line-input" type="text" class="form-control"
-                                               placeholder="Введите текст, затем нажите кнопку поиска (лупа) слева"/>
-                                    <span class="input-group-btn">
-                                        <button id="clear-search-line-button" class="btn btn-danger"
-                                                title="Очистить стороку поиска АТЕ и ТЕ">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-                                    </span>
+                                               placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
+                                        <span class="input-group-btn">
+                                            <button id="clear-search-line-button" class="btn btn-danger"
+                                                    title="Очистить стороку поиска АТЕ и ТЕ">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +57,7 @@
                 <!-- Блок административно-территориальная принадлежность -->
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading text-center">
                             <strong>
                                 Административно-территориалльная&nbsp;принадлежность&nbsp;(Реестр&nbsp;АТЕ&nbsp;и&nbsp;ТЕ)
                             </strong>
@@ -109,11 +112,11 @@
                                                 <span class="input-group-btn">
                                                     <button id="open-autocomplete-list-button" class="btn btn-success"
                                                             title="Раскрыть полный список">
-                                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                                        <span class="glyphicon glyphicon-list"></span>
                                                     </button>
                                                 </span>
                                                 <input id="autocomplete-list" type="text" class="form-control"
-                                                       placeholder="Начните вводить текст, либо нажмите на кнопку раскрытия списка (стрелка вниз) слева"/>
+                                                       placeholder="Начните вводить текст, либо нажмите на кнопку полного списка слева..."/>
                                                 <span class="input-group-btn">
                                                     <button id="clear-autocomplete-button" class="btn btn-danger"
                                                             title="Очистить строку поиска">
@@ -160,6 +163,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Блок изолированного помещения строения -->
+                                    <div id="isolated-premises-container" class="row">
+                                        <hr>
+                                        <!-- Номер изолированного помещения (ИП) -->
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">Номер ИП</span>
+                                                <input type="text" class="form-control" title="Числовое значение">
+                                            </div>
+                                        </div>
+                                        <!-- Индекс -->
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-addon">Индекс</span>
+                                                <input type="text" class="form-control"
+                                                       title="Числовое значение">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -169,20 +191,24 @@
                 <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div id="buttons-1-container">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button id="add-as-address-button" type="button"
-                                                class="btn btn-success btn-sm full-width">
-                                            <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <button id="add-as-place-button" type="button"
-                                                class="btn btn-primary btn-sm full-width">
-                                            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Добавить&nbsp;как&nbsp;местоположение
-                                        </button>
-                                    </div>
+                            <div id="buttons-1-container" class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <button id="search-button" title="Начать поиск"
+                                            class="btn btn-primary btn-sm full-width">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;Начать поиск
+                                    </button>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <button id="add-as-address-button" title="Добавить как адрес"
+                                            class="btn btn-success btn-sm full-width">
+                                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
+                                    </button>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <button id="add-as-place-button" title="Добавить как местоположение"
+                                            class="btn btn-warning btn-sm full-width">
+                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Как&nbsp;местоположение
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -192,18 +218,19 @@
         </div>
     </div>
 </div>
-<!-- main end -->
+<!------------------------- Main ---------------------------->
 <!------------------------- Scripts ------------------------->
 <!-- jQuery -->
-<script src="../libs/js/jquery-3.2.1.js"></script>
+<script src="../lib/js/jquery-3.2.1.js"></script>
 <!-- Bootstrap -->
-<script src="../libs/js/bootstrap.js"></script>
+<script src="../lib/js/bootstrap.js"></script>
 <!-- Bootstrap Select -->
-<script src="../libs/js/bootstrap-select.js"></script>
-<script src="../libs/js/i18n/defaults-ru_RU.js"></script>
+<script src="../lib/js/bootstrap-select.js"></script>
+<script src="../lib/js/i18n/defaults-ru_RU.js"></script>
 <!--jQuery UI -->
-<script src="../libs/js/jquery-ui.js"></script>
+<script src="../lib/js/jquery-ui.js"></script>
 <!-- Custom js goes below -->
 <script src="js/jQ-2.js"></script>
+<!------------------------- Scripts ------------------------->
 </body>
 </html>
