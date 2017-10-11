@@ -4,31 +4,31 @@
  */
 $(document).ready(function main() {
     /* Переменные быстрого доступа */
-    var $search = $('#search-string'),
-        $address = $('#address-container').find('.panel'),
-        $autocomplete = $('#autocomplete-container').find('input'),
+    var $search = $('#search-line-input'),
+        $address = $('#address-output-line'),
+        $autocomplete = $('#autocomplete-list'),
         list = ['Авакяна', 'Бобцова', 'Вишневского',
             'Жудро', 'Рыбачко', 'Умека', 'Калека', 'Базяка',
             'Чмарко', 'Смоленская', 'Тихонова', 'Фомкина'];
     /* Кпонки выбора АТЕ и ТЕ */
-    $('#buttons-container').find('button').click(function () {
+    $('#radio-buttons-container').find('button').click(function () {
         var $button = $(this),
-            $input = $('#search-string').val();
+            $input = $search.val();
         $button.removeClass('btn-default').addClass('btn-success');
         $button.siblings().removeClass('btn-success').addClass('btn-default');
         fadeFocus();
-        $address.html('<strong>' + $input + ' : ' + $button.text() + '</strong>');
+        $address.val($input + ' : ' + $button.text());
     });
     /* Кпопка очистки поля для ввода, крестик */
-    $('#clear-search-string-button').click(function () {
-        var $button = $('#buttons-container').find('button.btn-success');
+    $('#clear-search-line-button').click(function () {
+        var $button = $('radio-buttons-container').find('button.btn-success');
         $search.val('');
-        $address.html('<strong>Строка адреса</strong>');
+        $address.val('');
         $button.removeClass('btn-success').addClass('btn-default');
         $search.focus();
     });
     /* Кпопка очистки строки автозаполнения, крестик */
-    $('#clear-autocomplete-button').click(function () {
+    $('#clear-autocomplete-button').on('keypress click', function () {
         var $input = $('#autocomplete-list').val('');
         if (!$input) {
             console.dir($input);
@@ -39,13 +39,15 @@ $(document).ready(function main() {
     });
     /* Кнопка поиска, лупа */
     $('#find-button').click(function () {
-        $address.html('<strong>' + $search.val() + '</strong>');
+        $address.val($search.val());
         $search.focus();
     });
     /* Создание и настройка диалогового окна */
-    $('#dialog').dialog({
+    $('#dialog-container').dialog({
         //height: '710', minHeight: '700', maxHeight: '720',
-        width: '770', minWidth: '760', maxWidth: '780',
+        width: '750',
+        //minWidth: '760', maxWidth: '780',
+        resizable: false,
         modal: true,
         autoOpen: true, // false после отладки!!!
         stack: false,
@@ -60,8 +62,12 @@ $(document).ready(function main() {
         }
     });
     /* Кнопка открытия окна авто-завершения */
-    $('#open-autocomplete-list-button').click(function () {
+    $('#open-autocomplete-list-button').on('keypress click', function () {
         searchAutocomplete();
+    });
+    /* Кпонка копирования строки адреса */
+    $('#copy-output-button').on('keypress click', function () {
+        fadeFocus();
     });
     /* Создание и настройка авто-завершения ввода */
     $autocomplete.autocomplete({
@@ -82,13 +88,29 @@ $(document).ready(function main() {
     $autocomplete.on('keypress click', function () {
         searchAutocomplete();
     });
+
+    $('#add-as-address-button').click(function () {
+        setDialogName('Добавить как адрес');
+    });
+    $('#add-as-place-button').click(function () {
+        setDialogName('Добавить как местоположение');
+    });
+
+
     /* Прячем фокус */
     function fadeFocus() {
-        $('#dialog').parent().focus();
+        $('#dialog-container').parent().focus();
     }
 
     /* Запускаем поиск по полю авто-завершения */
     function searchAutocomplete() {
         $autocomplete.focus().autocomplete('search');
+    }
+
+
+    /* Настройка имени диалога */
+    function setDialogName(name) {
+        $('#dialog-container').dialog('option', 'title', name);
+        fadeFocus();
     }
 });

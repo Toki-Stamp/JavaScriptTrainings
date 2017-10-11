@@ -2,6 +2,14 @@
     display: none;
 }
 
+.input-group-addon {
+    width: 80px;
+}
+
+.input-group {
+    width: 100%;
+}
+
 .full-width {
     width: 99.74%;
 }
@@ -16,6 +24,11 @@
 
 input:not(.error-input):focus {
     background: rgb(249, 255, 255);
+}
+
+input.non-focusable {
+    background: white !important;
+    font-weight: bold;
 }
 
 .ui-autocomplete {
@@ -36,16 +49,4 @@ input:not(.error-input):focus {
 .borders {
     border-left: 1px solid rgb(238, 238, 238);
     border-right: 1px solid rgb(238, 238, 238);
-}
-
-.left-inner-addon {
-    position: relative;
-}
-.left-inner-addon input {
-    padding-left: 30px;
-}
-.left-inner-addon i {
-    position: absolute;
-    padding: 10px 12px;
-    pointer-events: none;
 }
