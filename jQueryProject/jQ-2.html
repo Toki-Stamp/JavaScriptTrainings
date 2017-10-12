@@ -19,6 +19,7 @@
 </head>
 <body>
 <!------------------------- Main ---------------------------->
+<!-- Диалоговое окно -->
 <div id="dialog-container" class="non-visible">
     <div class="container-fluid">
         <div class="row">
@@ -26,10 +27,8 @@
                 <!-- Блок поиск АТЕ и ТЕ-->
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading text-center">
-                            <strong>
-                                Поиск&nbsp;АТЕ&nbsp;и&nbsp;ТЕ
-                            </strong>
+                        <div class="panel-heading text-center text-bold">
+                            Поиск&nbsp;АТЕ&nbsp;и&nbsp;ТЕ
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -40,11 +39,9 @@
                                                 <span class="glyphicon glyphicon-list"></span>
                                             </button>
                                         </span>
-                                        <input id="search-line-input" type="text" class="form-control"
-                                               placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
+                                        <input id="search-line-input" type="text" class="form-control" placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
                                         <span class="input-group-btn">
-                                            <button id="clear-search-line-button" class="btn btn-danger"
-                                                    title="Очистить стороку поиска АТЕ и ТЕ">
+                                            <button id="clear-search-line-button" class="btn btn-danger" title="Очистить стороку поиска АТЕ и ТЕ">
                                                 <span class="glyphicon glyphicon-remove"></span>
                                             </button>
                                         </span>
@@ -57,10 +54,8 @@
                 <!-- Блок административно-территориальная принадлежность -->
                 <div class="row">
                     <div class="panel panel-default">
-                        <div class="panel-heading text-center">
-                            <strong>
-                                Административно-территориалльная&nbsp;принадлежность&nbsp;(Реестр&nbsp;АТЕ&nbsp;и&nbsp;ТЕ)
-                            </strong>
+                        <div class="panel-heading text-center text-bold">
+                            Административно-территориальная&nbsp;принадлежность&nbsp;(Реестр&nbsp;АТЕ&nbsp;и&nbsp;ТЕ)
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -69,7 +64,7 @@
                                     <div class="row">
                                         <!-- Дерево -->
                                         <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                            <div class="form-control full-height"></div>
+                                            <div class="tree-panel"></div>
                                         </div>
                                         <!-- Панель радио-кнопок -->
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
@@ -78,8 +73,7 @@
                                                 <button type="button" class="btn btn-default" value="1">Улицы</button>
                                                 <button type="button" class="btn btn-default" value="2">Садоводческие&nbsp;товарищества</button>
                                                 <button type="button" class="btn btn-default" value="3">Раздельные&nbsp;пункты&nbsp;БЖД</button>
-                                                <button type="button" class="btn btn-default" value="4">Автодороги
-                                                </button>
+                                                <button type="button" class="btn btn-default" value="4">Автодороги</button>
                                                 <button type="button" class="btn btn-default" value="5">Иное</button>
                                             </div>
                                         </div>
@@ -90,36 +84,28 @@
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-addon">Адрес</span>
-                                                <input id="address-output-line" type="text"
-                                                       class="form-control non-focusable" disabled
-                                                       tabIndex="-1"
-                                                       onfocus="this.blur()">
+                                                <input id="address-output-line" type="text" class="form-control non-focusable" disabled tabIndex="-1" onfocus="this.blur()">
                                                 <span class="input-group-btn">
-                                                    <button id="copy-output-button"
-                                                            title="Скопировать адрес в буфер обмена"
-                                                            class="btn btn-warning">
-                                                        <span class="glyphicon glyphicon-file"></span>
+                                                    <button id="copy-output-button" class="btn btn-warning" title="Скопировать адрес в буфер обмена">
+                                                        <span class="glyphicon glyphicon-duplicate"></span>
                                                     </button>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Блок автозавершения -->
-                                    <div id="autocomplete-container" class="row">
+                                    <div id="autocomplete-2-container" class="row">
                                         <hr>
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-btn">
-                                                    <button id="open-autocomplete-list-button" class="btn btn-success"
-                                                            title="Раскрыть полный список">
+                                                    <button id="open-autocomplete-2-list-button" class="btn btn-success" title="Раскрыть полный список">
                                                         <span class="glyphicon glyphicon-list"></span>
                                                     </button>
                                                 </span>
-                                                <input id="autocomplete-list" type="text" class="form-control"
-                                                       placeholder="Начните вводить текст, либо нажмите на кнопку полного списка слева..."/>
+                                                <input id="autocomplete-2" type="text" class="form-control" placeholder="Начните вводить текст, либо нажмите на кнопку полного списка слева..."/>
                                                 <span class="input-group-btn">
-                                                    <button id="clear-autocomplete-button" class="btn btn-danger"
-                                                            title="Очистить строку поиска">
+                                                    <button id="clear-autocomplete-2-button" class="btn btn-danger" title="Очистить строку поиска">
                                                         <span class="glyphicon glyphicon-remove"></span>
                                                     </button>
                                                 </span>
@@ -132,7 +118,7 @@
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-addon">Километр</span>
-                                                <input type="text" title="Числовое значение" class="form-control">
+                                                <input type="text" class="form-control" title="Введите числовое значение">
                                             </div>
                                         </div>
                                     </div>
@@ -142,24 +128,22 @@
                                         <!-- Номер капитального строения (КС) -->
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="input-group input-group-sm">
-                                                <span class="input-group-addon">Номер КС</span>
-                                                <input type="text" class="form-control" title="Числовое значение">
+                                                <span class="input-group-addon">Номер&nbsp;КС</span>
+                                                <input type="text" class="form-control" title="Введите числовое значение">
                                             </div>
                                         </div>
                                         <!-- Корпус КС-->
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-addon">Корпус</span>
-                                                <input type="text" class="form-control"
-                                                       title="Числовое значение">
+                                                <input type="text" class="form-control" title="Введите числовое значение">
                                             </div>
                                         </div>
                                         <!-- Индекс -->
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-addon">Индекс</span>
-                                                <input type="text" class="form-control"
-                                                       title="Числовое значение">
+                                                <input type="text" class="form-control" title="Введите числовое значение">
                                             </div>
                                         </div>
                                     </div>
@@ -169,16 +153,15 @@
                                         <!-- Номер изолированного помещения (ИП) -->
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="input-group input-group-sm">
-                                                <span class="input-group-addon">Номер ИП</span>
-                                                <input type="text" class="form-control" title="Числовое значение">
+                                                <span class="input-group-addon">Номер&nbsp;ИП</span>
+                                                <input type="text" class="form-control" title="Введите числовое значение">
                                             </div>
                                         </div>
                                         <!-- Индекс -->
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-addon">Индекс</span>
-                                                <input type="text" class="form-control"
-                                                       title="Числовое значение">
+                                                <input type="text" class="form-control" title="Введите числовое значение">
                                             </div>
                                         </div>
                                     </div>
@@ -191,26 +174,83 @@
                 <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div id="buttons-1-container" class="row">
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                    <button id="search-button" title="Начать поиск"
-                                            class="btn btn-primary btn-sm full-width">
-                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;&nbsp;Начать поиск
-                                    </button>
-                                </div>
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                    <button id="add-as-address-button" title="Добавить как адрес"
-                                            class="btn btn-success btn-sm full-width">
-                                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
-                                    </button>
-                                </div>
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                    <button id="add-as-place-button" title="Добавить как местонахождение"
-                                            class="btn btn-warning btn-sm full-width">
-                                        <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;Как&nbsp;местонахождение
-                                    </button>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div id="buttons-1-container" class="row">
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <button id="search-button" class="btn btn-primary btn-sm full-width" data-toggle="modal" data-target="#search-results-modal" title="Начать поиск">
+                                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                                &nbsp;&nbsp;Начать&nbsp;поиск
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <button id="add-as-address-button" class="btn btn-success btn-sm full-width" title="Добавить как адрес">
+                                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+                                                &nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <button id="add-as-place-button" class="btn btn-warning btn-sm full-width" title="Добавить как местонахождение">
+                                                <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+                                                &nbsp;&nbsp;Как&nbsp;местонахождение
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div id="buttons-2-container" class="row">
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                            <button id="select-button" class="btn btn-success btn-sm full-width" title="Выбрать КС">
+                                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                                &nbsp;&nbsp;Выбрать&nbsp;КС
+                                            </button>
+                                        </div>
+                                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                                            <button id="cancel-button" class="btn btn-danger btn-sm full-width" title="Отменить выбор и закрыть форму">
+                                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                                &nbsp;&nbsp;Отменить&nbsp;выбор
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно результатов поиска -->
+<div id="search-results-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center text-bold">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="Закрыть форму">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </button>
+                Результаты&nbsp;поиска&nbsp;адреса
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        Panel body ...
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <button type="button" class="btn btn-success btn-sm full-width" title="Выбрать адрес">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                &nbsp;&nbsp;Выбрать&nbsp;адрес
+                            </button>
+                        </div>
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                            <button type="button" class="btn btn-danger btn-sm full-width" data-dismiss="modal" title="Отменить выбор и закрыть форму">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                &nbsp;&nbsp;Отменить выбор
+                            </button>
                         </div>
                     </div>
                 </div>

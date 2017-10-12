@@ -3,20 +3,25 @@
  * Contact me at : toki.stamp@gmail.com
  */
 $(document).ready(function main() {
-    /* Переменные быстрого доступа */
-    var $search = $('#search-line-input'),
+    var $autocomplete2 = $('#autocomplete-2'),
+        $search = $('#search-line-input'),
         $address = $('#address-output-line'),
-        $autocomplete = $('#autocomplete-list'),
+        $modal = $('search-results-modal'),
         list = ['Авакяна', 'Бобцова', 'Вишневского',
             'Жудро', 'Рыбачко', 'Умека', 'Калека', 'Базяка',
             'Чмарко', 'Смоленская', 'Тихонова', 'Фомкина'];
+
+    /* -------------------------------------- ОБРАБОТЧИКИ КНОПОК ------------------------------------ */
+    /* Обработчик на клик по всем кнопкам */
+    $('button, input[type="button"]').on('click', function () {
+        fadeFocus();
+    });
     /* Кпонки выбора АТЕ и ТЕ */
-    $('#radio-buttons-container').find('button').click(function () {
+    $('#radio-buttons-container').find('button').on('keypress click', function () {
         var $button = $(this),
             $input = $search.val();
         $button.removeClass('btn-default').addClass('btn-success');
         $button.siblings().removeClass('btn-success').addClass('btn-default');
-        fadeFocus();
         $address.val($input + ' : ' + $button.text());
     });
     /* Кпопка очистки поля для ввода, крестик */
@@ -27,21 +32,26 @@ $(document).ready(function main() {
         $button.removeClass('btn-success').addClass('btn-default');
         $search.focus();
     });
-    /* Кпопка очистки строки автозаполнения, крестик */
-    $('#clear-autocomplete-button').on('keypress click', function () {
-        var $input = $('#autocomplete-list').val('');
-        if (!$input) {
-            console.dir($input);
-        }
-        $autocomplete.parent().removeClass('has-error');
-        $autocomplete.removeClass('error-input');
-        $autocomplete.focus();
+    /* Кпопка очистки строки автозаполнения 2, крестик */
+    $('#clear-autocomplete-2-button').on('keypress click', function () {
+        $autocomplete2.val('');
+        $autocomplete2.parent().removeClass('has-error');
+        $autocomplete2.removeClass('error-input');
+        $autocomplete2.focus();
     });
-    /* Кнопка поиска, лупа */
-    $('#find-button').click(function () {
-        $address.val($search.val());
-        $search.focus();
+    /* Кнопке раскрытия списка авто-завершения */
+    $('#open-autocomplete-2-list-button').on('keypress click', function () {
+        searchAutocomplete();
     });
+    /* --------------------------------------------- */
+    $('#add-as-address-button').click(function () {
+        setDialogName('Добавить как адрес');
+    });
+    /* --------------------------------------------- */
+    $('#add-as-place-button').click(function () {
+        setDialogName('Добавить как местоположение');
+    });
+    /* --------------------------------- ДИАЛОГОВЫЕ / МОДАЛЬНЫЕ ОКНА -------------------------------- */
     /* Создание и настройка диалогового окна */
     $('#dialog-container').dialog({
         //height: '710', minHeight: '700', maxHeight: '720',
@@ -61,16 +71,15 @@ $(document).ready(function main() {
             /* пока пусто */
         }
     });
-    /* Кнопка открытия окна авто-завершения */
-    $('#open-autocomplete-list-button').on('keypress click', function () {
-        searchAutocomplete();
+    /* Создание и настройка модального окна результатов поиска */
+    $('#search-results-modal').modal({
+        backdrop: 'static',
+        show: false,
+        keyboard: true
     });
-    /* Кпонка копирования строки адреса */
-    $('#copy-output-button').on('keypress click', function () {
-        fadeFocus();
-    });
+    /* ------------------------------------- ФОРМЫ АВТОЗАВЕРШЕНИЯ ----------------------------------- */
     /* Создание и настройка авто-завершения ввода */
-    $autocomplete.autocomplete({
+    $autocomplete2.autocomplete({
         minLength: 0,
         source: list,
         response: function (event, ui) {
@@ -84,18 +93,7 @@ $(document).ready(function main() {
             }
         }
     });
-    /* События по нажатию клавиши / клику мышкой по полю авто-завершения */
-    $autocomplete.on('keypress click', function () {
-        searchAutocomplete();
-    });
-
-    $('#add-as-address-button').click(function () {
-        setDialogName('Добавить как адрес');
-    });
-    $('#add-as-place-button').click(function () {
-        setDialogName('Добавить как местоположение');
-    });
-
+    /* ---------------------------------------- ПРОЧИЕ ФУНКЦИИ -------------------------------------- */
     /* Прячем фокус */
     function fadeFocus() {
         $('#dialog-container').parent().focus();
@@ -103,12 +101,11 @@ $(document).ready(function main() {
 
     /* Запускаем поиск по полю авто-завершения */
     function searchAutocomplete() {
-        $autocomplete.focus().autocomplete('search');
+        $autocomplete2.focus().autocomplete('search');
     }
 
     /* Настройка имени диалога */
     function setDialogName(name) {
         $('#dialog-container').dialog('option', 'title', name);
-        fadeFocus();
     }
 });
