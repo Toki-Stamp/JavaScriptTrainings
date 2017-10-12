@@ -39,7 +39,8 @@
                                                 <span class="glyphicon glyphicon-list"></span>
                                             </button>
                                         </span>
-                                        <input id="search-line-input" type="text" class="form-control" placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
+                                        <input id="search-line-input" type="text" class="form-control"
+                                               placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
                                         <span class="input-group-btn">
                                             <button id="clear-search-line-button" class="btn btn-danger" title="Очистить стороку поиска АТЕ и ТЕ">
                                                 <span class="glyphicon glyphicon-remove"></span>
@@ -200,13 +201,13 @@
                                     <div id="buttons-2-container" class="row">
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                             <button id="select-button" class="btn btn-success btn-sm full-width" title="Выбрать КС">
-                                                <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                                 &nbsp;&nbsp;Выбрать&nbsp;КС
                                             </button>
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                             <button id="cancel-button" class="btn btn-danger btn-sm full-width" title="Отменить выбор и закрыть форму">
-                                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                                 &nbsp;&nbsp;Отменить&nbsp;выбор
                                             </button>
                                         </div>
@@ -221,7 +222,8 @@
     </div>
 </div>
 <!-- Модальное окно результатов поиска -->
-<div id="search-results-modal" class="modal fade" tabindex="-1">
+<div id="search-results-modal" class="modal fade" role="dialog" data-backdrop="static">
+    <!--<div class="modal fade" id="search-results-modal" data-toggle="modal" role="dialog" aria-labelledby="Information" data-backdrop="static" aria-hidden="true" data-keyboard="false">-->
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center text-bold">

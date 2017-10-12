@@ -2,6 +2,14 @@
  * Created by Fomichev Yuri on 28.09.2017
  * Contact me at : toki.stamp@gmail.com
  */
+$(document).on('keypress', function (event) {
+    console.dir(event);
+    // if (event.keyCode == 27) {
+    //     console.log('escape');
+    //     e.preventDefault();
+    //     return false;
+    // } else if (event.keyCode)
+});
 $(document).ready(function main() {
     var $autocomplete2 = $('#autocomplete-2'),
         $search = $('#search-line-input'),
@@ -16,7 +24,7 @@ $(document).ready(function main() {
     $('button, input[type="button"]').on('click', function () {
         fadeFocus();
     });
-    /* Кпонки выбора АТЕ и ТЕ */
+    // /* Кпонки выбора АТЕ и ТЕ */
     $('#radio-buttons-container').find('button').on('keypress click', function () {
         var $button = $(this),
             $input = $search.val();
@@ -59,6 +67,7 @@ $(document).ready(function main() {
         //minWidth: '760', maxWidth: '780',
         resizable: false,
         modal: true,
+        closeOnEscape: false,
         autoOpen: true, // false после отладки!!!
         stack: false,
         show: {effect: "fade", duration: 300},
@@ -72,11 +81,11 @@ $(document).ready(function main() {
         }
     });
     /* Создание и настройка модального окна результатов поиска */
-    $('#search-results-modal').modal({
-        backdrop: 'static',
-        show: false,
-        keyboard: true
-    });
+    // $('#search-results-modal').modal({
+    //     backdrop: 'static',
+    //     show: false,
+    //     keyboard: true
+    // });
     /* ------------------------------------- ФОРМЫ АВТОЗАВЕРШЕНИЯ ----------------------------------- */
     /* Создание и настройка авто-завершения ввода */
     $autocomplete2.autocomplete({
@@ -94,6 +103,7 @@ $(document).ready(function main() {
         }
     });
     /* ---------------------------------------- ПРОЧИЕ ФУНКЦИИ -------------------------------------- */
+
     /* Прячем фокус */
     function fadeFocus() {
         $('#dialog-container').parent().focus();
