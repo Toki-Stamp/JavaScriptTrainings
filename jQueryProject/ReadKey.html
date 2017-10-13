@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReadKey</title>
+</head>
+<body>
+<script>
+    document.onkeydown = function readKey(event) {
+        var inputs = document.getElementsByTagName('input'),
+                labels = document.getElementsByTagName('label'),
+                keyCode,
+                key,
+                code;
+        if (event) {
+            keyCode = event.keyCode;
+            key = event.key;
+            code = event.code;
+        } else {
+            keyCode = key = code = 'empty';
+        }
+        inputs[0].value = keyCode;
+        labels[0].textContent = 'KeyCode (' + (typeof keyCode) + ')';
+        inputs[1].value = '"' + key + '"';
+        labels[1].textContent = 'Key (' + (typeof key) + ')';
+        inputs[2].value = '"' + code + '"';
+        labels[2].textContent = 'Code (' + (typeof code) + ')';
+    }
+
+
+</script>
+<h2>Press any key</h2>
+<small>I mean on keyboard, of course!</small>
+<br>
+<br>
+
+<form>
+    <label for="output-keyCode">KeyCode:</label>
+    <input id="output-keyCode" type="text" readonly/>
+    <label for="output-key">Key:</label>
+    <input id="output-key" type="text" readonly/>
+    <label for="output-code">Code:</label>
+    <input id="output-code" type="text" readonl/>
+</form>
+</body>
+</html>
