@@ -16,7 +16,7 @@
     <link href="css/jQ-2-loader.css" rel="stylesheet">
     <!------------------------- CSS ----------------------------->
 </head>
-<body tabkey-able="true" modal-open="false">
+<body>
     <!------------------------- Main ---------------------------->
     <!-- Диалоговое окно -->
     <div id="dialog-container" hidden>
@@ -30,20 +30,15 @@
                                 <strong>Поиск&nbsp;АТЕ&nbsp;и&nbsp;ТЕ</strong>
                             </div>
                             <div class="panel-body">
-                                <div class="row">
+                                <!-- Блок автозавершения 1 -->
+                                <div id="autocomplete-1-container" class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div class="input-group input-group-sm">
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-success" title="Раскрыть полный список АТЕ и ТЕ">
-                                                    <span class="glyphicon glyphicon-list"></span>
-                                                </button>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                                &nbsp;Поиск
                                             </span>
-                                            <input id="search-line-input" type="text" class="form-control" placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
-                                            <span class="input-group-btn">
-                                                <button id="clear-search-line-button" class="btn btn-danger" title="Очистить стороку поиска АТЕ и ТЕ">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                </button>
-                                            </span>
+                                            <input id="autocomplete-1" type="text" class="form-control" placeholder="Начните вводить текст (минимум 3 символа) ..." title="Допускается ввод цифр, символов русского алфавита, пробела, символа «-»"/>
                                         </div>
                                     </div>
                                 </div>
@@ -82,29 +77,23 @@
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="input-group input-group-sm">
                                                     <span class="input-group-addon">Адрес</span>
-                                                    <input id="address-output-line" type="text" class="form-control non-focusable" disabled tabIndex="-1" onfocus="this.blur()" title="Строка адреса">
-                                                    <span class="input-group-btn">
-                                                        <button id="copy-output-button" class="btn btn-warning" title="Скопировать адрес в буфер обмена">
-                                                            <span class="glyphicon glyphicon-duplicate"></span>
-                                                        </button>
-                                                    </span>
+                                                    <input id="address-output-line" type="text" class="form-control non-focusable non-selectable" disabled tabIndex="-1" onfocus="this.blur()" title="Строка адреса">
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Блок автозавершения -->
+                                        <!-- Блок автозавершения 2 -->
                                         <div id="autocomplete-2-container" class="row">
                                             <hr>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="input-group input-group-sm">
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-search"></span>
+                                                        &nbsp;Поиск
+                                                    </span>
+                                                    <input id="autocomplete-2" type="text" class="form-control" placeholder="Начните вводить текст, либо нажмите на кнопку раскрытия полного списка справа ..."/>
                                                     <span class="input-group-btn">
                                                         <button id="open-autocomplete-2-list-button" class="btn btn-success" title="Раскрыть полный список">
                                                             <span class="glyphicon glyphicon-list"></span>
-                                                        </button>
-                                                    </span>
-                                                    <input id="autocomplete-2" type="text" class="form-control" placeholder="Начните вводить текст (минимум 3 символа), либо нажмите на кнопку полного списка слева..."/>
-                                                    <span class="input-group-btn">
-                                                        <button id="clear-autocomplete-2-button" class="btn btn-danger" title="Очистить строку поиска">
-                                                            <span class="glyphicon glyphicon-remove"></span>
                                                         </button>
                                                     </span>
                                                 </div>
@@ -177,18 +166,21 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                         <div id="buttons-1-container" class="row">
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                                <button class="btn btn-primary btn-sm full-width open-modal" title="Начать поиск">
-                                                    <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Начать&nbsp;поиск
+                                                <button id="open-modal" class="btn btn-primary btn-sm full-width" title="Начать поиск">
+                                                    <span class="glyphicon glyphicon-search"></span>
+                                                    &nbsp;&nbsp;Начать&nbsp;поиск
                                                 </button>
                                             </div>
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                 <button id="add-as-address-button" class="btn btn-success btn-sm full-width" title="Добавить как адрес">
-                                                    <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
+                                                    <span class="glyphicon glyphicon-home"></span>
+                                                    &nbsp;&nbsp;Добавить&nbsp;как&nbsp;адрес
                                                 </button>
                                             </div>
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                 <button id="add-as-place-button" class="btn btn-warning btn-sm full-width" title="Добавить как местонахождение">
-                                                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;Как&nbsp;местонахождение
+                                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                                    &nbsp;&nbsp;Как&nbsp;местонахождение
                                                 </button>
                                             </div>
                                         </div>
@@ -196,12 +188,14 @@
                                         <div id="buttons-2-container" class="row">
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                 <button id="select-button" class="btn btn-success btn-sm full-width" title="Выбрать КС">
-                                                    <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Выбрать&nbsp;КС
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                    &nbsp;&nbsp;Выбрать&nbsp;КС
                                                 </button>
                                             </div>
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                 <button id="cancel-button" class="btn btn-danger btn-sm full-width" title="Отменить выбор и закрыть диалоговое окно">
-                                                    <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Отменить&nbsp;выбор
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                    &nbsp;&nbsp;Отменить&nbsp;выбор
                                                 </button>
                                             </div>
                                         </div>
@@ -215,7 +209,7 @@
         </div>
     </div>
     <!-- Модальное окно результатов поиска -->
-    <div class="my-modal-container" hidden>
+    <div id="modal-container" hidden>
         <div class="my-modal-content">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -224,14 +218,27 @@
                         <span class="glyphicon glyphicon-remove-circle"></span>
                     </button>
                 </div>
-                <div id="search-results" class="modal-body">
+                <div id="search-results-container" class="modal-body">
+                    <!-- Блок таблицы результатов поиска -->
                     <div class="panel panel-default">
-                        <table id="result-table" class="table table-striped table-hover table-scrollable">
+                        <table id="results-table" class="table table-striped table-hover table-scrollable">
                             <tbody>
                             </tbody>
                         </table>
                     </div>
                     <hr>
+                    <!-- Блок текущего выбранного результата поиска -->
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-addon">Адрес</span>
+                        <input id="currently-selected" type="text" class="form-control non-focusable non-selectable" disabled tabIndex="-1" onfocus="this.blur()" title="Строка адреса">
+                        <span class="input-group-btn">
+                            <button id="clear-currently-selected" class="btn btn-danger" title="Отменить текущий выбор">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        </span>
+                    </div>
+                    <hr>
+                    <!-- Блок предупреждения об ошибке поиска -->
                     <div class="alert alert-danger text-center">
                         <strong>Внимание!</strong> В результате поиска не найдено ни одного адреса!
                     </div>
@@ -242,13 +249,15 @@
                             <div id="results-buttons-1-container">
                                 <div class="row">
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                        <button type="button" class="btn btn-success btn-sm full-width" title="Выбрать адрес">
-                                            <span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Выбрать&nbsp;адрес
+                                        <button id="apply-choice-button" type="button" class="btn btn-default btn-sm full-width" disabled title="Применить выбор и закрыть форму поиска">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                            &nbsp;&nbsp;Выбрать
                                         </button>
                                     </div>
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
-                                        <button type="button" class="btn btn-danger btn-sm close-modal full-width" title="Отменить выбор и закрыть форму">
-                                            <span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Отменить&nbsp;выбор
+                                        <button type="button" class="btn btn-danger btn-sm close-modal full-width" title="Отменить выбор и закрыть форму поиска">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                            &nbsp;&nbsp;Отменить
                                         </button>
                                     </div>
                                 </div>
@@ -258,7 +267,8 @@
                                 <div class="row">
                                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                         <button type="button" class="btn btn-warning btn-sm close-modal full-width" title="Закрыть форму, изменить параметры поиска и запустить новый поиск">
-                                            <span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Запутсить&nbsp;новый&nbsp;поиск
+                                            <span class="glyphicon glyphicon-repeat"></span>
+                                            &nbsp;&nbsp;Новый&nbsp;поиск
                                         </button>
                                     </div>
                                 </div>
@@ -287,7 +297,6 @@
     <script src="../lib/js/jquery-ui.js"></script>
     <!-- Custom js goes below -->
     <script src="js/jQ-2.js"></script>
-    <script src="js/jQ-3.js"></script>
     <!------------------------- Scripts ------------------------->
 </body>
 </html>

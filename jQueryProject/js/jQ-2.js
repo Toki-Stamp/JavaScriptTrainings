@@ -3,52 +3,30 @@
  * Contact me at : toki.stamp@gmail.com
  */
 jQuery(document).ready(function main() {
-    var $autocomplete2 = $('#autocomplete-2'),
-        $search = $('#search-line-input'),
-        $address = $('#address-output-line'),
-        list = ['Авакяна', 'Бобцова', 'Вишневского',
-            'Жудро', 'Рыбачко', 'Умека', 'Калека', 'Базяка',
-            'Чмарко', 'Смоленская', 'Тихонова', 'Фомкина'];
+    var list = ['Авакяна', 'Бобцова', 'Вишневского', 'Жудро', 'Рыбачко', 'Умека', 'Калека', 'Базяка', 'Чмарко', 'Смоленская', 'Тихонова', 'Фомкина'];
 
     /* -------------------------------------- ОБРАБОТЧИКИ КНОПОК ------------------------------------ */
-    /* Обработчик на клик по всем кнопкам */
-    // $('button, input[type="button"]').on('click', function () {
-    //     document.activeElement.blur();
-    //     // fadeFocus();
-    // });
     /* Кпонки выбора АТЕ и ТЕ */
     $('#radio-buttons-container').find('button').on('keypress click', function () {
-        var $button = $(this),
-            $input = $search.val();
-        $button.removeClass('btn-default').addClass('btn-success');
-        $button.siblings().removeClass('btn-success').addClass('btn-default');
-        $address.val($input + ' : ' + $button.text());
+        $(this).removeClass('btn-default').addClass('btn-success');
+        $(this).siblings().removeClass('btn-success').addClass('btn-default');
     });
-    /* Кпопка очистки поля для ввода, крестик */
-    $('#clear-search-line-button').click(function () {
-        var $button = $('radio-buttons-container').find('button.btn-success');
-        $search.val('');
-        $address.val('');
-        $button.removeClass('btn-success').addClass('btn-default');
-        $search.focus();
+    $('#clear-currently-selected').on('click', function () {
+        $('#apply-choice-button').prop('disabled', true).removeClass('btn-success').addClass('btn-default');
+        $('#currently-selected').val('');
+        $('#search-results-container').find('tr.success').removeClass('success');
     });
-    /* Кпопка очистки строки автозаполнения 2, крестик */
-    $('#clear-autocomplete-2-button').on('keypress click', function () {
-        log($autocomplete2.autocomplete('option', 'minLength'));
-        $autocomplete2.val('');
-        $autocomplete2.parent().removeClass('has-error');
-        $autocomplete2.removeClass('error-input');
-    });
-    /* Кнопке раскрытия списка авто-завершения */
+    /* Кнопка раскрытия списка авто-завершения */
     $('#open-autocomplete-2-list-button').on('keypress click', function () {
-        searchAutocomplete($autocomplete2);
+        var $target = $('#autocomplete-2'),
+            $text = $target.val();
+        $target.autocomplete('search', $text);
     });
     /* --------------------------------- ДИАЛОГОВЫЕ / МОДАЛЬНЫЕ ОКНА -------------------------------- */
     /* Создание и настройка диалогового окна */
     $('#dialog-container').dialog({
         //height: '710', minHeight: '700', maxHeight: '720',
-        width: '750',
-        //minWidth: '760', maxWidth: '780',
+        width: '750', //minWidth: '760', maxWidth: '780',
         resizable: false,
         modal: true,
         closeOnEscape: true,
@@ -65,9 +43,22 @@ jQuery(document).ready(function main() {
             /* пока пусто */
         }
     });
+    $('#open-modal').click(function () {
+        openModal();
+    });
+    $('.close-modal, .close').click(function () {
+        closeModal();
+    });
     /* ------------------------------------- ФОРМЫ АВТОЗАВЕРШЕНИЯ ----------------------------------- */
-    /* Создание и настройка авто-завершения ввода */
-    $autocomplete2.autocomplete({
+    /* Создание и настройка авто-завершения ввода 1 */
+    $('#autocomplete-1').on('keyup', function () {
+        var $target = $(this).parent(),
+            $input = $(this).val();
+        if (!$input && $target.hasClass('has-error')) {
+            $target.removeClass('has-error');
+            $target.children().removeClass('error-input');
+        }
+    }).autocomplete({
         minLength: 3,
         source: list,
         response: function (event, ui) {
@@ -80,18 +71,81 @@ jQuery(document).ready(function main() {
                 $target.children().removeClass('error-input');
             }
         }
-    }).on('keyup', function () {
-        if (!$autocomplete2.value) {
-            log('empty-autocomplete-2');
-            // $autocomplete2.parent().removeClass('has-error');
-            // $autocomplete2.removeClass('error-input');
+    });
+    /* Создание и настройка авто-завершения ввода 2 */
+    $('#autocomplete-2').autocomplete({
+        minLength: 0,
+        source: list,
+        response: function (event, ui) {
+            var $target = $(this).parent();
+            if ((ui.content.length === 0) && (!$target.hasClass('has-error'))) {
+                $target.addClass('has-error');
+                $target.children().addClass('error-input');
+            } else if ((ui.content.length > 0) && ($target.hasClass('has-error'))) {
+                $target.removeClass('has-error');
+                $target.children().removeClass('error-input');
+            }
         }
     });
+
     /* ---------------------------------------- ПРОЧИЕ ФУНКЦИИ -------------------------------------- */
 
-    /* Запускаем поиск по полю авто-завершения */
-    function searchAutocomplete(target) {
-        target.autocomplete('option', 'minLength', 0).focus().autocomplete('search').autocomplete('option', 'minLength', 3);
+    $('#search-results-container').on('click', "#results-table tr", function () {
+        var $currentlySelected = $('#currently-selected'),
+            $applyChoiceButton = $('#apply-choice-button');
+        if ($applyChoiceButton.hasClass('btn-default')) {
+            $applyChoiceButton.prop('disabled', false).removeClass('btn-default').addClass('btn-success');
+        }
+        $currentlySelected.val($(this).find('td').text());
+        $(this).addClass('success');
+        $(this).siblings().removeClass('success');
+    });
+
+    /* Принудительно запускаем поиск по полю авто-завершения 2 */
+    function searchAutocomplete() {
+        $('#autocomplete-2').autocomplete('option', 'minLength', 0).focus().autocomplete('search').autocomplete('option', 'minLength', 3);
+    }
+
+    /* Заполнение таблицы результатов поиска */
+    function fillTableContent() {
+        $('#loader-container').show();
+        setTimeout(function () {
+            /* Действия, потребляющие значительное время */
+            var data = 'Строка адреса для теста формы вывода результатов поиска ',
+                tableSize = 100;
+            for (var i = 1; i <= tableSize; i++) {
+                $('#search-results-container').find('tbody').append('<tr id="result-' + i + '" class="non-selectable"><td>' + data + i + '</td></tr>');
+            }
+            $('#loader-container').fadeOut('slow');
+        }, 0);
+    }
+
+    function clearTableContent() {
+        $('#search-results-container').find('tbody').empty();
+        $('#currently-selected').val('');
+        $('#apply-choice-button').prop('disabled', true).removeClass('btn-success').addClass('btn-default');
+    }
+
+    function openModal() {
+        $('#dialog-container').dialog('close');
+        fillTableContent();
+        $('#modal-container').fadeIn('slow', function /* регистрируем callback функцию по завершнию события fadeIn */() {
+            $('body').attr({
+                'tabkey-able': 'false',
+                'modal-open': 'true'
+            });
+        });
+    }
+
+    function closeModal() {
+        clearTableContent();
+        $('#dialog-container').dialog('open');
+        $('#modal-container').fadeOut('fast', function /* регистрируем callback функцию по завершнию события fadeOut */() {
+            $('body').attr({
+                'tabkey-able': 'true',
+                'modal-open': 'false'
+            });
+        });
     }
 
     /* Настройка имени диалога */
@@ -101,5 +155,20 @@ jQuery(document).ready(function main() {
 
     function log(message) {
         console.log(message);
+    }
+
+    function dir(object) {
+        console.dir(object);
+    }
+
+}).keydown(function (event) {
+    var $body = $('body'), isTabkeyAble = ($body.attr('tabkey-able') === 'false'), isModalOpened = ($body.attr('modal-open') === 'true');
+    if (event) {
+        if (event.keyCode === 9 /* tab */ && isTabkeyAble) {
+            event.preventDefault();
+        }
+        if (event.keyCode === 27 /* escape */ && isModalOpened) {
+            closeModal();
+        }
     }
 });

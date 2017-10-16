@@ -6,7 +6,7 @@ hr {
 }
 
 input:not(.error-input):focus {
-    background: rgb(249, 255, 255);
+    background: rgb(240, 255, 255);
 }
 
 input.non-focusable {
@@ -20,7 +20,7 @@ table.table-scrollable {
 
 table.table-scrollable tbody {
     display: block;
-    max-height: 258px; /* Размер scrollable части таблицы */
+    max-height: 221px; /* Размер scrollable части таблицы */
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -48,6 +48,10 @@ table.table-scrollable tr {
     opacity: .3;
 }
 
+.non-selectable {
+    user-select: none;
+}
+
 .close:hover, .close:focus {
     color: red;
     filter: alpha(opacity=70);
@@ -64,7 +68,8 @@ table.table-scrollable tr {
 }
 
 .input-group-addon {
-    width: 80px;
+    width: 85px;
+    cursor: default;
 }
 
 .input-group {
@@ -76,7 +81,7 @@ table.table-scrollable tr {
 }
 
 .error-input {
-    background: rgb(255, 249, 249);
+    background: rgb(255, 240, 240);
 }
 
 .ui-autocomplete {
@@ -86,7 +91,7 @@ table.table-scrollable tr {
     z-index: 1000 !important;
 }
 
-#search-results .alert {
+#search-results-container .alert {
     margin-bottom: 0;
 }
 
@@ -99,7 +104,7 @@ table.table-scrollable tr {
     padding: 0 15px;
 }
 
-.my-modal-container {
+#modal-container {
     background-color: rgba(0, 0, 0, .5);
     position: fixed;
     top: 0;
@@ -127,9 +132,7 @@ table.table-scrollable tr {
     border-radius: 6px;
     background-color: #fff;
     background-clip: padding-box;
-    width: 600px;
-    max-height: 510px;
-    -webkit-background-clip: padding-box;
-    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    width: 650px;
+    max-height: 550px;
     box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 }
