@@ -2,15 +2,18 @@ strong {
     color: red;
     font-weight: bold;
 }
+
 .spoiler ul {
     list-style: none;
     margin: 1em;
     padding: 1em;
     display: none;
 }
+
 .spoiler .header {
     cursor: pointer;
 }
+
 .spoiler.open ul {
     display: block;
 }
