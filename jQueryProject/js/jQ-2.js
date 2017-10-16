@@ -114,7 +114,7 @@ jQuery(document).ready(function main() {
             var data = 'Строка адреса для теста формы вывода результатов поиска ',
                 tableSize = 100;
             for (var i = 1; i <= tableSize; i++) {
-                $('#search-results-container').find('tbody').append('<tr id="result-' + i + '" class="non-selectable"><td>' + data + i + '</td></tr>');
+                $('#search-results-container').find('tbody').append('<tr id="result-' + i + '"><td>' + data + i + '</td></tr>');
             }
             $('#loader-container').fadeOut('slow');
         }, 0);
