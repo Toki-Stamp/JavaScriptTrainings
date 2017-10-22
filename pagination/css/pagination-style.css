@@ -1,0 +1,13 @@
+#pagination-container {
+    font-family: "Arial Narrow", monospace;
+}
+
+#pagination-container .btn {
+    width: 3em;
+}
+
+#pagination-container input[type="button"].btn-success {
+    font-weight: bold;
+}
+#pagination-container input[type="button"].disabled {
+}

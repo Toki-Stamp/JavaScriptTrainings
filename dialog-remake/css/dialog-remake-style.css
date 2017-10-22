@@ -1,0 +1,24 @@
+body {
+    font-family: Consolas, monospace;
+}
+
+#text-container {
+    /* --- */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* --- */
+    background-color: #2aabd2;
+    width: 200px;
+    height: 200px;
+    color: #ffffff;
+    cursor: pointer;
+    user-select: none;
+    text-transform: uppercase;
+    font-size: 55px;
+    /* --- */
+    text-align: center;
+    line-height: 100px;
+    /* --- */
+}
