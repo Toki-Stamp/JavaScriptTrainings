@@ -1,13 +1,22 @@
 #pagination-container {
-    font-family: "Arial Narrow", monospace;
+    font-family: "Consolas", monospace;
 }
 
 #pagination-container .btn {
     width: 3em;
+    color: black;
 }
 
-#pagination-container input[type="button"].btn-success {
+#pagination-container input[type="button"].btn-info,
+#pagination-container input[type="button"].btn-success,
+#pagination-container input[type="button"].btn-primary,
+#pagination-container input[type="button"].btn-warning,
+#pagination-container input[type="button"].btn-danger {
     font-weight: bold;
+    color: white;
 }
+
+#pagination-container input[type="button"]:disabled,
 #pagination-container input[type="button"].disabled {
+    color: grey;
 }
