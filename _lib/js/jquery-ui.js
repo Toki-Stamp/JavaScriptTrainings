@@ -45,7 +45,7 @@
             for (i = 0; ( elem = elems[i] ) != null; i++) {
                 try {
 
-                    // Only trigger remove when necessary to save time
+                    // Only triggerControls remove when necessary to save time
                     events = $._data(elem, "events");
                     if (events && events.remove) {
                         $(elem).triggerHandler("remove");
@@ -692,7 +692,7 @@
                 }
             }
 
-            this.element.trigger(event, data);
+            this.element.triggerControls(event, data);
             return !( $.isFunction(callback) &&
             callback.apply(this.element[0], [event].concat(data)) === false ||
             event.isDefaultPrevented() );
@@ -1991,7 +1991,7 @@
         // Support: IE9 - 10 only
         // If the <body> is blurred, IE will switch windows, see #9420
         if (element && element.nodeName.toLowerCase() !== "body") {
-            $(element).trigger("blur");
+            $(element).triggerControls("blur");
         }
     };
 
@@ -2168,7 +2168,7 @@
                     return $(this).css("position") === "fixed";
                 }).length > 0;
 
-            //The element's absolute position on the page minus margins
+            //The element's absolute position on the pagesFilter minus margins
             this.positionAbs = this.element.offset();
             this._refreshOffsets(event);
 
@@ -2308,7 +2308,7 @@
 
                 // The interaction is over; whether or not the click resulted in a drag,
                 // focus the element
-                this.element.trigger("focus");
+                this.element.triggerControls("focus");
             }
 
             return $.ui.mouse.prototype._mouseUp.call(this, event);
@@ -2759,7 +2759,7 @@
 
                     // RefreshPositions is called at drag start to refresh the containerCache
                     // which is used in drag. This ensures it's initialized and synchronized
-                    // with any changes that might have happened on the page since initialization.
+                    // with any changes that might have happened on the pagesFilter since initialization.
                     sortable.refreshPositions();
                     sortable._trigger("activate", event, uiSortable);
                 }
@@ -2908,7 +2908,7 @@
                         sortable.isOver = 0;
                         sortable.cancelHelperRemoval = true;
 
-                        // Calling sortable's mouseStop would trigger a revert,
+                        // Calling sortable's mouseStop would triggerControls a revert,
                         // so revert must be temporarily false until after mouseStop is called.
                         sortable.options._revert = sortable.options.revert;
                         sortable.options.revert = false;
@@ -3598,7 +3598,7 @@
         },
         drag: function (draggable, event) {
 
-            // If you have a highly dynamic page, you might try this option. It renders positions
+            // If you have a highly dynamic pagesFilter, you might try this option. It renders positions
             // every time you move the mouse.
             if (draggable.options.refreshPositions) {
                 $.ui.ddmanager.prepareOffsets(draggable, event);
@@ -5384,7 +5384,7 @@
             //Get the next scrolling parent
             this.scrollParent = this.helper.scrollParent();
 
-            //The element's absolute position on the page minus margins
+            //The element's absolute position on the pagesFilter minus margins
             this.offset = this.currentItem.offset();
             this.offset = {
                 top: this.offset.top - this.margins.top,
@@ -6153,7 +6153,7 @@
 
                 } else {
 
-                    // container doesn't intersect. trigger "out" event if necessary
+                    // container doesn't intersect. triggerControls "out" event if necessary
                     if (this.containers[i].containerCache.over) {
                         this.containers[i]._trigger("out", event, this._uiHash(this));
                         this.containers[i].containerCache.over = 0;
@@ -6621,7 +6621,7 @@
                 });
             }
 
-            // Check if the items Container has Changed and trigger appropriate
+            // Check if the items Container has Changed and triggerControls appropriate
             // events.
             if (this !== this.currentContainer) {
                 if (!noPropagation) {
@@ -6933,14 +6933,14 @@
             if (toFocus) {
                 $(event.target).attr("tabIndex", -1);
                 $(toFocus).attr("tabIndex", 0);
-                $(toFocus).trigger("focus");
+                $(toFocus).triggerControls("focus");
                 event.preventDefault();
             }
         },
 
         _panelKeyDown: function (event) {
             if (event.keyCode === $.ui.keyCode.UP && event.ctrlKey) {
-                $(event.currentTarget).prev().trigger("focus");
+                $(event.currentTarget).prev().triggerControls("focus");
             }
         },
 
@@ -7398,7 +7398,7 @@
                             active.closest(".ui-menu").length) {
 
                             // Redirect focus to the menu
-                            this.element.trigger("focus", [true]);
+                            this.element.triggerControls("focus", [true]);
 
                             // If the active item is on the top level, let it stay active.
                             // Otherwise, blur the active item since it is no longer visible.
@@ -7946,7 +7946,7 @@
         select: function (event) {
 
             // TODO: It should never be possible to not have an active item at this
-            // point, but the tests don't trigger mouseenter before click.
+            // point, but the tests don't triggerControls mouseenter before click.
             this.active = this.active || $(event.target).closest(".ui-menu-item");
             var ui = {item: this.active};
             if (!this.active.has(".ui-menu").length) {
@@ -8197,7 +8197,7 @@
                         // we restore focus to ensure that the menu closes properly based on the user's
                         // next actions.
                         if (this.element[0] !== $.ui.safeActiveElement(this.document[0])) {
-                            this.element.trigger("focus");
+                            this.element.triggerControls("focus");
                         }
                     });
                 },
@@ -8212,7 +8212,7 @@
                             this.menu.blur();
 
                             this.document.one("mousemove", function () {
-                                $(event.target).trigger(event.originalEvent);
+                                $(event.target).triggerControls(event.originalEvent);
                             });
 
                             return;
@@ -8239,9 +8239,9 @@
                     var item = ui.item.data("ui-autocomplete-item"),
                         previous = this.previous;
 
-                    // Only trigger when focus was lost (click on menu)
+                    // Only triggerControls when focus was lost (click on menu)
                     if (this.element[0] !== $.ui.safeActiveElement(this.document[0])) {
-                        this.element.trigger("focus");
+                        this.element.triggerControls("focus");
                         this.previous = previous;
 
                         // #6109 - IE triggers two focus events and the second
@@ -8277,7 +8277,7 @@
 
             // Turning off autocomplete prevents the browser from remembering the
             // value when navigating through history, so we re-enable autocomplete
-            // if the page is unloaded before the widget is destroyed. #7790
+            // if the pagesFilter is unloaded before the widget is destroyed. #7790
             this._on(this.window, {
                 beforeunload: function () {
                     this.element.removeAttr("autocomplete");
@@ -9277,11 +9277,11 @@
 
                             // Support: PhantomJS <= 1.9, IE 8 Only
                             // If a native click is available use it so we actually cause navigation
-                            // otherwise just trigger a click event
+                            // otherwise just triggerControls a click event
                             if (this.element[0].click) {
                                 this.element[0].click();
                             } else {
-                                this.element.trigger("click");
+                                this.element.triggerControls("click");
                             }
                         }
                     }
@@ -9606,7 +9606,7 @@
     /* Date picker manager.
      Use the singleton instance of this class, $.datepicker, to interact with the date picker.
      Settings for (groups of) date pickers are maintained in an instance object,
-     allowing multiple different settings on the same page. */
+     allowing multiple different settings on the same pagesFilter. */
 
     function Datepicker() {
         this._curInst = null; // The current instance in use
@@ -9617,7 +9617,7 @@
         this._mainDivId = "ui-datepicker-div"; // The ID of the main datepicker division
         this._inlineClass = "ui-datepicker-inline"; // The name of the inline marker class
         this._appendClass = "ui-datepicker-append"; // The name of the append marker class
-        this._triggerClass = "ui-datepicker-trigger"; // The name of the trigger marker class
+        this._triggerClass = "ui-datepicker-triggerControls"; // The name of the triggerControls marker class
         this._dialogClass = "ui-datepicker-dialog"; // The name of the dialog marker class
         this._disableClass = "ui-datepicker-disabled"; // The name of the disabled covering marker class
         this._unselectableClass = "ui-datepicker-unselectable"; // The name of the unselectable cell marker class
@@ -9644,14 +9644,14 @@
         };
         this._defaults = { // Global defaults for all the date picker instances
             showOn: "focus", // "focus" for popup on focus,
-            // "button" for trigger button, or "both" for either
+            // "button" for triggerControls button, or "both" for either
             showAnim: "fadeIn", // Name of jQuery animation for popup
             showOptions: {}, // Options for enhanced animations
             defaultDate: null, // Used when field is blank: actual date,
             // +/-number for offset from today, null for today
             appendText: "", // Display text following the input box, e.g. showing the format
-            buttonText: "...", // Text for trigger button
-            buttonImage: "", // URL for trigger button image
+            buttonText: "...", // Text for triggerControls button
+            buttonImage: "", // URL for triggerControls button image
             buttonImageOnly: false, // True if the image appears alone, false if it appears on a button
             hideIfNoPrevNext: false, // True to hide next/previous month links
             // if not applicable, false to just disable them
@@ -9732,7 +9732,7 @@
                 target.id = "dp" + this.uuid;
             }
             inst = this._newInst($(target), inline);
-            inst.settings = $.extend({}, settings || {});
+            inst.variables = $.extend({}, settings || {});
             if (nodeName === "input") {
                 this._connectDatepicker(target, inst);
             } else if (inline) {
@@ -9757,7 +9757,7 @@
         _connectDatepicker: function (target, inst) {
             var input = $(target);
             inst.append = $([]);
-            inst.trigger = $([]);
+            inst.triggerControls = $([]);
             if (input.hasClass(this.markerClassName)) {
                 return;
             }
@@ -9768,7 +9768,7 @@
             $.data(target, "datepicker", inst);
 
             //If disabled option is true, disable the datepicker once it has been attached to the input (see ticket #5665)
-            if (inst.settings.disabled) {
+            if (inst.variables.disabled) {
                 this._disableDatepicker(target);
             }
         },
@@ -9789,8 +9789,8 @@
 
             input.off("focus", this._showDatepicker);
 
-            if (inst.trigger) {
-                inst.trigger.remove();
+            if (inst.triggerControls) {
+                inst.triggerControls.remove();
             }
 
             showOn = this._get(inst, "showOn");
@@ -9800,14 +9800,14 @@
             if (showOn === "button" || showOn === "both") { // pop-up date picker when button clicked
                 buttonText = this._get(inst, "buttonText");
                 buttonImage = this._get(inst, "buttonImage");
-                inst.trigger = $(this._get(inst, "buttonImageOnly") ?
+                inst.triggerControls = $(this._get(inst, "buttonImageOnly") ?
                     $("<img/>").addClass(this._triggerClass).
                         attr({src: buttonImage, alt: buttonText, title: buttonText}) :
                     $("<button type='button'></button>").addClass(this._triggerClass).
                         html(!buttonImage ? buttonText : $("<img/>").attr(
                             {src: buttonImage, alt: buttonText, title: buttonText})));
-                input[isRTL ? "before" : "after"](inst.trigger);
-                inst.trigger.on("click", function () {
+                input[isRTL ? "before" : "after"](inst.triggerControls);
+                inst.triggerControls.on("click", function () {
                     if ($.datepicker._datepickerShowing && $.datepicker._lastInput === input[0]) {
                         $.datepicker._hideDatepicker();
                     } else if ($.datepicker._datepickerShowing && $.datepicker._lastInput !== input[0]) {
@@ -9862,7 +9862,7 @@
             this._updateAlternate(inst);
 
             //If disabled option is true, disable the datepicker before showing it (see ticket #5665)
-            if (inst.settings.disabled) {
+            if (inst.variables.disabled) {
                 this._disableDatepicker(target);
             }
 
@@ -9893,7 +9893,7 @@
                 this._dialogInput.on("keydown", this._doKeyDown);
                 $("body").append(this._dialogInput);
                 inst = this._dialogInst = this._newInst(this._dialogInput, false);
-                inst.settings = {};
+                inst.variables = {};
                 $.data(this._dialogInput[0], "datepicker", inst);
             }
             datepicker_extendRemove(inst.settings, settings || {});
@@ -9939,7 +9939,7 @@
             $.removeData(target, "datepicker");
             if (nodeName === "input") {
                 inst.append.remove();
-                inst.trigger.remove();
+                inst.triggerControls.remove();
                 $target.removeClass(this.markerClassName).
                     off("focus", this._showDatepicker).
                     off("keydown", this._doKeyDown).
@@ -9969,7 +9969,7 @@
             nodeName = target.nodeName.toLowerCase();
             if (nodeName === "input") {
                 target.disabled = false;
-                inst.trigger.filter("button").
+                inst.triggerControls.filter("button").
                     each(function () {
                         this.disabled = false;
                     }).end().
@@ -10001,7 +10001,7 @@
             nodeName = target.nodeName.toLowerCase();
             if (nodeName === "input") {
                 target.disabled = true;
-                inst.trigger.filter("button").
+                inst.triggerControls.filter("button").
                     each(function () {
                         this.disabled = true;
                     }).end().
@@ -10064,7 +10064,7 @@
 
             if (arguments.length === 2 && typeof name === "string") {
                 return ( name === "defaults" ? $.extend({}, $.datepicker._defaults) :
-                    ( inst ? ( name === "all" ? $.extend({}, inst.settings) :
+                    ( inst ? ( name === "all" ? $.extend({}, inst.variables) :
                         this._get(inst, name) ) : null ) );
             }
 
@@ -10082,14 +10082,14 @@
                 date = this._getDateDatepicker(target, true);
                 minDate = this._getMinMaxDate(inst, "min");
                 maxDate = this._getMinMaxDate(inst, "max");
-                datepicker_extendRemove(inst.settings, settings);
+                datepicker_extendRemove(inst.variables, settings);
 
                 // reformat the old minDate/maxDate values if dateFormat changes and a new minDate/maxDate isn't provided
                 if (minDate !== null && settings.dateFormat !== undefined && settings.minDate === undefined) {
-                    inst.settings.minDate = this._formatDate(inst, minDate);
+                    inst.variables.minDate = this._formatDate(inst, minDate);
                 }
                 if (maxDate !== null && settings.dateFormat !== undefined && settings.maxDate === undefined) {
-                    inst.settings.maxDate = this._formatDate(inst, maxDate);
+                    inst.variables.maxDate = this._formatDate(inst, maxDate);
                 }
                 if ("disabled" in settings) {
                     if (settings.disabled) {
@@ -10186,12 +10186,12 @@
                         $.datepicker._adjustDate(event.target, ( event.ctrlKey ?
                             -$.datepicker._get(inst, "stepBigMonths") :
                             -$.datepicker._get(inst, "stepMonths") ), "M");
-                        break; // previous month/year on page up/+ ctrl
+                        break; // previous month/year on pagesFilter up/+ ctrl
                     case 34:
                         $.datepicker._adjustDate(event.target, ( event.ctrlKey ?
                             +$.datepicker._get(inst, "stepBigMonths") :
                             +$.datepicker._get(inst, "stepMonths") ), "M");
-                        break; // next month/year on page down/+ ctrl
+                        break; // next month/year on pagesFilter down/+ ctrl
                     case 35:
                         if (event.ctrlKey || event.metaKey) {
                             $.datepicker._clearDate(event.target);
@@ -10303,7 +10303,7 @@
          */
         _showDatepicker: function (input) {
             input = input.target || input;
-            if (input.nodeName.toLowerCase() !== "input") { // find from button/image trigger
+            if (input.nodeName.toLowerCase() !== "input") { // find from button/image triggerControls
                 input = $("input", input.parentNode)[0];
             }
 
@@ -10327,7 +10327,7 @@
             if (beforeShowSettings === false) {
                 return;
             }
-            datepicker_extendRemove(inst.settings, beforeShowSettings);
+            datepicker_extendRemove(inst.variables, beforeShowSettings);
 
             inst.lastVal = null;
             $.datepicker._lastInput = input;
@@ -10379,7 +10379,7 @@
                 }
 
                 if ($.datepicker._shouldFocusInput(inst)) {
-                    inst.input.trigger("focus");
+                    inst.input.triggerControls("focus");
                 }
 
                 $.datepicker._curInst = inst;
@@ -10413,7 +10413,7 @@
             "Class"]("ui-datepicker-rtl");
 
             if (inst === $.datepicker._curInst && $.datepicker._datepickerShowing && $.datepicker._shouldFocusInput(inst)) {
-                inst.input.trigger("focus");
+                inst.input.triggerControls("focus");
             }
 
             // Deffered render of the years select (to avoid flashes on Firefox)
@@ -10627,9 +10627,9 @@
 
             onSelect = this._get(inst, "onSelect");
             if (onSelect) {
-                onSelect.apply(( inst.input ? inst.input[0] : null ), [dateStr, inst]);  // trigger custom callback
+                onSelect.apply(( inst.input ? inst.input[0] : null ), [dateStr, inst]);  // triggerControls custom callback
             } else if (inst.input) {
-                inst.input.trigger("change"); // fire the change event
+                inst.input.triggerControls("change"); // fire the change event
             }
 
             if (inst.inline) {
@@ -10638,7 +10638,7 @@
                 this._hideDatepicker();
                 this._lastInput = inst.input[0];
                 if (typeof( inst.input[0] ) !== "object") {
-                    inst.input.trigger("focus"); // restore focus
+                    inst.input.triggerControls("focus"); // restore focus
                 }
                 this._lastInput = null;
             }
@@ -11049,8 +11049,8 @@
 
         /* Get a setting value, defaulting if necessary. */
         _get: function (inst, name) {
-            return inst.settings[name] !== undefined ?
-                inst.settings[name] : this._defaults[name];
+            return inst.variables[name] !== undefined ?
+                inst.variables[name] : this._defaults[name];
         },
 
         /* Parse existing date and initialise date picker. */
@@ -11897,9 +11897,9 @@
             this._destroyOverlay();
             this._untrackInstance();
 
-            if (!this.opener.filter(":focusable").trigger("focus").length) {
+            if (!this.opener.filter(":focusable").triggerControls("focus").length) {
 
-                // Hiding a focused element doesn't trigger blur in WebKit
+                // Hiding a focused element doesn't triggerControls blur in WebKit
                 // so in case we have nothing to focus on, explicitly blur the active element
                 // https://bugs.webkit.org/show_bug.cgi?id=47182
                 $.ui.safeBlur($.ui.safeActiveElement(this.document[0]));
@@ -11998,7 +11998,7 @@
             if (!hasFocus.length) {
                 hasFocus = this.uiDialog;
             }
-            hasFocus.eq(0).trigger("focus");
+            hasFocus.eq(0).triggerControls("focus");
         },
 
         _keepFocus: function (event) {
@@ -12051,13 +12051,13 @@
 
                     if (( event.target === last[0] || event.target === this.uiDialog[0] ) && !event.shiftKey) {
                         this._delay(function () {
-                            first.trigger("focus");
+                            first.triggerControls("focus");
                         });
                         event.preventDefault();
                     } else if (( event.target === first[0] ||
                         event.target === this.uiDialog[0] ) && event.shiftKey) {
                         this._delay(function () {
-                            last.trigger("focus");
+                            last.triggerControls("focus");
                         });
                         event.preventDefault();
                     }
@@ -12094,7 +12094,7 @@
                     if (!$(event.target).closest(".ui-dialog-titlebar-close")) {
 
                         // Dialog isn't getting focus when dragging (#8063)
-                        this.uiDialog.trigger("focus");
+                        this.uiDialog.triggerControls("focus");
                     }
                 }
             });
@@ -13259,7 +13259,7 @@
                         this._move("last", event);
                         break;
                     default:
-                        this.menu.trigger(event);
+                        this.menu.triggerControls(event);
                         preventDefault = false;
                 }
 
@@ -13491,7 +13491,7 @@
         },
 
         // Number of pages in a slider
-        // (how many times can you page up/down to go through the whole range)
+        // (how many times can you pagesFilter up/down to go through the whole range)
         numPages: 5,
 
         _create: function () {
@@ -13642,7 +13642,7 @@
             this._handleIndex = index;
 
             this._addClass(closestHandle, null, "ui-state-active");
-            closestHandle.trigger("focus");
+            closestHandle.triggerControls("focus");
 
             offset = closestHandle.offset();
             mouseOverHandle = !$(event.target).parents().addBack().is(".ui-slider-handle");
@@ -14225,7 +14225,7 @@
             max: null,
             min: null,
             numberFormat: null,
-            page: 10,
+            pagesFilter: 10,
             step: 1,
 
             change: null,
@@ -14255,7 +14255,7 @@
 
             // Turning off autocomplete prevents the browser from remembering the
             // value when navigating through history, so we re-enable autocomplete
-            // if the page is unloaded before the widget is destroyed. #7790
+            // if the pagesFilter is unloaded before the widget is destroyed. #7790
             this._on(this.window, {
                 beforeunload: function () {
                     this.element.removeAttr("autocomplete");
@@ -14329,7 +14329,7 @@
                 function checkFocus() {
                     var isActive = this.element[0] === $.ui.safeActiveElement(this.document[0]);
                     if (!isActive) {
-                        this.element.trigger("focus");
+                        this.element.triggerControls("focus");
                         this.previous = previous;
 
                         // support: IE
@@ -14379,7 +14379,7 @@
 
             // TODO: do we really want to consider this a stop?
             // shouldn't we just stop the repeater and wait until mouseup before
-            // we trigger the stop event?
+            // we triggerControls the stop event?
             "mouseleave .ui-spinner-button": "_stop"
         },
 
@@ -14448,10 +14448,10 @@
                     this._repeat(null, -1, event);
                     return true;
                 case keyCode.PAGE_UP:
-                    this._repeat(null, options.page, event);
+                    this._repeat(null, options.pagesFilter, event);
                     return true;
                 case keyCode.PAGE_DOWN:
-                    this._repeat(null, -options.page, event);
+                    this._repeat(null, -options.pagesFilter, event);
                     return true;
             }
 
@@ -14686,11 +14686,11 @@
         },
 
         pageUp: spinnerModifer(function (pages) {
-            this._stepUp(( pages || 1 ) * this.options.page);
+            this._stepUp(( pages || 1 ) * this.options.pagesFilter);
         }),
 
         pageDown: spinnerModifer(function (pages) {
-            this._stepDown(( pages || 1 ) * this.options.page);
+            this._stepDown(( pages || 1 ) * this.options.pagesFilter);
         }),
 
         value: function (newVal) {
@@ -14959,11 +14959,11 @@
             // Ctrl+up moves focus to the current tab
             if (event.ctrlKey && event.keyCode === $.ui.keyCode.UP) {
                 event.preventDefault();
-                this.active.trigger("focus");
+                this.active.triggerControls("focus");
             }
         },
 
-        // Alt+page up/down moves focus to the previous/next tab (and activates)
+        // Alt+pagesFilter up/down moves focus to the previous/next tab (and activates)
         _handlePageNav: function (event) {
             if (event.altKey && event.keyCode === $.ui.keyCode.PAGE_UP) {
                 this._activate(this._focusNextTab(this.options.active - 1, false));
@@ -14997,7 +14997,7 @@
 
         _focusNextTab: function (index, goingForward) {
             index = this._findNextTab(index, goingForward);
-            this.tabs.eq(index).trigger("focus");
+            this.tabs.eq(index).triggerControls("focus");
             return index;
         },
 
@@ -15934,7 +15934,7 @@
                     mousemove: position
                 });
 
-                // trigger once to override element-relative positioning
+                // triggerControls once to override element-relative positioning
                 position(event);
             } else {
                 tooltip.position($.extend({
@@ -17149,7 +17149,7 @@
 
                     // Fixes #7595 - Elements lose focus when wrapped.
                     if (element[0] === active || $.contains(element[0], active)) {
-                        $(active).trigger("focus");
+                        $(active).triggerControls("focus");
                     }
 
                     // Hotfix for jQuery 1.4 since some change in wrap() seems to actually
@@ -17192,7 +17192,7 @@
 
                         // Fixes #7595 - Elements lose focus when wrapped.
                         if (element[0] === active || $.contains(element[0], active)) {
-                            $(active).trigger("focus");
+                            $(active).triggerControls("focus");
                         }
                     }
 

@@ -58,7 +58,7 @@ if (typeof jQuery === 'undefined') {
             called = true
         })
         var callback = function () {
-            if (!called) $($el).trigger($.support.transition.end)
+            if (!called) $($el).triggerControls($.support.transition.end)
         }
         setTimeout(callback, duration)
         return this
@@ -121,7 +121,7 @@ if (typeof jQuery === 'undefined') {
             $parent = $this.closest('.alert')
         }
 
-        $parent.trigger(e = $.Event('close.bs.alert'))
+        $parent.triggerControls(e = $.Event('close.bs.alert'))
 
         if (e.isDefaultPrevented()) return
 
@@ -129,7 +129,7 @@ if (typeof jQuery === 'undefined') {
 
         function removeElement() {
             // detach from parent, fire event then clean up data
-            $parent.detach().trigger('closed.bs.alert').remove()
+            $parent.detach().triggerControls('closed.bs.alert').remove()
         }
 
         $.support.transition && $parent.hasClass('fade') ?
@@ -241,7 +241,7 @@ if (typeof jQuery === 'undefined') {
                 this.$element.toggleClass('active')
             }
             $input.prop('checked', this.$element.hasClass('active'))
-            if (changed) $input.trigger('change')
+            if (changed) $input.triggerControls('change')
         } else {
             this.$element.attr('aria-pressed', !this.$element.hasClass('active'))
             this.$element.toggleClass('active')
@@ -291,8 +291,8 @@ if (typeof jQuery === 'undefined') {
                 // Prevent double click on radios, and the double selections (so cancellation) on checkboxes
                 e.preventDefault()
                 // The target component still receive the focus
-                if ($btn.is('input,button')) $btn.trigger('focus')
-                else $btn.find('input:visible,button:visible').first().trigger('focus')
+                if ($btn.is('input,button')) $btn.triggerControls('focus')
+                else $btn.find('input:visible,button:visible').first().triggerControls('focus')
             }
         })
         .on('focus.bs.button.data-api blur.bs.button.data-api', '[data-toggle^="button"]', function (e) {
@@ -405,7 +405,7 @@ if (typeof jQuery === 'undefined') {
         e || (this.paused = true)
 
         if (this.$element.find('.next, .prev').length && $.support.transition) {
-            this.$element.trigger($.support.transition.end)
+            this.$element.triggerControls($.support.transition.end)
             this.cycle(true)
         }
 
@@ -438,7 +438,7 @@ if (typeof jQuery === 'undefined') {
             relatedTarget: relatedTarget,
             direction: direction
         })
-        this.$element.trigger(slideEvent)
+        this.$element.triggerControls(slideEvent)
         if (slideEvent.isDefaultPrevented()) return
 
         this.sliding = true
@@ -463,7 +463,7 @@ if (typeof jQuery === 'undefined') {
                     $active.removeClass(['active', direction].join(' '))
                     that.sliding = false
                     setTimeout(function () {
-                        that.$element.trigger(slidEvent)
+                        that.$element.triggerControls(slidEvent)
                     }, 0)
                 })
                 .emulateTransitionEnd(Carousel.TRANSITION_DURATION)
@@ -471,7 +471,7 @@ if (typeof jQuery === 'undefined') {
             $active.removeClass('active')
             $next.addClass('active')
             this.sliding = false
-            this.$element.trigger(slidEvent)
+            this.$element.triggerControls(slidEvent)
         }
 
         isCycling && this.cycle()
@@ -603,7 +603,7 @@ if (typeof jQuery === 'undefined') {
         }
 
         var startEvent = $.Event('show.bs.collapse')
-        this.$element.trigger(startEvent)
+        this.$element.triggerControls(startEvent)
         if (startEvent.isDefaultPrevented()) return
 
         if (actives && actives.length) {
@@ -630,7 +630,7 @@ if (typeof jQuery === 'undefined') {
                 .addClass('collapse in')[dimension]('')
             this.transitioning = 0
             this.$element
-                .trigger('shown.bs.collapse')
+                .triggerControls('shown.bs.collapse')
         }
 
         if (!$.support.transition) return complete.call(this)
@@ -646,7 +646,7 @@ if (typeof jQuery === 'undefined') {
         if (this.transitioning || !this.$element.hasClass('in')) return
 
         var startEvent = $.Event('hide.bs.collapse')
-        this.$element.trigger(startEvent)
+        this.$element.triggerControls(startEvent)
         if (startEvent.isDefaultPrevented()) return
 
         var dimension = this.dimension()
@@ -669,7 +669,7 @@ if (typeof jQuery === 'undefined') {
             this.$element
                 .removeClass('collapsing')
                 .addClass('collapse')
-                .trigger('hidden.bs.collapse')
+                .triggerControls('hidden.bs.collapse')
         }
 
         if (!$.support.transition) return complete.call(this)
@@ -807,12 +807,12 @@ if (typeof jQuery === 'undefined') {
 
             if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
 
-            $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+            $parent.triggerControls(e = $.Event('hide.bs.dropdown', relatedTarget))
 
             if (e.isDefaultPrevented()) return
 
             $this.attr('aria-expanded', 'false')
-            $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+            $parent.removeClass('open').triggerControls($.Event('hidden.bs.dropdown', relatedTarget))
         })
     }
 
@@ -836,17 +836,17 @@ if (typeof jQuery === 'undefined') {
             }
 
             var relatedTarget = {relatedTarget: this}
-            $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+            $parent.triggerControls(e = $.Event('show.bs.dropdown', relatedTarget))
 
             if (e.isDefaultPrevented()) return
 
             $this
-                .trigger('focus')
+                .triggerControls('focus')
                 .attr('aria-expanded', 'true')
 
             $parent
                 .toggleClass('open')
-                .trigger($.Event('shown.bs.dropdown', relatedTarget))
+                .triggerControls($.Event('shown.bs.dropdown', relatedTarget))
         }
 
         return false
@@ -866,8 +866,8 @@ if (typeof jQuery === 'undefined') {
         var isActive = $parent.hasClass('open')
 
         if (!isActive && e.which != 27 || isActive && e.which == 27) {
-            if (e.which == 27) $parent.find(toggle).trigger('focus')
-            return $this.trigger('click')
+            if (e.which == 27) $parent.find(toggle).triggerControls('focus')
+            return $this.triggerControls('click')
         }
 
         var desc = ' li:not(.disabled):visible a'
@@ -881,7 +881,7 @@ if (typeof jQuery === 'undefined') {
         if (e.which == 40 && index < $items.length - 1) index++         // down
         if (!~index)                                    index = 0
 
-        $items.eq(index).trigger('focus')
+        $items.eq(index).triggerControls('focus')
     }
 
 
@@ -957,7 +957,7 @@ if (typeof jQuery === 'undefined') {
             this.$element
                 .find('.modal-content')
                 .load(this.options.remote, $.proxy(function () {
-                    this.$element.trigger('loaded.bs.modal')
+                    this.$element.triggerControls('loaded.bs.modal')
                 }, this))
         }
     }
@@ -981,7 +981,7 @@ if (typeof jQuery === 'undefined') {
         var that = this
         var e = $.Event('show.bs.modal', {relatedTarget: _relatedTarget})
 
-        this.$element.trigger(e)
+        this.$element.triggerControls(e)
 
         if (this.isShown || e.isDefaultPrevented()) return
 
@@ -1028,10 +1028,10 @@ if (typeof jQuery === 'undefined') {
             transition ?
                 that.$dialog // wait for modal to slide in
                     .one('bsTransitionEnd', function () {
-                        that.$element.trigger('focus').trigger(e)
+                        that.$element.triggerControls('focus').triggerControls(e)
                     })
                     .emulateTransitionEnd(Modal.TRANSITION_DURATION) :
-                that.$element.trigger('focus').trigger(e)
+                that.$element.triggerControls('focus').triggerControls(e)
         })
     }
 
@@ -1040,7 +1040,7 @@ if (typeof jQuery === 'undefined') {
 
         e = $.Event('hide.bs.modal')
 
-        this.$element.trigger(e)
+        this.$element.triggerControls(e)
 
         if (!this.isShown || e.isDefaultPrevented()) return
 
@@ -1071,7 +1071,7 @@ if (typeof jQuery === 'undefined') {
             .on('focusin.bs.modal', $.proxy(function (e) {
                 if (document !== e.target &&
                     this.$element[0] !== e.target && !this.$element.has(e.target).length) {
-                    this.$element.trigger('focus')
+                    this.$element.triggerControls('focus')
                 }
             }, this))
     }
@@ -1101,7 +1101,7 @@ if (typeof jQuery === 'undefined') {
             that.$body.removeClass('modal-open')
             that.resetAdjustments()
             that.resetScrollbar()
-            that.$element.trigger('hidden.bs.modal')
+            that.$element.triggerControls('hidden.bs.modal')
         })
     }
 
@@ -1258,7 +1258,7 @@ if (typeof jQuery === 'undefined') {
         $target.one('show.bs.modal', function (showEvent) {
             if (showEvent.isDefaultPrevented()) return // only register focus restorer if modal will actually get shown
             $target.one('hidden.bs.modal', function () {
-                $this.is(':visible') && $this.trigger('focus')
+                $this.is(':visible') && $this.triggerControls('focus')
             })
         })
         Plugin.call($target, option, this)
@@ -1303,7 +1303,7 @@ if (typeof jQuery === 'undefined') {
         placement: 'top',
         selector: false,
         template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
-        trigger: 'hover focus',
+        triggerControls: 'hover focus',
         title: '',
         delay: 0,
         html: false,
@@ -1326,7 +1326,7 @@ if (typeof jQuery === 'undefined') {
             throw new Error('`selector` option must be specified when initializing ' + this.type + ' on the window.document object!')
         }
 
-        var triggers = this.options.trigger.split(' ')
+        var triggers = this.options.triggerControls.split(' ')
 
         for (var i = triggers.length; i--;) {
             var trigger = triggers[i]
@@ -1442,7 +1442,7 @@ if (typeof jQuery === 'undefined') {
         var e = $.Event('show.bs.' + this.type)
 
         if (this.hasContent() && this.enabled) {
-            this.$element.trigger(e)
+            this.$element.triggerControls(e)
 
             var inDom = $.contains(this.$element[0].ownerDocument.documentElement, this.$element[0])
             if (e.isDefaultPrevented() || !inDom) return
@@ -1473,7 +1473,7 @@ if (typeof jQuery === 'undefined') {
                 .data('bs.' + this.type, this)
 
             this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
-            this.$element.trigger('inserted.bs.' + this.type)
+            this.$element.triggerControls('inserted.bs.' + this.type)
 
             var pos = this.getPosition()
             var actualWidth = $tip[0].offsetWidth
@@ -1500,7 +1500,7 @@ if (typeof jQuery === 'undefined') {
 
             var complete = function () {
                 var prevHoverState = that.hoverState
-                that.$element.trigger('shown.bs.' + that.type)
+                that.$element.triggerControls('shown.bs.' + that.type)
                 that.hoverState = null
 
                 if (prevHoverState == 'out') that.leave(that)
@@ -1588,12 +1588,12 @@ if (typeof jQuery === 'undefined') {
             if (that.$element) { // TODO: Check whether guarding this code with this `if` is really necessary.
                 that.$element
                     .removeAttr('aria-describedby')
-                    .trigger('hidden.bs.' + that.type)
+                    .triggerControls('hidden.bs.' + that.type)
             }
             callback && callback()
         }
 
-        this.$element.trigger(e)
+        this.$element.triggerControls(e)
 
         if (e.isDefaultPrevented()) return
 
@@ -1812,7 +1812,7 @@ if (typeof jQuery === 'undefined') {
 
     Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
         placement: 'right',
-        trigger: 'click',
+        triggerControls: 'click',
         content: '',
         template: '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
     })
@@ -2020,7 +2020,7 @@ if (typeof jQuery === 'undefined') {
                 .addClass('active')
         }
 
-        active.trigger('activate.bs.scrollspy')
+        active.triggerControls('activate.bs.scrollspy')
     }
 
     ScrollSpy.prototype.clear = function () {
@@ -2116,8 +2116,8 @@ if (typeof jQuery === 'undefined') {
             relatedTarget: $previous[0]
         })
 
-        $previous.trigger(hideEvent)
-        $this.trigger(showEvent)
+        $previous.triggerControls(hideEvent)
+        $this.triggerControls(showEvent)
 
         if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) return
 
@@ -2125,11 +2125,11 @@ if (typeof jQuery === 'undefined') {
 
         this.activate($this.closest('li'), $ul)
         this.activate($target, $target.parent(), function () {
-            $previous.trigger({
+            $previous.triggerControls({
                 type: 'hidden.bs.tab',
                 relatedTarget: $this[0]
             })
-            $this.trigger({
+            $this.triggerControls({
                 type: 'shown.bs.tab',
                 relatedTarget: $previous[0]
             })
@@ -2321,7 +2321,7 @@ if (typeof jQuery === 'undefined') {
             var affixType = 'affix' + (affix ? '-' + affix : '')
             var e = $.Event(affixType + '.bs.affix')
 
-            this.$element.trigger(e)
+            this.$element.triggerControls(e)
 
             if (e.isDefaultPrevented()) return
 
@@ -2331,7 +2331,7 @@ if (typeof jQuery === 'undefined') {
             this.$element
                 .removeClass(Affix.RESET)
                 .addClass(affixType)
-                .trigger(affixType.replace('affix', 'affixed') + '.bs.affix')
+                .triggerControls(affixType.replace('affix', 'affixed') + '.bs.affix')
         }
 
         if (affix == 'bottom') {

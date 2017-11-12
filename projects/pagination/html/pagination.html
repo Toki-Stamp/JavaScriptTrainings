@@ -7,10 +7,10 @@
     <title>pagination</title>
     <!------------------------- CSS ----------------------------->
     <!-- Bootstrap -->
-    <link href="../../lib/css/bootstrap.css" rel="stylesheet">
-    <link href="../../lib/css/bootstrap-theme.css" rel="stylesheet">
+    <link href="../../_lib/css/bootstrap.css" rel="stylesheet">
+    <link href="../../_lib/css/bootstrap-theme.css" rel="stylesheet">
     <!-- jQuery UI -->
-    <link href="../../lib/css/jquery-ui.css" rel="stylesheet">
+    <link href="../../_lib/css/jquery-ui.css" rel="stylesheet">
     <!-- Custom css goes below -->
     <link href="../css/pagination-style.css" rel="stylesheet">
     <!------------------------- CSS ----------------------------->
@@ -21,19 +21,22 @@
         <div class="row text-center">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <hr>
-                <div id="pagination-container" class="btn-group btn-group-sm" role="group" aria-label="pagination"></div>
+                <!--<div id="pagination-container" class="btn-group btn-group-sm" role="group" aria-label="pagination"></div>-->
+                <div id="pagination-container" hidden>pagination-container</div>
+                <div id="pagination-container-2" hidden>pagination-container-2</div>
                 <hr>
+                <div id="result"></div>
             </div>
         </div>
     </div>
     <!------------------------- Main ---------------------------->
     <!------------------------- Scripts ------------------------->
     <!-- jQuery -->
-    <script src="../../lib/js/jquery-3.2.1.js"></script>
+    <script src="../../_lib/js/jquery-3.2.1.js"></script>
     <!-- Bootstrap -->
-    <script src="../../lib/js/bootstrap.js"></script>
+    <script src="../../_lib/js/bootstrap.js"></script>
     <!--jQuery UI -->
-    <script src="../../lib/js/jquery-ui.js"></script>
+    <script src="../../_lib/js/jquery-ui.js"></script>
     <!-- Custom js goes below -->
     <script src="../js/pagination-script.js"></script>
     <!------------------------- Scripts ------------------------->

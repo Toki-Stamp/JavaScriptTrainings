@@ -195,8 +195,8 @@
                 event.eventType = eventName;
                 el.fireEvent('on' + eventName, event);
             } else {
-                // fall back to jQuery.trigger
-                this.trigger(eventName);
+                // fall back to jQuery.triggerControls
+                this.triggerControls(eventName);
             }
         };
         //</editor-fold>
@@ -437,17 +437,17 @@
                 this.$newElement.on({
                     'hide.bs.dropdown': function (e) {
                         that.$menuInner.attr('aria-expanded', false);
-                        that.$element.trigger('hide.bs.select', e);
+                        that.$element.triggerControls('hide.bs.select', e);
                     },
                     'hidden.bs.dropdown': function (e) {
-                        that.$element.trigger('hidden.bs.select', e);
+                        that.$element.triggerControls('hidden.bs.select', e);
                     },
                     'show.bs.dropdown': function (e) {
                         that.$menuInner.attr('aria-expanded', true);
-                        that.$element.trigger('show.bs.select', e);
+                        that.$element.triggerControls('show.bs.select', e);
                     },
                     'shown.bs.dropdown': function (e) {
-                        that.$element.trigger('shown.bs.select', e);
+                        that.$element.triggerControls('shown.bs.select', e);
                     }
                 });
 
@@ -480,7 +480,7 @@
                 }
 
                 setTimeout(function () {
-                    that.$element.trigger('loaded.bs.select');
+                    that.$element.triggerControls('loaded.bs.select');
                 });
             },
 
@@ -825,7 +825,7 @@
                 this.$button.attr('title', htmlUnescape($.trim(title.replace(/<[^>]*>?/g, ''))));
                 this.$button.children('.filter-option').html(title);
 
-                this.$element.trigger('rendered.bs.select');
+                this.$element.triggerControls('rendered.bs.select');
             },
 
             /**
@@ -1339,13 +1339,13 @@
                                         if (maxOptions && maxReached) {
                                             $notify.append($('<div>' + maxTxt + '</div>'));
                                             triggerChange = false;
-                                            that.$element.trigger('maxReached.bs.select');
+                                            that.$element.triggerControls('maxReached.bs.select');
                                         }
 
                                         if (maxOptionsGrp && maxReachedGrp) {
                                             $notify.append($('<div>' + maxTxtGrp + '</div>'));
                                             triggerChange = false;
-                                            that.$element.trigger('maxReachedGrp.bs.select');
+                                            that.$element.triggerControls('maxReachedGrp.bs.select');
                                         }
 
                                         setTimeout(function () {
@@ -1427,7 +1427,7 @@
 
                 this.$element.change(function () {
                     that.render(false);
-                    that.$element.trigger('changed.bs.select', changed_arguments);
+                    that.$element.triggerControls('changed.bs.select', changed_arguments);
                     changed_arguments = null;
                 });
             },
@@ -1570,7 +1570,7 @@
 
                 if (e) e.stopPropagation();
 
-                this.$button.trigger('click');
+                this.$button.triggerControls('click');
             },
 
             keydown: function (e) {
@@ -1642,7 +1642,7 @@
                         that.$menu.parent().addClass('open');
                         isActive = true;
                     } else {
-                        that.$button.trigger('click');
+                        that.$button.triggerControls('click');
                     }
                     that.$searchbox.focus();
                     return;
@@ -1757,9 +1757,9 @@
                 this.liHeight(true);
                 this.setStyle();
                 this.setWidth();
-                if (this.$lis) this.$searchbox.trigger('propertychange');
+                if (this.$lis) this.$searchbox.triggerControls('propertychange');
 
-                this.$element.trigger('refreshed.bs.select');
+                this.$element.triggerControls('refreshed.bs.select');
             },
 
             hide: function () {

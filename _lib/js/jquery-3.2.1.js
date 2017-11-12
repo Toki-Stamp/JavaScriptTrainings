@@ -262,7 +262,7 @@
 
     jQuery.extend({
 
-        // Unique for each copy of jQuery on the page
+        // Unique for each copy of jQuery on the pagesFilter
         expando: "jQuery" + ( version + Math.random() ).replace(/\D/g, ""),
 
         // Assume jQuery is ready without the ready module
@@ -1319,7 +1319,7 @@
 
                         // Support: Safari 8+, iOS 8+
                         // https://bugs.webkit.org/show_bug.cgi?id=136851
-                        // In-page `selector#id sibling-combinator selector` fails
+                        // In-pagesFilter `selector#id sibling-combinator selector` fails
                         if (!el.querySelectorAll("a#" + expando + "+*").length) {
                             rbuggyQSA.push(".#.+[+~]");
                         }
@@ -5000,8 +5000,8 @@
             if (!( eventHandle = elemData.handle )) {
                 eventHandle = elemData.handle = function (e) {
 
-                    // Discard the second event of a jQuery.event.trigger() and
-                    // when an event is called after a page has unloaded
+                    // Discard the second event of a jQuery.event.triggerControls() and
+                    // when an event is called after a pagesFilter has unloaded
                     return typeof jQuery !== "undefined" && jQuery.event.triggered !== e.type ?
                         jQuery.event.dispatch.apply(elem, arguments) : undefined;
                 };
@@ -5315,7 +5315,7 @@
             focus: {
 
                 // Fire native event if possible so blur/focus sequence is correct
-                trigger: function () {
+                triggerControls: function () {
                     if (this !== safeActiveElement() && this.focus) {
                         this.focus();
                         return false;
@@ -5324,7 +5324,7 @@
                 delegateType: "focusin"
             },
             blur: {
-                trigger: function () {
+                triggerControls: function () {
                     if (this === safeActiveElement() && this.blur) {
                         this.blur();
                         return false;
@@ -5335,7 +5335,7 @@
             click: {
 
                 // For checkbox, fire native event so checked state will be right
-                trigger: function () {
+                triggerControls: function () {
                     if (this.type === "checkbox" && this.click && nodeName(this, "input")) {
                         this.click();
                         return false;
@@ -8088,7 +8088,7 @@
 
     jQuery.extend(jQuery.event, {
 
-        trigger: function (event, data, elem, onlyHandlers) {
+        triggerControls: function (event, data, elem, onlyHandlers) {
 
             var i, cur, tmp, bubbleType, ontype, handle, special,
                 eventPath = [elem || document],
@@ -8109,7 +8109,7 @@
 
             if (type.indexOf(".") > -1) {
 
-                // Namespaced trigger; create a regexp to match event type in handle()
+                // Namespaced triggerControls; create a regexp to match event type in handle()
                 namespaces = type.split(".");
                 type = namespaces.shift();
                 namespaces.sort();
@@ -8141,7 +8141,7 @@
 
             // Allow special events to draw outside the lines
             special = jQuery.event.special[type] || {};
-            if (!onlyHandlers && special.trigger && special.trigger.apply(elem, data) === false) {
+            if (!onlyHandlers && special.triggerControls && special.triggerControls.apply(elem, data) === false) {
                 return;
             }
 
@@ -8201,7 +8201,7 @@
                     // Don't do default actions on window, that's where global variables be (#6170)
                     if (ontype && jQuery.isFunction(elem[type]) && !jQuery.isWindow(elem)) {
 
-                        // Don't re-trigger an onFOO event when we call its FOO() method
+                        // Don't re-triggerControls an onFOO event when we call its FOO() method
                         tmp = elem[ontype];
 
                         if (tmp) {
@@ -8235,22 +8235,22 @@
                 }
             );
 
-            jQuery.event.trigger(e, null, elem);
+            jQuery.event.triggerControls(e, null, elem);
         }
 
     });
 
     jQuery.fn.extend({
 
-        trigger: function (type, data) {
+        triggerControls: function (type, data) {
             return this.each(function () {
-                jQuery.event.trigger(type, data, this);
+                jQuery.event.triggerControls(type, data, this);
             });
         },
         triggerHandler: function (type, data) {
             var elem = this[0];
             if (elem) {
-                return jQuery.event.trigger(type, data, elem, true);
+                return jQuery.event.triggerControls(type, data, elem, true);
             }
         }
     });
@@ -8265,7 +8265,7 @@
             jQuery.fn[name] = function (data, fn) {
                 return arguments.length > 0 ?
                     this.on(name, null, data, fn) :
-                    this.trigger(name);
+                    this.triggerControls(name);
             };
         });
 
@@ -9028,7 +9028,7 @@
 
             // Watch for a new set of requests
             if (fireGlobals && jQuery.active++ === 0) {
-                jQuery.event.trigger("ajaxStart");
+                jQuery.event.triggerControls("ajaxStart");
             }
 
             // Uppercase the type
@@ -9127,7 +9127,7 @@
 
                 // Send global event
                 if (fireGlobals) {
-                    globalEventContext.trigger("ajaxSend", [jqXHR, s]);
+                    globalEventContext.triggerControls("ajaxSend", [jqXHR, s]);
                 }
 
                 // If request was aborted inside ajaxSend, stop there
@@ -9253,7 +9253,7 @@
                 statusCode = undefined;
 
                 if (fireGlobals) {
-                    globalEventContext.trigger(isSuccess ? "ajaxSuccess" : "ajaxError",
+                    globalEventContext.triggerControls(isSuccess ? "ajaxSuccess" : "ajaxError",
                         [jqXHR, s, isSuccess ? success : error]);
                 }
 
@@ -9261,11 +9261,11 @@
                 completeDeferred.fireWith(callbackContext, [jqXHR, statusText]);
 
                 if (fireGlobals) {
-                    globalEventContext.trigger("ajaxComplete", [jqXHR, s]);
+                    globalEventContext.triggerControls("ajaxComplete", [jqXHR, s]);
 
                     // Handle the global AJAX counter
                     if (!( --jQuery.active )) {
-                        jQuery.event.trigger("ajaxStop");
+                        jQuery.event.triggerControls("ajaxStop");
                     }
                 }
             }
@@ -9781,7 +9781,7 @@
 
 
     /**
-     * Load a url into a page
+     * Load a url into a pagesFilter
      */
     jQuery.fn.load = function (url, params, callback) {
         var selector, type, response,
