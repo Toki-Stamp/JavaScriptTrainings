@@ -5,13 +5,24 @@
 jQuery(document).ready(function main() {
 
     $('#input-advanced').keydown(function (e) {
-        var self = $(this),
-            parent = self.parent().parent();
-        if (e && ((e.key = ',') && (e.keyCode === 188) && (e.code = 'Comma'))) {
+        /* 8    - backspace */
+        /* 37   - left arrow */
+        /* 39   - right arrow */
+        /* 46   - delete */
+        if (e) {
+            if (e.originalEvent.repeat) {
+                if (![8, 37, 39, 46].includes(e.keyCode)) {
+                    return false;
+                }
+            }
+        }
+        if (e && (e.key === ',')) {
+            var self = $('#input-advanced'),
+                parent = self.parent().parent();
             self.next().addClass('glyphicon-warning-sign');
             parent.addClass('has-error');
         }
-    }).keyup(function () {
+    }).keyup(function (e) {
         var self = $(this),
             parent = self.parent().parent(),
             replaceValue = self.val();
@@ -29,5 +40,4 @@ jQuery(document).ready(function main() {
         replaceValue = replaceValue.replace(/,/g, '.');
         self.val(replaceValue);
     });
-
 });
