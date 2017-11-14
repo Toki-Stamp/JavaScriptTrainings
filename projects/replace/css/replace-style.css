@@ -1,4 +1,8 @@
 body {
+    font-family: 'Fira Code', monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Custom Imported Font', serif;
 }
 
@@ -11,6 +15,7 @@ input.auto-replace {
     /*background: rgb(255, 255, 235);*/
     background: rgb(252, 248, 227);
 }
+
 @font-face {
     font-family: 'Custom Imported Font';
     src: url('../font/YanoneKaffeesatz-Bold.ttf');

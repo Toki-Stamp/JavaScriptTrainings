@@ -15,42 +15,29 @@ jQuery(document).ready(function main() {
         if (repeated(e.originalEvent)) return false;
         if (e && (e.key === ',')) {
             self = $(this);
-            parent = self.parent().parent();
+            parent = self.parent();
             self.next().addClass('glyphicon-pencil');
             parent.addClass('has-warning');
         }
     }).keyup(function () {
         var self = $(this),
-            parent = self.parent().parent();
+            parent = self.parent();
         if (parent.hasClass('has-warning')) {
             self.next().removeClass('glyphicon-pencil');
             parent.removeClass('has-warning');
         }
         autoReplace(self);
     });
-});
 
-$(document).keydown(function () {
-    $('#input-generated').keydown(function (e) {
-        var self, html;
-        if (repeated(e.originalEvent)) return false;
-        if (e && (e.key === ',')) {
-            self = $(this);
-            html = '<div id="input-advanced" class="form-group has-feedback">';
-            html += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-            html += '<input type="text" class="form-control auto-replace" title="Грациозно замещаем запятые!">';
-            html += '<span class="glyphicon form-control-feedback"></span>';
-            html += '</div>';
-            html += '</div>';
-            self.replaceWith(html);
-        }
+    var target = $('input').filter(function () {
+        return ($(this).attr('title') === 'Попадает');
     });
-
-    $('#input-generated').keyup(function () {
-        var self = $(this);
-        console.log(self);
-        self.replaceWith('<input type="text" class="form-control" id="input-generated" title="Замещаем запятые и генерируем всю крутость вокруг">');
-        autoReplace($(this));
+    target.addClass('auto-replace');
+    target.parent().parent().find('label').text(target.attr('title'));
+    target.on('click', function () {
+        console.log('this', this);
+        console.log('parent', $(this).parent()[0]);
+        console.log('parent-parent', $(this).parent().parent()[0]);
     });
 });
 
