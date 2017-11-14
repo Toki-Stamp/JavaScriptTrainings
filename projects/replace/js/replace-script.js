@@ -5,30 +5,20 @@
 jQuery(document).ready(function main() {
 
     $('#input-advanced').keydown(function (e) {
-        /* 8    - backspace */
-        /* 37   - left arrow */
-        /* 39   - right arrow */
-        /* 46   - delete */
-        if (e) {
-            if (e.originalEvent.repeat) {
-                if (![8, 37, 39, 46].includes(e.keyCode)) {
-                    return false;
-                }
-            }
-        }
+        if (repeatedEvent(e)) return false;
         if (e && (e.key === ',')) {
             var self = $('#input-advanced'),
-                parent = self.parent().parent();
-            self.next().addClass('glyphicon-warning-sign');
-            parent.addClass('has-error');
+                parent = self.parent();
+            self.next().addClass('glyphicon-pencil');
+            parent.addClass('has-warning');
         }
-    }).keyup(function (e) {
+    }).keyup(function () {
         var self = $(this),
-            parent = self.parent().parent(),
+            parent = self.parent(),
             replaceValue = self.val();
-        if (parent.hasClass('has-error')) {
-            self.next().removeClass('glyphicon-warning-sign');
-            parent.removeClass('has-error');
+        if (parent.hasClass('has-warning')) {
+            self.next().removeClass('glyphicon-pencil');
+            parent.removeClass('has-warning');
         }
         replaceValue = replaceValue.replace(/,/g, '.');
         self.val(replaceValue);
@@ -40,4 +30,13 @@ jQuery(document).ready(function main() {
         replaceValue = replaceValue.replace(/,/g, '.');
         self.val(replaceValue);
     });
+
+    function repeatedEvent(event) {
+        /* 8 - backspace / 37 - left arrow / 39 - right arrow / 46 - delete */
+        if (event && event.originalEvent.repeat) {
+            if (![8, 37, 39, 46].includes(event.keyCode)) {
+                return true;
+            }
+        }
+    }
 });

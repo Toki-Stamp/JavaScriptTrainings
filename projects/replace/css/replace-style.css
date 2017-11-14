@@ -6,3 +6,15 @@ input {
     font-family: "Consolas", monospace;
     font-weight: bold;
 }
+
+.custom-font {
+    font-family: customFont, serif;
+    text-align: center;
+    font-size: 24px;
+    color: #9acfea;
+}
+
+@font-face {
+    font-family: customFont;
+    src: url('../font/YanoneKaffeesatz-Bold.ttf');
+}
