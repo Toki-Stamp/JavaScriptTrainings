@@ -3,10 +3,10 @@ body {
 }
 
 .custom-font {
-    font-family: customFont, serif;
+    font-family: 'Custom Font', serif;
 }
 
 @font-face {
-    font-family: customFont;
+    font-family: 'Custom Font';
     src: url('../font/YanoneKaffeesatz-Bold.ttf');
 }
