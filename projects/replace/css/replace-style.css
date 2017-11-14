@@ -1,5 +1,5 @@
 body {
-    font-family: 'Fira Code', monospace;
+    font-family: 'Custom Imported Font', serif;
 }
 
 input {
@@ -7,14 +7,11 @@ input {
     font-weight: bold;
 }
 
-.custom-font {
-    font-family: customFont, serif;
-    text-align: center;
-    font-size: 24px;
-    color: #9acfea;
+input.auto-replace {
+    /*background: rgb(255, 255, 235);*/
+    background: rgb(252, 248, 227);
 }
-
 @font-face {
-    font-family: customFont;
+    font-family: 'Custom Imported Font';
     src: url('../font/YanoneKaffeesatz-Bold.ttf');
 }
