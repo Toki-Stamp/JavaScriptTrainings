@@ -18,13 +18,13 @@ jQuery(document).ready(function main() {
         var self, parent;
         if (repeated(e.originalEvent)) return false;
         if (e && (e.key === ',')) {
-            self = $(this);
+            self   = $(this);
             parent = self.parent();
             self.next().addClass('glyphicon-pencil');
             parent.addClass('has-warning');
         }
     }).keyup(function () {
-        var self = $(this),
+        var self   = $(this),
             parent = self.parent();
         if (parent.hasClass('has-warning')) {
             self.next().removeClass('glyphicon-pencil');
@@ -42,14 +42,14 @@ jQuery(document).ready(function main() {
 
     console.log('Self-invoking function here!');
 
-    $('input').filter(template)
-        .addClass('auto-replace')
-        .keydown(function (e) {
-            if (repeated(e.originalEvent)) return false;
-        })
-        .keyup(function () {
-            autoReplace($(this));
-        });
+    $('input').filter(template(getSearchRule()));
+    // .addClass('auto-replace')
+    // .keydown(function (e) {
+    //     if (repeated(e.originalEvent)) return false;
+    // })
+    // .keyup(function () {
+    //     autoReplace($(this));
+    // });
 
     console.log('Self-invoking function done!')
 
@@ -84,11 +84,11 @@ function autoReplace(target, find, replace) {
     var value,
         pattern;
     if (target) {
-        find = find || ',';
+        find    = find || ',';
         replace = replace || '.';
         pattern = new RegExp(find, 'g');
-        value = target.val();
-        value = value.replace(pattern, replace);
+        value   = target.val();
+        value   = value.replace(pattern, replace);
         target.val(value);
     }
 }
@@ -97,17 +97,63 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function template(index) {
-    var text = this.attributes['placeholder'].value,
-        rnd = random(1, 9),
-        pattern = new RegExp(String(rnd), 'g'),
-        match = text.match(pattern);
-    console.log(text, (match ? 'подходит' : 'не подходит'), rnd);
-    if (match) {
-        console.log('-------------------------------------------', index, 'begin');
-        console.log('reference', this);
-        console.dir(this);
-        console.log('-------------------------------------------', index, 'end');
-    }
-    return match;
+function template(rule) {
+    console.log(rule);
+    var getKey = function (object) {
+            var key;
+            for (key in object) {
+                if (object.hasOwnProperty(key)) {
+                    if (key !== 'id') return key;
+                }
+            }
+        },
+        check  = function (array) {
+            var pattern = new RegExp('4', 'g');
+
+            //     result;
+            // if (array.length > 0) {
+            //     return array.some(function (item, index) {
+            //         result = item[getKey(rule)].match(pattern);
+            //         console.log('index', index, 'item', item, (result ? 'подходит' : 'не подходит'), pattern);
+            //         return result;
+            //     });
+            // }
+            // return false;
+        };
+    // if (!$.isEmptyObject(rule)) {
+    //     console.log(check(rule['regExp']) ? 'подходит' : 'не подходит');
+    //     console.log(check(rule['technicChar']) ? 'подходит' : 'не подходит');
+    // }
 }
+
+function getSearchRule() {
+    var searchRule = JSON.parse(sessionStorage.getItem('search-rule'));
+    if (jQuery.isEmptyObject(searchRule)) {
+        searchRule = {
+            regExp     : [
+                {id: 1, expression: 'expression-1'},
+                {id: 2, expression: 'expression-2'},
+                {id: 3, expression: 'expression-3'}
+            ],
+            technicChar: [
+                {id: 1, technicChar: 'technic-char-1'},
+                {id: 2, technicChar: 'technic-char-2'},
+                {id: 3, technicChar: 'technic-char-3'}
+            ]
+        };
+        sessionStorage.setItem('search-rule', JSON.stringify(searchRule));
+    }
+    return searchRule;
+}
+
+// var text = this.attributes['placeholder'].value,
+//     rnd = random(1, 9),
+//     pattern = new RegExp(String(rnd), 'g'),
+//     match = text.match(pattern);
+// console.log(text, (match ? 'подходит' : 'не подходит'), rnd);
+// if (match) {
+//     console.log('-------------------------------------------', index, 'begin');
+//     console.log('reference', this);
+//     console.dir(this);
+//     console.log('-------------------------------------------', index, 'end');
+// }
