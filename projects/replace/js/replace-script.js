@@ -2,6 +2,8 @@
  * Created by Fomichev Yuri on 19.10.2017
  * Contact me at : toki.stamp@gmail.com
  */
+
+/* jQuery */
 jQuery(document).ready(function main() {
 
     console.log('jQuery here!');
@@ -97,7 +99,7 @@ function random(min, max) {
 
 function template() {
     var text = this.attributes['placeholder'].value,
-        rnd = random(1, 3),
+        rnd = random(1, 9),
         pattern = new RegExp(String(rnd), 'g'),
         match = text.match(pattern);
     console.log(text, (match ? 'подходит' : 'не подходит'), rnd);

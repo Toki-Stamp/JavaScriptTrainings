@@ -1,0 +1,16 @@
+body {
+    font-family: 'Custom Font', serif;
+}
+
+.custom-font {
+    font-family: 'Custom Font', serif;
+}
+
+@font-face {
+    font-family: 'Custom Font';
+    src: url('../font/YanoneKaffeesatz-Bold.ttf') format('truetype');
+}
+
+.fa.fa-orange {
+    color: rgb(250, 140, 0);
+}

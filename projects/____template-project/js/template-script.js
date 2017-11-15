@@ -3,6 +3,7 @@
  * Contact me at : toki.stamp@gmail.com
  */
 
+/* jQuery */
 jQuery(document).ready(function main() {
 });
 
