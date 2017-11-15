@@ -97,11 +97,17 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function template() {
+function template(index) {
     var text = this.attributes['placeholder'].value,
         rnd = random(1, 9),
         pattern = new RegExp(String(rnd), 'g'),
         match = text.match(pattern);
     console.log(text, (match ? 'подходит' : 'не подходит'), rnd);
+    if (match) {
+        console.log('-------------------------------------------', index, 'begin');
+        console.log('reference', this);
+        console.dir(this);
+        console.log('-------------------------------------------', index, 'end');
+    }
     return match;
 }
