@@ -42,7 +42,7 @@ jQuery(document).ready(function main() {
 
     console.log('Self-invoking function here!');
 
-    $('input').filter(template(getSearchRule()));
+    $('input').filter();
     // .addClass('auto-replace')
     // .keydown(function (e) {
     //     if (repeated(e.originalEvent)) return false;
@@ -95,33 +95,4 @@ function autoReplace(target, find, replace) {
 
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function template(rule) {
-    console.log(rule);
-    var getKey = function (object) {
-            var key;
-            for (key in object) {
-                if (object.hasOwnProperty(key)) {
-                    if (key !== 'id') return key;
-                }
-            }
-        },
-        check  = function (array) {
-            var pattern = new RegExp('4', 'g');
-
-            //     result;
-            // if (array.length > 0) {
-            //     return array.some(function (item, index) {
-            //         result = item[getKey(rule)].match(pattern);
-            //         console.log('index', index, 'item', item, (result ? 'подходит' : 'не подходит'), pattern);
-            //         return result;
-            //     });
-            // }
-            // return false;
-        };
-    // if (!$.isEmptyObject(rule)) {
-    //     console.log(check(rule['regExp']) ? 'подходит' : 'не подходит');
-    //     console.log(check(rule['technicChar']) ? 'подходит' : 'не подходит');
-    // }
 }

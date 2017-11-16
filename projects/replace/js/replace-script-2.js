@@ -14,7 +14,7 @@ var service = {
         if (key && option) {
             if (this.storage[this.getIndex(option)].getItem(key) &&
                 (this.storage[this.getIndex(option)].getItem(key) !== 'undefined')) {
-                string = this.storage[option].getItem(key);
+                string = this.storage[this.getIndex(option)].getItem(key);
             }
         }
         return string;
