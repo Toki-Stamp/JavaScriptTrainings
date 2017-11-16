@@ -125,35 +125,3 @@ function template(rule) {
     //     console.log(check(rule['technicChar']) ? 'подходит' : 'не подходит');
     // }
 }
-
-function getSearchRule() {
-    var searchRule = JSON.parse(sessionStorage.getItem('search-rule'));
-    if (jQuery.isEmptyObject(searchRule)) {
-        searchRule = {
-            regExp     : [
-                {id: 1, expression: 'expression-1'},
-                {id: 2, expression: 'expression-2'},
-                {id: 3, expression: 'expression-3'}
-            ],
-            technicChar: [
-                {id: 1, technicChar: 'technic-char-1'},
-                {id: 2, technicChar: 'technic-char-2'},
-                {id: 3, technicChar: 'technic-char-3'}
-            ]
-        };
-        sessionStorage.setItem('search-rule', JSON.stringify(searchRule));
-    }
-    return searchRule;
-}
-
-// var text = this.attributes['placeholder'].value,
-//     rnd = random(1, 9),
-//     pattern = new RegExp(String(rnd), 'g'),
-//     match = text.match(pattern);
-// console.log(text, (match ? 'подходит' : 'не подходит'), rnd);
-// if (match) {
-//     console.log('-------------------------------------------', index, 'begin');
-//     console.log('reference', this);
-//     console.dir(this);
-//     console.log('-------------------------------------------', index, 'end');
-// }
