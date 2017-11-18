@@ -16,6 +16,11 @@ input {
     font-weight: bold;
 }
 
+input[autoreplace] {
+    color: rgb(138, 109, 59);
+    background: rgba(252, 248, 227, 0.7);
+}
+
 input.auto-replace {
     background: rgb(252, 248, 227);
 }
@@ -23,4 +28,9 @@ input.auto-replace {
 @font-face {
     font-family: 'Custom Font';
     src: url('../font/YanoneKaffeesatz-Bold.ttf');
+}
+
+/* правка нижнего отступа */
+.form-group {
+    margin-bottom: 0;
 }
