@@ -8,11 +8,8 @@ jQuery(document).ready(function main() {
 
     console.log('jQuery here!');
 
-    $('#input-normal').keydown(function (e) {
-        if (repeated(e.originalEvent)) return false;
-    }).keyup(function () {
-        autoReplace($(this));
-    });
+    // setAutoreplace($('#input-normal'));
+    setAutoreplace();
 
     $('#input-advanced').keydown(function (e) {
         var self, parent;
@@ -30,30 +27,27 @@ jQuery(document).ready(function main() {
             self.next().removeClass('glyphicon-pencil');
             parent.removeClass('has-warning');
         }
-        autoReplace(self);
+        autoreplace(self);
     });
 
     console.log('jQuery done!');
 
 });
 
-/* Self-invoking function */
-(function main() {
-
-    console.log('Self-invoking function here!');
-
-    $('input').filter();
-    // .addClass('auto-replace')
-    // .keydown(function (e) {
-    //     if (repeated(e.originalEvent)) return false;
-    // })
-    // .keyup(function () {
-    //     autoReplace($(this));
-    // });
-
-    console.log('Self-invoking function done!')
-
-})();
+/**
+ * Устанавливает обработчик событий keydown и keyup на целевой элемент
+ *
+ * @param {Element} target - целевой элемент (к примеру input)
+ */
+function setAutoreplace(target) {
+    if (target) {
+        target.keydown(function (e) {
+            if (repeated(e.originalEvent)) return false;
+        }).keyup(function () {
+            autoreplace(target);
+        });
+    }
+}
 
 /**
  * Получает событие нажатия клавиатуры и анализирует является ли переданное событие
@@ -80,7 +74,7 @@ function repeated(event, except) {
  * @param {String} [find] - символ для поиска
  * @param {String} [replace] - символ на замену найденного
  */
-function autoReplace(target, find, replace) {
+function autoreplace(target, find, replace) {
     var value,
         pattern;
     if (target) {
