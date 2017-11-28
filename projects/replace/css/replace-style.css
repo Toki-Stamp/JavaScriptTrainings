@@ -16,7 +16,7 @@ input {
     font-weight: bold;
 }
 
-input.auto-replace {
+input.auto-replace, input:not([input-replace]) {
     background: rgb(252, 248, 227);
 }
 
