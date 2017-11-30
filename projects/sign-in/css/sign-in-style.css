@@ -1,0 +1,19 @@
+body {
+    font-family: 'Custom Font', serif;
+}
+
+.custom-font {
+    font-family: 'Custom Font', serif;
+}
+
+@font-face {
+    font-family: 'Custom Font';
+    src: url('../font/YanoneKaffeesatz-Bold.ttf') format('truetype');
+}
+
+.panel-highlighted.focused {
+    border-radius: 4px;
+    -webkit-box-shadow: 0 0 6px 3px rgb(202, 237, 255);
+    box-shadow: 0 0 6px 3px rgb(202, 237, 255);
+    outline: 1px solid rgb(151, 219, 255);
+}
