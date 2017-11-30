@@ -5,6 +5,15 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
+
+    $('#sign-in').find('input').focus(function () {
+        if (!$('#sign-in').hasClass('focused')) {
+            $('#sign-in').addClass('focused');
+        }
+    }).blur(function () {
+        $('#sign-in').removeClass('focused');
+    })
+
 });
 
 /* Self-invoking function */

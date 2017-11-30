@@ -22,40 +22,43 @@
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
-<!------------------------- Main ---------------------------->
-<div class="container">
+    <!------------------------- Main ---------------------------->
     <hr>
-    <div class="well panel-highlighted focused">
-        <form>
-            <h5>Sign in with existing account</h5>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                    <input id="username" class="form-control focused" type="text" placeholder="Введите ваш e-mail или username">
+    <div class="container">
+        <div id="sign-in" class="well panel-highlighted col-md-3">
+            <form>
+                <div class="form-group">
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input id="username" class="form-control" type="text" placeholder="Введите ваш e-mail или username">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="input-group">
-                    <span class="input-group-addon">@</span>
-                    <input style="width:100%" placeholder="Password" name="password" class="form-control" type="password">
+                <div class="form-group">
+                    <div class="input-group col-md-12">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </span>
+                        <input id="password" class="form-control" type="password" placeholder="Password">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <hr>
-</div>
-<!------------------------- Main ---------------------------->
-<!------------------------- Scripts ------------------------->
-<!-- jQuery -->
-<script src="../../../_lib/js/jquery-3.2.1.js"></script>
-<!--jQuery UI -->
-<script src="../../../_lib/js/jquery-ui.js"></script>
-<!-- Bootstrap -->
-<script src="../../../_lib/js/bootstrap.js"></script>
-<!-- Bootstrap-Select -->
-<script src="../../../_lib/js/bootstrap-select.js"></script>
-<!-- Custom js goes below -->
-<script src="../js/sign-in-script.js"></script>
-<!------------------------- Scripts ------------------------->
+    <!------------------------- Main ---------------------------->
+    <!------------------------- Scripts ------------------------->
+    <!-- jQuery -->
+    <script src="../../../_lib/js/jquery-3.2.1.js"></script>
+    <!--jQuery UI -->
+    <script src="../../../_lib/js/jquery-ui.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../../_lib/js/bootstrap.js"></script>
+    <!-- Bootstrap-Select -->
+    <script src="../../../_lib/js/bootstrap-select.js"></script>
+    <!-- Custom js goes below -->
+    <script src="../js/sign-in-script.js"></script>
+    <!------------------------- Scripts ------------------------->
 </body>
 </html>
