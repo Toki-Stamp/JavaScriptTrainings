@@ -42,6 +42,20 @@ var inputReplace = {
     check: function (charId, exprId) {
         var check = false;
         if (charId || exprId) {
+            if (charId && typeof charId !== 'number') {
+                try {
+                    charId = parseInt(charId);
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+            if (exprId && typeof exprId !== 'number') {
+                try {
+                    exprId = parseInt(exprId);
+                } catch (e) {
+                    console.log(e);
+                }
+            }
             check = ((this.SEARCH_RULE['technicChars'].indexOf(charId) !== -1) ||
                 (this.SEARCH_RULE['regExpressions'].indexOf(exprId) !== -1))
         }
@@ -89,13 +103,22 @@ var inputReplace = {
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var currentInput = $('#test');
-    if (inputReplace.check(data.item.technicCharId, data.item.expressionId.expressionId)) {
-        inputReplace.setAutoreplace(currentInput);
-    }
+    var inputs = $('div.container').find('input').filter('[input-replace]').each(function () {
+        inputReplace.setAutoreplace($(this));
+    });
+    inputs.css('background', 'rgba(255, 0, 0, 0.3)');
+    // if (inputReplace.check(data.item.technicCharId, data.item.expressionId.expressionId)) {
+    //     inputReplace.setAutoreplace();
+    // }
 });
 
 /* Self-invoking function */
 (function main() {
     console.log('Self-invoking function is here!');
+    console.log(1);
+    console.log('type of 1', typeof 1);
+    console.log('2');
+    console.log('type of "2"', typeof '2');
+    console.log(inputReplace.check('7'));
+    console.log(inputReplace.check(7));
 })();
