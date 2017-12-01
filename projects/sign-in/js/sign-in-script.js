@@ -5,13 +5,19 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
+    var signInContainer = $('#sign-in-container'),
+        inputs          = signInContainer.find('input');
 
-    $('#sign-in').find('input').focus(function () {
-        if (!$('#sign-in').hasClass('focused')) {
-            $('#sign-in').addClass('focused');
-        }
+    inputs.on('focus', function (e) {
+        // console.log(this);
+        // console.log(e);
+        // if (!signInContainer.hasClass('panel-focused')) {
+        //     signInContainer.addClass('panel-focused');
+        // }
     }).blur(function () {
-        $('#sign-in').removeClass('focused');
+        // if (signInContainer.hasClass('panel-focused')) {
+        //     signInContainer.removeClass('panel-focused');
+        // }
     })
 
 });

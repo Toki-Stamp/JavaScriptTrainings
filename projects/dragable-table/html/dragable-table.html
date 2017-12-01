@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>template-project</title>
+    <!------------------------- CSS ----------------------------->
+    <!-- Bootstrap -->
+    <link href="../../../_lib/css/bootstrap.css" rel="stylesheet">
+    <link href="../../../_lib/css/bootstrap-theme.css" rel="stylesheet">
+    <!-- Bootstrap-Select -->
+    <link href="../../../_lib/css/bootstrap-select.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="../../../_lib/css/jquery-ui.css" rel="stylesheet">
+    <!-- Google Material Design fonts -->
+    <link href="../../../_lib/css/material-icons.css" rel="stylesheet">
+    <!-- Font Awesome icons-->
+    <link href="../../../_lib/css/font-awesome.css" rel="stylesheet">
+    <!-- Custom CSS goes below -->
+    <link href="../css/dragable-table-style.css" rel="stylesheet">
+    <!------------------------- CSS ----------------------------->
+</head>
+<body>
+<!------------------------- Main ---------------------------->
+<div class="container">
+    <hr>
+    <div class="recipe">
+        <div class="recipe__info">
+            <h2 class="recipe__title">Banana muffins recipe</h2>
+            <p>These healthy muffins are the perfect treat for when you are feeling something sweet. It is so much better to bake muffins yourself as you can choose exactly what you put in them, meaning you can stay away from refined sugars and
+                preservatives! These are perfect for bringing to a brunch or just sharing with your friends.
+            </p>
+        </div>
+        <div class="recipe__ingredients">
+            <table cellpadding="0" cellspacing="0" border="0" class="recipe-table" id="recipeTable">
+                <tbody id="recipeTableBody">
+                <tr>
+                    <td class="drag-handler"></td>
+                    <td class="recipe-table__cell">
+                        <input type="text" class="recipe__text-field" value="Large bananas" placeholder="Ingredient">
+                    </td>
+                    <td class="recipe-table__cell">
+                        <input type="text" class="recipe__text-field" value="3" placeholder="Value">
+                    </td>
+                    <td class="recipe-table__cell">
+                        <button class="recipe-table__del-row-btn">x</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="drag-handler"></td>
+                    <td class="recipe-table__cell">
+                        <input type="text" class="recipe__text-field" value="White sugar" placeholder="Ingredient">
+                    </td>
+                    <td class="recipe-table__cell">
+                        <input type="text" class="recipe__text-field" value="¹⁄₂" placeholder="Value">
+                    </td>
+                    <td class="recipe-table__cell">
+                        <button class="recipe-table__del-row-btn">x</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="drag-handler"></td>
+                    <td class="recipe-table__cell">
+                        <input type="text" class="recipe__text-field" value="Egg" placeholder="Ingredient">
+                    </td>
+                    <td class="recipe-table__cell">
+                        <input type="text" class="recipe__text-field" value="1" placeholder="Value">
+                    </td>
+                    <td class="recipe-table__cell">
+                        <button class="recipe-table__del-row-btn">x</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="recipe-table__add-row">
+                <span class="recipe-table__add-row-btn">+</span>
+            </div>
+        </div>
+    </div>
+    <script id="rowTemplate" type="text/template">
+        <tr>
+            <td class="drag-handler"></td>
+            <td class="recipe-table__cell">
+                <input type="text" class="recipe__text-field" value="" placeholder="Ingredient">
+            </td>
+            <td class="recipe-table__cell">
+                <input type="text" class="recipe__text-field" value="" placeholder="Value">
+            </td>
+            <td class="recipe-table__cell">
+                <button class="recipe-table__del-row-btn">x</button>
+            </td>
+        </tr>
+    </script>
+    <hr>
+</div>
+<!------------------------- Main ---------------------------->
+<!------------------------- Scripts ------------------------->
+<!-- jQuery -->
+<script src="../../../_lib/js/jquery-3.2.1.js"></script>
+<!--jQuery UI -->
+<script src="../../../_lib/js/jquery-ui.js"></script>
+<!-- Bootstrap -->
+<script src="../../../_lib/js/bootstrap.js"></script>
+<!-- Bootstrap-Select -->
+<script src="../../../_lib/js/bootstrap-select.js"></script>
+<!-- Sortable -->
+<script src="../../../_lib/js/Sortable.js"></script>
+<!-- Custom js goes below -->
+<script src="../js/dragable-table-script.js"></script>
+<!------------------------- Scripts ------------------------->
+</body>
+</html>
