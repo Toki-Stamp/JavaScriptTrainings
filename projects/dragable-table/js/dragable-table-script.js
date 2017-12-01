@@ -15,8 +15,8 @@ jQuery(document).ready(function main() {
         disabled:             'true',
         forceHelperSize:      true,
         forcePlaceholderSize: true,
-        helper:               'clone',
-        items:                '> tr.success',
+        // helper:               'clone',
+        items:                '> tr',
         tolerance:            'pointer'
     });
 
@@ -36,7 +36,7 @@ jQuery(document).ready(function main() {
         // if (e.shiftKey || e.ctrlKey) {
         // console.log(' current', rowIndexes);
         // }
-        // me.addClass('success').siblings().removeClass('success');
+        me.addClass('success').siblings().removeClass('success');
     });
 
     $('#enable').click(function () {

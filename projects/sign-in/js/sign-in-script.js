@@ -11,13 +11,13 @@ jQuery(document).ready(function main() {
     inputs.on('focus', function (e) {
         // console.log(this);
         // console.log(e);
-        // if (!signInContainer.hasClass('panel-focused')) {
-        //     signInContainer.addClass('panel-focused');
-        // }
+        if (!signInContainer.hasClass('panel-focused')) {
+            signInContainer.addClass('panel-focused');
+        }
     }).blur(function () {
-        // if (signInContainer.hasClass('panel-focused')) {
-        //     signInContainer.removeClass('panel-focused');
-        // }
+        if (signInContainer.hasClass('panel-focused')) {
+            signInContainer.removeClass('panel-focused');
+        }
     })
 
 });
