@@ -7,16 +7,30 @@
     src: url('../font/YanoneKaffeesatz-Bold.ttf') format('truetype');
 }
 
+#sign-in-container {
+    font-family: 'Fira Mono', monospace, monospace;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 450px;
+}
+
+#sign-in-container.panel-focused .input-group-addon .glyphicon {
+    color: rgb(51, 122, 183);
+    transition: 300ms;
+}
+
+#sign-in-container .input-group-addon .glyphicon {
+    color: rgb(153, 153, 153);
+    transition: 300ms;
+}
+
 #sign-in-container.panel-focused {
     border-radius: 4px;
     border: 1px solid rgba(102, 175, 233, .4) !important;
     box-shadow: 0 0 3px 2px rgba(102, 175, 233, .4) !important;
     background: rgba(102, 175, 233, .1);
     transition: 300ms all;
-}
-
-#sign-in-container {
-    font-family: 'Fira Mono', monospace, monospace;
 }
 
 #sign-in-container .input-group-addon {
@@ -59,6 +73,7 @@
     border-top-right-radius: 4px;
     transition: 300ms;
 }
+
 #sign-in-container .panel-title {
     font-size: 28px !important;
 }
