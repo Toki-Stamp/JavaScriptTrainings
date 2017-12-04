@@ -53,4 +53,12 @@ jQuery(document).ready(function main() {
         target.sortable('cancel');
     });
 
+    $(document).keydown(function (e) {
+        if (e.shiftKey || e.ctrlKey) {
+            $('body').css('cursor', 'copy');
+        }
+    }).keyup(function () {
+        $('body').css('cursor', 'default');
+    })
+
 });
