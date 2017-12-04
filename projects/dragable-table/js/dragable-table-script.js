@@ -11,7 +11,7 @@ jQuery(document).ready(function main() {
     target.sortable({
         axis:                 'y',
         containment:          'parent',
-        cursor:               'move',
+        cursor:               'n-resize',
         disabled:             'true',
         forceHelperSize:      true,
         forcePlaceholderSize: true,
@@ -41,16 +41,26 @@ jQuery(document).ready(function main() {
 
     $('#enable').click(function () {
         target.sortable('enable').disableSelection();
+        target.find('tr').css('cursor', 'pointer');
         status.text('Перетаскивание включено');
     });
 
     $('#disable').click(function () {
         target.sortable('disable').enableSelection();
+        target.find('tr').css('cursor', 'default');
         status.text('Перетаскивание выключено');
     });
 
     $('#cancel').click(function () {
         target.sortable('cancel');
     });
+
+    $(document).keydown(function (e) {
+        if (e.shiftKey || e.ctrlKey) {
+            $('body').css('cursor', 'copy');
+        }
+    }).keyup(function () {
+        $('body').css('cursor', 'default');
+    })
 
 });
