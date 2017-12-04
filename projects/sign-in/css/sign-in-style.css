@@ -91,6 +91,10 @@
     width: 100%;
 }
 
+#sign-in-container.panel-focused input {
+    color: rgb(51, 122, 183);
+}
+
 #sign-in-container .btn:focus,
 #sign-in-container .btn:active:focus,
 #sign-in-container .btn.active:focus,
@@ -99,29 +103,3 @@
 #sign-in-container .btn.active.focus {
     outline: 0;
 }
-
-/*#sign-in-container.btn-login {*/
-/*color: white;*/
-/*background-color: rgba(51, 122, 183, .8);*/
-/*border: 1px solid rgba(51, 122, 183, .8);*/
-/*transition: 150ms all;*/
-/*}*/
-
-/*#sign-in-container.btn-login:hover {*/
-/*color: white;*/
-/*background-color: rgba(51, 122, 183, 1.0);*/
-/*border: 1px solid rgba(51, 122, 183, 1.0);*/
-/*transition: 150ms all;*/
-/*}*/
-
-/*#sign-in-container.btn-login:active,*/
-/*#sign-in-container.btn-login:active:hover,*/
-/*#sign-in-container.btn-login:active:focus,*/
-/*#sign-in-container.btn-login:focus,*/
-/*#sign-in-container.btn-login:focus:hover,*/
-/*#sign-in-container.btn-login:focus:active {*/
-/*color: white;*/
-/*background-color: rgb(51, 122, 183);*/
-/*border: 1px solid rgba(51, 122, 183, 1.0);*/
-/*!*transition: 150ms all;*!*/
-/*}*/

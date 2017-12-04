@@ -1,0 +1,25 @@
+body {
+    font-family: "Fira Mono", monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: orange;
+    font-weight: bold;
+}
+
+#data-container {
+    font-size: 24px;
+    color: darkblue;
+}
+
+#data-container span.number {
+    font-weight: bold;
+    font-size: 26px;
+    color: red;
+}
+
+#alert-container {
+    font-size: 20px;
+    visibility: hidden;
+    transition: 300ms all;
+}
