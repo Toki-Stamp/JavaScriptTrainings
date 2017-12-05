@@ -5,7 +5,7 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var target = $('#sortable'),
+    var target = $('#tbodyForMainTable'),
         status = $('#status');
 
     target.sortable({
@@ -20,23 +20,19 @@ jQuery(document).ready(function main() {
         tolerance:            'pointer'
     });
 
-    target.on('click', 'tr', function (e) {
-        var me      = $(this),
-            parent  = me.parent(),
-            indexes = parent.data('indexes'),
-            array   = [];
+    target.on('click', 'tr', function () {
+        var me     = $(this),
+            row    = me[0].rowIndex,
+            parent = me.parent();
 
         console.log(me);
+        console.log('index', row);
         console.log(parent);
-        console.log(indexes);
-
-        array.push(me.rowIndex);
-        parent.data('indexes', array);
 
         // if (e.shiftKey || e.ctrlKey) {
         // console.log(' current', rowIndexes);
         // }
-        me.addClass('success').siblings().removeClass('success');
+        // me.addClass('success').siblings().removeClass('success');
     });
 
     $('#enable').click(function () {
