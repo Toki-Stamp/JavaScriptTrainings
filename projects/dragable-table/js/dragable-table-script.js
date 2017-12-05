@@ -5,34 +5,61 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var target = $('#tbodyForMainTable'),
-        status = $('#status');
-
-    target.sortable({
-        axis:                 'y',
-        containment:          'parent',
-        cursor:               'n-resize',
-        disabled:             'true',
-        forceHelperSize:      true,
-        forcePlaceholderSize: true,
-        // helper:               'clone',
-        items:                '> tr',
-        tolerance:            'pointer'
-    });
+    var target      = $('#tbodyForMainTable'),
+        status      = $('#status');
+    var matrix      = {
+        'root'    : {
+            'type'  : 'Корень',
+            'level' : 0,
+            'accept': [1, 2, 3, 4]
+        },
+        'rowPorch': {
+            'type'  : 'Подъезд (секция)',
+            'level' : 1,
+            'accept': [2]
+        },
+        'rowFloor': {
+            'type'  : 'Этаж',
+            'level' : 2,
+            'accept': [3, 4]
+        },
+        'rowIp'   : {
+            'type'  : 'Группа помещений / ИП / Жилое помещение / Помещение',
+            'level' : 3,
+            'accept': [4]
+        },
+        'rowOth'  : {
+            'type'  : 'Помещение',
+            'level' : 4,
+            'accept': false
+        }
+    };
+    var getAccepted = function (element) {
+        var classes = element.className.trim().split(/\s+/),
+            accept = [];
+        classes.forEach(function (value) {
+            var keys = Object.keys(matrix);
+            if (keys.indexOf(value) >= 0) {
+                accept = matrix[value].accept;
+                return false;
+            }
+        });
+        return accept;
+    };
 
     target.on('click', 'tr', function () {
         var me     = $(this),
-            row    = me[0].rowIndex,
-            parent = me.parent();
-
-        console.log(me);
-        console.log('index', row);
-        console.log(parent);
-
-        // if (e.shiftKey || e.ctrlKey) {
-        // console.log(' current', rowIndexes);
-        // }
-        // me.addClass('success').siblings().removeClass('success');
+            object = me[0];
+        // classes = object.className.trim().split(/\s+/);
+        // classes.forEach(function (value) {
+        //     var keys = Object.keys(matrix),
+        //         object;
+        //     if (keys.indexOf(value) >= 0) {
+        //         object = matrix[value];
+        //         console.log('name:', object.type, '>>', 'level:', object.level, '>>', 'accept:', object.accept);
+        //     }
+        // });
+        console.log('me:', object, 'accept:', getAccepted(object));
     });
 
     $('#enable').click(function () {
@@ -59,4 +86,15 @@ jQuery(document).ready(function main() {
         $('body').css('cursor', 'default');
     })
 
+    // target.sortable({
+    //     axis:                 'y',
+    //     containment:          'parent',
+    //     cursor:               'n-resize',
+    //     disabled:             'true',
+    //     forceHelperSize:      true,
+    //     forcePlaceholderSize: true,
+    //     // helper:               'clone',
+    //     items:                '> tr',
+    //     tolerance:            'pointer'
+    // });
 });
