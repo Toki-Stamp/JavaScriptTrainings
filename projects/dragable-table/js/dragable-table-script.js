@@ -5,61 +5,69 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
+    "use strict";
     var target      = $('#tbodyForMainTable'),
         status      = $('#status');
     var matrix      = {
         'root'    : {
             'type'  : 'Корень',
             'level' : 0,
-            'accept': [1, 2, 3, 4]
+            'accept': [1, 2, 3, 4],
+            'insert': false
         },
         'rowPorch': {
             'type'  : 'Подъезд (секция)',
             'level' : 1,
-            'accept': [2]
+            'accept': [2],
+            'insert': [0]
         },
         'rowFloor': {
             'type'  : 'Этаж',
             'level' : 2,
-            'accept': [3, 4]
+            'accept': [3, 4],
+            'insert': [0, 1]
         },
         'rowIp'   : {
             'type'  : 'Группа помещений / ИП / Жилое помещение / Помещение',
             'level' : 3,
-            'accept': [4]
+            'accept': [4],
+            'insert': [0, 2]
         },
         'rowOth'  : {
             'type'  : 'Помещение',
             'level' : 4,
-            'accept': false
+            'accept': false,
+            'insert': [0, 2, 3]
         }
     };
-    var getAccepted = function (element) {
-        var classes = element.className.trim().split(/\s+/),
-            accept = [];
-        classes.forEach(function (value) {
-            var keys = Object.keys(matrix);
-            if (keys.indexOf(value) >= 0) {
-                accept = matrix[value].accept;
+    var getClasses  = function (element) {
+        return element.className.trim().split(/\s+/);
+    };
+    var getValue    = function (object, key) {
+        var result;
+        getClasses(object).forEach(function (value) {
+            if (Object.keys(matrix).indexOf(value) >= 0) {
+                result = matrix[value][key];
                 return false;
             }
         });
-        return accept;
+        return result;
+    };
+    var getAccepted = function (element) {
+        return getValue(element, 'accept');
+    };
+    var getInserted = function (element) {
+        return getValue(element, 'insert');
+    };
+    var getType     = function (element) {
+        return getValue(element, 'type');
+    };
+    var getLevel    = function (element) {
+        return getValue(element, 'level');
     };
 
     target.on('click', 'tr', function () {
-        var me     = $(this),
-            object = me[0];
-        // classes = object.className.trim().split(/\s+/);
-        // classes.forEach(function (value) {
-        //     var keys = Object.keys(matrix),
-        //         object;
-        //     if (keys.indexOf(value) >= 0) {
-        //         object = matrix[value];
-        //         console.log('name:', object.type, '>>', 'level:', object.level, '>>', 'accept:', object.accept);
-        //     }
-        // });
-        console.log('me:', object, 'accept:', getAccepted(object));
+        console.log('type:', '"' + getType(this), 'level:', getLevel(this), 'accept:', getAccepted(this), 'insert:', getInserted(this));
     });
 
     $('#enable').click(function () {
@@ -84,7 +92,7 @@ jQuery(document).ready(function main() {
         }
     }).keyup(function () {
         $('body').css('cursor', 'default');
-    })
+    });
 
     // target.sortable({
     //     axis:                 'y',
