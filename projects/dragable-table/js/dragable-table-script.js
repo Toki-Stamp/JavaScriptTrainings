@@ -53,21 +53,48 @@ jQuery(document).ready(function main() {
         });
         return result;
     };
-    var getAccepted = function (element) {
-        return getValue(element, 'accept');
-    };
-    var getInserted = function (element) {
-        return getValue(element, 'insert');
-    };
-    var getType     = function (element) {
-        return getValue(element, 'type');
-    };
-    var getLevel    = function (element) {
-        return getValue(element, 'level');
+    var printMatrix = function (object) {
+        console.log(
+            'type:', '"' + getValue(object, 'type') + '"',
+            'level:', getValue(object, 'level'),
+            'accept:', getValue(object, 'accept'),
+            'insert:', getValue(object, 'insert')
+        );
     };
 
-    target.on('click', 'tr', function () {
-        console.log('type:', '"' + getType(this), 'level:', getLevel(this), 'accept:', getAccepted(this), 'insert:', getInserted(this));
+    target.on('click', 'tr', function (e) {
+        var me      = $(this),
+            success = $('tr.success'),
+            current = success.data('rowid'),
+            target  = me.data('rowid'),
+            first   = current,
+            last    = target,
+            delta;
+        if (me.hasClass('total')) {
+            return false;
+        }
+        printMatrix(this);
+        console.log('current:', current, 'target:', target);
+        if (!e.ctrlKey && !e.shiftKey) {
+            success.removeClass('success blink');
+        }
+        if (e.shiftKey) {
+            e.preventDefault();
+            if (current > target) {
+                first = target;
+                last  = current;
+            }
+            delta = last - first;
+            for (var i = 0; i <= delta; i++) {
+                $('[data-rowid=' + (first + i) + ']').addClass('success blink')
+            }
+        } else {
+            if (me.hasClass('success')) {
+                me.removeClass('success blink');
+            } else {
+                me.addClass('success blink');
+            }
+        }
     });
 
     $('#enable').click(function () {
