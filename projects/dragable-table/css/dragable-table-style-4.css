@@ -29,23 +29,28 @@ tr {
 }
 
 tbody tr:hover {
-    /*background-color: rgba(225, 255, 255, .3);*/
-    /*z-index: 1 !important;*/
-    /*transition: 250ms all;*/
-    /*border-left: 5px solid red;*/
-    /*border-right: 5px solid red;*/
+    background-color: rgba(225, 255, 255, .6);
+    transition: 250ms all;
 }
 
 tbody tr:nth-child(even):hover {
-    /*background-color: rgba(255, 255, 224, .3);*/
-    /*z-index: 1 !important;*/
-    /*transition: 250ms all;*/
+    background-color: rgba(255, 255, 224, .6);
+    transition: 250ms all;
 }
 
 tbody.blink {
     animation: blink 500ms step-end infinite alternate;
     cursor: pointer;
     user-select: none;
+}
+
+tbody {
+    outline: 2px solid rgb(200, 100, 200);
+    outline-offset: -1px;
+}
+
+#tbodyForMainTable {
+    outline: 0;
 }
 
 @keyframes blink {
@@ -57,8 +62,8 @@ tbody.blink {
     }
 }
 
-thead tr:hover,
-tfoot tr:hover {
+thead tr,
+tfoot tr {
     background-color: rgba(255, 182, 193, .3);
     transition: 250ms;
 }
