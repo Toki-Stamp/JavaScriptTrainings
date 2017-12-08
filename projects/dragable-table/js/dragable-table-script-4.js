@@ -8,15 +8,22 @@ jQuery(document).ready(function main() {
     var tbodies        = $('#main-table').find('tbody'),
         veryFirstIndex = tbodies.find('tr').first().data('row-id') - 1,
         veryLastIndex  = tbodies.find('tr').last().data('row-id'),
-        first,
         firstIndex,
         last,
         lastIndex;
-    var total          = tbodies.find('tr:first');
+    var first          = tbodies.find('tr:first');
     var rows           = tbodies.find('tr:gt(0)');
 
-    // total.css('background-color', 'blue');
-    // rows.css('background-color', 'green');
+    first.css({
+        'border-color': 'green',
+        'border-style': 'solid',
+        'border-width': '2px'
+    });
+    rows.css({
+        'border-color': 'red',
+        'border-style': 'solid',
+        'border-width': '2px'
+    });
 
     tbodies.on('click', 'tr', function () {
         // var me           = $(this),
