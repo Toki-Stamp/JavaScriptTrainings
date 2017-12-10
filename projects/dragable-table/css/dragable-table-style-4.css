@@ -59,7 +59,8 @@ tbody tr:not(.total):hover {
     transition: 250ms all;
 }
 
-tbody.fifo tr:hover {
+tbody.fifo tr:hover,
+tbody.blink tr:hover {
     background-color: rgba(220, 220, 220, .5);
     transition: 250ms all;
 }
