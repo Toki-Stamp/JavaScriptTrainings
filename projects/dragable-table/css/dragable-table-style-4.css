@@ -51,7 +51,7 @@ tbody.fifo {
 }
 
 tbody tr.total {
-    background-color: rgba(144, 238, 143, .3);
+    background-color: rgba(138, 43, 226, .2);
 }
 
 tbody tr:not(.total):hover {
@@ -68,6 +68,19 @@ tbody.blink tr:hover {
 thead tr,
 tfoot tr {
     background-color: rgba(255, 182, 193, .3);
+    transition: 250ms;
+}
+
+tbody > tr > td.success,
+tbody > tr.success > td {
+    background-color: rgb(223, 240, 216);
+    transition: 250ms;
+}
+
+tbody > tr > td.success:hover,
+tbody > tr.success:hover > td,
+tbody > tr:hover > .success {
+    background-color: rgb(208, 233, 198);
     transition: 250ms;
 }
 
