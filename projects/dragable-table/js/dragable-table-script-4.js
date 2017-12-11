@@ -27,6 +27,62 @@ jQuery(document).ready(function main() {
     input.attr('placeholder', 'Row-index [' + rows.first().data('row-id') + '...' + rows.last().data('row-id') + ']');
 
     $('#btn-1').on('click', function () {
+        var veryFirst,
+            veryLast,
+            veryFirstIndex,
+            veryLastIndex,
+            left,
+            right,
+            slice,
+            slices = [],
+            states,
+            state;
+
+        if (rows.length > 1) {
+            veryFirst      = rows.first();
+            veryLast       = rows.last();
+            veryFirstIndex = veryFirst.data('row-id') - 1;
+            veryLastIndex  = veryLast.data('row-id');
+            left           = veryFirstIndex;
+            states         = ['success', 'normal'];
+            state          = veryFirst.hasClass('success') ? states[0] : states[1];
+            rows.each(function (index, element) {
+                /* Детерминированный конечный автомат */
+                switch (state) {
+                    case states[1]: // normal
+                        if ($(element).hasClass('success')) {
+                            right = index;
+                            slice = rows.slice(left, right);
+                            slices.push(slice);
+                            left  = index;
+                            state = states[0];
+                        }
+                        break;
+                    case states[0]: // success
+                        if (!$(element).hasClass('success')) {
+                            right = index;
+                            slice = rows.slice(left, right);
+                            // if (slice.hasClass('success')) {
+                            //     slice.removeClass('success').addClass('warning');
+                            // }
+                            slices.push(slice);
+                            left  = right;
+                            state = states[1];
+                        }
+                        break;
+                }
+            });
+            slice = rows.slice(left, veryLastIndex);
+            // if (slice.hasClass('success')) {
+            //     slice.removeClass('success').addClass('warning');
+            // }
+            slices.push(slice);
+        } else {
+            slices.push(rows);
+        }
+
+        console.log(slices);
+
         // var index = parseInt(input.val(), 10);
         // var before, current, after;
         // var tbodies;
@@ -45,9 +101,6 @@ jQuery(document).ready(function main() {
         // tbodies.filter('[data-body-type="after"]').append(after);
         // }
         // input.val('');
-
-        var veryFirstIndex = rows.first().data('row-id'),
-            veryLastIndex  = rows.last().data('row-id');
         // var success        = $('tr.success');
         // var normal         = rows.filter(':not(.success)');
         // if (success.length) {
@@ -59,42 +112,7 @@ jQuery(document).ready(function main() {
         // normal.each(function () {
         //     console.log(this);
         // });
-        console.log('---------------------------------');
-        var left   = veryFirstIndex - 1;
-        var right  = veryFirstIndex;
-        var i      = veryFirstIndex;
-        var set;
-        var slices = [];
-        var state  = 'normal';
-        rows.each(function (index, element) {
 
-            /* Детерминированный конечный автомат */
-            switch (state) {
-                case 'normal':
-                    if ($(element).hasClass('success')) {
-                        right = i - 1;
-                        set   = rows.slice(left, right);
-                        slices.push(set);
-                        console.log(set);
-                        left  = i;
-                        state = 'success';
-                    }
-                    break;
-                case 'success':
-                    if (!$(element).hasClass('success')) {
-                        right = i - 1;
-                        set   = rows.slice(left, right);
-                        slices.push(set);
-                        console.log(set);
-                        left  = right;
-                        state = 'normal';
-                    }
-                    break;
-            }
-            i += 1;
-        });
-        console.log('---------------------------------');
-        console.log(slices);
     });
 
     $('#btn-2').on('click', function () {
