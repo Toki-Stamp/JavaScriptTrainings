@@ -29,9 +29,18 @@
     <div class="container">
         <hr>
         <div class="form-inline">
-            <button id="btn-1" class="btn btn-lg btn-default">Action!</button>
-            <input id="inp-1" type="text" class="form-control input-lg" placeholder>
-            <button id="btn-2" class="btn btn-lg btn-default">Refresh</button>
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <button id="btn-1" class="btn btn-lg btn-success" style="width: 100%;">Запустить&nbsp;script&nbsp;
+                        <i class="glyphicon glyphicon-play"></i>
+                    </button>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <button id="btn-2" class="btn btn-lg btn-danger" style="width: 100%;">Откатить&nbsp;назад&nbsp;
+                        <i class="glyphicon glyphicon-fast-backward"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         <hr>
         <table id="main-table">
@@ -180,7 +189,7 @@
     <!------------------------- Scripts ------------------------->
     <!-- jQuery -->
     <script src="../../../_lib/js/jquery-3.2.1.js"></script>
-    <!--jQuery UI -->
+    <!-- jQuery UI -->
     <script src="../../../_lib/js/jquery-ui.js"></script>
     <!-- Bootstrap -->
     <script src="../../../_lib/js/bootstrap.js"></script>
