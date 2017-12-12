@@ -106,7 +106,7 @@ tbody > tr:hover > .success {
                 transparent 0px,
                 rgba(170, 170, 170, .6) 1px,
                 transparent 2px,
-                transparent 8px);
+                transparent 5px);
         box-shadow: inset 0 0 20px 0 rgb(120, 120, 120);
     }
 }

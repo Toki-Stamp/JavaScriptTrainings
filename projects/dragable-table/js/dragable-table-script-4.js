@@ -6,7 +6,9 @@
 /* jQuery */
 jQuery(document).ready(function main() {
     var body  = $('body'),
-        table = $('#main-table');
+        main  = '#main-table',
+        id    = 'row-id',
+        table = $(main);
 
     /* Делаем backup */
     if (body.data('main-table-backup')) {
@@ -23,16 +25,16 @@ jQuery(document).ready(function main() {
             left,
             right,
             slice,
-            slices    = [],
+            slices = [],
             states,
             state,
-            rows      = table.find('tbody tr:gt(0)');
+            rows   = table.find('tbody tr:gt(0)');
 
         if (rows.length > 1) {
             veryFirst      = rows.first();
             veryLast       = rows.last();
-            veryFirstIndex = veryFirst.data('row-id') - 1;
-            veryLastIndex  = veryLast.data('row-id');
+            veryFirstIndex = veryFirst.data(id) - 1;
+            veryLastIndex  = veryLast.data(id);
             left           = veryFirstIndex;
             states         = ['success', 'normal'];
             state          = veryFirst.hasClass('success') ? states[0] : states[1];
@@ -70,7 +72,7 @@ jQuery(document).ready(function main() {
         /* Переопредеяем DOM */
         slices.forEach(function (slice) {
             var current,
-                last = $('#main-table').find('tbody').last();
+                last = $(main).find('tbody').last();
             if (slice.hasClass('success')) {
                 current = $('<tbody class="fifo"></tbody>');
                 slice.removeClass('success');
@@ -86,7 +88,7 @@ jQuery(document).ready(function main() {
         /* Читаем из backup, восстанавливаем DOM */
         table.replaceWith(body.data('main-table-backup'));
         /* Переопределяем ссылку на таблицу */
-        table = $('#main-table');
+        table = $(main);
         /* Пересохраняем backup */
         body.removeData('main-table-backup').data('main-table-backup', table.clone());
     });
@@ -94,8 +96,8 @@ jQuery(document).ready(function main() {
     $(document).on('mousedown', 'tbody tr:gt(0)', function (e) {
         var me      = $(this),
             success = $('tr.success'),
-            current = success.data('row-id'),
-            target  = me.data('row-id'),
+            current = success.data(id),
+            target  = me.data(id),
             first   = current,
             last    = target,
             delta;
@@ -110,7 +112,7 @@ jQuery(document).ready(function main() {
             }
             delta = last - first;
             for (var i = 0; i <= delta; i++) {
-                $('[data-row-id="' + (first + i) + '"]').addClass('success')
+                $('[data-' + id + '="' + (first + i) + '"]').addClass('success')
             }
         } else {
             if (me.hasClass('success')) {
