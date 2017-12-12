@@ -6,8 +6,8 @@
 /* jQuery */
 jQuery(document).ready(function main() {
     var body  = $('body'),
-        main  = '#main-table',
-        id    = 'row-id',
+        main  = '#tbodyForMainTable',
+        id    = 'rowid',
         table = $(main);
 
     /* Делаем backup */
@@ -20,7 +20,6 @@ jQuery(document).ready(function main() {
     $('#btn-1').on('click', function () {
         var veryFirst,
             veryLast,
-            veryFirstIndex,
             veryLastIndex,
             left,
             right,
@@ -31,13 +30,13 @@ jQuery(document).ready(function main() {
             rows   = table.find('tbody tr:gt(0)');
 
         if (rows.length > 1) {
-            veryFirst      = rows.first();
-            veryLast       = rows.last();
-            veryFirstIndex = veryFirst.data(id) - 1;
-            veryLastIndex  = veryLast.data(id);
-            left           = veryFirstIndex;
-            states         = ['success', 'normal'];
-            state          = veryFirst.hasClass('success') ? states[0] : states[1];
+            veryFirst     = rows.first();
+            veryLast      = rows.last();
+            left          = 0;
+            right         = Math.abs(veryLast.data(id) - veryFirst.data(id));
+            veryLastIndex = rows.length;
+            states        = ['success', 'normal'];
+            state         = veryFirst.hasClass('success') ? states[0] : states[1];
             /* Slicer */
             rows.each(function (index, element) {
                 /* Детерминированный конечный автомат */

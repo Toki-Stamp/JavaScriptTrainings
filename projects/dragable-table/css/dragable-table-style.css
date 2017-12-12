@@ -1,0 +1,48 @@
+tbody.blink {
+    animation: blink 500ms step-end infinite alternate;
+    outline: 3px solid rgb(100, 100, 100);
+    outline-offset: -2px;
+    cursor: pointer;
+    user-select: none;
+}
+
+tbody.fifo {
+    animation: fifo 1s infinite;
+    outline: 3px solid rgb(100, 100, 100);
+    outline-offset: -2px;
+    cursor: pointer;
+    user-select: none;
+}
+
+tbody.fifo tr:hover,
+tbody.blink tr:hover {
+    background-color: rgba(220, 220, 220, .5);
+    transition: 250ms all;
+}
+
+/* Анимации */
+@keyframes blink {
+    50% {
+        background: rgba(245, 245, 245, .4) repeating-linear-gradient(
+                -45deg,
+                transparent 0px,
+                rgba(170, 170, 170, .6) 1px,
+                transparent 2px,
+                transparent 8px);
+        box-shadow: inset 0 0 20px 0 rgb(120, 120, 120);
+        outline: 1px solid rgb(30, 30, 30);
+        outline-offset: -1px;
+    }
+}
+
+@keyframes fifo {
+    50% {
+        background: rgba(245, 245, 245, .6) repeating-linear-gradient(
+                -45deg,
+                transparent 0px,
+                rgba(170, 170, 170, .6) 1px,
+                transparent 2px,
+                transparent 5px);
+        box-shadow: inset 0 0 20px 0 rgb(120, 120, 120);
+    }
+}
