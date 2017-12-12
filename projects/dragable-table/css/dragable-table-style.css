@@ -1,4 +1,9 @@
-tbody.blink {
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#mainTable tbody.blink {
     animation: blink 500ms step-end infinite alternate;
     outline: 3px solid rgb(100, 100, 100);
     outline-offset: -2px;
@@ -6,7 +11,7 @@ tbody.blink {
     user-select: none;
 }
 
-tbody.fifo {
+#mainTable tbody.fifo {
     animation: fifo 1s infinite;
     outline: 3px solid rgb(100, 100, 100);
     outline-offset: -2px;
@@ -14,8 +19,8 @@ tbody.fifo {
     user-select: none;
 }
 
-tbody.fifo tr:hover,
-tbody.blink tr:hover {
+#mainTable tbody.fifo tr:hover,
+#mainTable tbody.blink tr:hover {
     background-color: rgba(220, 220, 220, .5);
     transition: 250ms all;
 }

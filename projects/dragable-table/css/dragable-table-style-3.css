@@ -51,51 +51,33 @@ table.tablesorter tbody tr.odd td {
 }
 
 .tableCont > div {
-    overflow-x: auto;
+    /*overflow-x: auto;*/
 }
 
-#tbodyForMainTable tr.rowPorch td {
+#mainTable tr.rowPorch td {
     background-color: rgb(250, 214, 175);
 }
 
-#tbodyForMainTable tr.rowFloor td {
+#mainTable tr.rowFloor td {
     background-color: rgb(245, 239, 228);
 }
 
-#tbodyForMainTable tr.rowIp td {
+#mainTable tr.rowIp td {
     background-color: rgb(239, 250, 208);
 }
 
-#tbodyForMainTable tr.rowOth td {
+#mainTable tr.rowOth td {
     background-color: rgb(255, 255, 255);
 }
 
-#tbodyForMainTable tr.clone td {
+#mainTable tr.clone td {
     background-color: rgb(255, 217, 231);
 }
 
-#tbodyForMainTable tr.success td {
+#mainTable tr.success td {
     background-color: rgb(208, 233, 198);
 }
 
-#tbodyForMainTable tr.alarmFloor td {
+#mainTable tr.alarmFloor td {
     background: repeating-linear-gradient(45deg, rgb(220, 167, 167), rgb(220, 167, 167) 7px, rgb(255, 255, 255) 7px, rgb(255, 255, 255) 14px);
-}
-
-/* blinking */
-
-/*@keyframes blink {*/
-/*50% {*/
-/*box-sizing: border-box;*/
-/*border: 2px solid rgb(169, 169, 169);*/
-/*}*/
-/*}*/
-/**/
-/*.blink {*/
-/*animation: blink .5s step-end infinite alternate;*/
-/*}*/
-
-.blink {
-    outline: 2px solid red;
-    outline-offset: -2px;
 }

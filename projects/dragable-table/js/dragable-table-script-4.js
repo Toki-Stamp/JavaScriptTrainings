@@ -6,7 +6,7 @@
 /* jQuery */
 jQuery(document).ready(function main() {
     var body  = $('body'),
-        main  = '#tbodyForMainTable',
+        main  = '#mainTable',
         id    = 'rowid',
         table = $(main);
 
