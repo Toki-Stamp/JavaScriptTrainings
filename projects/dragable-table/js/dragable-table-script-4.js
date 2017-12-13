@@ -5,37 +5,64 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var matrix = {
-        'root'    : {
-            'type'  : 'Корень',
-            'level' : 0,
+    var matrix      = {
+        'root':     {
+            'type':   'Корень',
+            'level':  0,
             'accept': [1, 2, 3, 4],
             'insert': false
         },
         'rowPorch': {
-            'type'  : 'Подъезд (секция)',
-            'level' : 1,
+            'type':   'Подъезд (секция)',
+            'level':  1,
             'accept': [2],
             'insert': [0]
         },
         'rowFloor': {
-            'type'  : 'Этаж',
-            'level' : 2,
+            'type':   'Этаж',
+            'level':  2,
             'accept': [3, 4],
             'insert': [0, 1]
         },
-        'rowIp'   : {
-            'type'  : 'Группа помещений / ИП / Жилое помещение / Помещение',
-            'level' : 3,
+        'rowIp':    {
+            'type':   'Группа помещений / ИП / Жилое помещение / Помещение',
+            'level':  3,
             'accept': [4],
             'insert': [0, 2]
         },
-        'rowOth'  : {
-            'type'  : 'Помещение',
-            'level' : 4,
+        'rowOth':   {
+            'type':   'Помещение',
+            'level':  4,
             'accept': false,
             'insert': [0, 2, 3]
         }
+    };
+    var getClasses  = function (element) {
+        return element.className.trim().split(/\s+/);
+    };
+    var siftClasses = function (classes) {
+        var item,
+            i,
+            length = classes.length;
+        if ($.isArray(classes)) {
+            for (i = 0; i < length; i += 1) {
+                item = classes[i];
+                if (Object.keys(matrix).indexOf(item) >= 0) {
+                    return item;
+                }
+            }
+        }
+    };
+    var getValue    = function (element, key) {
+        return matrix[siftClasses(getClasses(element))][key];
+    };
+    var printInfo     = function (element) {
+        console.log(
+            'type:', '"' + getValue(element, 'type') + '"',
+            'level:', getValue(element, 'level'),
+            'accept:', getValue(element, 'accept'),
+            'insert:', getValue(element, 'insert')
+        );
     };
 
     var body      = $('body'),
@@ -66,7 +93,13 @@ jQuery(document).ready(function main() {
 
         if (rows.length > 1) {
             /* --- */
-            var rowsSuccess = rows.filter('.success');
+            var success = rows.filter('.success');
+            /* expand */
+            success.each(function (index, element) {
+                var $element = $(element);
+                console.log('index', index, 'row-id', $element.data(id), 'classes', getClasses(element));
+                printInfo(element);
+            });
             /* --- */
             veryFirst     = rows.first();
             veryLast      = rows.last();
