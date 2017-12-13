@@ -1,9 +1,40 @@
+/* Общие */
+body {
+    font-family: 'Custom Font', monospace;
+}
+
+.custom-font {
+    font-family: 'Custom Font', monospace;
+}
+
+@font-face {
+    font-family: 'Custom Font';
+    src: url('../font/UbuntuMono-Regular.ttf') format('truetype');
+}
+
+/* Таблицы */
 table {
     border-collapse: collapse;
     width: 100%;
 }
 
-#mainTable tbody.blink {
+th, td {
+    height: 3em;
+    width: 5em;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+table, th, td {
+    border: 1px solid gray;
+}
+
+tr {
+    transition: 250ms all;
+}
+
+tbody.blink {
     animation: blink 500ms step-end infinite alternate;
     outline: 3px solid rgb(100, 100, 100);
     outline-offset: -2px;
@@ -11,7 +42,7 @@ table {
     user-select: none;
 }
 
-#mainTable tbody.fifo {
+tbody.fifo {
     animation: fifo 1s infinite;
     outline: 3px solid rgb(100, 100, 100);
     outline-offset: -2px;
@@ -19,10 +50,38 @@ table {
     user-select: none;
 }
 
-#mainTable tbody.fifo tr:hover,
-#mainTable tbody.blink tr:hover {
+tbody tr.total {
+    background-color: rgba(138, 43, 226, .2);
+}
+
+tbody tr:not(.total):hover {
+    background-color: rgba(225, 255, 255, .6);
+    transition: 250ms all;
+}
+
+tbody.fifo tr:hover,
+tbody.blink tr:hover {
     background-color: rgba(220, 220, 220, .5);
     transition: 250ms all;
+}
+
+thead tr,
+tfoot tr {
+    background-color: rgba(255, 182, 193, .3);
+    transition: 250ms;
+}
+
+tbody > tr > td.success,
+tbody > tr.success > td {
+    background-color: rgb(223, 240, 216);
+    transition: 250ms;
+}
+
+tbody > tr > td.success:hover,
+tbody > tr.success:hover > td,
+tbody > tr:hover > .success {
+    background-color: rgb(208, 233, 198);
+    transition: 250ms;
 }
 
 /* Анимации */

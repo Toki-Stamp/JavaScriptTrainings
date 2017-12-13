@@ -5,10 +5,44 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var body  = $('body'),
-        main  = '#mainTable',
-        id    = 'rowid',
-        table = $(main);
+    var matrix = {
+        'root'    : {
+            'type'  : 'Корень',
+            'level' : 0,
+            'accept': [1, 2, 3, 4],
+            'insert': false
+        },
+        'rowPorch': {
+            'type'  : 'Подъезд (секция)',
+            'level' : 1,
+            'accept': [2],
+            'insert': [0]
+        },
+        'rowFloor': {
+            'type'  : 'Этаж',
+            'level' : 2,
+            'accept': [3, 4],
+            'insert': [0, 1]
+        },
+        'rowIp'   : {
+            'type'  : 'Группа помещений / ИП / Жилое помещение / Помещение',
+            'level' : 3,
+            'accept': [4],
+            'insert': [0, 2]
+        },
+        'rowOth'  : {
+            'type'  : 'Помещение',
+            'level' : 4,
+            'accept': false,
+            'insert': [0, 2, 3]
+        }
+    };
+
+    var body      = $('body'),
+        main      = '#main-table',
+        id        = 'row-id',
+        table     = $(main),
+        animation = 'fifo'; // fifo / blink / blink-frame
 
     /* Делаем backup */
     if (body.data('main-table-backup')) {
@@ -17,6 +51,7 @@ jQuery(document).ready(function main() {
         body.data('main-table-backup', table.clone());
     }
 
+    /* Запустить скрипт */
     $('#btn-1').on('click', function () {
         var veryFirst,
             veryLast,
@@ -30,6 +65,9 @@ jQuery(document).ready(function main() {
             rows   = table.find('tbody tr:gt(0)');
 
         if (rows.length > 1) {
+            /* --- */
+            var rowsSuccess = rows.filter('.success');
+            /* --- */
             veryFirst     = rows.first();
             veryLast      = rows.last();
             left          = 0;
@@ -73,8 +111,8 @@ jQuery(document).ready(function main() {
             var current,
                 last = $(main).find('tbody').last();
             if (slice.hasClass('success')) {
-                current = $('<tbody class="fifo"></tbody>');
-                slice.removeClass('success');
+                current = $('<tbody class="' + animation + '"></tbody>');
+                slice.removeClass();
             } else {
                 current = $('<tbody></tbody>');
             }
@@ -83,6 +121,7 @@ jQuery(document).ready(function main() {
         });
     });
 
+    /* Откатить назад */
     $('#btn-2').on('click', function () {
         /* Читаем из backup, восстанавливаем DOM */
         table.replaceWith(body.data('main-table-backup'));
@@ -92,7 +131,13 @@ jQuery(document).ready(function main() {
         body.removeData('main-table-backup').data('main-table-backup', table.clone());
     });
 
-    $(document).on('mousedown', 'tbody tr:gt(0)', function (e) {
+    /* Обновить страницу */
+    $('#btn-3').on('click', function () {
+        window.location.reload();
+    });
+
+    /* Выделение строк талицы */
+    $(document).on('mousedown', 'tbody:not(.' + animation + ') tr:gt(0)', function (e) {
         var me      = $(this),
             success = $('tr.success'),
             current = success.data(id),
@@ -100,6 +145,9 @@ jQuery(document).ready(function main() {
             first   = current,
             last    = target,
             delta;
+        if (me.parent().hasClass(animation)) {
+            console.log('return false');
+        }
         if (!e.ctrlKey && !e.shiftKey) {
             success.removeClass('success');
         }
@@ -121,4 +169,11 @@ jQuery(document).ready(function main() {
             }
         }
     });
+
+    $(document).on('mousedown', 'tbody.fifo tr', function (e) {
+        console.log(e);
+        console.log(this);
+        console.log($(this));
+    });
+
 });

@@ -5,7 +5,6 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    "use strict";
     var target      = $('#tbodyForMainTable'),
         status      = $('#status');
     var matrix      = {

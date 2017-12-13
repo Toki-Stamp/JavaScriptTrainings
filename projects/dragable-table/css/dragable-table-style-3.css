@@ -50,10 +50,6 @@ table.tablesorter tbody tr.odd td {
     width: 100%;
 }
 
-.tableCont > div {
-    /*overflow-x: auto;*/
-}
-
 #mainTable tr.rowPorch td {
     background-color: rgb(250, 214, 175);
 }
