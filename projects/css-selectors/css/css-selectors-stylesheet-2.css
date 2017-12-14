@@ -1,0 +1,162 @@
+/* Таблица */
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    cursor: pointer;
+    margin: auto;
+    user-select: none;
+    font-family: "Consolas", monospace;
+    font-size: 14px;
+}
+
+th, td {
+    height: 1.3em;
+    width: 4em;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+tr {
+    transition: 500ms all;
+}
+
+td {
+    color: lightgray;
+}
+
+table, th, td {
+    border: 1px solid gray;
+}
+
+table > tbody tr:not(.success):hover,
+table > tbody tr:not(.success):hover td {
+    background-color: rgba(200, 200, 200, .5);
+    color: white;
+    transition: 500ms all;
+}
+
+table > thead,
+table > tfoot {
+    background-color: rgb(42, 171, 210);
+    font-weight: bold;
+    color: white;
+}
+
+table > tbody tr.level-1 > td:nth-child(1) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(255, 0, 0, .1);
+    color: red;
+}
+
+table > tbody tr.level-2 > td:nth-child(2) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(0, 128, 0, .1);
+    color: green;
+}
+
+table > tbody tr.level-3 > td:nth-child(3) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(0, 0, 255, .1);
+    color: blue;
+}
+
+table > tbody tr.level-4 > td:nth-child(4) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(255, 165, 0, .1);
+    color: orange;
+}
+
+table > tbody tr.level-1 > td:nth-child(1) ~ td,
+table > tbody tr.level-2 > td:nth-child(1),
+table > tbody tr.level-3 > td:nth-child(1),
+table > tbody tr.level-4 > td:nth-child(1) {
+    background-color: rgba(255, 0, 0, .1);
+}
+
+table > tbody tr.level-2 > td:nth-child(2) ~ td,
+table > tbody tr.level-3 > td:nth-child(2),
+table > tbody tr.level-4 > td:nth-child(2) {
+    background-color: rgba(0, 128, 0, .1);
+}
+
+table > tbody tr.level-3 > td:nth-child(3) ~ td,
+table > tbody tr.level-4 > td:nth-child(3) {
+    background-color: rgba(0, 0, 255, .1);
+}
+
+table > tbody tr.level-4 > td:nth-child(4) ~ td {
+    background-color: rgba(255, 165, 0, .1);
+}
+
+/* Выделение */
+
+tbody > tr.selected > td {
+    transition: 500ms all;
+}
+
+tbody > tr.level-1.selected > td,
+tbody > tr.level-2.selected > td:nth-child(1),
+tbody > tr.level-3.selected > td:nth-child(1),
+tbody > tr.level-4.selected > td:nth-child(1) {
+    background-color: rgba(255, 0, 0, .4) !important;
+}
+
+tbody > tr.level-2.selected > td,
+tbody > tr.level-3.selected > td:nth-child(2),
+tbody > tr.level-4.selected > td:nth-child(2) {
+    background-color: rgba(0, 128, 0, .4) !important;
+}
+
+tbody > tr.level-3.selected > td,
+tbody > tr.level-4.selected > td:nth-child(3) {
+    background-color: rgba(0, 0, 255, .4) !important;
+}
+
+tbody > tr.level-4.selected > td {
+    background-color: rgba(255, 165, 0, .4) !important;
+}
+
+/* Подсказка */
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 500ms;
+    width: 240px;
+    background-color: deeppink;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 50%;
+    margin-left: -120px;
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-bottom-color: deeppink;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 500ms;
+}
