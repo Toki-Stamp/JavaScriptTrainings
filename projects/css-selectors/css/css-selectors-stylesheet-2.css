@@ -19,7 +19,7 @@ th, td {
 }
 
 tr {
-    transition: 500ms all;
+    transition: 500ms background-color, 500ms color;
 }
 
 td {
@@ -30,11 +30,11 @@ table, th, td {
     border: 1px solid gray;
 }
 
-table > tbody tr:not(.success):hover,
-table > tbody tr:not(.success):hover td {
+table > tbody tr:not(.selected):hover,
+table > tbody tr:not(.selected):hover td {
     background-color: rgba(200, 200, 200, .5);
     color: white;
-    transition: 500ms all;
+    transition: 500ms background-color, 500ms color;
 }
 
 table > thead,
@@ -96,10 +96,6 @@ table > tbody tr.level-4 > td:nth-child(4) ~ td {
 
 /* Выделение */
 
-tbody > tr.selected > td {
-    transition: 500ms all;
-}
-
 tbody > tr.level-1.selected > td,
 tbody > tr.level-2.selected > td:nth-child(1),
 tbody > tr.level-3.selected > td:nth-child(1),
@@ -120,6 +116,37 @@ tbody > tr.level-4.selected > td:nth-child(3) {
 
 tbody > tr.level-4.selected > td {
     background-color: rgba(255, 165, 0, .4) !important;
+}
+
+/* Групповое выделение */
+
+tbody > tr.selected {
+    transition: 500ms background-color, 500ms color;
+    box-shadow: /* top */ inset 0 4px 0 0 black,
+        /* left */ inset 4px 0 0 0 black,
+        /* right */ inset -3px 0 0 0 black;
+}
+
+tbody > tr.selected + tr.selected {
+    box-shadow: /* left */ inset 4px 0 0 0 black,
+        /* right */ inset -3px 0 0 0 black;
+}
+
+tbody > tr.selected + tr:last-child.selected {
+    box-shadow: /* left */ inset 4px 0 0 0 black,
+        /* right */ inset -3px 0 0 0 black,
+        /* bottom */ inset 0 -4px 0 0 black;
+}
+
+tbody > tr.selected + tr:not(.selected) {
+    box-shadow: /* top */ 0 -3px 0 0 black;
+}
+
+tbody > tr:last-child.selected {
+    box-shadow: /* top */ inset 0 4px 0 0 black,
+        /* left */ inset 4px 0 0 0 black,
+        /* right */ inset -3px 0 0 0 black,
+        /* bottom */ inset 0 -4px 0 0 black;
 }
 
 /* Подсказка */

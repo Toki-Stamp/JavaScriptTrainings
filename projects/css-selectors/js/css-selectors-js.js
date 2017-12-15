@@ -6,35 +6,40 @@
 /* jQuery */
 jQuery(document).ready(function main() {
     var matrix      = {
-        'root'    : {
-            'type'  : 'Корень',
-            'level' : 0,
-            'accept': [1, 2, 3, 4],
-            'insert': false
+        'level-0': {
+            'level'      : 0,
+            'ancestors'  : false,
+            'parent'     : false,
+            'children'   : [1, 2, 3, 4],
+            'insert-rule': false
         },
-        'rowPorch': {
-            'type'  : 'Подъезд (секция)',
-            'level' : 1,
-            'accept': [2],
-            'insert': [0]
+        'level-1': {
+            'level'      : 1,
+            'ancestors'  : 0,
+            'parent'     : 0,
+            'children'   : [2, 3, 4],
+            'insert-rule': 0
         },
-        'rowFloor': {
-            'type'  : 'Этаж',
-            'level' : 2,
-            'accept': [3, 4],
-            'insert': [0, 1]
+        'level-2': {
+            'level'      : 2,
+            'ancestors'  : [0, 1],
+            'parent'     : 1,
+            'children'   : [3, 4],
+            'insert-rule': [0, 1]
         },
-        'rowIp'   : {
-            'type'  : 'Группа помещений / ИП / Жилое помещение / Помещение',
-            'level' : 3,
-            'accept': [4],
-            'insert': [0, 2]
+        'level-3': {
+            'level'      : 3,
+            'ancestors'  : [0, 1, 2],
+            'parent'     : 2,
+            'children'   : 4,
+            'insert-rule': [0, 2]
         },
-        'rowOth'  : {
-            'type'  : 'Помещение',
-            'level' : 4,
-            'accept': false,
-            'insert': [0, 2, 3]
+        'level-4': {
+            'level'      : 4,
+            'ancestors'  : [0, 1, 2, 3],
+            'parent'     : 3,
+            'children'   : false,
+            'insert-rule': [0, 2, 3]
         }
     };
     var getClasses  = function (element) {
@@ -53,24 +58,13 @@ jQuery(document).ready(function main() {
             }
         }
     };
-    var getValue    = function (element, key) {
-        return matrix[siftClasses(getClasses(element))][key];
-    };
-    var printInfo   = function (element) {
-        console.log(
-            'type:', '"' + getValue(element, 'type') + '"',
-            'level:', getValue(element, 'level'),
-            'accept:', getValue(element, 'accept'),
-            'insert:', getValue(element, 'insert')
-        );
-    };
 
     /* Выделение строк талицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
         var me       = $(this),
             selected = $('table tbody > tr.selected'),
-            current  = (selected.length ? (selected[0].rowIndex - 1) : 0),
-            target   = me[0].rowIndex,
+            current  = (selected.length ? (selected.index()) : 0),
+            target   = (me.index() + 1),
             first    = current,
             last     = target;
         if (!e.ctrlKey && !e.shiftKey) {
@@ -103,6 +97,27 @@ jQuery(document).ready(function main() {
     });
 
     $(document).on('mousedown', 'table thead > tr', function () {
-        console.log('click on thead!');
+        var selected = $('table tbody > tr.selected'),
+            indexes  = {};
+
+        // console.log('selected', selected);
+        selected.each(function () {
+            /* Получаем индекс текущего элемента */
+            var me    = $(this);
+            var index = me.index();
+            /* Заполняем объект индексов tr.selected */
+            if (!(index in indexes)) {
+                indexes[index] = 'selected';
+                /* Получаем класс выделенного элемента */
+                var thisClass = siftClasses(getClasses(this));
+                console.log('class', ':', thisClass, 'typeof', typeof thisClass);
+                /* Получаем уровень выделенного элемента по его классу */
+                var thisLevel = matrix[thisClass].level;
+                console.log('level', ':', thisLevel, 'typeof', typeof thisLevel);
+                /* Получаем промежуток до ближайшего равного либо большего уровня */
+                var span = me.nextUntil('tr.' + thisLevel);
+            }
+        });
+        /* Expand (расширяем) выделение со всеми вложенными элементами */
     })
 });
