@@ -120,29 +120,29 @@ tbody > tr.level-4.selected > td {
 
 /* Групповое выделение */
 
-tbody > tr.selected {
+tbody > tr.group {
     transition: 500ms background-color, 500ms color;
     box-shadow: /* top */ inset 0 4px 0 0 black,
         /* left */ inset 4px 0 0 0 black,
         /* right */ inset -3px 0 0 0 black;
 }
 
-tbody > tr.selected + tr.selected {
+tbody > tr.group + tr.group {
     box-shadow: /* left */ inset 4px 0 0 0 black,
         /* right */ inset -3px 0 0 0 black;
 }
 
-tbody > tr.selected + tr:last-child.selected {
+tbody > tr.group + tr:last-child.group {
     box-shadow: /* left */ inset 4px 0 0 0 black,
         /* right */ inset -3px 0 0 0 black,
         /* bottom */ inset 0 -4px 0 0 black;
 }
 
-tbody > tr.selected + tr:not(.selected) {
+tbody > tr.group + tr:not(.group) {
     box-shadow: /* top */ 0 -3px 0 0 black;
 }
 
-tbody > tr:last-child.selected {
+tbody > tr:last-child.group {
     box-shadow: /* top */ inset 0 4px 0 0 black,
         /* left */ inset 4px 0 0 0 black,
         /* right */ inset -3px 0 0 0 black,

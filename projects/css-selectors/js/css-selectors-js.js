@@ -7,39 +7,29 @@
 jQuery(document).ready(function main() {
     var matrix      = {
         'level-0': {
-            'level'      : 0,
-            'ancestors'  : false,
-            'parent'     : false,
-            'children'   : [1, 2, 3, 4],
+            'parent':      false,
+            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'level'      : 1,
-            'ancestors'  : 0,
-            'parent'     : 0,
-            'children'   : [2, 3, 4],
-            'insert-rule': 0
+            'parent':      ['level-0'],
+            'children':    ['level-2', 'level-3', 'level-4'],
+            'insert-rule': ['level-0']
         },
         'level-2': {
-            'level'      : 2,
-            'ancestors'  : [0, 1],
-            'parent'     : 1,
-            'children'   : [3, 4],
-            'insert-rule': [0, 1]
+            'parent':      ['level-1'],
+            'children':    ['level-3', 'level-4'],
+            'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'level'      : 3,
-            'ancestors'  : [0, 1, 2],
-            'parent'     : 2,
-            'children'   : 4,
-            'insert-rule': [0, 2]
+            'parent':      ['level-2'],
+            'children':    ['level-4'],
+            'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'level'      : 4,
-            'ancestors'  : [0, 1, 2, 3],
-            'parent'     : 3,
-            'children'   : false,
-            'insert-rule': [0, 2, 3]
+            'parent':      ['level-3'],
+            'children':    false,
+            'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
     var getClasses  = function (element) {
@@ -90,12 +80,6 @@ jQuery(document).ready(function main() {
         }
     });
 
-    $(document).on('mousedown', function (e) {
-        if (['tr', 'th', 'td'].indexOf(e.target.tagName.toLowerCase()) === -1) {
-            $('table tbody > tr.selected').removeClass('selected');
-        }
-    });
-
     $(document).on('mousedown', 'table thead > tr', function () {
         var selected = $('table tbody > tr.selected'),
             indexes  = {};
@@ -110,12 +94,16 @@ jQuery(document).ready(function main() {
                 indexes[index] = 'selected';
                 /* Получаем класс выделенного элемента */
                 var thisClass = siftClasses(getClasses(this));
-                console.log('class', ':', thisClass, 'typeof', typeof thisClass);
-                /* Получаем уровень выделенного элемента по его классу */
-                var thisLevel = matrix[thisClass].level;
-                console.log('level', ':', thisLevel, 'typeof', typeof thisLevel);
-                /* Получаем промежуток до ближайшего равного либо большего уровня */
-                var span = me.nextUntil('tr.' + thisLevel);
+                /* Получаем ближайший элемент равного уровня */
+                var nextEqual = me.nextUntil('tr.' + thisClass);
+                /* Получаем индекс ближайшего элемента равного уровня */
+                var nextEqualIndex = nextEqual.index();
+                /* Получаем класс предка элемента выделенного элемента */
+                var parentClass = matrix[thisClass].parent;
+                /* Получаем ближайшего предка элемента ыф*/
+                var nextParent = me.nextUntil('tr.' + parentClass);
+                /* Получаем индекс предка элемента выделенного элемента */
+                var nextParentIndex = nextParent.index();
             }
         });
         /* Expand (расширяем) выделение со всеми вложенными элементами */
