@@ -7,28 +7,28 @@
 jQuery(document).ready(function main() {
     var matrix      = {
         'level-0': {
-            'parent':      false,
-            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
+            'parents'    : false,
+            'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'parent':      ['level-0'],
-            'children':    ['level-2', 'level-3', 'level-4'],
+            'parents'    : ['level-0'],
+            'children'   : ['level-2', 'level-3', 'level-4'],
             'insert-rule': ['level-0']
         },
         'level-2': {
-            'parent':      ['level-1'],
-            'children':    ['level-3', 'level-4'],
+            'parents'    : ['level-1'],
+            'children'   : ['level-3', 'level-4'],
             'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'parent':      ['level-2'],
-            'children':    ['level-4'],
+            'parents'    : ['level-2', 'level-1'],
+            'children'   : ['level-4'],
             'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'parent':      ['level-3'],
-            'children':    false,
+            'parents'    : ['level-3', 'level-2', 'level-1'],
+            'children'   : false,
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
@@ -58,7 +58,7 @@ jQuery(document).ready(function main() {
             first    = current,
             last     = target;
         if (!e.ctrlKey && !e.shiftKey) {
-            selected.removeClass('selected');
+            selected.removeClass('selected group');
         }
         if (e.shiftKey) {
             e.preventDefault();
@@ -82,30 +82,103 @@ jQuery(document).ready(function main() {
 
     $(document).on('mousedown', 'table thead > tr', function () {
         var selected = $('table tbody > tr.selected'),
-            indexes  = {};
-
-        // console.log('selected', selected);
+            rows     = $('table tbody > tr'),
+            indexes  = {},
+            me,
+            index,
+            lastIndex,
+            last,
+            thisClass,
+            equalSpan,
+            equal,
+            equalIndex,
+            parents,
+            parent,
+            parentSpan,
+            parentIndex;
         selected.each(function () {
             /* Получаем индекс текущего элемента */
-            var me    = $(this);
-            var index = me.index();
+            me    = $(this);
+            index = me.index();
             /* Заполняем объект индексов tr.selected */
             if (!(index in indexes)) {
                 indexes[index] = 'selected';
                 /* Получаем класс выделенного элемента */
-                var thisClass = siftClasses(getClasses(this));
-                /* Получаем ближайший элемент равного уровня */
-                var nextEqual = me.nextUntil('tr.' + thisClass);
-                /* Получаем индекс ближайшего элемента равного уровня */
-                var nextEqualIndex = nextEqual.index();
-                /* Получаем класс предка элемента выделенного элемента */
-                var parentClass = matrix[thisClass].parent;
-                /* Получаем ближайшего предка элемента ыф*/
-                var nextParent = me.nextUntil('tr.' + parentClass);
-                /* Получаем индекс предка элемента выделенного элемента */
-                var nextParentIndex = nextParent.index();
+                thisClass = siftClasses(getClasses(this));
+                /* Есть ли дети? */
+                if (matrix[thisClass].children) {
+                    /* Получаем ближайший элемент равного уровня */
+                    equal = me.next();
+                    last  = equal;
+                    /* Получаем индекс ближайшего элемента равного уровня */
+                    equalIndex = equal.index();
+                    /* Определение крайнего индекса */
+                    lastIndex = equalIndex;
+                    if (!equal.hasClass(thisClass)) {
+                        equalSpan = me.nextUntil('tr.' + thisClass);
+                        /* Получаем ближайший элемент равного уровня */
+                        equal = equalSpan.last().next();
+                        if (equal.length) {
+                            last = equal;
+                            /* Определение крайнего индекса */
+                            equalIndex = equal.index();
+                            /* Получаем индекс ближайшего элемента равного уровня */
+                            lastIndex = equalIndex;
+                            /* Получаем предков элемента выделенного элемента */
+                            parents = matrix[thisClass].parents;
+                            if (parents && $.isArray(parents)) {
+                                /* Перебор всех предков */
+                                parents.forEach(function (parentClass) {
+                                    if (parentClass !== 'level-0') {
+                                        /* Получаем ближайший элемент предка */
+                                        parent = me.next();
+                                        /* Получаем индекс предка элемента выделенного элемента */
+                                        parentIndex = parent.index();
+                                        if (!parent.hasClass(parentClass)) {
+                                            parentSpan  = me.nextUntil('tr.' + parentClass);
+                                            parent      = parentSpan.last().next();
+                                            parentIndex = parent.index();
+                                        }
+                                        if ((-1 !== parentIndex) && (parentIndex < lastIndex)) {
+                                            /* Определение крайнего индекса, что из них дальше? */
+                                            last      = (equalIndex > parentIndex) ? parent : equal;
+                                            lastIndex = (equalIndex > parentIndex) ? parentIndex : equalIndex;
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            /* Граничная ситуация !!! */
+                            last      = rows.last();
+                            lastIndex = last.index() + 1;
+                        }
+                    }
+                    /* Expand (расширяем) выделение со всеми вложенными элементами */
+                    console.log('Expand (расширяем) выделение со всеми вложенными элементами');
+                    var expand = rows.slice(index, lastIndex);
+                    if (lastIndex === rows.length) {
+                        expand = expand.add(rows.last());
+                    }
+                    expand.each(function () {
+                        indexes[$(this).index()] = 'selected';
+                    });
+                }
+                console.log(
+                    ' this-index', index, 'this', this, '\n',
+                    'equal-index', equalIndex, 'equal', (equal ? equal.get(0) : undefined), '\n',
+                    'parent-index', parentIndex, 'parent', (parent ? parent.get(0) : undefined), '\n',
+                    'last-index', lastIndex, 'last', (last ? last.get(0) : undefined), '\n',
+                    '--------------------------------------------------------------------');
             }
         });
-        /* Expand (расширяем) выделение со всеми вложенными элементами */
+        console.log('indexes', indexes);
+        /* Общее выделение */
+        Object.keys(indexes).forEach(function (index) {
+            var item = rows.eq(index);
+            if (!item.hasClass('selected')) {
+                item.addClass('selected');
+            }
+            item.addClass('group');
+        });
     })
 });
