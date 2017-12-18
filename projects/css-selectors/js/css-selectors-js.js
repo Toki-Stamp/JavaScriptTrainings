@@ -73,7 +73,7 @@ jQuery(document).ready(function main() {
             }
         } else {
             if (me.hasClass('selected')) {
-                me.removeClass('selected');
+                me.removeClass('selected group');
             } else {
                 me.addClass('selected');
             }
