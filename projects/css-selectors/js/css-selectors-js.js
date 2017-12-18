@@ -7,28 +7,28 @@
 jQuery(document).ready(function main() {
     var matrix      = {
         'level-0': {
-            'parents'    : false,
-            'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
+            'parents':     false,
+            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'parents'    : ['level-0'],
-            'children'   : ['level-2', 'level-3', 'level-4'],
+            'parents':     ['level-0'],
+            'children':    ['level-2', 'level-3', 'level-4'],
             'insert-rule': ['level-0']
         },
         'level-2': {
-            'parents'    : ['level-1'],
-            'children'   : ['level-3', 'level-4'],
+            'parents':     ['level-1'],
+            'children':    ['level-3', 'level-4'],
             'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'parents'    : ['level-2', 'level-1'],
-            'children'   : ['level-4'],
+            'parents':     ['level-2', 'level-1'],
+            'children':    ['level-4'],
             'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'parents'    : ['level-3', 'level-2', 'level-1'],
-            'children'   : false,
+            'parents':     ['level-3', 'level-2', 'level-1'],
+            'children':    false,
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
@@ -48,6 +48,7 @@ jQuery(document).ready(function main() {
             }
         }
     };
+    var blink;
 
     /* Выделение строк талицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
@@ -95,7 +96,8 @@ jQuery(document).ready(function main() {
             parents,
             parent,
             parentSpan,
-            parentIndex;
+            parentIndex,
+            expand;
         selected.each(function () {
             /* Получаем индекс текущего элемента */
             me    = $(this);
@@ -155,7 +157,7 @@ jQuery(document).ready(function main() {
                     }
                     /* Expand (расширяем) выделение со всеми вложенными элементами */
                     console.log('Expand (расширяем) выделение со всеми вложенными элементами');
-                    var expand = rows.slice(index, lastIndex);
+                    expand = rows.slice(index, lastIndex);
                     if (lastIndex === rows.length) {
                         expand = expand.add(rows.last());
                     }
@@ -180,5 +182,15 @@ jQuery(document).ready(function main() {
             }
             item.addClass('group');
         });
-    })
+        blink = setInterval(function () {
+            $('table tbody > tr.selected').toggleClass('group');
+        }, 750);
+    });
+
+    $(document).on('mousedown', function (e) {
+        if (['tr', 'th', 'td'].indexOf(e.target.tagName.toLowerCase()) === -1) {
+            clearInterval(blink);
+            $('table tbody > tr.selected').removeClass('selected group');
+        }
+    });
 });
