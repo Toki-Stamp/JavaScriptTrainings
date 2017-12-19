@@ -31,111 +31,122 @@ table, th, td {
 
 table > thead,
 table > tfoot {
-    background-color: rgb(174, 114, 210);
+    background-color: rgba(126, 189, 210, .5);
     font-weight: bold;
     color: white;
 }
 
-table > tbody tr.level-1 > td:nth-child(1) {
+tr.level-1 > td:nth-child(1) {
     text-transform: uppercase;
     font-weight: bold;
     background-color: rgba(255, 0, 0, .1);
     color: red;
 }
 
-table > tbody tr.level-2 > td:nth-child(2) {
+tr.level-2 > td:nth-child(2) {
     text-transform: uppercase;
     font-weight: bold;
     background-color: rgba(0, 128, 0, .1);
     color: green;
 }
 
-table > tbody tr.level-3 > td:nth-child(3) {
+tr.level-3 > td:nth-child(3) {
     text-transform: uppercase;
     font-weight: bold;
     background-color: rgba(0, 0, 255, .1);
     color: blue;
 }
 
-table > tbody tr.level-4 > td:nth-child(4) {
+tr.level-4 > td:nth-child(4) {
     text-transform: uppercase;
     font-weight: bold;
     background-color: rgba(255, 165, 0, .1);
     color: orange;
 }
 
-table > tbody tr.level-1 > td:nth-child(1) ~ td,
-table > tbody tr.level-2 > td:nth-child(1),
-table > tbody tr.level-3 > td:nth-child(1),
-table > tbody tr.level-4 > td:nth-child(1) {
+tr.level-1 > td:nth-child(1) ~ td,
+tr.level-2 > td:nth-child(1),
+tr.level-3 > td:nth-child(1),
+tr.level-4 > td:nth-child(1) {
     background-color: rgba(255, 0, 0, .1);
 }
 
-table > tbody tr.level-2 > td:nth-child(2) ~ td,
-table > tbody tr.level-3 > td:nth-child(2),
-table > tbody tr.level-4 > td:nth-child(2) {
+tr.level-2 > td:nth-child(2) ~ td,
+tr.level-3 > td:nth-child(2),
+tr.level-4 > td:nth-child(2) {
     background-color: rgba(0, 128, 0, .1);
 }
 
-table > tbody tr.level-3 > td:nth-child(3) ~ td,
-table > tbody tr.level-4 > td:nth-child(3) {
+tr.level-3 > td:nth-child(3) ~ td,
+tr.level-4 > td:nth-child(3) {
     background-color: rgba(0, 0, 255, .1);
 }
 
-table > tbody tr.level-4 > td:nth-child(4) ~ td {
+tr.level-4 > td:nth-child(4) ~ td {
     background-color: rgba(255, 165, 0, .1);
 }
 
 /* Выделение */
 
-tbody > tr.level-1.selected > td,
-tbody > tr.level-2.selected > td:nth-child(1),
-tbody > tr.level-3.selected > td:nth-child(1),
-tbody > tr.level-4.selected > td:nth-child(1) {
+tr.selected {
+    cursor: -webkit-grab;
+}
+
+tr.level-1.selected > td,
+tr.level-2.selected > td:nth-child(1),
+tr.level-3.selected > td:nth-child(1),
+tr.level-4.selected > td:nth-child(1) {
     background-color: rgba(255, 0, 0, .4) !important;
 }
 
-tbody > tr.level-2.selected > td,
-tbody > tr.level-3.selected > td:nth-child(2),
-tbody > tr.level-4.selected > td:nth-child(2) {
+tr.level-2.selected > td,
+tr.level-3.selected > td:nth-child(2),
+tr.level-4.selected > td:nth-child(2) {
     background-color: rgba(0, 128, 0, .4) !important;
 }
 
-tbody > tr.level-3.selected > td,
-tbody > tr.level-4.selected > td:nth-child(3) {
+tr.level-3.selected > td,
+tr.level-4.selected > td:nth-child(3) {
     background-color: rgba(0, 0, 255, .4) !important;
 }
 
-tbody > tr.level-4.selected > td {
+tr.level-4.selected > td {
     background-color: rgba(255, 165, 0, .4) !important;
 }
 
 /* Групповое выделение */
 
-tbody > tr.group {
-    transition: 500ms background-color;
-    /*background-color: rgb(170, 170, 170);*/
+tr.fifo {
+    background-color: rgb(220, 220, 220);
+}
+
+tr.border {
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
 }
 
-tbody > tr.group + tr.group {
+tr.border td, tr.fifo td, tr.selected td {
+    transition: opacity 500ms;
+    border: 1px solid rgba(128, 128, 128, .2);
+}
+
+tr.border + tr.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
 }
 
-tbody > tr.group + tr:last-child.group {
+tr.border + tr:last-child.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
 }
 
-tbody > tr.group + tr:not(.group) {
+tr.border + tr:not(.border) {
     box-shadow: /* top */ 0 -3px 0 0 black;
 }
 
-tbody > tr:last-child.group {
+tr:last-child.border {
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black,
@@ -166,10 +177,33 @@ tr.insert-here:hover {
             transparent 8px);
 }
 
+tr.insert-here td {
+    border: 1px solid rgb(0, 170, 0);
+}
+
 /* Место недоступное для вставки */
 
-tr.not-insertable {
+tr.unable-to-insert td {
+    transition: opacity 500ms;
     cursor: not-allowed;
+    opacity: .3;
+    /*border: 1px solid rgba(128, 128, 128, .4);*/
+}
+
+tr.unable-to-insert td:first-child {
+    border-right: 1px solid rgba(128, 128, 128, .2);
+    border-top: 1px solid rgba(128, 128, 128, .2);
+    border-bottom: 1px solid rgba(128, 128, 128, .2);
+}
+
+tr.unable-to-insert td + td:not(:last-of-type) {
+    border: 1px solid rgba(128, 128, 128, .2);
+}
+
+tr.unable-to-insert td:last-of-type {
+    border-left: 1px solid rgba(128, 128, 128, .2);
+    border-top: 1px solid rgba(128, 128, 128, .2);
+    border-bottom: 1px solid rgba(128, 128, 128, .2);
 }
 
 /* Подсказка */
