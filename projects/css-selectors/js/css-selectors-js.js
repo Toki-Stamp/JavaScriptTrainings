@@ -7,28 +7,28 @@
 jQuery(document).ready(function main() {
     var matrix      = {
         'level-0': {
-            'parents'    : false,
-            'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
+            'parents':     false,
+            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'parents'    : ['level-0'],
-            'children'   : ['level-2', 'level-3', 'level-4'],
+            'parents':     ['level-0'],
+            'children':    ['level-2', 'level-3', 'level-4'],
             'insert-rule': ['level-0']
         },
         'level-2': {
-            'parents'    : ['level-1'],
-            'children'   : ['level-3', 'level-4'],
+            'parents':     ['level-1'],
+            'children':    ['level-3', 'level-4'],
             'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'parents'    : ['level-2', 'level-1'],
-            'children'   : ['level-4'],
+            'parents':     ['level-2', 'level-1'],
+            'children':    ['level-4'],
             'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'parents'    : ['level-3', 'level-2', 'level-1'],
-            'children'   : false,
+            'parents':     ['level-3', 'level-2', 'level-1'],
+            'children':    false,
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
@@ -58,8 +58,11 @@ jQuery(document).ready(function main() {
             target   = (me.index() + 1),
             first    = current,
             last     = target;
+        if (me.hasClass('unable-to-insert') || me.hasClass('border')) {
+            return false;
+        }
         if (!e.ctrlKey && !e.shiftKey) {
-            selected.removeClass('selected group');
+            selected.removeClass('selected border fifo');
         }
         if (e.shiftKey) {
             e.preventDefault();
@@ -74,7 +77,7 @@ jQuery(document).ready(function main() {
             }
         } else {
             if (me.hasClass('selected')) {
-                me.removeClass('selected group');
+                me.removeClass('selected border fifo');
             } else {
                 me.addClass('selected');
             }
@@ -84,7 +87,7 @@ jQuery(document).ready(function main() {
     $('#move-btn').on('mousedown', function () {
         var selected = $('table tbody > tr.selected'),
             expanded,
-            excluded,
+            unable,
             rows     = $('table tbody > tr'),
             indexes  = {},
             me,
@@ -102,28 +105,42 @@ jQuery(document).ready(function main() {
             expand;
 
         selected.each(function () {
+            /* Получаем индекс текущего элемента */
             me    = $(this);
             index = me.index();
+            /* Заполняем объект индексов tr.selected */
             if (!(index in indexes)) {
                 indexes[index] = 'selected';
-                thisClass      = siftClasses(getClasses(this));
+                /* Получаем класс выделенного элемента */
+                thisClass = siftClasses(getClasses(this));
+                /* Есть ли дети? */
                 if (matrix[thisClass].children) {
-                    equal      = me.next();
-                    last       = equal;
+                    /* Получаем ближайший элемент равного уровня */
+                    equal = me.next();
+                    last  = equal;
+                    /* Получаем индекс ближайшего элемента равного уровня */
                     equalIndex = equal.index();
-                    lastIndex  = equalIndex;
+                    /* Определение крайнего индекса */
+                    lastIndex = equalIndex;
                     if (!equal.hasClass(thisClass)) {
                         equalSpan = me.nextUntil('tr.' + thisClass);
-                        equal     = equalSpan.last().next();
+                        /* Получаем ближайший элемент равного уровня */
+                        equal = equalSpan.last().next();
                         if (equal.length) {
-                            last       = equal;
+                            last = equal;
+                            /* Определение крайнего индекса */
                             equalIndex = equal.index();
-                            lastIndex  = equalIndex;
-                            parents    = matrix[thisClass].parents;
+                            /* Получаем индекс ближайшего элемента равного уровня */
+                            lastIndex = equalIndex;
+                            /* Получаем предков элемента выделенного элемента */
+                            parents = matrix[thisClass].parents;
                             if (parents && $.isArray(parents)) {
+                                /* Перебор всех предков */
                                 parents.forEach(function (parentClass) {
                                     if (parentClass !== 'level-0') {
-                                        parent      = me.next();
+                                        /* Получаем ближайший элемент предка */
+                                        parent = me.next();
+                                        /* Получаем индекс предка элемента выделенного элемента */
                                         parentIndex = parent.index();
                                         if (!parent.hasClass(parentClass)) {
                                             parentSpan  = me.nextUntil('tr.' + parentClass);
@@ -131,6 +148,7 @@ jQuery(document).ready(function main() {
                                             parentIndex = parent.index();
                                         }
                                         if ((-1 !== parentIndex) && (parentIndex < lastIndex)) {
+                                            /* Определение крайнего индекса, что из них дальше? */
                                             last      = (equalIndex > parentIndex) ? parent : equal;
                                             lastIndex = (equalIndex > parentIndex) ? parentIndex : equalIndex;
                                         }
@@ -138,10 +156,13 @@ jQuery(document).ready(function main() {
                                 });
                             }
                         } else {
+                            /* Граничная ситуация !!! */
                             last      = rows.last();
                             lastIndex = last.index() + 1;
                         }
                     }
+                    /* Expand (расширяем) выделение со всеми вложенными элементами */
+                    console.log('Expand (расширяем) выделение со всеми вложенными элементами');
                     expand = rows.slice(index, lastIndex);
                     if (lastIndex === rows.length) {
                         expand = expand.add(rows.last());
@@ -150,6 +171,12 @@ jQuery(document).ready(function main() {
                         indexes[$(this).index()] = 'selected';
                     });
                 }
+                console.log(
+                    ' this-index', index, 'this', this, '\n',
+                    'equal-index', equalIndex, 'equal', (equal ? equal.get(0) : undefined), '\n',
+                    'parent-index', parentIndex, 'parent', (parent ? parent.get(0) : undefined), '\n',
+                    'last-index', lastIndex, 'last', (last ? last.get(0) : undefined), '\n',
+                    '--------------------------------------------------------------------');
             }
         });
 
@@ -158,20 +185,16 @@ jQuery(document).ready(function main() {
             if (!item.hasClass('selected')) {
                 item.addClass('selected');
             }
-            item.addClass('group');
+            item.addClass('border fifo');
         });
 
         expanded = $('table tbody > tr.selected');
 
         blink = setInterval(function () {
-            expanded.toggleClass('group');
+            expanded.toggleClass('fifo border');
         }, 750);
 
         var classes = {};
-        /* Исключить из поиска самого себя и ближайшего родителя */
-        /* Исключить из поиска самого себя и ближайшего родителя */
-        /* Исключить из поиска самого себя и ближайшего родителя */
-        /* Исключить из поиска самого себя и ближайшего родителя */
         selected.each(function () {
             var thisClass = siftClasses(getClasses(this));
             var insert    = matrix[thisClass]['insert-rule'];
@@ -181,25 +204,25 @@ jQuery(document).ready(function main() {
                 });
             }
         });
-
         /* Переопределяем все доступные строки таблицы */
         rows = $('table > thead tr, table > tbody tr');
-        /* Исключить из поиска самого себя и ближайшего родителя */
-        /* Исключить из поиска самого себя и ближайшего родителя */
-        /* Исключить из поиска самого себя и ближайшего родителя */
-        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключаем из поиска самого себя и ближайшего родителя */
         rows = rows.not(expanded);
 
-        Object.keys(classes).forEach(function (clazz) {
+        var classesArray = Object.keys(classes);
+
+        classesArray.forEach(function (clazz) {
             var item = rows.filter('.' + clazz);
             if (!item.hasClass('insert-here')) {
                 item.addClass('insert-here');
             }
         });
+        unable = rows.filter(':not(.insert-here)');
+        unable.addClass('unable-to-insert')
     });
 
     $('#cancel-btn').on('mousedown', function () {
-        $('table tbody > tr, table thead > tr').removeClass('selected group insert-here not-insertable');
+        $('table tbody > tr, table thead > tr').removeClass('selected border fifo insert-here unable-to-insert');
         if (blink) {
             clearInterval(blink);
             blink = undefined;
