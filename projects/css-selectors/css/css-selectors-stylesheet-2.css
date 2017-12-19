@@ -3,7 +3,6 @@
 table {
     border-collapse: collapse;
     width: 90%;
-    cursor: pointer;
     margin: auto;
     user-select: none;
     font-family: "Consolas", monospace;
@@ -11,7 +10,7 @@ table {
 }
 
 th, td {
-    height: 1.3em;
+    height: 1.2em;
     width: 4em;
     text-align: center;
     vertical-align: middle;
@@ -19,7 +18,7 @@ th, td {
 }
 
 tr {
-    transition: 500ms background-color, 500ms color;
+    transition: 500ms background-color;
 }
 
 td {
@@ -30,16 +29,9 @@ table, th, td {
     border: 1px solid gray;
 }
 
-table > tbody tr:not(.selected):hover,
-table > tbody tr:not(.selected):hover td {
-    background-color: rgba(200, 200, 200, .5);
-    color: white;
-    transition: 500ms background-color, 500ms color;
-}
-
 table > thead,
 table > tfoot {
-    background-color: rgb(42, 171, 210);
+    background-color: rgb(174, 114, 210);
     font-weight: bold;
     color: white;
 }
@@ -121,21 +113,22 @@ tbody > tr.level-4.selected > td {
 /* Групповое выделение */
 
 tbody > tr.group {
-    transition: 500ms background-color, 500ms color;
-    box-shadow: /* top */ inset 0 4px 0 0 black,
-        /* left */ inset 4px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black;
+    transition: 500ms background-color;
+    /*background-color: rgb(170, 170, 170);*/
+    box-shadow: /* top */ inset 0 3px 0 0 black,
+        /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black;
 }
 
 tbody > tr.group + tr.group {
-    box-shadow: /* left */ inset 4px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black;
+    box-shadow: /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black;
 }
 
 tbody > tr.group + tr:last-child.group {
-    box-shadow: /* left */ inset 4px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black,
-        /* bottom */ inset 0 -4px 0 0 black;
+    box-shadow: /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black,
+        /* bottom */ inset 0 -2px 0 0 black;
 }
 
 tbody > tr.group + tr:not(.group) {
@@ -143,10 +136,40 @@ tbody > tr.group + tr:not(.group) {
 }
 
 tbody > tr:last-child.group {
-    box-shadow: /* top */ inset 0 4px 0 0 black,
-        /* left */ inset 4px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black,
-        /* bottom */ inset 0 -4px 0 0 black;
+    box-shadow: /* top */ inset 0 3px 0 0 black,
+        /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black,
+        /* bottom */ inset 0 -2px 0 0 black;
+}
+
+/* Место вставки */
+
+tr.insert-here {
+    transition: background 500ms;
+    cursor: pointer;
+    outline: 3px solid rgb(0, 170, 0);
+    outline-offset: -2px;
+    background: transparent repeating-linear-gradient(
+            -45deg,
+            transparent 0px,
+            rgba(0, 170, 0, .1) 2px,
+            transparent 3px,
+            transparent 8px);
+}
+
+tr.insert-here:hover {
+    background: transparent repeating-linear-gradient(
+            -45deg,
+            transparent 0px,
+            rgba(0, 170, 0, .7) 2px,
+            transparent 3px,
+            transparent 8px);
+}
+
+/* Место недоступное для вставки */
+
+tr.not-insertable {
+    cursor: not-allowed;
 }
 
 /* Подсказка */
@@ -159,17 +182,17 @@ tbody > tr:last-child.group {
     visibility: hidden;
     opacity: 0;
     transition: opacity 500ms;
-    width: 240px;
-    background-color: deeppink;
+    width: 280px;
+    background-color: rgb(120, 120, 120);
     color: rgb(255, 255, 255);
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    top: 150%;
+    top: 125%;
     left: 50%;
-    margin-left: -120px;
+    margin-left: -140px;
 }
 
 .tooltip .tooltip-text::after {
@@ -179,11 +202,30 @@ tbody > tr:last-child.group {
     left: 50%;
     margin-left: -5px;
     border: 5px solid transparent;
-    border-bottom-color: deeppink;
+    border-bottom-color: rgb(120, 120, 120);
 }
 
 .tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
     transition: opacity 500ms;
+}
+
+/* Кнопки */
+
+button {
+    width: 100px;
+    display: inline-block;
+    padding: 6px;
+    margin: 0;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: rgb(100, 100, 100);
+    border-radius: 6px;
+    border: 1px solid transparent;
+    color: white;
+    font-weight: bold;
 }

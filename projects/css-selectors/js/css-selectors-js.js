@@ -7,28 +7,28 @@
 jQuery(document).ready(function main() {
     var matrix      = {
         'level-0': {
-            'parents':     false,
-            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
+            'parents'    : false,
+            'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'parents':     ['level-0'],
-            'children':    ['level-2', 'level-3', 'level-4'],
+            'parents'    : ['level-0'],
+            'children'   : ['level-2', 'level-3', 'level-4'],
             'insert-rule': ['level-0']
         },
         'level-2': {
-            'parents':     ['level-1'],
-            'children':    ['level-3', 'level-4'],
+            'parents'    : ['level-1'],
+            'children'   : ['level-3', 'level-4'],
             'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'parents':     ['level-2', 'level-1'],
-            'children':    ['level-4'],
+            'parents'    : ['level-2', 'level-1'],
+            'children'   : ['level-4'],
             'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'parents':     ['level-3', 'level-2', 'level-1'],
-            'children':    false,
+            'parents'    : ['level-3', 'level-2', 'level-1'],
+            'children'   : false,
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
@@ -50,7 +50,7 @@ jQuery(document).ready(function main() {
     };
     var blink;
 
-    /* Выделение строк талицы */
+    /* Выделение строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
         var me       = $(this),
             selected = $('table tbody > tr.selected'),
@@ -81,8 +81,10 @@ jQuery(document).ready(function main() {
         }
     });
 
-    $(document).on('mousedown', 'table thead > tr', function () {
+    $('#move-btn').on('mousedown', function () {
         var selected = $('table tbody > tr.selected'),
+            expanded,
+            excluded,
             rows     = $('table tbody > tr'),
             indexes  = {},
             me,
@@ -98,43 +100,30 @@ jQuery(document).ready(function main() {
             parentSpan,
             parentIndex,
             expand;
+
         selected.each(function () {
-            /* Получаем индекс текущего элемента */
             me    = $(this);
             index = me.index();
-            /* Заполняем объект индексов tr.selected */
             if (!(index in indexes)) {
                 indexes[index] = 'selected';
-                /* Получаем класс выделенного элемента */
-                thisClass = siftClasses(getClasses(this));
-                /* Есть ли дети? */
+                thisClass      = siftClasses(getClasses(this));
                 if (matrix[thisClass].children) {
-                    /* Получаем ближайший элемент равного уровня */
-                    equal = me.next();
-                    last  = equal;
-                    /* Получаем индекс ближайшего элемента равного уровня */
+                    equal      = me.next();
+                    last       = equal;
                     equalIndex = equal.index();
-                    /* Определение крайнего индекса */
-                    lastIndex = equalIndex;
+                    lastIndex  = equalIndex;
                     if (!equal.hasClass(thisClass)) {
                         equalSpan = me.nextUntil('tr.' + thisClass);
-                        /* Получаем ближайший элемент равного уровня */
-                        equal = equalSpan.last().next();
+                        equal     = equalSpan.last().next();
                         if (equal.length) {
-                            last = equal;
-                            /* Определение крайнего индекса */
+                            last       = equal;
                             equalIndex = equal.index();
-                            /* Получаем индекс ближайшего элемента равного уровня */
-                            lastIndex = equalIndex;
-                            /* Получаем предков элемента выделенного элемента */
-                            parents = matrix[thisClass].parents;
+                            lastIndex  = equalIndex;
+                            parents    = matrix[thisClass].parents;
                             if (parents && $.isArray(parents)) {
-                                /* Перебор всех предков */
                                 parents.forEach(function (parentClass) {
                                     if (parentClass !== 'level-0') {
-                                        /* Получаем ближайший элемент предка */
-                                        parent = me.next();
-                                        /* Получаем индекс предка элемента выделенного элемента */
+                                        parent      = me.next();
                                         parentIndex = parent.index();
                                         if (!parent.hasClass(parentClass)) {
                                             parentSpan  = me.nextUntil('tr.' + parentClass);
@@ -142,7 +131,6 @@ jQuery(document).ready(function main() {
                                             parentIndex = parent.index();
                                         }
                                         if ((-1 !== parentIndex) && (parentIndex < lastIndex)) {
-                                            /* Определение крайнего индекса, что из них дальше? */
                                             last      = (equalIndex > parentIndex) ? parent : equal;
                                             lastIndex = (equalIndex > parentIndex) ? parentIndex : equalIndex;
                                         }
@@ -150,13 +138,10 @@ jQuery(document).ready(function main() {
                                 });
                             }
                         } else {
-                            /* Граничная ситуация !!! */
                             last      = rows.last();
                             lastIndex = last.index() + 1;
                         }
                     }
-                    /* Expand (расширяем) выделение со всеми вложенными элементами */
-                    console.log('Expand (расширяем) выделение со всеми вложенными элементами');
                     expand = rows.slice(index, lastIndex);
                     if (lastIndex === rows.length) {
                         expand = expand.add(rows.last());
@@ -165,32 +150,59 @@ jQuery(document).ready(function main() {
                         indexes[$(this).index()] = 'selected';
                     });
                 }
-                console.log(
-                    ' this-index', index, 'this', this, '\n',
-                    'equal-index', equalIndex, 'equal', (equal ? equal.get(0) : undefined), '\n',
-                    'parent-index', parentIndex, 'parent', (parent ? parent.get(0) : undefined), '\n',
-                    'last-index', lastIndex, 'last', (last ? last.get(0) : undefined), '\n',
-                    '--------------------------------------------------------------------');
             }
         });
-        console.log('indexes', indexes);
-        /* Общее выделение */
-        Object.keys(indexes).forEach(function (index) {
-            var item = rows.eq(index);
+
+        Object.keys(indexes).forEach(function (element) {
+            var item = rows.eq(element);
             if (!item.hasClass('selected')) {
                 item.addClass('selected');
             }
             item.addClass('group');
         });
+
+        expanded = $('table tbody > tr.selected');
+
         blink = setInterval(function () {
-            $('table tbody > tr.selected').toggleClass('group');
+            expanded.toggleClass('group');
         }, 750);
+
+        var classes = {};
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        selected.each(function () {
+            var thisClass = siftClasses(getClasses(this));
+            var insert    = matrix[thisClass]['insert-rule'];
+            if (insert && $.isArray(insert)) {
+                insert.forEach(function (level) {
+                    classes[level] = true;
+                });
+            }
+        });
+
+        /* Переопределяем все доступные строки таблицы */
+        rows = $('table > thead tr, table > tbody tr');
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        /* Исключить из поиска самого себя и ближайшего родителя */
+        rows = rows.not(expanded);
+
+        Object.keys(classes).forEach(function (clazz) {
+            var item = rows.filter('.' + clazz);
+            if (!item.hasClass('insert-here')) {
+                item.addClass('insert-here');
+            }
+        });
     });
 
-    $(document).on('mousedown', function (e) {
-        if (['tr', 'th', 'td'].indexOf(e.target.tagName.toLowerCase()) === -1) {
+    $('#cancel-btn').on('mousedown', function () {
+        $('table tbody > tr, table thead > tr').removeClass('selected group insert-here not-insertable');
+        if (blink) {
             clearInterval(blink);
-            $('table tbody > tr.selected').removeClass('selected group');
+            blink = undefined;
         }
     });
 });
