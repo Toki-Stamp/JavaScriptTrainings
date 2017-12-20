@@ -102,7 +102,6 @@ jQuery(document).ready(function main() {
         var rows     = $('table tbody > tr'),
             selected = rows.filter('.selected'),
             expanded,
-            unable,
             indexes  = {},
             me,
             index,

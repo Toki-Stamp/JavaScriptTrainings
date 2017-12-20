@@ -89,7 +89,7 @@ tr.level-4 > td:nth-child(4) ~ td {
 /* Выделение */
 
 /*table[move-mode="true"] tr.selected > td {*/
-    /*border: 1px solid rgba(128, 128, 128, .1);*/
+/*border: 1px solid rgba(128, 128, 128, .1);*/
 /*}*/
 
 tr.level-1.selected > td,
@@ -226,6 +226,7 @@ tr.unable-to-insert td {
 }
 
 .btn-container button {
+    transition: all 250ms;
     width: 100px;
     display: inline-block;
     padding: 6px;
@@ -240,4 +241,25 @@ tr.unable-to-insert td {
     border: 1px solid transparent;
     color: white;
     font-weight: bold;
+}
+
+.btn-container button:not(:disabled):hover {
+    width: 200px;
+    transition: all 250ms;
+    border-radius: 12px;
+}
+
+.btn-container button:focus {
+    outline: 0;
+}
+
+.btn-container button:disabled {
+    cursor: not-allowed;
+    color: rgba(128, 128, 128, .5);
+    background: lightgray repeating-linear-gradient(
+            -45deg,
+            transparent 0px,
+            rgba(128, 128, 128, .5) 1px,
+            transparent 2px,
+            transparent 5px);
 }
