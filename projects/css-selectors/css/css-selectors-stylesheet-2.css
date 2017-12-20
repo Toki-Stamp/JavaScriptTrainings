@@ -88,9 +88,9 @@ tr.level-4 > td:nth-child(4) ~ td {
 
 /* Выделение */
 
-tr.selected {
-    cursor: -webkit-grab;
-}
+/*table[move-mode="true"] tr.selected > td {*/
+    /*border: 1px solid rgba(128, 128, 128, .1);*/
+/*}*/
 
 tr.level-1.selected > td,
 tr.level-2.selected > td:nth-child(1),
@@ -116,19 +116,17 @@ tr.level-4.selected > td {
 
 /* Групповое выделение */
 
-tr.fifo {
-    background-color: rgb(220, 220, 220);
+table[move-mode="true"] tr.border,
+table[move-mode="true"] tr.selected,
+table[move-mode="true"] tr.selected.border {
+    cursor: -webkit-grab;
 }
 
 tr.border {
+    background-color: rgb(220, 220, 220);
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
-}
-
-tr.border td, tr.fifo td, tr.selected td {
-    transition: opacity 500ms;
-    border: 1px solid rgba(128, 128, 128, .2);
 }
 
 tr.border + tr.border {
@@ -156,23 +154,19 @@ tr:last-child.border {
 /* Место вставки */
 
 tr.insert-here {
-    transition: background 500ms;
     cursor: pointer;
-    outline: 3px solid rgb(0, 170, 0);
-    outline-offset: -2px;
+    transition: outline-width 250ms;
+    outline: 2px solid rgb(0, 170, 0);
+    outline-offset: -1px;
 }
 
 tr.insert-here:hover {
-    background: transparent repeating-linear-gradient(
-            -45deg,
-            transparent 0px,
-            rgba(0, 170, 0, .7) 2px,
-            transparent 3px,
-            transparent 8px);
+    outline: 5px solid rgb(0, 170, 0);
+    outline-offset: -1px;
 }
 
 tr.insert-here td {
-    border: 1px solid rgb(0, 170, 0);
+    border: 1px solid rgba(0, 170, 0, .1);
 }
 
 /* Место недоступное для вставки */
@@ -180,24 +174,8 @@ tr.insert-here td {
 tr.unable-to-insert td {
     transition: opacity 500ms;
     cursor: not-allowed;
-    opacity: .3;
-    /*border: 1px solid rgba(128, 128, 128, .4);*/
-}
-
-tr.unable-to-insert td:first-child {
-    border-right: 1px solid rgba(128, 128, 128, .2);
-    border-top: 1px solid rgba(128, 128, 128, .2);
-    border-bottom: 1px solid rgba(128, 128, 128, .2);
-}
-
-tr.unable-to-insert td + td:not(:last-of-type) {
+    opacity: .2;
     border: 1px solid rgba(128, 128, 128, .2);
-}
-
-tr.unable-to-insert td:last-of-type {
-    border-left: 1px solid rgba(128, 128, 128, .2);
-    border-top: 1px solid rgba(128, 128, 128, .2);
-    border-bottom: 1px solid rgba(128, 128, 128, .2);
 }
 
 /* Подсказка */
@@ -241,7 +219,13 @@ tr.unable-to-insert td:last-of-type {
 
 /* Кнопки */
 
-button {
+.btn-container {
+    display: block;
+    text-align: center;
+    margin: 5px;
+}
+
+.btn-container button {
     width: 100px;
     display: inline-block;
     padding: 6px;

@@ -7,28 +7,28 @@
 jQuery(document).ready(function main() {
     var matrix      = {
         'level-0': {
-            'parents':     false,
-            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
+            'parents'    : false,
+            'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'parents':     ['level-0'],
-            'children':    ['level-2', 'level-3', 'level-4'],
+            'parents'    : ['level-0'],
+            'children'   : ['level-2', 'level-3', 'level-4'],
             'insert-rule': ['level-0']
         },
         'level-2': {
-            'parents':     ['level-1'],
-            'children':    ['level-3', 'level-4'],
+            'parents'    : ['level-1'],
+            'children'   : ['level-3', 'level-4'],
             'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'parents':     ['level-2', 'level-1'],
-            'children':    ['level-4'],
+            'parents'    : ['level-2', 'level-1'],
+            'children'   : ['level-4'],
             'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'parents':     ['level-3', 'level-2', 'level-1'],
-            'children':    false,
+            'parents'    : ['level-3', 'level-2', 'level-1'],
+            'children'   : false,
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
@@ -49,20 +49,33 @@ jQuery(document).ready(function main() {
         }
     };
     var blink;
+    var table       = $('table');
 
-    /* Выделение строк таблицы */
-    $(document).on('mousedown', 'table tbody > tr', function (e) {
-        var me       = $(this),
-            selected = $('table tbody > tr.selected'),
-            current  = (selected.length ? (selected.index()) : 0),
-            target   = (me.index() + 1),
-            first    = current,
-            last     = target;
-        if (me.hasClass('unable-to-insert') || me.hasClass('border')) {
+    /* Режим перемещения строк по умолчанию выключен */
+    table.attr('move-mode', false);
+
+    /* Обработчик строк таблицы */
+    $(document).on('mousedown', 'table tbody > tr, table thead > tr', function (e) {
+        var me        = $(this),
+            selected  = $('table tbody > tr.selected'),
+            current   = (selected.length ? (selected.index()) : 0),
+            target    = (me.index() + 1),
+            first     = current,
+            last      = target,
+            thisClass = siftClasses(getClasses(this)),
+            mode      = (table.attr('move-mode') === 'true');
+        if (mode) {
+            if (me.hasClass('insert-here')) {
+                console.log('Дилог перемещения в элемент уровня', '"' + thisClass + '"',
+                    'с индексом', me.index());
+            }
+            return false;
+        }
+        if (thisClass === 'level-0') {
             return false;
         }
         if (!e.ctrlKey && !e.shiftKey) {
-            selected.removeClass('selected border fifo');
+            selected.removeClass('selected border');
         }
         if (e.shiftKey) {
             e.preventDefault();
@@ -77,18 +90,19 @@ jQuery(document).ready(function main() {
             }
         } else {
             if (me.hasClass('selected')) {
-                me.removeClass('selected border fifo');
+                me.removeClass('selected border');
             } else {
                 me.addClass('selected');
             }
         }
     });
 
+    /* Режим перемещения строк */
     $('#move-btn').on('mousedown', function () {
-        var selected = $('table tbody > tr.selected'),
+        var rows     = $('table tbody > tr'),
+            selected = rows.filter('.selected'),
             expanded,
             unable,
-            rows     = $('table tbody > tr'),
             indexes  = {},
             me,
             index,
@@ -162,7 +176,6 @@ jQuery(document).ready(function main() {
                         }
                     }
                     /* Expand (расширяем) выделение со всеми вложенными элементами */
-                    console.log('Expand (расширяем) выделение со всеми вложенными элементами');
                     expand = rows.slice(index, lastIndex);
                     if (lastIndex === rows.length) {
                         expand = expand.add(rows.last());
@@ -171,12 +184,6 @@ jQuery(document).ready(function main() {
                         indexes[$(this).index()] = 'selected';
                     });
                 }
-                console.log(
-                    ' this-index', index, 'this', this, '\n',
-                    'equal-index', equalIndex, 'equal', (equal ? equal.get(0) : undefined), '\n',
-                    'parent-index', parentIndex, 'parent', (parent ? parent.get(0) : undefined), '\n',
-                    'last-index', lastIndex, 'last', (last ? last.get(0) : undefined), '\n',
-                    '--------------------------------------------------------------------');
             }
         });
 
@@ -185,13 +192,13 @@ jQuery(document).ready(function main() {
             if (!item.hasClass('selected')) {
                 item.addClass('selected');
             }
-            item.addClass('border fifo');
+            item.addClass('border');
         });
 
         expanded = $('table tbody > tr.selected');
 
         blink = setInterval(function () {
-            expanded.toggleClass('fifo border');
+            expanded.toggleClass('border');
         }, 750);
 
         var classes = {};
@@ -208,21 +215,33 @@ jQuery(document).ready(function main() {
         rows = $('table > thead tr, table > tbody tr');
         /* Исключаем из поиска самого себя и ближайшего родителя */
         rows = rows.not(expanded);
+        selected.each(function () {
+            var thisClass = siftClasses(getClasses(this)),
+                parentClass,
+                span,
+                parentElement;
+            parentClass   = matrix[thisClass].parents[0];
+            span          = $(this).prevUntil('tr.' + parentClass).prev();
+            parentElement = span.last().addClass('unable-to-insert');
+            rows          = rows.not(parentElement);
+        });
 
-        var classesArray = Object.keys(classes);
-
-        classesArray.forEach(function (clazz) {
+        Object.keys(classes).forEach(function (clazz) {
             var item = rows.filter('.' + clazz);
             if (!item.hasClass('insert-here')) {
                 item.addClass('insert-here');
             }
         });
-        unable = rows.filter(':not(.insert-here)');
-        unable.addClass('unable-to-insert')
+
+        rows.filter(':not(.insert-here)').addClass('unable-to-insert');
+
+        table.attr('move-mode', true);
     });
 
+    /* Отмена всего */
     $('#cancel-btn').on('mousedown', function () {
-        $('table tbody > tr, table thead > tr').removeClass('selected border fifo insert-here unable-to-insert');
+        $('table tr').removeClass('selected border insert-here unable-to-insert');
+        table.attr('move-mode', false);
         if (blink) {
             clearInterval(blink);
             blink = undefined;
