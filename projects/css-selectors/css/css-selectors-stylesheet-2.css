@@ -222,44 +222,80 @@ tr.unable-to-insert td {
 .btn-container {
     display: block;
     text-align: center;
-    margin: 5px;
+    margin: 2px;
 }
 
 .btn-container button {
     transition: all 250ms;
     width: 100px;
     display: inline-block;
+    margin: 4px;
     padding: 6px;
-    margin: 0;
-    font-size: 12px;
+    font-size: 13px;
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
     user-select: none;
     background-color: rgb(100, 100, 100);
     border-radius: 6px;
-    border: 1px solid transparent;
+    border: 2px solid rgba(211, 211, 211, .5);
     color: white;
     font-weight: bold;
 }
 
 .btn-container button:not(:disabled):hover {
+    letter-spacing: 8px;
     width: 200px;
     transition: all 250ms;
     border-radius: 12px;
+    border: 2px solid rgba(211, 211, 211, .7);
+    box-shadow: 0 0 8px 0 rgb(100, 100, 100);
 }
 
 .btn-container button:focus {
     outline: 0;
 }
 
-.btn-container button:disabled {
+.btn-container button:disabled,
+.btn-container button.cancel:disabled {
     cursor: not-allowed;
-    color: rgba(128, 128, 128, .5);
+    color: rgb(100, 100, 100);
+    border: 2px solid rgb(100, 100, 100);
     background: lightgray repeating-linear-gradient(
             -45deg,
             transparent 0px,
-            rgba(128, 128, 128, .5) 1px,
+            rgb(100, 100, 100) 1px,
             transparent 2px,
-            transparent 5px);
+            transparent 7px);
+    -webkit-font-smoothing: antialiased;
+    text-shadow: /* 1 */ 0 0 4px lightgray, /* 2 */ 0 0 4px lightgray,
+        /* 3 */ 0 0 4px lightgray, /* 4 */ 0 0 4px lightgray,
+        /* 5 */ 0 0 4px lightgray, /* 6 */ 0 0 4px lightgray,
+        /* 7 */ 0 0 4px lightgray, /* 8 */ 0 0 4px lightgray,
+        /* 9 */ 0 0 4px lightgray, /* 10 */ 0 0 4px lightgray,
+        /* 11 */ 0 0 4px lightgray, /* 12 */ 0 0 4px lightgray,
+        /* 13 */ 0 0 4px lightgray, /* 14 */ 0 0 4px lightgray,
+        /* 15 */ 0 0 4px lightgray, /* 16 */ 0 0 4px lightgray,
+        /* 17 */ 0 0 4px lightgray, /* 18 */ 0 0 4px lightgray,
+        /* 19 */ 0 0 4px lightgray, /* 20 */ 0 0 4px lightgray,
+        /* 21 */ 0 0 4px lightgray, /* 22 */ 0 0 4px lightgray,
+        /* 23 */ 0 0 4px lightgray, /* 24 */ 0 0 4px lightgray,
+        /* 25 */ 0 0 4px lightgray, /* 26 */ 0 0 4px lightgray,
+        /* 27 */ 0 0 4px lightgray, /* 28 */ 0 0 4px lightgray,
+        /* 29 */ 0 0 4px lightgray, /* 30 */ 0 0 4px lightgray,
+        /* 31 */ 0 0 4px lightgray, /* 32 */ 0 0 4px lightgray,
+        /* 33 */ 0 0 4px lightgray, /* 34 */ 0 0 4px lightgray,
+        /* 35 */ 0 0 4px lightgray, /* 36 */ 0 0 4px lightgray,
+        /* 37 */ 0 0 4px lightgray, /* 38 */ 0 0 4px lightgray,
+        /* 39 */ 0 0 4px lightgray, /* 40 */ 0 0 4px lightgray;
+}
+
+.btn-container button.cancel {
+    background-color: rgb(255, 0, 50);
+    border: 2px solid rgba(255, 150, 150, .5);
+}
+
+.btn-container button.cancel:not(:disabled):hover {
+    box-shadow: 0 0 8px 0 rgb(255, 0, 50);
+    border: 2px solid rgba(255, 150, 150, .7);
 }
