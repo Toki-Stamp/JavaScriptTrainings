@@ -5,7 +5,7 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var matrix = {
+    var matrix    = {
         'level-0': {
             'parents'    : false,
             'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
@@ -32,10 +32,10 @@ jQuery(document).ready(function main() {
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
-    var model  = {};
-    var tbody  = document.getElementsByTagName('tbody')[0];
-    var rows   = tbody.getElementsByTagName('tr');
-    var levels = (function () {
+    var model     = {};
+    var tbody     = document.getElementsByTagName('tbody')[0];
+    var rows      = tbody.getElementsByTagName('tr');
+    var levels    = (function () {
         var levels   = {},
             target   = arguments[0],
             getLevel = function (element) {
@@ -59,19 +59,41 @@ jQuery(document).ready(function main() {
         }
         return Object.keys(levels).sort();
     })('level');
-    var spans  = function (targetLevel, left, right) {
-        var range = [],
+    var getRanges = function (targetLevel) {
+        var range    = function (left, right) {
+                var range = [],
+                    i,
+                    element;
+                for (i = left; i < right; i += 1) {
+                    element = rows[i];
+                    range.push(element);
+                }
+                if (i === (rows.length - 1)) {
+                    range.push(rows[i]);
+                }
+                return range;
+            },
+            ranges   = [],
             i,
-            element;
-
-        left  = left || ((tbody.getElementsByClassName(targetLevel)[0]).rowIndex - 1);
-        right = right || ((tbody.getElementsByClassName(targetLevel)[1]).rowIndex - 1);
-
-        for (i = left; i < right; i += 1) {
-            element = rows[i];
-            range.push(element);
+            elements = tbody.getElementsByClassName(targetLevel),
+            length   = elements.length,
+            left,
+            right;
+        for (i = 0; i < length; i += 1) {
+            left          = (elements[i].rowIndex - 1);
+            var r_element = elements[i + 1];
+            if (r_element) {
+                right = (r_element.rowIndex - 1);
+            } else {
+                right = (rows.length - 1);
+            }
+            ranges.push(range(left, right));
         }
-        return range;
+        return ranges;
+        /* граничная ситуация, если последний элемент того же класса, как у level-3 */
     };
     console.log(levels, 'type of', Object.prototype.toString.call(levels));
+    for (var i = 0, length = levels.length; i < length; i += 1) {
+        console.log(getRanges(levels[i]));
+    }
 });
