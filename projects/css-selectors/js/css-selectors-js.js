@@ -5,7 +5,7 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var matrix      = {
+    var matrix = {
         'level-0': {
             'parents'    : false,
             'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
@@ -32,10 +32,10 @@ jQuery(document).ready(function main() {
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
-    var model       = {};
-    var tbody       = document.getElementsByTagName('tbody')[0];
-    var rows        = tbody.getElementsByTagName('tr');
-    var levels      = (function () {
+    var model  = {};
+    var tbody  = document.getElementsByTagName('tbody')[0];
+    var rows   = tbody.getElementsByTagName('tr');
+    var levels = (function () {
         var levels   = {},
             target   = arguments[0],
             getLevel = function (element) {
@@ -59,33 +59,19 @@ jQuery(document).ready(function main() {
         }
         return Object.keys(levels).sort();
     })('level');
-    model.hierarchy = function (ns) {
-        var levels = ns.split('.'),
-            parent = model,
-            i;
-        for (i = 0; i < levels.length; i += 1) {
-            if (typeof parent[levels[i]] === 'undefined') {
-                parent[levels[i]] = {};
-            }
-            parent = parent[levels[i]];
-        }
-        return parent;
-    };
-    var span        = (function () {
-        var level = arguments[0],
-            left  = arguments[1] || ((tbody.getElementsByClassName(level)[0]).rowIndex - 1),
-            right = arguments[2] || ((tbody.getElementsByClassName(level)[1]).rowIndex - 1),
+    var spans  = function (targetLevel, left, right) {
+        var range = [],
             i,
-            range = [],
             element;
+
+        left  = left || ((tbody.getElementsByClassName(targetLevel)[0]).rowIndex - 1);
+        right = right || ((tbody.getElementsByClassName(targetLevel)[1]).rowIndex - 1);
+
         for (i = left; i < right; i += 1) {
             element = rows[i];
             range.push(element);
         }
         return range;
-    })(levels[0], 0);
-    console.log(span);
+    };
     console.log(levels, 'type of', Object.prototype.toString.call(levels));
-    var levs = model.hierarchy('level-1.level-2.level-3.level-4');
-    console.log(levs);
 });
