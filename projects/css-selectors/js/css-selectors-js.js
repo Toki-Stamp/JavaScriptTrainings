@@ -7,28 +7,28 @@
 jQuery(document).ready(function main() {
     var matrix    = {
         'level-0': {
-            'parents'    : false,
-            'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
+            'parents':     false,
+            'children':    ['level-1', 'level-2', 'level-3', 'level-4'],
             'insert-rule': false
         },
         'level-1': {
-            'parents'    : ['level-0'],
-            'children'   : ['level-2', 'level-3', 'level-4'],
+            'parents':     ['level-0'],
+            'children':    ['level-2', 'level-3', 'level-4'],
             'insert-rule': ['level-0']
         },
         'level-2': {
-            'parents'    : ['level-1'],
-            'children'   : ['level-3', 'level-4'],
+            'parents':     ['level-1'],
+            'children':    ['level-3', 'level-4'],
             'insert-rule': ['level-0', 'level-1']
         },
         'level-3': {
-            'parents'    : ['level-2', 'level-1'],
-            'children'   : ['level-4'],
+            'parents':     ['level-2', 'level-1'],
+            'children':    ['level-4'],
             'insert-rule': ['level-0', 'level-2']
         },
         'level-4': {
-            'parents'    : ['level-3', 'level-2', 'level-1'],
-            'children'   : false,
+            'parents':     ['level-3', 'level-2', 'level-1'],
+            'children':    false,
             'insert-rule': ['level-0', 'level-2', 'level-3']
         }
     };
@@ -80,12 +80,12 @@ jQuery(document).ready(function main() {
             left,
             right;
         for (i = 0; i < length; i += 1) {
-            left          = (elements[i].rowIndex - 1);
-            var r_element = elements[i + 1];
-            if (r_element) {
-                right = (r_element.rowIndex - 1);
+            left     = elements[i].rowIndex - 1;
+            var last = elements[i + 1];
+            if (last) {
+                right = last.rowIndex - 1;
             } else {
-                right = (rows.length - 1);
+                right = rows.length - 1;
             }
             ranges.push(range(left, right));
         }
@@ -93,7 +93,10 @@ jQuery(document).ready(function main() {
         /* граничная ситуация, если последний элемент того же класса, как у level-3 */
     };
     console.log(levels, 'type of', Object.prototype.toString.call(levels));
-    for (var i = 0, length = levels.length; i < length; i += 1) {
-        console.log(getRanges(levels[i]));
-    }
+    var ranges = getRanges(levels[0]);
+    ranges.forEach(function (range) {
+        model[levels[0]] = range;
+    });
+    model.parent   = null;
+
 });
