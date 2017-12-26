@@ -5,34 +5,6 @@
 
 'use strict';
 
-var matrix = {
-    'level-0': {
-        'parents'    : false,
-        'children'   : ['level-1', 'level-2', 'level-3', 'level-4'],
-        'insert-rule': false
-    },
-    'level-1': {
-        'parents'    : ['level-0'],
-        'children'   : ['level-2', 'level-3', 'level-4'],
-        'insert-rule': ['level-0']
-    },
-    'level-2': {
-        'parents'    : ['level-1'],
-        'children'   : ['level-3', 'level-4'],
-        'insert-rule': ['level-0', 'level-1']
-    },
-    'level-3': {
-        'parents'    : ['level-2', 'level-1'],
-        'children'   : ['level-4'],
-        'insert-rule': ['level-0', 'level-2']
-    },
-    'level-4': {
-        'parents'    : ['level-3', 'level-2', 'level-1'],
-        'children'   : false,
-        'insert-rule': ['level-0', 'level-2', 'level-3']
-    }
-};
-
 /* Self-invoking function */
 (function main() {
 })();
@@ -88,15 +60,14 @@ jQuery(document).ready(function main() {
     });
 
     $('#move-btn').on('click', function () {
-        var selected = rows.filter('.selected'), children, expanded,
+        var selected  = rows.filter('.selected'), children, expanded,
             id, level, parent, tree,
-            expand   = function (elements) {
+            expand    = function (elements) {
                 elements.each(function () {
                     var me   = $(this);
                     id       = me.attr('id');
                     level    = me.data('level');
                     parent   = me.data('parent');
-                    tree     = me.data('tree');
                     children = rows.filter('[data-parent="' + id + '"]');
                     /* Базовый случай */
                     if (level === 4) return;
@@ -107,17 +78,23 @@ jQuery(document).ready(function main() {
                     expanded = me.add(children);
                     expanded.addClass('selected');
                 });
+            },
+            findPlace = function (elements) {
+                var size = elements.length;
+                elements.each(function () {
+                    var me = $(this);
+                    tree   = me.data('tree').spl;
+                });
+                console.log(parents);
             };
         if (selected.length) {
-            if (4 !== selected.data('level')) {
-                expand(selected);
-                /* Переопределение */
-                selected = rows.filter('.selected');
-            }
+            expand(selected);
+            /* Переопределение */
+            selected = rows.filter('.selected');
         } else {
             alert('Выберите хотя бы одну строку!');
         }
-        selected.addClass('border');
+        findPlace(selected);
     });
 
     $('#cancel-btn').on('mousedown', function () {
