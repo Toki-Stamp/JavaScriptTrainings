@@ -1,0 +1,301 @@
+/* Таблица */
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    user-select: none;
+    font-family: "Consolas", monospace;
+    font-size: 9px;
+}
+
+th, td {
+    height: 1.2em;
+    width: 4em;
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+tr {
+    transition: 500ms background-color;
+}
+
+td {
+    color: lightgray;
+}
+
+table, th, td {
+    border: 1px solid gray;
+}
+
+table > thead,
+table > tfoot {
+    background-color: rgba(126, 189, 210, .5);
+    font-weight: bold;
+    color: white;
+}
+
+tr[data-level="1"] > td:nth-child(1) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(255, 0, 0, .1);
+    color: red;
+}
+
+tr[data-level="2"] > td:nth-child(2) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(0, 128, 0, .1);
+    color: green;
+}
+
+tr[data-level="3"] > td:nth-child(3) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(0, 0, 255, .1);
+    color: blue;
+}
+
+tr[data-level="4"] > td:nth-child(4) {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: rgba(255, 165, 0, .1);
+    color: orange;
+}
+
+tr[data-level="1"] > td:nth-child(1) ~ td,
+tr[data-level="2"] > td:nth-child(1),
+tr[data-level="3"] > td:nth-child(1),
+tr[data-level="4"] > td:nth-child(1) {
+    background-color: rgba(255, 0, 0, .1);
+}
+
+tr[data-level="2"] > td:nth-child(2) ~ td,
+tr[data-level="3"] > td:nth-child(2),
+tr[data-level="4"] > td:nth-child(2) {
+    background-color: rgba(0, 128, 0, .1);
+}
+
+tr[data-level="3"] > td:nth-child(3) ~ td,
+tr[data-level="4"] > td:nth-child(3) {
+    background-color: rgba(0, 0, 255, .1);
+}
+
+tr[data-level="4"] > td:nth-child(4) ~ td {
+    background-color: rgba(255, 165, 0, .1);
+}
+
+/* Выделение */
+
+/*table[move-mode="true"] tr.selected > td {*/
+/*border: 1px solid rgba(128, 128, 128, .1);*/
+/*}*/
+
+tr[data-level="1"].selected > td,
+tr[data-level="2"].selected > td:nth-child(1),
+tr[data-level="3"].selected > td:nth-child(1),
+tr[data-level="4"].selected > td:nth-child(1) {
+    background-color: rgba(255, 0, 0, .4) !important;
+}
+
+tr[data-level="2"].selected > td,
+tr[data-level="3"].selected > td:nth-child(2),
+tr[data-level="4"].selected > td:nth-child(2) {
+    background-color: rgba(0, 128, 0, .4) !important;
+}
+
+tr[data-level="3"].selected > td,
+tr[data-level="4"].selected > td:nth-child(3) {
+    background-color: rgba(0, 0, 255, .4) !important;
+}
+
+tr[data-level="4"].selected > td {
+    background-color: rgba(255, 165, 0, .4) !important;
+}
+
+/* Групповое выделение */
+
+table[move-mode="true"] tr.border,
+table[move-mode="true"] tr.selected,
+table[move-mode="true"] tr.selected.border {
+    cursor: -webkit-grab;
+}
+
+tr.border {
+    background-color: rgb(220, 220, 220);
+    box-shadow: /* top */ inset 0 3px 0 0 black,
+        /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black;
+}
+
+tr.border + tr.border {
+    box-shadow: /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black;
+}
+
+tr.border + tr:last-child.border {
+    box-shadow: /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black,
+        /* bottom */ inset 0 -2px 0 0 black;
+}
+
+tr.border + tr:not(.border) {
+    box-shadow: /* top */ 0 -3px 0 0 black;
+}
+
+tr:last-child.border {
+    box-shadow: /* top */ inset 0 3px 0 0 black,
+        /* left */ inset 3px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black,
+        /* bottom */ inset 0 -2px 0 0 black;
+}
+
+/* Место вставки */
+
+tr.insert-here {
+    cursor: pointer;
+    transition: outline-width 250ms;
+    outline: 2px solid rgb(0, 170, 0);
+    outline-offset: -1px;
+}
+
+tr.insert-here:hover {
+    outline: 5px solid rgb(0, 170, 0);
+    outline-offset: -1px;
+}
+
+tr.insert-here td {
+    border: 1px solid rgba(0, 170, 0, .1);
+}
+
+/* Место недоступное для вставки */
+
+tr.unable-to-insert td {
+    transition: opacity 500ms;
+    cursor: not-allowed;
+    opacity: .2;
+    border: 1px solid rgba(128, 128, 128, .2);
+}
+
+/* Подсказка */
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 500ms;
+    width: 280px;
+    background-color: rgb(120, 120, 120);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 50%;
+    margin-left: -140px;
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border: 5px solid transparent;
+    border-bottom-color: rgb(120, 120, 120);
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 500ms;
+}
+
+/* Кнопки */
+
+.btn-container {
+    display: block;
+    text-align: center;
+    margin: 2px;
+}
+
+.btn-container button {
+    transition: all 250ms;
+    width: 100px;
+    display: inline-block;
+    margin: 4px;
+    padding: 6px;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: rgb(100, 100, 100);
+    border-radius: 6px;
+    border: 2px solid rgba(211, 211, 211, .5);
+    color: white;
+    font-weight: bold;
+}
+
+.btn-container button:not(:disabled):hover {
+    letter-spacing: 8px;
+    width: 200px;
+    transition: all 250ms;
+    border-radius: 12px;
+    border: 2px solid rgba(211, 211, 211, .7);
+    box-shadow: 0 0 8px 0 rgb(100, 100, 100);
+}
+
+.btn-container button:focus {
+    outline: 0;
+}
+
+.btn-container button:disabled,
+.btn-container button.cancel:disabled {
+    cursor: not-allowed;
+    color: rgb(100, 100, 100);
+    border: 2px solid rgb(100, 100, 100);
+    background: lightgray repeating-linear-gradient(
+            -45deg,
+            transparent 0px,
+            rgb(100, 100, 100) 1px,
+            transparent 2px,
+            transparent 7px);
+    -webkit-font-smoothing: antialiased;
+    text-shadow: /* 1 */ 0 0 4px lightgray, /* 2 */ 0 0 4px lightgray,
+        /* 3 */ 0 0 4px lightgray, /* 4 */ 0 0 4px lightgray,
+        /* 5 */ 0 0 4px lightgray, /* 6 */ 0 0 4px lightgray,
+        /* 7 */ 0 0 4px lightgray, /* 8 */ 0 0 4px lightgray,
+        /* 9 */ 0 0 4px lightgray, /* 10 */ 0 0 4px lightgray,
+        /* 11 */ 0 0 4px lightgray, /* 12 */ 0 0 4px lightgray,
+        /* 13 */ 0 0 4px lightgray, /* 14 */ 0 0 4px lightgray,
+        /* 15 */ 0 0 4px lightgray, /* 16 */ 0 0 4px lightgray,
+        /* 17 */ 0 0 4px lightgray, /* 18 */ 0 0 4px lightgray,
+        /* 19 */ 0 0 4px lightgray, /* 20 */ 0 0 4px lightgray,
+        /* 21 */ 0 0 4px lightgray, /* 22 */ 0 0 4px lightgray,
+        /* 23 */ 0 0 4px lightgray, /* 24 */ 0 0 4px lightgray,
+        /* 25 */ 0 0 4px lightgray, /* 26 */ 0 0 4px lightgray,
+        /* 27 */ 0 0 4px lightgray, /* 28 */ 0 0 4px lightgray,
+        /* 29 */ 0 0 4px lightgray, /* 30 */ 0 0 4px lightgray,
+        /* 31 */ 0 0 4px lightgray, /* 32 */ 0 0 4px lightgray,
+        /* 33 */ 0 0 4px lightgray, /* 34 */ 0 0 4px lightgray,
+        /* 35 */ 0 0 4px lightgray, /* 36 */ 0 0 4px lightgray,
+        /* 37 */ 0 0 4px lightgray, /* 38 */ 0 0 4px lightgray,
+        /* 39 */ 0 0 4px lightgray, /* 40 */ 0 0 4px lightgray;
+}
+
+.btn-container button.cancel {
+    border: 2px solid rgb(255, 160, 160);
+    background-color: rgb(255, 0, 50);
+}
+
+.btn-container button.cancel:not(:disabled):hover {
+    border: 2px solid rgb(255, 160, 160);
+    box-shadow: /* outer */ 0 0 8px 0 rgb(255, 0, 50);
+}
