@@ -88,10 +88,6 @@ tr[data-level="4"] > td:nth-child(4) ~ td {
 
 /* Выделение */
 
-/*table[move-mode="true"] tr.selected > td {*/
-/*border: 1px solid rgba(128, 128, 128, .1);*/
-/*}*/
-
 tr[data-level="1"].selected > td,
 tr[data-level="2"].selected > td:nth-child(1),
 tr[data-level="3"].selected > td:nth-child(1),
@@ -227,7 +223,7 @@ tr.unable-to-insert td {
 
 .btn-container button {
     transition: all 250ms;
-    width: 100px;
+    width: 140px;
     display: inline-block;
     margin: 4px;
     padding: 6px;
@@ -240,16 +236,16 @@ tr.unable-to-insert td {
     border-radius: 6px;
     border: 2px solid rgba(211, 211, 211, .5);
     color: white;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 .btn-container button:not(:disabled):hover {
     letter-spacing: 8px;
-    width: 200px;
+    width: 280px;
     transition: all 250ms;
     border-radius: 12px;
     border: 2px solid rgba(211, 211, 211, .7);
-    box-shadow: 0 0 8px 0 rgb(100, 100, 100);
+    box-shadow: 0 0 10px 2px rgb(100, 100, 100);
 }
 
 .btn-container button:focus {
@@ -257,8 +253,10 @@ tr.unable-to-insert td {
 }
 
 .btn-container button:disabled,
-.btn-container button.cancel:disabled {
+.btn-container button.cancel:disabled,
+.btn-container button.move:disabled {
     cursor: not-allowed;
+    font-weight: bold;
     color: rgb(100, 100, 100);
     border: 2px solid rgb(100, 100, 100);
     background: lightgray repeating-linear-gradient(
@@ -296,6 +294,18 @@ tr.unable-to-insert td {
 }
 
 .btn-container button.cancel:not(:disabled):hover {
+    font-weight: bold;
     border: 2px solid rgb(255, 160, 160);
-    box-shadow: /* outer */ 0 0 8px 0 rgb(255, 0, 50);
+    box-shadow: /* outer */ 0 0 10px 2px rgb(255, 0, 50);
+}
+
+.btn-container button.move {
+    border: 2px solid rgb(160, 160, 255);
+    background-color: rgb(0, 0, 140);
+}
+
+.btn-container button.move:not(:disabled):hover {
+    font-weight: bold;
+    border: 2px solid rgb(160, 160, 255);
+    box-shadow: /* outer */ 0 0 10px 2px rgb(0, 0, 140);
 }
