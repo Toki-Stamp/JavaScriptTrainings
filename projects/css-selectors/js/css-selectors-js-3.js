@@ -60,15 +60,13 @@ jQuery(document).ready(function main() {
     });
 
     $('#move-btn').on('click', function () {
-        var selected  = rows.filter('.selected'), children, expanded,
-            id, level, parent, tree,
+        var selected  = rows.filter('.selected'), expanded,
             expand    = function (elements) {
                 elements.each(function () {
-                    var me   = $(this);
-                    id       = me.attr('id');
-                    level    = me.data('level');
-                    parent   = me.data('parent');
-                    children = rows.filter('[data-parent="' + id + '"]');
+                    var me       = $(this),
+                        id       = me.attr('id'),
+                        level    = me.data('level'),
+                        children = rows.filter('[data-parent="' + id + '"]');
                     /* Базовый случай */
                     if (level === 4) return;
                     /* Рекурсия */
@@ -80,21 +78,34 @@ jQuery(document).ready(function main() {
                 });
             },
             findPlace = function (elements) {
-                var size = elements.length;
+                var group = {};
                 elements.each(function () {
-                    var me = $(this);
-                    tree   = me.data('tree').spl;
+                    var group  = {};
+                    var me     = $(this),
+                        id     = me.attr('id'),
+                        level  = me.data('level'),
+                        parent = me.data('parent'),
+                        tree   = me.data('tree');
+                    console.log('id:' + id, 'level:' + level, 'parent:' + parent, 'tree:' + tree);
+                })
+            },
+            group     = function (selected, expanded) {
+                selected.each(function () {
+                    console.log(this);
                 });
-                console.log(parents);
             };
+
         if (selected.length) {
             expand(selected);
             /* Переопределение */
-            selected = rows.filter('.selected');
+            expanded = rows.filter('.selected');
+            console.log('selected:', selected);
+            console.log('expanded:', expanded);
         } else {
             alert('Выберите хотя бы одну строку!');
         }
-        findPlace(selected);
+        group(selected, expanded);
+        // findPlace(selected);
     });
 
     $('#cancel-btn').on('mousedown', function () {
