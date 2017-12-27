@@ -12,26 +12,19 @@
 jQuery(document).ready(function main() {
 
     var table = $('table'),
-        rows  = table.find('tr');
+        rows  = table.find('tr'),
+        blink;
 
     /* Обработчик строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
         var me       = $(this),
-            table    = $('table'),
-            selected = table.find('tr.selected'),
-            current  = (selected.length ? (selected.index()) : 0),
+            selected = rows.filter('.selected'),
+            current  = (selected.length ? selected.index() : 0),
             target   = (me.index() + 1),
             first    = current,
             last     = target,
-            level    = me.data('level'),
-            mode     = (table.attr('move-mode') === 'true');
-        if (mode) {
-            if (me.hasClass('insert-here')) {
-                alert('Дилог перемещения в элемент уровня', '"' + level + '"',
-                    'с индексом', me.index());
-            }
-            return false;
-        }
+            level    = me.data('level');
+
         if (!level) {
             console.log('click on top level');
             return false;
@@ -60,15 +53,65 @@ jQuery(document).ready(function main() {
     });
 
     $('#move-btn').on('click', function () {
-        var selected  = rows.filter('.selected'), expanded,
-            expand    = function (elements) {
+        var selected        = rows.filter('.selected'), expanded,
+            makeModel       = function (elements) {
+                var array = [];
+                elements.each(function () {
+                    var element      = {},
+                        me           = $(this),
+                        id           = parseInt(me.attr('id'), 10),
+                        children     = rows.filter('[data-parent="' + id + '"]');
+                    element.me       = me;
+                    element.id       = id;
+                    element.parent   = me.data('parent');
+                    element.level    = me.data('level');
+                    element.children = (children.length) ? children : null;
+                    array.push(element);
+                });
+                return array;
+            },
+            expandSelection = function (array) {
+                var expand = function (elements) {
+                    var expanded = $();
+                    elements.each(function () {
+                        var me       = $(this),
+                            id       = me.attr('id'),
+                            level    = me.data('level'),
+                            children = rows.filter('[data-parent="' + id + '"]');
+
+                        /* Базовый случай */
+                        if (level === 4) {
+                            expanded = expanded.add(me);
+                            return;
+                        }
+                        /* Рекурсия */
+                        if (level === 1 || level === 2) {
+                            expand(children);
+                        }
+                    });
+                    console.log(expanded);
+                };
+                if ($.isArray(array)) {
+                    array.forEach(function (element) {
+                        var children = element.children;
+                        if (children) {
+                            expand(children);
+                        }
+                    });
+                    expanded = rows.filter('.selected');
+                }
+            },
+            expand_old      = function (elements) {
                 elements.each(function () {
                     var me       = $(this),
                         id       = me.attr('id'),
                         level    = me.data('level'),
                         children = rows.filter('[data-parent="' + id + '"]');
+
                     /* Базовый случай */
-                    if (level === 4) return;
+                    if (level === 4) {
+                        return;
+                    }
                     /* Рекурсия */
                     if (level === 1 || level === 2) {
                         expand(children);
@@ -77,7 +120,7 @@ jQuery(document).ready(function main() {
                     expanded.addClass('selected');
                 });
             },
-            findPlace = function (elements) {
+            findPlace       = function (elements) {
                 var group = {};
                 elements.each(function () {
                     var group  = {};
@@ -88,28 +131,24 @@ jQuery(document).ready(function main() {
                         tree   = me.data('tree');
                     console.log('id:' + id, 'level:' + level, 'parent:' + parent, 'tree:' + tree);
                 })
-            },
-            group     = function (selected, expanded) {
-                selected.each(function () {
-                    console.log(this);
-                });
             };
 
-        if (selected.length) {
-            expand(selected);
-            /* Переопределение */
-            expanded = rows.filter('.selected');
-            console.log('selected:', selected);
-            console.log('expanded:', expanded);
-        } else {
-            alert('Выберите хотя бы одну строку!');
-        }
-        group(selected, expanded);
-        // findPlace(selected);
+        // if (selected.length) {
+        //     expand(selected);
+        //     /* Переопределение */
+        //     expanded = rows.filter('.selected');
+        // } else {
+        // }
+        //     alert('Выберите хотя бы одну строку!');
+        expandSelection(makeModel(selected));
     });
 
     $('#cancel-btn').on('mousedown', function () {
         rows.removeClass('selected border insert-here unable-to-insert');
         table.attr('move-mode', false);
+        if (blink) {
+            clearInterval(blink);
+            blink = undefined;
+        }
     });
 });
