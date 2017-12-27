@@ -11,14 +11,15 @@
 /* jQuery */
 jQuery(document).ready(function main() {
 
-    var table = $('table'),
-        rows  = table.find('tr'),
-        blink;
+    var table         = $('table'),
+        rows          = table.find('tr'),
+        blink,
+        selectedClass = 'selected';
 
     /* Обработчик строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
         var me       = $(this),
-            selected = rows.filter('.selected'),
+            selected = rows.filter('.' + selectedClass),
             current  = (selected.length ? selected.index() : 0),
             target   = (me.index() + 1),
             first    = current,
@@ -30,37 +31,82 @@ jQuery(document).ready(function main() {
             return false;
         }
         if (!e.ctrlKey && !e.shiftKey) {
-            selected.removeClass('selected border');
+            selected.removeClass(selectedClass + ' border');
         }
         if (e.shiftKey) {
             e.preventDefault();
             if (me.is(selected)) {
-                selected.removeClass('selected');
+                selected.removeClass(selectedClass);
             } else {
                 if (current >= target) {
                     first = target - 1;
                     last  = current + 1;
                 }
-                $('table > tbody tr').slice(first, last).addClass('selected');
+                $('table > tbody tr').slice(first, last).addClass(selectedClass);
             }
         } else {
-            if (me.hasClass('selected')) {
-                me.removeClass('selected border');
+            if (me.hasClass(selectedClass)) {
+                me.removeClass(selectedClass + ' border');
             } else {
-                me.addClass('selected');
+                me.addClass(selectedClass);
             }
         }
     });
 
     $('#move-btn').on('click', function () {
-        var selected        = rows.filter('.selected'), expanded,
-            makeModel       = function (elements) {
+        var selected             = rows.filter('.' + selectedClass),
+            selection,
+            getId                = function (element) {
+                var result;
+                if (element instanceof jQuery) {
+                    result = parseInt(element.attr('id'), 10);
+                }
+                return result;
+            },
+            getChildren          = function (element) {
+                var result;
+                if (element instanceof jQuery) {
+                    result = rows.filter(
+                        '[data-parent="' + getId(element) + '"]'
+                    );
+                }
+                return result;
+            },
+            expandSelection      = function (elements) {
+                var expanded = elements,
+                    expand   = function (elements) {
+                        var expanded = $();
+                        elements.each(function () {
+                            var me       = $(this),
+                                level    = me.data('level'),
+                                children = getChildren(me);
+
+                            expanded = expanded.add(me);
+                            if (level !== 4) {
+                                /* Рекурсия */
+                                expand(children);
+                            }
+                        });
+                        expanded.addClass(selectedClass)
+                    };
+                if (elements.length) {
+                    elements.each(function () {
+                        var children = getChildren($(this));
+                        if (children.length) {
+                            expand(children);
+                        }
+                    });
+                    expanded = rows.filter('.' + selectedClass);
+                }
+                return expanded;
+            },
+            getExpandedSelection = function (elements, sort) {
                 var array = [];
                 elements.each(function () {
                     var element      = {},
                         me           = $(this),
-                        id           = parseInt(me.attr('id'), 10),
-                        children     = rows.filter('[data-parent="' + id + '"]');
+                        id           = getId(me),
+                        children     = getChildren(me);
                     element.me       = me;
                     element.id       = id;
                     element.parent   = me.data('parent');
@@ -68,83 +114,23 @@ jQuery(document).ready(function main() {
                     element.children = (children.length) ? children : null;
                     array.push(element);
                 });
-                return array;
-            },
-            expandSelection = function (array) {
-                var expand = function (elements) {
-                    var expanded = $();
-                    elements.each(function () {
-                        var me       = $(this),
-                            id       = me.attr('id'),
-                            level    = me.data('level'),
-                            children = rows.filter('[data-parent="' + id + '"]');
-
-                        /* Базовый случай */
-                        if (level === 4) {
-                            expanded = expanded.add(me);
-                            return;
-                        }
-                        /* Рекурсия */
-                        if (level === 1 || level === 2) {
-                            expand(children);
-                        }
+                if (sort) {
+                    return array.sort(function (a, b) {
+                        return a.level - b.level;
                     });
-                    console.log(expanded);
-                };
-                if ($.isArray(array)) {
-                    array.forEach(function (element) {
-                        var children = element.children;
-                        if (children) {
-                            expand(children);
-                        }
-                    });
-                    expanded = rows.filter('.selected');
                 }
-            },
-            expand_old      = function (elements) {
-                elements.each(function () {
-                    var me       = $(this),
-                        id       = me.attr('id'),
-                        level    = me.data('level'),
-                        children = rows.filter('[data-parent="' + id + '"]');
-
-                    /* Базовый случай */
-                    if (level === 4) {
-                        return;
-                    }
-                    /* Рекурсия */
-                    if (level === 1 || level === 2) {
-                        expand(children);
-                    }
-                    expanded = me.add(children);
-                    expanded.addClass('selected');
-                });
-            },
-            findPlace       = function (elements) {
-                var group = {};
-                elements.each(function () {
-                    var group  = {};
-                    var me     = $(this),
-                        id     = me.attr('id'),
-                        level  = me.data('level'),
-                        parent = me.data('parent'),
-                        tree   = me.data('tree');
-                    console.log('id:' + id, 'level:' + level, 'parent:' + parent, 'tree:' + tree);
-                })
+                return array;
             };
 
-        // if (selected.length) {
-        //     expand(selected);
-        //     /* Переопределение */
-        //     expanded = rows.filter('.selected');
-        // } else {
-        // }
-        //     alert('Выберите хотя бы одну строку!');
-        expandSelection(makeModel(selected));
+        selection = getExpandedSelection(expandSelection(selected));
+        selection.forEach(function (object) {
+            object['me'].addClass('border').removeClass(selectedClass);
+        });
+        console.log(selection);
     });
 
     $('#cancel-btn').on('mousedown', function () {
-        rows.removeClass('selected border insert-here unable-to-insert');
+        rows.removeClass(selectedClass + ' border insert-here unable-to-insert');
         table.attr('move-mode', false);
         if (blink) {
             clearInterval(blink);

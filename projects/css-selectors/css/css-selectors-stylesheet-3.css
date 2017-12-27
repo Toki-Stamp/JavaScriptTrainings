@@ -224,6 +224,7 @@ tr.unable-to-insert td {
 .btn-container button {
     transition: all 250ms;
     width: 140px;
+    height: 3em;
     display: inline-block;
     margin: 4px;
     padding: 6px;
@@ -245,7 +246,6 @@ tr.unable-to-insert td {
     transition: all 250ms;
     border-radius: 12px;
     border: 2px solid rgba(211, 211, 211, .7);
-    box-shadow: 0 0 10px 2px rgb(100, 100, 100);
 }
 
 .btn-container button:focus {
@@ -296,7 +296,6 @@ tr.unable-to-insert td {
 .btn-container button.cancel:not(:disabled):hover {
     font-weight: bold;
     border: 2px solid rgb(255, 160, 160);
-    box-shadow: /* outer */ 0 0 10px 2px rgb(255, 0, 50);
 }
 
 .btn-container button.move {
@@ -307,5 +306,4 @@ tr.unable-to-insert td {
 .btn-container button.move:not(:disabled):hover {
     font-weight: bold;
     border: 2px solid rgb(160, 160, 255);
-    box-shadow: /* outer */ 0 0 10px 2px rgb(0, 0, 140);
 }
