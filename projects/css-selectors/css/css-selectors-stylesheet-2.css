@@ -153,25 +153,25 @@ tr:last-child.border {
 
 /* Место вставки */
 
-tr.insert-here {
+tr.valid-place {
     cursor: pointer;
     transition: outline-width 250ms;
     outline: 2px solid rgb(0, 170, 0);
     outline-offset: -1px;
 }
 
-tr.insert-here:hover {
+tr.valid-place:hover {
     outline: 5px solid rgb(0, 170, 0);
     outline-offset: -1px;
 }
 
-tr.insert-here td {
+tr.valid-place td {
     border: 1px solid rgba(0, 170, 0, .1);
 }
 
 /* Место недоступное для вставки */
 
-tr.unable-to-insert td {
+tr.invalid-place td {
     transition: opacity 500ms;
     cursor: not-allowed;
     opacity: .2;

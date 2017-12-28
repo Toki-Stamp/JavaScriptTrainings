@@ -14,7 +14,16 @@ jQuery(document).ready(function main() {
     var table         = $('table'),
         rows          = table.find('tr'),
         blink,
-        selectedClass = 'selected';
+        clearBlink    = function () {
+            if (blink) {
+                clearInterval(blink);
+                blink = undefined;
+            }
+        },
+        selectedClass = 'selected',
+        borderClass   = 'border',
+        validClass    = 'valid-place',
+        invalidClass  = 'invalid-place';
 
     /* Обработчик строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
@@ -31,7 +40,8 @@ jQuery(document).ready(function main() {
             return false;
         }
         if (!e.ctrlKey && !e.shiftKey) {
-            selected.removeClass(selectedClass + ' border');
+            selected.removeClass(selectedClass + ' ' + borderClass);
+            clearBlink();
         }
         if (e.shiftKey) {
             e.preventDefault();
@@ -46,7 +56,7 @@ jQuery(document).ready(function main() {
             }
         } else {
             if (me.hasClass(selectedClass)) {
-                me.removeClass(selectedClass + ' border');
+                me.removeClass(selectedClass + ' ' + borderClass);
             } else {
                 me.addClass(selectedClass);
             }
@@ -54,16 +64,17 @@ jQuery(document).ready(function main() {
     });
 
     $('#move-btn').on('click', function () {
-        var selected             = rows.filter('.' + selectedClass),
-            selection,
-            getId                = function (element) {
+        var selected        = rows.filter('.' + selectedClass),
+            expanded,
+            model,
+            getId           = function (element) {
                 var result;
                 if (element instanceof jQuery) {
                     result = parseInt(element.attr('id'), 10);
                 }
                 return result;
             },
-            getChildren          = function (element) {
+            getChildren     = function (element) {
                 var result;
                 if (element instanceof jQuery) {
                     result = rows.filter(
@@ -72,9 +83,16 @@ jQuery(document).ready(function main() {
                 }
                 return result;
             },
-            expandSelection      = function (elements) {
-                var expanded = elements,
-                    expand   = function (elements) {
+            getParent       = function (parent) {
+                var result;
+                if (typeof parent === 'number') {
+                    result = rows.filter('[id="' + parent + '"]');
+                }
+                return result;
+            },
+            expandSelection = function (elements) {
+                var expanded    = elements,
+                    expand      = function (elements) {
                         var expanded = $();
                         elements.each(function () {
                             var me       = $(this),
@@ -88,6 +106,14 @@ jQuery(document).ready(function main() {
                             }
                         });
                         expanded.addClass(selectedClass)
+                    },
+                    blinkBorder = function (elements) {
+                        if (elements.length) {
+                            elements.addClass(borderClass);
+                            blink = setInterval(function () {
+                                elements.toggleClass(borderClass);
+                            }, 750);
+                        }
                     };
                 if (elements.length) {
                     elements.each(function () {
@@ -98,43 +124,89 @@ jQuery(document).ready(function main() {
                     });
                     expanded = rows.filter('.' + selectedClass);
                 }
+                blinkBorder(expanded);
                 return expanded;
             },
-            getExpandedSelection = function (elements, sort) {
-                var array = [];
+            getModel        = function (elements, sort) {
+                var array  = [];
+                var levels = {};
                 elements.each(function () {
-                    var element      = {},
-                        me           = $(this),
-                        id           = getId(me),
-                        children     = getChildren(me);
-                    element.me       = me;
-                    element.id       = id;
-                    element.parent   = me.data('parent');
-                    element.level    = me.data('level');
-                    element.children = (children.length) ? children : null;
+                    var element  = {},
+                        me       = $(this),
+                        id       = getId(me),
+                        children = getChildren(me).length ? getChildren(me) : null,
+                        parent   = getParent(me.data('parent')),
+                        level    = me.data('level');
+
+                    levels[level] = true;
+
+                    element['1-me']       = me;
+                    element['2-parent']   = parent;
+                    element['3-children'] = children;
+                    element['4-id']       = id;
+                    element['5-name']     = me.data('name');
+                    element['6-number']   = me.data('number');
+                    element['7-level']    = level;
+                    element['8-tree']     = me.data('tree');
+
                     array.push(element);
                 });
+
+                array.unshift(Object.keys(levels));
                 if (sort) {
+                    /* Сортировка по уровню */
                     return array.sort(function (a, b) {
                         return a.level - b.level;
                     });
                 }
                 return array;
+            },
+            analyzeModel    = function (model) {
+                var getValid   = function (element) {
+                        var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
+                            item,
+                            level;
+                        if (!$.isEmptyObject(element)) {
+                            item = element['1-me'];
+                            if (item instanceof jQuery) {
+                                level = element['7-level'];
+                                console.log('level:', level, 'valid:', matrix[level]);
+                            }
+                        }
+                    },
+                    getInvalid = function (element) {
+                    };
+                if ($.isArray(model)) {
+                    var valid   = $(),
+                        invalid = $();
+                    model.forEach(function (item, index) {
+                        if (index) {
+                            getValid(item);
+                        }
+                    });
+                    valid.addClass();
+                    invalid.addClass();
+                }
             };
 
-        selection = getExpandedSelection(expandSelection(selected));
-        selection.forEach(function (object) {
-            object['me'].addClass('border').removeClass(selectedClass);
-        });
-        console.log(selection);
+        expanded = expandSelection(selected);
+        model    = getModel(expanded);
+        console.log('model -------------');
+        console.log(model);
+        console.log('------------- model');
+        console.log('analyze -----------');
+        analyzeModel(model);
+        console.log('----------- analyze');
     });
 
     $('#cancel-btn').on('mousedown', function () {
-        rows.removeClass(selectedClass + ' border insert-here unable-to-insert');
+        rows.removeClass(
+            selectedClass + ' ' +
+            borderClass + ' ' +
+            validClass + ' ' +
+            invalidClass
+        );
         table.attr('move-mode', false);
-        if (blink) {
-            clearInterval(blink);
-            blink = undefined;
-        }
+        clearBlink();
     });
 });

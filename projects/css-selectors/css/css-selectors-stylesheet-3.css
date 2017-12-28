@@ -149,25 +149,25 @@ tr:last-child.border {
 
 /* Место вставки */
 
-tr.insert-here {
+tr.valid-place {
     cursor: pointer;
     transition: outline-width 250ms;
     outline: 2px solid rgb(0, 170, 0);
     outline-offset: -1px;
 }
 
-tr.insert-here:hover {
+tr.valid-place:hover {
     outline: 5px solid rgb(0, 170, 0);
     outline-offset: -1px;
 }
 
-tr.insert-here td {
+tr.valid-place td {
     border: 1px solid rgba(0, 170, 0, .1);
 }
 
 /* Место недоступное для вставки */
 
-tr.unable-to-insert td {
+tr.invalid-place td {
     transition: opacity 500ms;
     cursor: not-allowed;
     opacity: .2;
@@ -259,33 +259,33 @@ tr.unable-to-insert td {
     font-weight: bold;
     color: rgb(100, 100, 100);
     border: 2px solid rgb(100, 100, 100);
+    -webkit-font-smoothing: antialiased;
+    text-shadow: /* 1 */ 0 0 8px lightgray, /* 2 */ 0 0 8px lightgray,
+        /* 3 */ 0 0 8px lightgray, /* 4 */ 0 0 8px lightgray,
+        /* 5 */ 0 0 8px lightgray, /* 6 */ 0 0 8px lightgray,
+        /* 7 */ 0 0 8px lightgray, /* 8 */ 0 0 8px lightgray,
+        /* 9 */ 0 0 8px lightgray, /* 10 */ 0 0 8px lightgray,
+        /* 11 */ 0 0 8px lightgray, /* 12 */ 0 0 8px lightgray,
+        /* 13 */ 0 0 8px lightgray, /* 14 */ 0 0 8px lightgray,
+        /* 15 */ 0 0 8px lightgray, /* 16 */ 0 0 8px lightgray,
+        /* 17 */ 0 0 8px lightgray, /* 18 */ 0 0 8px lightgray,
+        /* 19 */ 0 0 8px lightgray, /* 20 */ 0 0 8px lightgray,
+        /* 21 */ 0 0 8px lightgray, /* 22 */ 0 0 8px lightgray,
+        /* 23 */ 0 0 8px lightgray, /* 24 */ 0 0 8px lightgray,
+        /* 25 */ 0 0 8px lightgray, /* 26 */ 0 0 8px lightgray,
+        /* 27 */ 0 0 8px lightgray, /* 28 */ 0 0 8px lightgray,
+        /* 29 */ 0 0 8px lightgray, /* 30 */ 0 0 8px lightgray,
+        /* 31 */ 0 0 8px lightgray, /* 32 */ 0 0 8px lightgray,
+        /* 33 */ 0 0 8px lightgray, /* 34 */ 0 0 8px lightgray,
+        /* 35 */ 0 0 8px lightgray, /* 36 */ 0 0 8px lightgray,
+        /* 37 */ 0 0 8px lightgray, /* 38 */ 0 0 8px lightgray,
+        /* 39 */ 0 0 8px lightgray, /* 40 */ 0 0 8px lightgray;
     background: lightgray repeating-linear-gradient(
             -45deg,
             transparent 0px,
             rgb(100, 100, 100) 1px,
             transparent 2px,
             transparent 7px);
-    -webkit-font-smoothing: antialiased;
-    text-shadow: /* 1 */ 0 0 4px lightgray, /* 2 */ 0 0 4px lightgray,
-        /* 3 */ 0 0 4px lightgray, /* 4 */ 0 0 4px lightgray,
-        /* 5 */ 0 0 4px lightgray, /* 6 */ 0 0 4px lightgray,
-        /* 7 */ 0 0 4px lightgray, /* 8 */ 0 0 4px lightgray,
-        /* 9 */ 0 0 4px lightgray, /* 10 */ 0 0 4px lightgray,
-        /* 11 */ 0 0 4px lightgray, /* 12 */ 0 0 4px lightgray,
-        /* 13 */ 0 0 4px lightgray, /* 14 */ 0 0 4px lightgray,
-        /* 15 */ 0 0 4px lightgray, /* 16 */ 0 0 4px lightgray,
-        /* 17 */ 0 0 4px lightgray, /* 18 */ 0 0 4px lightgray,
-        /* 19 */ 0 0 4px lightgray, /* 20 */ 0 0 4px lightgray,
-        /* 21 */ 0 0 4px lightgray, /* 22 */ 0 0 4px lightgray,
-        /* 23 */ 0 0 4px lightgray, /* 24 */ 0 0 4px lightgray,
-        /* 25 */ 0 0 4px lightgray, /* 26 */ 0 0 4px lightgray,
-        /* 27 */ 0 0 4px lightgray, /* 28 */ 0 0 4px lightgray,
-        /* 29 */ 0 0 4px lightgray, /* 30 */ 0 0 4px lightgray,
-        /* 31 */ 0 0 4px lightgray, /* 32 */ 0 0 4px lightgray,
-        /* 33 */ 0 0 4px lightgray, /* 34 */ 0 0 4px lightgray,
-        /* 35 */ 0 0 4px lightgray, /* 36 */ 0 0 4px lightgray,
-        /* 37 */ 0 0 4px lightgray, /* 38 */ 0 0 4px lightgray,
-        /* 39 */ 0 0 4px lightgray, /* 40 */ 0 0 4px lightgray;
 }
 
 .btn-container button.cancel {
