@@ -146,9 +146,10 @@ jQuery(document).ready(function main() {
             },
             mergeGroups  = function (array) {
                 if ($.isArray(array)) {
+                    console.log('begin');
                     array.forEach(function (item, index, array) {
                         if (item instanceof jQuery) {
-                            console.log('round:', index);
+                            console.log('\tround:', index);
                             for (var i = 0, length = array.length; i < length; i++) {
                                 var element = array[i];
                                 var left    = item.length,
@@ -160,17 +161,24 @@ jQuery(document).ready(function main() {
                                     left  = element;
                                     right = item;
                                 } else {
-                                    console.log('special case! equivalent lengths');
+                                    console.log('\t\tspecial case! equivalent lengths');
                                     continue;
                                 }
-                                console.log('step', i);
-                                console.log('compare', left, 'and', right);
-
-                                console.log('next step')
+                                console.log('\t\tstep', i);
+                                console.log('\t\tcompare');
+                                console.log('\t\t', left);
+                                console.log('\t\tand');
+                                console.log('\t\t', right);
+                                if (left.is(right)) {
+                                    console.log('\t\t!!!contains!!! break!');
+                                    break;
+                                }
+                                console.log('\t\tnext step')
                             }
-                            console.log('next round');
+                            console.log('\tnext round');
                         }
                     });
+                    console.log('end');
                 }
             },
 
