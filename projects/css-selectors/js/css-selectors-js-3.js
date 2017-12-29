@@ -14,11 +14,16 @@ jQuery(document).ready(function main() {
     var table         = $('table'),
         rows          = table.find('tr'),
         blink,
-        clearBlink    = function () {
-            if (blink) {
-                clearInterval(blink);
-                blink = undefined;
+        setBlink      = function (elements) {
+            if (elements.length) {
+                elements.addClass(borderClass);
+                blink = setInterval(function () {
+                    elements.toggleClass(borderClass);
+                }, 750);
             }
+        },
+        clearBlink    = function () {
+            clearInterval(blink);
         },
         selectedClass = 'selected',
         borderClass   = 'border',
@@ -35,14 +40,17 @@ jQuery(document).ready(function main() {
             last     = target,
             level    = me.data('level');
 
+        clearBlink();
+
         if (!level) {
             console.log('click on top level');
             return false;
         }
+
         if (!e.ctrlKey && !e.shiftKey) {
             selected.removeClass(selectedClass + ' ' + borderClass);
-            clearBlink();
         }
+
         if (e.shiftKey) {
             e.preventDefault();
             if (me.is(selected)) {
@@ -61,80 +69,120 @@ jQuery(document).ready(function main() {
                 me.addClass(selectedClass);
             }
         }
+
     });
 
     $('#move-btn').on('click', function () {
-        var selected        = rows.filter('.' + selectedClass),
-            expanded,
+        var selected     = rows.filter('.' + selectedClass),
+            groups,
+            merged,
             model,
-            getId           = function (element) {
+            analytics    = {},
+            highlight    = function (elements) {
+                if ($.isArray(elements)) {
+                    elements.forEach(function (element) {
+                        if (element instanceof jQuery) {
+                            element.addClass(selectedClass);
+                        }
+                    });
+                }
+
+            },
+            getId        = function (element) {
                 var result;
+
                 if (element instanceof jQuery) {
                     result = parseInt(element.attr('id'), 10);
                 }
+
                 return result;
             },
-            getChildren     = function (element) {
+            getChildren  = function (element) {
                 var result;
+
                 if (element instanceof jQuery) {
                     result = rows.filter(
                         '[data-parent="' + getId(element) + '"]'
                     );
+                    result = (result.length) ? result : null;
                 }
+
                 return result;
             },
-            getParent       = function (parent) {
+            getParent    = function (parentId) {
                 var result;
-                if (typeof parent === 'number') {
-                    result = rows.filter('[id="' + parent + '"]');
+
+                if (typeof parentId === 'number') {
+                    result = rows.filter('[id="' + parentId + '"]');
                 }
+
                 return result;
             },
-            expandSelection = function (elements) {
-                var expanded    = elements,
-                    expand      = function (elements) {
-                        var expanded = $();
+            getGroups    = function (elements) {
+                var groups = [],
+                    expand = function (elements) {
+                        var group = $();
+
                         elements.each(function () {
                             var me       = $(this),
-                                level    = me.data('level'),
                                 children = getChildren(me);
 
-                            expanded = expanded.add(me);
-                            if (level !== 4) {
-                                /* Рекурсия */
-                                expand(children);
+                            group = group.add(me);
+
+                            if (children) {
+                                group = group.add(expand(children))
                             }
                         });
-                        expanded.addClass(selectedClass)
-                    },
-                    blinkBorder = function (elements) {
-                        if (elements.length) {
-                            elements.addClass(borderClass);
-                            blink = setInterval(function () {
-                                elements.toggleClass(borderClass);
-                            }, 750);
-                        }
+                        return group;
                     };
-                if (elements.length) {
+
+                if ((elements instanceof jQuery) && (elements.length)) {
                     elements.each(function () {
-                        var children = getChildren($(this));
-                        if (children.length) {
-                            expand(children);
+                        groups.push(expand($(this)));
+                    });
+                }
+
+                return groups;
+            },
+            mergeGroups  = function (array) {
+                if ($.isArray(array)) {
+                    array.forEach(function (item, index, array) {
+                        if (item instanceof jQuery) {
+                            console.log('round:', index);
+                            for (var i = 0, length = array.length; i < length; i++) {
+                                var element = array[i];
+                                var left    = item.length,
+                                    right   = element.length;
+                                if (left > right) {
+                                    left  = item;
+                                    right = element;
+                                } else if (left < right) {
+                                    left  = element;
+                                    right = item;
+                                } else {
+                                    console.log('special case! equivalent lengths');
+                                    continue;
+                                }
+                                console.log('step', i);
+                                console.log('compare', left, 'and', right);
+
+                                console.log('next step')
+                            }
+                            console.log('next round');
                         }
                     });
-                    expanded = rows.filter('.' + selectedClass);
                 }
-                blinkBorder(expanded);
-                return expanded;
             },
-            getModel        = function (elements, sort) {
+
+            getModel     = function (elements, sort) {
                 var array  = [];
                 var levels = {};
+
                 elements.each(function () {
                     var element  = {},
                         me       = $(this),
                         id       = getId(me),
-                        children = getChildren(me).length ? getChildren(me) : null,
+                        children = getChildren(me),
                         parent   = getParent(me.data('parent')),
                         level    = me.data('level');
 
@@ -152,7 +200,8 @@ jQuery(document).ready(function main() {
                     array.push(element);
                 });
 
-                array.unshift(Object.keys(levels));
+                analytics.levels = Object.keys(levels);
+
                 if (sort) {
                     /* Сортировка по уровню */
                     return array.sort(function (a, b) {
@@ -161,8 +210,10 @@ jQuery(document).ready(function main() {
                 }
                 return array;
             },
-            analyzeModel    = function (model) {
-                var getValid   = function (element) {
+            analyzeModel = function (model) {
+                var checkKinship = function () {
+                    },
+                    getValid     = function (element) {
                         var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
                             item,
                             level;
@@ -174,29 +225,28 @@ jQuery(document).ready(function main() {
                             }
                         }
                     },
-                    getInvalid = function (element) {
+                    getInvalid   = function (element) {
                     };
+
                 if ($.isArray(model)) {
                     var valid   = $(),
                         invalid = $();
-                    model.forEach(function (item, index) {
-                        if (index) {
-                            getValid(item);
-                        }
+
+                    model.forEach(function (item) {
+                        getValid(item);
                     });
+
                     valid.addClass();
                     invalid.addClass();
                 }
             };
 
-        expanded = expandSelection(selected);
-        model    = getModel(expanded);
-        console.log('model -------------');
-        console.log(model);
-        console.log('------------- model');
-        console.log('analyze -----------');
-        analyzeModel(model);
-        console.log('----------- analyze');
+        analytics.selected = selected;
+
+        groups = getGroups(selected);
+        merged = mergeGroups(groups);
+        // highlight(groups);
+
     });
 
     $('#cancel-btn').on('mousedown', function () {
