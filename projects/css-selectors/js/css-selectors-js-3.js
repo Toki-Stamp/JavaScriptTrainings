@@ -12,7 +12,8 @@
 jQuery(document).ready(function main() {
 
     var table         = $('table'),
-        rows          = table.find('tr'),
+        tbody         = $('#tbodyForMainTable'),
+        rows          = tbody.find('tr'),
         blink,
         setBlink      = function (elements) {
             if (elements.length) {
@@ -73,12 +74,10 @@ jQuery(document).ready(function main() {
     });
 
     $('#move-btn').on('click', function () {
-        var selected     = rows.filter('.' + selectedClass),
+        var selected    = rows.filter('.' + selectedClass),
             groups,
-            merged,
             model,
-            analytics    = {},
-            highlight    = function (elements) {
+            highlight   = function (elements) {
                 if ($.isArray(elements)) {
                     elements.forEach(function (element) {
                         if (element instanceof jQuery) {
@@ -88,7 +87,7 @@ jQuery(document).ready(function main() {
                 }
 
             },
-            getId        = function (element) {
+            getId       = function (element) {
                 var result;
 
                 if (element instanceof jQuery) {
@@ -97,7 +96,7 @@ jQuery(document).ready(function main() {
 
                 return result;
             },
-            getChildren  = function (element) {
+            getChildren = function (element) {
                 var result;
 
                 if (element instanceof jQuery) {
@@ -109,7 +108,7 @@ jQuery(document).ready(function main() {
 
                 return result;
             },
-            getParent    = function (parentId) {
+            getParent   = function (parentId) {
                 var result;
 
                 if (typeof parentId === 'number') {
@@ -118,9 +117,9 @@ jQuery(document).ready(function main() {
 
                 return result;
             },
-            getGroups    = function (elements) {
-                var groups = [],
-                    expand = function (elements) {
+            getGroups   = function (elements) {
+                var groups  = [],
+                    expand  = function (elements) {
                         var group = $();
 
                         elements.each(function () {
@@ -133,7 +132,30 @@ jQuery(document).ready(function main() {
                                 group = group.add(expand(children))
                             }
                         });
+
                         return group;
+                    },
+                    consume = function (array) {
+                        var result = array.slice(0),
+                            i      = 0, j,
+                            left, right;
+                        if ($.isArray(result)) {
+                            /* outer */
+                            while (i < (result.length - 1)) {
+                                left = result[i];
+                                /* inner */
+                                for (j = (i + 1); j < result.length; j++) {
+                                    right = result[j];
+                                    if (left.is(right)) {
+                                        result.splice(j, 1);
+                                        i = -1;
+                                        break;
+                                    }
+                                }
+                                i += 1;
+                            }
+                        }
+                        return result;
                     };
 
                 if ((elements instanceof jQuery) && (elements.length)) {
@@ -142,119 +164,71 @@ jQuery(document).ready(function main() {
                     });
                 }
 
-                return groups;
+                return consume(groups);
             },
-            mergeGroups  = function (array) {
-                if ($.isArray(array)) {
-                    console.log('begin');
-                    array.forEach(function (item, index, array) {
-                        if (item instanceof jQuery) {
-                            console.log('\tround:', index);
-                            for (var i = 0, length = array.length; i < length; i++) {
-                                var element = array[i];
-                                var left    = item.length,
-                                    right   = element.length;
-                                if (left > right) {
-                                    left  = item;
-                                    right = element;
-                                } else if (left < right) {
-                                    left  = element;
-                                    right = item;
-                                } else {
-                                    console.log('\t\tspecial case! equivalent lengths');
-                                    continue;
+            getModel    = function (elements) {
+                var items = [],
+                    model = {};
+
+                elements.forEach(function (element) {
+                    var item      = {},
+                        id        = getId(element),
+                        children  = getChildren(element),
+                        parent    = getParent(element.data('parent')),
+                        level     = element.data('level'),
+                        getLevels = function (level) {
+                            var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
+                                levels = [],
+                                expand;
+                            if (level in matrix) {
+                                expand = matrix[level];
+                                if (expand) {
+                                    if ($.isArray(expand)) {
+                                        expand.forEach(function (item) {
+                                            levels.push(item);
+                                        });
+                                    } else {
+                                        levels.push(expand);
+                                    }
                                 }
-                                console.log('\t\tstep', i);
-                                console.log('\t\tcompare');
-                                console.log('\t\t', left);
-                                console.log('\t\tand');
-                                console.log('\t\t', right);
-                                if (left.is(right)) {
-                                    console.log('\t\t!!!contains!!! break!');
-                                    break;
-                                }
-                                console.log('\t\tnext step')
                             }
-                            console.log('\tnext round');
-                        }
-                    });
-                    console.log('end');
-                }
-            },
+                            return levels;
+                        },
+                        getValid  = function (levels) {
+                            var valid = rows.first();
+                            levels.forEach(function (item) {
+                                if (typeof item === 'number') {
+                                    var elements = rows.filter(
+                                        '[data-level="' + item + '"]'
+                                    );
+                                }
+                                valid = valid.add(elements);
+                            });
+                            return valid;
+                        };
 
-            getModel     = function (elements, sort) {
-                var array  = [];
-                var levels = {};
+                    item['1-me']       = element;
+                    item['2-parent']   = parent;
+                    item['3-children'] = children;
+                    item['4-id']       = id;
+                    item['5-name']     = element.data('name');
+                    item['6-number']   = element.data('number');
+                    item['7-level']    = level;
+                    item['8-tree']     = element.data('tree');
+                    item['9-valid']    = getValid(getLevels(level)).not(parent);
 
-                elements.each(function () {
-                    var element  = {},
-                        me       = $(this),
-                        id       = getId(me),
-                        children = getChildren(me),
-                        parent   = getParent(me.data('parent')),
-                        level    = me.data('level');
-
-                    levels[level] = true;
-
-                    element['1-me']       = me;
-                    element['2-parent']   = parent;
-                    element['3-children'] = children;
-                    element['4-id']       = id;
-                    element['5-name']     = me.data('name');
-                    element['6-number']   = me.data('number');
-                    element['7-level']    = level;
-                    element['8-tree']     = me.data('tree');
-
-                    array.push(element);
+                    items.push(item);
                 });
 
-                analytics.levels = Object.keys(levels);
-
-                if (sort) {
-                    /* Сортировка по уровню */
-                    return array.sort(function (a, b) {
-                        return a.level - b.level;
-                    });
-                }
-                return array;
-            },
-            analyzeModel = function (model) {
-                var checkKinship = function () {
-                    },
-                    getValid     = function (element) {
-                        var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
-                            item,
-                            level;
-                        if (!$.isEmptyObject(element)) {
-                            item = element['1-me'];
-                            if (item instanceof jQuery) {
-                                level = element['7-level'];
-                                console.log('level:', level, 'valid:', matrix[level]);
-                            }
-                        }
-                    },
-                    getInvalid   = function (element) {
-                    };
-
-                if ($.isArray(model)) {
-                    var valid   = $(),
-                        invalid = $();
-
-                    model.forEach(function (item) {
-                        getValid(item);
-                    });
-
-                    valid.addClass();
-                    invalid.addClass();
-                }
+                return items;
             };
 
-        analytics.selected = selected;
-
         groups = getGroups(selected);
-        merged = mergeGroups(groups);
-        // highlight(groups);
-
+        console.log('selected', selected);
+        console.log('groups', groups);
+        highlight(groups);
+        model = getModel(groups);
+        console.log(model);
     });
 
     $('#cancel-btn').on('mousedown', function () {
