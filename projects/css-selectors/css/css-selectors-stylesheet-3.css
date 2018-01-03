@@ -123,21 +123,30 @@ tr.border {
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
+    /*border-top: 2px solid black;*/
+    /*border-left: 2px solid black;*/
+    /*border-right: 2px solid black;*/
 }
 
 tr.border + tr.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
+    /*border-left: 2px solid black;*/
+    /*border-right: 2px solid black;*/
 }
 
 tr.border + tr:last-child.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
+    /*border-left: 2px solid black;*/
+    /*border-right: 2px solid black;*/
+    /*border-bottom: 2px solid black;*/
 }
 
 tr.border + tr:not(.border) {
     box-shadow: /* top */ 0 -3px 0 0 black;
+    /*border-top: 2px solid black;*/
 }
 
 tr:last-child.border {
@@ -145,6 +154,7 @@ tr:last-child.border {
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
+    /*border: 2px solid black;*/
 }
 
 /* Место вставки */
@@ -159,6 +169,7 @@ tr.valid-place {
 tr.valid-place:hover {
     outline: 5px solid rgb(0, 170, 0);
     outline-offset: -1px;
+    background-color: rgba(0, 170, 0, .3);
 }
 
 tr.valid-place td {
@@ -168,10 +179,9 @@ tr.valid-place td {
 /* Место недоступное для вставки */
 
 tr.invalid-place td {
-    transition: opacity 500ms;
     cursor: not-allowed;
-    opacity: .2;
-    border: 1px solid rgba(128, 128, 128, .2);
+    /*border: 1px solid rgba(128, 128, 128, .2);*/
+    border: 1px solid transparent;
 }
 
 /* Подсказка */
