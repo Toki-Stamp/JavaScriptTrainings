@@ -74,10 +74,27 @@ jQuery(document).ready(function main() {
     });
 
     $('#move-btn').on('click', function () {
-        var selected    = rows.filter('.' + selectedClass),
+        var selected       = rows.filter('.' + selectedClass),
+            selectedLevels = (function (elements) {
+                var result = [], level;
+
+                if (elements instanceof jQuery) {
+                    elements.each(function () {
+
+                        level = $(this).data('level');
+
+                        if (result.indexOf(level) === -1) {
+                            result.push(level);
+                        }
+
+                    });
+                }
+
+                return result;
+            })(selected),
             groups,
             model,
-            highlight   = function (elements) {
+            highlight      = function (elements) {
                 if ($.isArray(elements)) {
                     elements.forEach(function (element) {
                         if (element instanceof jQuery) {
@@ -87,7 +104,7 @@ jQuery(document).ready(function main() {
                 }
 
             },
-            getId       = function (element) {
+            getId          = function (element) {
                 var result;
 
                 if (element instanceof jQuery) {
@@ -96,7 +113,7 @@ jQuery(document).ready(function main() {
 
                 return result;
             },
-            getChildren = function (element) {
+            getChildren    = function (element) {
                 var result;
 
                 if (element instanceof jQuery) {
@@ -108,7 +125,7 @@ jQuery(document).ready(function main() {
 
                 return result;
             },
-            getParent   = function (parentId) {
+            getParent      = function (parentId) {
                 var result;
 
                 if (typeof parentId === 'number') {
@@ -117,8 +134,10 @@ jQuery(document).ready(function main() {
 
                 return result;
             },
-            getGroups   = function (elements) {
+
+            getGroups      = function (elements) {
                 var groups  = [],
+                    result,
                     expand  = function (elements) {
                         var group = $();
 
@@ -164,19 +183,34 @@ jQuery(document).ready(function main() {
                     });
                 }
 
-                return consume(groups);
+                result = consume(groups);
+
+                return result;
             },
-            getModel    = function (elements) {
+            getModel       = function (elements) {
                 var items = [],
                     model = {};
 
                 elements.forEach(function (element) {
-                    var item      = {},
-                        id        = getId(element),
-                        children  = getChildren(element),
-                        parent    = getParent(element.data('parent')),
-                        level     = element.data('level'),
-                        getLevels = function (level) {
+                    var item           = {},
+                        id             = getId(element),
+                        children       = getChildren(element),
+                        parent         = getParent(element.data('parent')),
+                        level          = element.data('level'),
+                        compare        = function (a, b) {
+                            if (a === b) return true;
+                            if (a == null || b == null) return false;
+                            if (a.length != b.length) return false;
+
+                            // If you don't care about the order of the elements inside
+                            // the array, you should sort both arrays here.
+
+                            for (var i = 0; i < a.length; ++i) {
+                                if (a[i] !== b[i]) return false;
+                            }
+                            return true;
+                        },
+                        getValidLevels = function (level) {
                             var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
                                 levels = [],
                                 expand;
@@ -194,8 +228,9 @@ jQuery(document).ready(function main() {
                             }
                             return levels;
                         },
-                        getValid  = function (levels) {
+                        getValidItems  = function (levels) {
                             var valid = rows.first();
+                            var is    = compare(selectedLevels);
                             levels.forEach(function (item) {
                                 if (typeof item === 'number') {
                                     var elements = rows.filter(
@@ -204,6 +239,7 @@ jQuery(document).ready(function main() {
                                 }
                                 valid = valid.add(elements);
                             });
+
                             return valid;
                         };
 
@@ -215,9 +251,13 @@ jQuery(document).ready(function main() {
                     item['6-number']   = element.data('number');
                     item['7-level']    = level;
                     item['8-tree']     = element.data('tree');
-                    item['9-valid']    = getValid(getLevels(level)).not(parent);
 
-                    items.push(item);
+                    // item['9-valid']    = (getValid(getValidLevels(level))).not(parent);
+
+                    var getValidLevels_ = getValidLevels(level);
+                    var getValidItems_  =
+
+                            items.push(item);
                 });
 
                 return items;
@@ -226,7 +266,7 @@ jQuery(document).ready(function main() {
         groups = getGroups(selected);
         console.log('selected', selected);
         console.log('groups', groups);
-        highlight(groups);
+        // highlight(groups);
         model = getModel(groups);
         console.log(model);
     });
