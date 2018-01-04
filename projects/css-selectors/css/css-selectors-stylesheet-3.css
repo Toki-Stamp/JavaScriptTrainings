@@ -119,34 +119,24 @@ table[move-mode="true"] tr.selected.border {
 }
 
 tr.border {
-    background-color: rgb(220, 220, 220);
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
-    /*border-top: 2px solid black;*/
-    /*border-left: 2px solid black;*/
-    /*border-right: 2px solid black;*/
 }
 
 tr.border + tr.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black;
-    /*border-left: 2px solid black;*/
-    /*border-right: 2px solid black;*/
 }
 
 tr.border + tr:last-child.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
-    /*border-left: 2px solid black;*/
-    /*border-right: 2px solid black;*/
-    /*border-bottom: 2px solid black;*/
 }
 
 tr.border + tr:not(.border) {
     box-shadow: /* top */ 0 -3px 0 0 black;
-    /*border-top: 2px solid black;*/
 }
 
 tr:last-child.border {
@@ -154,22 +144,28 @@ tr:last-child.border {
         /* left */ inset 3px 0 0 0 black,
         /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
-    /*border: 2px solid black;*/
+}
+
+tr.selected.border td,
+tr.selected td,
+tr.border td {
+    border: 1px solid transparent;
 }
 
 /* Место вставки */
 
 tr.valid-place {
     cursor: pointer;
-    transition: outline-width 250ms;
+    transition: all 250ms;
     outline: 2px solid rgb(0, 170, 0);
     outline-offset: -1px;
 }
 
 tr.valid-place:hover {
-    outline: 5px solid rgb(0, 170, 0);
+    transition: all 250ms;
+    outline: 4px solid rgb(0, 170, 0);
+    background-color: rgb(220, 255, 220);
     outline-offset: -1px;
-    background-color: rgba(0, 170, 0, .3);
 }
 
 tr.valid-place td {
@@ -178,9 +174,20 @@ tr.valid-place td {
 
 /* Место недоступное для вставки */
 
-tr.invalid-place td {
+tr.invalid-place {
+    /*transition: all 250ms;*/
+    font-size: 0;
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    line-height: 0;
     cursor: not-allowed;
+    background-color: rgba(100, 100, 100, .7);
     /*border: 1px solid rgba(128, 128, 128, .2);*/
+}
+
+tr.invalid-place td {
     border: 1px solid transparent;
 }
 
@@ -244,18 +251,20 @@ tr.invalid-place td {
     cursor: pointer;
     user-select: none;
     background-color: rgb(100, 100, 100);
-    border-radius: 6px;
-    border: 2px solid rgba(211, 211, 211, .5);
+    border-radius: 24px;
+    border: 1px solid transparent;
     color: white;
     font-weight: normal;
 }
 
 .btn-container button:not(:disabled):hover {
-    letter-spacing: 8px;
-    width: 280px;
+    color: black;
+    font-weight: bold;
+    letter-spacing: 3px;
     transition: all 250ms;
-    border-radius: 12px;
-    border: 2px solid rgba(211, 211, 211, .7);
+    background-color: rgba(211, 211, 211, .5);
+    box-shadow: rgb(100, 100, 100) 0 0 1em 2px;
+    border: 1px solid transparent;
 }
 
 .btn-container button:focus {
@@ -299,21 +308,23 @@ tr.invalid-place td {
 }
 
 .btn-container button.cancel {
-    border: 2px solid rgb(255, 160, 160);
+    border: 1px solid transparent;
     background-color: rgb(255, 0, 50);
 }
 
 .btn-container button.cancel:not(:disabled):hover {
-    font-weight: bold;
-    border: 2px solid rgb(255, 160, 160);
+    background-color: rgb(255, 160, 160);
+    box-shadow: rgb(255, 0, 50) 0 0 1em 2px;
+    border: 1px solid transparent;
 }
 
 .btn-container button.move {
-    border: 2px solid rgb(160, 160, 255);
+    border: 1px solid transparent;
     background-color: rgb(0, 0, 140);
 }
 
 .btn-container button.move:not(:disabled):hover {
-    font-weight: bold;
-    border: 2px solid rgb(160, 160, 255);
+    background-color: rgb(160, 160, 255);
+    box-shadow: rgb(0, 0, 140) 0 0 1em 2px;
+    border: 1px solid transparent;
 }

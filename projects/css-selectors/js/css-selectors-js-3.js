@@ -11,17 +11,16 @@
 /* jQuery */
 jQuery(document).ready(function main() {
 
-    var table         = $('table'),
-        tbody         = $('#tbodyForMainTable'),
-        rows          = tbody.find('tr'),
-        blink,
-        clearBlink    = function () {
+    var table             = $('table'),
+        tbody             = $('#tbodyForMainTable'),
+        rows              = tbody.find('tr'),
+        blink, clearBlink = function () {
             clearInterval(blink);
         },
-        selectedClass = 'selected',
-        borderClass   = 'border',
-        validClass    = 'valid-place',
-        invalidClass  = 'invalid-place';
+        selectedClass     = 'selected',
+        borderClass       = 'border',
+        validClass        = 'valid-place',
+        invalidClass      = 'invalid-place';
 
     /* Обработчик строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
@@ -33,12 +32,16 @@ jQuery(document).ready(function main() {
             last     = target,
             level    = me.data('level');
 
-        clearBlink();
-
         if (!level) {
             console.log('click on top level');
             return false;
         }
+
+        if (table.attr('move-mode') === 'true') {
+            return false;
+        }
+
+        clearBlink();
 
         if (!e.ctrlKey && !e.shiftKey) {
             selected.removeClass(selectedClass + ' ' + borderClass);
@@ -67,7 +70,39 @@ jQuery(document).ready(function main() {
 
     $('#move-btn').on('click', function () {
         var selected    = rows.filter('.' + selectedClass),
+            expanded,
+            levels      = [],
             highlight   = function (model) {
+                var getValid = function (level) {
+                    var valid  = rows.first();
+                    var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
+                        levels = [],
+                        expand;
+
+                    if (level in matrix) {
+                        expand = matrix[level];
+                        if (expand) {
+                            if ($.isArray(expand)) {
+                                expand.forEach(function (item) {
+                                    levels.push(item);
+                                });
+                            } else {
+                                levels.push(expand);
+                            }
+                        }
+                    }
+
+                    levels.forEach(function (item) {
+                        if (typeof item === 'number') {
+                            var elements = rows.filter(
+                                '[data-level="' + item + '"]'
+                            );
+                        }
+                        valid = valid.add(elements);
+                    });
+
+                    return valid;
+                };
                 if ($.isArray(model)) {
                     model.forEach(function (item) {
                         var me       = item['0-me'],
@@ -80,12 +115,8 @@ jQuery(document).ready(function main() {
                                 }
                             };
                         console.log(item);
-                        setBlink(me.addClass(selectedClass));
-                        item['8-valid'].addClass(validClass);
-                        item['9-invalid'].addClass(invalidClass);
                     });
                 }
-
             },
             getId       = function (element) {
                 var result;
@@ -118,8 +149,9 @@ jQuery(document).ready(function main() {
                 return result;
             },
             getGroups   = function (elements) {
-                var groups  = [],
-                    expand  = function (elements) {
+                var groups    = [],
+                    output,
+                    expand    = function (elements) {
                         var group = $();
 
                         elements.each(function () {
@@ -133,9 +165,11 @@ jQuery(document).ready(function main() {
                             }
                         });
 
+                        group.addClass(selectedClass).addClass(borderClass);
+
                         return group;
                     },
-                    consume = function (array) {
+                    consume   = function (array) {
                         var result = array.slice(0),
                             i      = 0, j,
                             left, right;
@@ -156,6 +190,16 @@ jQuery(document).ready(function main() {
                             }
                         }
                         return result;
+                    },
+                    getLevels = function (array) {
+                        var levels = [];
+                        array.forEach(function (item) {
+                            var level = item.data('level');
+                            if (levels.indexOf(level) === -1) {
+                                levels.push(level)
+                            }
+                        });
+                        return levels;
                     };
 
                 if ((elements instanceof jQuery) && (elements.length)) {
@@ -164,7 +208,16 @@ jQuery(document).ready(function main() {
                     });
                 }
 
-                return consume(groups);
+                expanded = rows.filter('.' + selectedClass);
+                blink    = setInterval(function () {
+                    expanded.toggleClass(borderClass);
+                }, 750);
+                output   = consume(groups);
+                levels   = getLevels(output).sort(function (a, b) {
+                    return b - a;
+                });
+
+                return output;
             },
             getModel    = function (elements) {
                 var items = [];
@@ -174,40 +227,7 @@ jQuery(document).ready(function main() {
                         id       = getId(element),
                         children = getChildren(element),
                         parent   = getParent(element.data('parent')),
-                        level    = element.data('level'),
-                        valid    = ((function (level) {
-                            var valid  = rows.first();
-                            var matrix = {1: null, 2: 1, 3: 2, 4: [2, 3]},
-                                levels = [],
-                                expand;
-
-                            if (level in matrix) {
-                                expand = matrix[level];
-                                if (expand) {
-                                    if ($.isArray(expand)) {
-                                        expand.forEach(function (item) {
-                                            levels.push(item);
-                                        });
-                                    } else {
-                                        levels.push(expand);
-                                    }
-                                }
-                            }
-
-                            levels.forEach(function (item) {
-                                if (typeof item === 'number') {
-                                    var elements = rows.filter(
-                                        '[data-level="' + item + '"]'
-                                    );
-                                }
-                                valid = valid.add(elements);
-                            });
-
-                            return valid;
-                        })(level)).not(parent),
-                        invalid  = (function () {
-                            return rows.not(rows.first()).not(element).not(valid);
-                        })();
+                        level    = element.data('level');
 
                     item['0-me']       = element;
                     item['1-parent']   = parent;
@@ -217,8 +237,6 @@ jQuery(document).ready(function main() {
                     item['5-number']   = element.data('number');
                     item['6-level']    = level;
                     item['7-tree']     = element.data('tree');
-                    item['8-valid']    = valid;
-                    item['9-invalid']  = invalid;
 
                     items.push(item);
                 });
@@ -226,9 +244,40 @@ jQuery(document).ready(function main() {
                 return items;
             };
 
-        // groups = getGroups(selected);
-        // model  = getModel(groups);
-        highlight(getModel(getGroups(selected)));
+        table.attr('move-mode', true);
+        var groups = getGroups(selected);
+        console.log(groups);
+        var message = 'Элементы одной группы или различных групп, но одного уровня - вставка согласно матрицы вставки';
+        var matrix  = {1: null, 2: [1], 3: [2], 4: [2, 3]};
+        var insert  = matrix[levels[0]];
+        if (levels.length > 1) {
+            if (JSON.stringify(levels) === '[4,3]') {
+                message = 'Элементы разных групп уровней 3 и 4. Вставка во все 0 и 2';
+                insert  = matrix[3];
+            } else {
+                message = 'Элементы разных групп и/или уровней. Вставка только в 0';
+                insert  = null;
+            }
+        }
+        console.log(message);
+        console.log('levels', levels, 'insert', insert);
+        if ($.isArray(groups) && groups.length) {
+            var valid = rows.first(),
+                invalid;
+
+            groups.forEach(function () {
+                if (insert) {
+                    insert.forEach(function (level) {
+                        valid = valid.add(rows.filter('[data-level="' + level + '"]'));
+                    });
+                }
+            });
+
+            invalid = rows.not(valid).not(expanded);
+
+            valid.addClass(validClass);
+            invalid.addClass(invalidClass);
+        }
     });
 
     $('#cancel-btn').on('mousedown', function () {
