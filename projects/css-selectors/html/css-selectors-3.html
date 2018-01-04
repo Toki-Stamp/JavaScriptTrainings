@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>css-selectors</title>
+    <link href="../../../_lib/css/jquery-ui.css" rel="stylesheet">
     <link href="../css/css-selectors-stylesheet-3.css" rel="stylesheet">
 </head>
 <body>
@@ -5656,8 +5657,28 @@
             </tr>
         </tfoot>
     </table>
+    <div id="move-copy-dialog">
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Название модали</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body&hellip;</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        <button type="button" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
     <script src="../../../_lib/js/jquery-3.2.1.js"></script>
     <script src="../../../_lib/js/jquery-ui.js"></script>
+    <script src="../../../_lib/js/bootstrap.js"></script>
     <script src="../js/css-selectors-js-3.js"></script>
 </body>
 </html>

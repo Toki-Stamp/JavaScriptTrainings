@@ -121,17 +121,17 @@ table[move-mode="true"] tr.selected.border {
 tr.border {
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -2px 0 0 0 black;
+        /* right */ inset -3px 0 0 0 black;
 }
 
 tr.border + tr.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -2px 0 0 0 black;
+        /* right */ inset -3px 0 0 0 black;
 }
 
 tr.border + tr:last-child.border {
     box-shadow: /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -2px 0 0 0 black,
+        /* right */ inset -3px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
 }
 
@@ -142,14 +142,8 @@ tr.border + tr:not(.border) {
 tr:last-child.border {
     box-shadow: /* top */ inset 0 3px 0 0 black,
         /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -2px 0 0 0 black,
+        /* right */ inset -3px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
-}
-
-tr.selected.border td,
-tr.selected td,
-tr.border td {
-    border: 1px solid transparent;
 }
 
 /* Место вставки */
@@ -184,7 +178,6 @@ tr.invalid-place {
     line-height: 0;
     cursor: not-allowed;
     background-color: rgba(100, 100, 100, .7);
-    /*border: 1px solid rgba(128, 128, 128, .2);*/
 }
 
 tr.invalid-place td {
@@ -327,4 +320,21 @@ tr.invalid-place td {
     background-color: rgb(160, 160, 255);
     box-shadow: rgb(0, 0, 140) 0 0 1em 2px;
     border: 1px solid transparent;
+}
+
+/* --- */
+
+table[move-mode="true"] tr.selected td {
+    border: 1px solid rgba(100, 100, 100, .3);
+}
+
+/* Диалог */
+
+.ui-tooltip-content {
+    text-align: justify;
+    width: 210px;
+}
+
+div#move-copy-dialog {
+    display: none;
 }

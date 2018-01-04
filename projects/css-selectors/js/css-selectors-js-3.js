@@ -14,6 +14,8 @@ jQuery(document).ready(function main() {
     var table             = $('table'),
         tbody             = $('#tbodyForMainTable'),
         rows              = tbody.find('tr'),
+        move              = $('#move-btn'),
+        dialog            = $('#move-copy-dialog'),
         blink, clearBlink = function () {
             clearInterval(blink);
         },
@@ -21,6 +23,19 @@ jQuery(document).ready(function main() {
         borderClass       = 'border',
         validClass        = 'valid-place',
         invalidClass      = 'invalid-place';
+
+    table.tooltip({
+        disabled: true,
+        content : 'Пожалуйста, укажите место доступное для вставки',
+        items   : 'table',
+        track   : true
+    });
+
+    dialog.modal({
+        backdrop: 'static',
+        keyboard: true,
+        show    : true
+    });
 
     /* Обработчик строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
@@ -38,6 +53,7 @@ jQuery(document).ready(function main() {
         }
 
         if (table.attr('move-mode') === 'true') {
+            dialog.modal('show');
             return false;
         }
 
@@ -68,7 +84,7 @@ jQuery(document).ready(function main() {
 
     });
 
-    $('#move-btn').on('click', function () {
+    move.on('click', function () {
         var selected    = rows.filter('.' + selectedClass),
             expanded,
             levels      = [],
@@ -245,6 +261,9 @@ jQuery(document).ready(function main() {
             };
 
         table.attr('move-mode', true);
+        move.prop('disabled', true);
+        table.tooltip('enable');
+
         var groups = getGroups(selected);
         console.log(groups);
         var message = 'Элементы одной группы или различных групп, но одного уровня - вставка согласно матрицы вставки';
@@ -287,7 +306,9 @@ jQuery(document).ready(function main() {
             validClass + ' ' +
             invalidClass
         );
+        table.tooltip('disable');
         table.attr('move-mode', false);
+        move.prop('disabled', false);
         clearBlink();
     });
 });
