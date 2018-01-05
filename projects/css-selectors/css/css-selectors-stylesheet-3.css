@@ -18,7 +18,7 @@ th, td {
 }
 
 tr {
-    transition: 500ms background-color;
+    transition: 250ms background-color;
 }
 
 td {
@@ -119,30 +119,30 @@ table[move-mode="true"] tr.selected.border {
 }
 
 tr.border {
-    box-shadow: /* top */ inset 0 3px 0 0 black,
-        /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black;
+    box-shadow: /* top */ inset 0 2px 0 0 black,
+        /* left */ inset 2px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black;
 }
 
 tr.border + tr.border {
-    box-shadow: /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black;
+    box-shadow: /* left */ inset 2px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black;
 }
 
 tr.border + tr:last-child.border {
-    box-shadow: /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black,
+    box-shadow: /* left */ inset 2px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
 }
 
 tr.border + tr:not(.border) {
-    box-shadow: /* top */ 0 -3px 0 0 black;
+    box-shadow: /* top */ 0 -2px 0 0 black;
 }
 
 tr:last-child.border {
-    box-shadow: /* top */ inset 0 3px 0 0 black,
-        /* left */ inset 3px 0 0 0 black,
-        /* right */ inset -3px 0 0 0 black,
+    box-shadow: /* top */ inset 0 2px 0 0 black,
+        /* left */ inset 2px 0 0 0 black,
+        /* right */ inset -2px 0 0 0 black,
         /* bottom */ inset 0 -2px 0 0 black;
 }
 
@@ -169,13 +169,12 @@ tr.valid-place td {
 /* Место недоступное для вставки */
 
 tr.invalid-place {
-    /*transition: all 250ms;*/
-    font-size: 0;
-    padding-top: 0;
-    margin-top: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    line-height: 0;
+    /*font-size: 0;*/
+    /*padding-top: 0;*/
+    /*padding-bottom: 0;*/
+    /*margin-top: 0;*/
+    /*margin-bottom: 0;*/
+    /*line-height: 0;*/
     cursor: not-allowed;
     background-color: rgba(100, 100, 100, .7);
 }
@@ -328,12 +327,12 @@ table[move-mode="true"] tr.selected td {
     border: 1px solid rgba(100, 100, 100, .3);
 }
 
-/* Диалог */
-
 .ui-tooltip-content {
     text-align: justify;
-    width: 210px;
+    width: 178px;
 }
+
+/* Диалог */
 
 div#move-copy-dialog {
     display: none;
