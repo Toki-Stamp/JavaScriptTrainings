@@ -5,15 +5,13 @@
 
 'use strict';
 
-/* Self-invoking function */
-(function main() {
-})();
 /* jQuery */
 jQuery(document).ready(function main() {
 
     var table             = $('table'),
         tbody             = $('#tbodyForMainTable'),
         rows              = tbody.find('tr'),
+        groups,
         move              = $('#move-btn'),
         dialog            = $('#move-copy-dialog'),
         blink, clearBlink = function () {
@@ -35,19 +33,53 @@ jQuery(document).ready(function main() {
 
     dialog.modal({
         backdrop: 'static',
-        keyboard: true,
+        keyboard: false,
         show    : false
+    }).on('hidden.bs.modal', function () {
+        table.tooltip('enable');
     });
 
     /* Обработчик строк таблицы */
     $(document).on('mousedown', 'table tbody > tr', function (e) {
-        var me       = $(this),
-            selected = rows.filter('.' + selectedClass),
-            current  = (selected.length ? selected.index() : 0),
-            target   = (me.index() + 1),
-            first    = current,
-            last     = target,
-            level    = me.data('level');
+        var me          = $(this),
+            selected    = rows.filter('.' + selectedClass),
+            current     = (selected.length ? selected.index() : 0),
+            target      = (me.index() + 1),
+            first       = current,
+            last        = target,
+            level       = me.data('level'),
+            description = function (groups) {
+                var result = '';
+
+                if ($.isArray(groups)) {
+                    groups.forEach(function (group) {
+                        var str = '';
+                        if (group instanceof jQuery) {
+                            str += '<p>';
+                            var item  = group.first(),
+                                level = item.data('level'),
+                                tree  = item.data('tree').substring(1).split('/');
+
+                            str += '<b>[Ур:' + level + ']</b> ';
+                            tree.forEach(function (id, index) {
+                                var element = rows.filter('[id="' + id + '"]');
+
+                                str += element.data('name') + ' ' + element.data('number');
+
+                                if (index < (level - 1)) {
+                                    str += ' / ';
+                                }
+                            });
+                            if (level < 4) {
+                                str += ' и вложенные элементы';
+                            }
+                            str += '</p>';
+                            result += str;
+                        }
+                    });
+                }
+                return result;
+            };
 
         if (!level) {
             console.log('click on top level');
@@ -55,8 +87,17 @@ jQuery(document).ready(function main() {
         }
 
         if (table.attr('move-mode') === 'true') {
+            table.tooltip('disable');
             dialog.modal('show');
-            dialog.find('div.modal-body').html('<p>' + message + '</p>');
+
+            var elementsList = description(groups),
+                targetPlace  = '<p>Подъезд 2, Этаж 5</p>';
+
+            console.log(elementsList);
+
+            dialog.find('#elements-list').html(elementsList);
+            dialog.find('#target-place').html(targetPlace);
+            dialog.find('.modal-title').text('Перемещение элементов экспликации');
             return false;
         }
 
@@ -188,14 +229,18 @@ jQuery(document).ready(function main() {
         move.prop('disabled', true);
         table.tooltip('enable');
 
-        var groups = getGroups(selected);
+        groups = getGroups(selected);
 
         var matrix = {1: null, 2: [1], 3: [2], 4: [2, 3]},
             insert = matrix[levels[0]];
+
+        message = 'выделены элементы одной группы либо различных групп одинакового уровня. Вставка согласно матрицы вставки';
         if (levels.length > 1) {
-            insert = null;
+            insert  = null;
+            message = 'выделены элементы разных групп и / или уровней. Вставка только в корень таблицы';
             if (JSON.stringify(levels) === '[4,3]') {
-                insert = matrix[3];
+                insert  = matrix[3];
+                message = 'выделены элементы разных групп с уровнями 3 и 4. Вставка во все уровни 2 и в корень таблицы';
             }
         }
         if ($.isArray(groups) && groups.length) {

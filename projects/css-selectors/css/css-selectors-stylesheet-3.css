@@ -1,6 +1,6 @@
 /* Таблица */
 
-table {
+#mainTable {
     border-collapse: collapse;
     width: 90%;
     margin: auto;
@@ -9,7 +9,7 @@ table {
     font-size: 9px;
 }
 
-th, td {
+#mainTable th, td {
     height: 1.2em;
     width: 4em;
     text-align: center;
@@ -17,20 +17,20 @@ th, td {
     padding: 5px;
 }
 
-tr {
+#mainTable tr {
     transition: 250ms background-color;
 }
 
-td {
+#mainTable td {
     color: lightgray;
 }
 
-table, th, td {
+#mainTable table, th, td {
     border: 1px solid gray;
 }
 
-table > thead,
-table > tfoot {
+#mainTable thead,
+#mainTable tfoot {
     background-color: rgba(126, 189, 210, .5);
     font-weight: bold;
     color: white;
@@ -87,6 +87,10 @@ tr[data-level="4"] > td:nth-child(4) ~ td {
 }
 
 /* Выделение */
+
+tr.selected > td {
+    color: black !important;
+}
 
 tr[data-level="1"].selected > td,
 tr[data-level="2"].selected > td:nth-child(1),
@@ -334,6 +338,8 @@ table[move-mode="true"] tr.selected td {
 
 /* Диалог */
 
-div#move-copy-dialog {
+
+
+#move-copy-dialog {
     display: none;
 }
