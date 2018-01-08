@@ -8,20 +8,21 @@
 /* jQuery */
 jQuery(document).ready(function main() {
 
-    var table             = $('table'),
-        tbody             = $('#tbodyForMainTable'),
-        rows              = tbody.find('tr'),
+    var table         = $('table'),
+        tbody         = $('#tbodyForMainTable'),
+        rows          = tbody.find('tr'),
         groups,
-        move              = $('#move-btn'),
-        dialog            = $('#move-copy-dialog'),
-        blink, clearBlink = function () {
-            clearInterval(blink);
-        },
+        destination,
+        moveBtn       = $('#move-btn'),
+        okBtn         = $('#ok-btn'),
+        cancelBtn     = $('#cancel-btn'),
+        dialog        = $('#move-copy-dialog'),
+        blink,
         message,
-        selectedClass     = 'selected',
-        borderClass       = 'border',
-        validClass        = 'valid-place',
-        invalidClass      = 'invalid-place';
+        selectedClass = 'selected',
+        borderClass   = 'border',
+        validClass    = 'valid-place',
+        invalidClass  = 'invalid-place';
 
     table.tooltip({
         disabled: true,
@@ -48,87 +49,104 @@ jQuery(document).ready(function main() {
             first       = current,
             last        = target,
             level       = me.data('level'),
+            getInfo     = function (element, flag) {
+                var str = '';
+                if (element instanceof jQuery) {
+                    var level = element.data('level'),
+                        tree  = element.data('tree').substring(1).split('/'),
+                        i, item;
+
+                    str += '<p>';
+                    str += '(Ур:' + level + ') ';
+                    str += '<span class="root">';
+                    for (i = 0; i < (level - 1); i++) {
+                        item = rows.filter('[id="' + tree[i] + '"]');
+                        str += item.data('name') + ' ' + item.data('number');
+                        str += ' / ';
+                    }
+                    item = rows.filter('[id="' + tree[level - 1] + '"]');
+                    str += '</span> ';
+                    str += '<span class="branch">';
+                    str += item.data('name') + ' ' + item.data('number');
+                    if (!flag && (level < 4)) {
+                        str += ' и вложенные элементы';
+                    }
+                    str += '</span>';
+                    str += '</p>';
+                }
+                return str;
+            },
             description = function (groups) {
                 var result = '';
 
                 if ($.isArray(groups)) {
                     groups.forEach(function (group) {
-                        var str = '';
-                        if (group instanceof jQuery) {
-                            str += '<p>';
-                            var item  = group.first(),
-                                level = item.data('level'),
-                                tree  = item.data('tree').substring(1).split('/');
-
-                            str += '<b>[Ур:' + level + ']</b> ';
-                            tree.forEach(function (id, index) {
-                                var element = rows.filter('[id="' + id + '"]');
-
-                                str += element.data('name') + ' ' + element.data('number');
-
-                                if (index < (level - 1)) {
-                                    str += ' / ';
-                                }
-                            });
-                            if (level < 4) {
-                                str += ' и вложенные элементы';
-                            }
-                            str += '</p>';
-                            result += str;
-                        }
+                        result += getInfo(group.first());
                     });
                 }
                 return result;
             };
 
-        if (!level) {
-            console.log('click on top level');
-            return false;
-        }
-
-        if (table.attr('move-mode') === 'true') {
+        if (table.attr('copy-move-mode') === 'move') {
             table.tooltip('disable');
-            dialog.modal('show');
+
+            if (!me.hasClass(validClass)) {
+                return false;
+            }
+
+            destination = me;
 
             var elementsList = description(groups),
-                targetPlace  = '<p>Подъезд 2, Этаж 5</p>';
+                targetPlace  = level ? getInfo(me, true) :
+                    '<p>(Ур:0) <span class="branch">Корень таблицы</span></p>';
 
             console.log(elementsList);
+            console.log(targetPlace);
 
             dialog.find('#elements-list').html(elementsList);
             dialog.find('#target-place').html(targetPlace);
             dialog.find('.modal-title').text('Перемещение элементов экспликации');
-            return false;
-        }
 
-        clearBlink();
-
-        if (!e.ctrlKey && !e.shiftKey) {
-            selected.removeClass(selectedClass + ' ' + borderClass);
-        }
-
-        if (e.shiftKey) {
-            e.preventDefault();
-            if (me.is(selected)) {
-                selected.removeClass(selectedClass);
-            } else {
-                if (current >= target) {
-                    first = target - 1;
-                    last  = current + 1;
-                }
-                $('table > tbody tr').slice(first, last).addClass(selectedClass);
-            }
+            dialog.modal('show');
         } else {
-            if (me.hasClass(selectedClass)) {
-                me.removeClass(selectedClass + ' ' + borderClass);
+            if (!level) {
+                console.log('click on top level');
+                return false;
+            }
+
+            if (!e.ctrlKey && !e.shiftKey) {
+                selected.removeClass(selectedClass + ' ' + borderClass);
+            }
+
+            if (e.shiftKey) {
+                e.preventDefault();
+                if (me.is(selected)) {
+                    selected.removeClass(selectedClass);
+                } else {
+                    if (current >= target) {
+                        first = target - 1;
+                        last  = current + 1;
+                    }
+                    $('table > tbody tr').slice(first, last).addClass(selectedClass);
+                }
             } else {
-                me.addClass(selectedClass);
+                if (me.hasClass(selectedClass)) {
+                    me.removeClass(selectedClass + ' ' + borderClass);
+                } else {
+                    me.addClass(selectedClass);
+                }
             }
         }
-
+    });
+    $(document).on('mouseup', 'table tbody > tr', function () {
+        if (table.attr('copy-move-mode') !== 'true') {
+            if ((rows.filter('.' + selectedClass)).length) {
+                moveBtn.prop('disabled', false);
+            }
+        }
     });
 
-    move.on('click', function () {
+    moveBtn.on('click', function () {
         var selected    = rows.filter('.' + selectedClass),
             expanded,
             levels      = [],
@@ -225,8 +243,8 @@ jQuery(document).ready(function main() {
                 return output;
             };
 
-        table.attr('move-mode', true);
-        move.prop('disabled', true);
+        table.attr('copy-move-mode', 'move');
+        moveBtn.prop('disabled', true);
         table.tooltip('enable');
 
         groups = getGroups(selected);
@@ -261,7 +279,12 @@ jQuery(document).ready(function main() {
         }
     });
 
-    $('#cancel-btn').on('mousedown', function () {
+    okBtn.on('click', function () {
+        var mode = table.attr('copy-move-mode');
+        console.log('Операция:', mode);
+    });
+
+    cancelBtn.on('mousedown', function () {
         rows.removeClass(
             selectedClass + ' ' +
             borderClass + ' ' +
@@ -269,8 +292,9 @@ jQuery(document).ready(function main() {
             invalidClass
         );
         table.tooltip('disable');
-        table.attr('move-mode', false);
-        move.prop('disabled', false);
-        clearBlink();
+        table.attr('copy-move-mode', false);
+        moveBtn.prop('disabled', true);
+        clearInterval(blink);
     });
+
 });

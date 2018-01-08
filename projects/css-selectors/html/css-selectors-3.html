@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="btn-container">
-        <button id="move-btn" class="move">Переместить</button>
+        <button id="move-btn" class="move" disabled>Переместить</button>
         <button id="cancel-btn" class="cancel">Отменить</button>
         <button id="add-btn">Ещё кнопка</button>
         <button id="remove-btn" disabled>Недоступна</button>
@@ -5509,7 +5509,7 @@
         </tfoot>
     </table>
     <div id="move-copy-dialog" class="modal fade">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" style="text-align: center; font-weight: bold"></h3>
@@ -5517,9 +5517,9 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 style="color: rgb(51,122,183); font-weight: bold">
+                            <h4 style="color: rgb(51,122,183); font-weight: bold">
                                 <span class="glyphicon glyphicon-upload"></span>&nbsp;Выделенные элементы:
-                            </h5>
+                            </h4>
                         </div>
                     </div>
                     <div class="row">
@@ -5529,9 +5529,9 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <h5 style="color: rgb(0,128,0); font-weight: bold">
+                            <h4 style="color: rgb(0,128,0); font-weight: bold">
                                 <span class="glyphicon glyphicon-download"></span>&nbsp;Место вставки:
-                            </h5>
+                            </h4>
                         </div>
                     </div>
                     <div class="row">
@@ -5540,7 +5540,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" style="width: 49%">Ок</button>
+                    <button id="ok-btn" type="button" class="btn btn-success" style="width: 49%">Ок</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 49%">Отмена</button>
                 </div>
             </div><!-- /.modal-content -->

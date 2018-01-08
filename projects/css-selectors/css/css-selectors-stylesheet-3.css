@@ -338,7 +338,22 @@ table[move-mode="true"] tr.selected td {
 
 /* Диалог */
 
+div.modal-body p {
+    font-size: 11px;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+    font-family: Consolas, monospace;
+}
 
+div.modal-body span.root {
+    font-weight: normal;
+    color: rgb(160, 160, 160);
+}
+
+div.modal-body span.branch {
+    font-weight: bold;
+    font-size: 15px;
+}
 
 #move-copy-dialog {
     display: none;
