@@ -116,9 +116,12 @@ tr[data-level="4"].selected > td {
 
 /* Групповое выделение */
 
-table[move-mode="true"] tr.border,
-table[move-mode="true"] tr.selected,
-table[move-mode="true"] tr.selected.border {
+table[move-copy-mode="copy"] tr.border,
+table[move-copy-mode="move"] tr.border,
+table[move-copy-mode="copy"] tr.selected,
+table[move-copy-mode="move"] tr.selected,
+table[move-copy-mode="copy"] tr.selected.border,
+table[move-copy-mode="move"] tr.selected.border {
     cursor: -webkit-grab;
 }
 
@@ -180,7 +183,7 @@ tr.invalid-place {
     /*margin-bottom: 0;*/
     /*line-height: 0;*/
     cursor: not-allowed;
-    background-color: rgba(100, 100, 100, .7);
+    background-color: rgba(255, 255, 255, .8);
 }
 
 tr.invalid-place td {
@@ -312,6 +315,7 @@ tr.invalid-place td {
     background-color: rgb(255, 160, 160);
     box-shadow: rgb(255, 0, 50) 0 0 1em 2px;
     border: 1px solid transparent;
+    /*color: white;*/
 }
 
 .btn-container button.move {
