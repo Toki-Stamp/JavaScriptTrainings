@@ -3,9 +3,6 @@
  * Contact me at : toki.stamp@gmail.com
  */
 
-'use strict';
-
-/* jQuery */
 jQuery(document).ready(function main() {
 
     var table         = $('table'),
@@ -18,14 +15,16 @@ jQuery(document).ready(function main() {
         mode, title,
         moveBtn       = $('#move-btn'),
         copyBtn       = $('#copy-btn'),
-        okBtn         = $('#ok-btn'),
+        okBtn         = $('#move-copy-dialog-ok-btn'),
         cancelBtn     = $('#cancel-btn'),
         dialog        = $('#move-copy-dialog'),
+        checkDialog   = $('#check-dialog'),
         blink,
-        makeMagic     = function (selected) {
+        makeMagic     = function (selected, doCheck) {
             var expanded,
                 levels      = [],
-                insert      = matrix[levels[0]],
+                matrix      = {1: null, 2: [1], 3: [2], 4: [2, 3]},
+                insert,
                 valid       = rows.first(),
                 invalid,
                 getId       = function (element) {
@@ -49,7 +48,7 @@ jQuery(document).ready(function main() {
 
                     return result;
                 },
-                getGroups   = function (elements) {
+                getGroups   = function (elements, doCheck) {
                     var groups    = [],
                         result,
                         expand    = function (elements) {
@@ -104,6 +103,10 @@ jQuery(document).ready(function main() {
                         };
 
                     if ((elements instanceof jQuery) && (elements.length)) {
+
+                        if (doCheck) {
+                            alert('do check');
+                        }
                         elements.each(function () {
                             groups.push(expand($(this)));
                         });
@@ -121,7 +124,8 @@ jQuery(document).ready(function main() {
                     return result;
                 };
 
-            groups = getGroups(selected);
+            groups = getGroups(selected, doCheck);
+            insert = matrix[levels[0]];
 
             if (levels.length > 1) {
                 insert = null;
@@ -143,7 +147,6 @@ jQuery(document).ready(function main() {
                 invalid.addClass(invalidClass);
             }
         },
-        matrix        = {1: null, 2: [1], 3: [2], 4: [2, 3]},
         selectedClass = 'selected',
         borderClass   = 'border',
         validClass    = 'valid-place',
@@ -151,8 +154,6 @@ jQuery(document).ready(function main() {
 
     table.tooltip({
         disabled: true,
-        content : 'Укажите место для вставки',
-        // items   : 'table tbody',
         items   : 'body',
         track   : true
     });
@@ -163,6 +164,12 @@ jQuery(document).ready(function main() {
         show    : false
     }).on('hidden.bs.modal', function () {
         table.tooltip('enable');
+    });
+
+    checkDialog.modal({
+        backdrop: 'static',
+        keyboard: false,
+        show    : true
     });
 
     $(document).on('mousedown', 'table tbody > tr', function (e) {
@@ -268,12 +275,16 @@ jQuery(document).ready(function main() {
             moveBtn.prop('disabled', false);
             copyBtn.prop('disabled', false);
         }
-        console.log('mode', mode);
     });
 
     moveBtn.on('click', function () {
 
         table.attr('move-copy-mode', 'move');
+        table.tooltip(
+            'option',
+            'content',
+            'Режим перемещения. Пожалуйста, укажите место вставки перемещаемых элементов экспликации'
+        );
         moveBtn.prop('disabled', true);
         copyBtn.prop('disabled', true);
         table.tooltip('enable');
@@ -285,28 +296,37 @@ jQuery(document).ready(function main() {
     copyBtn.on('click', function () {
 
         table.attr('move-copy-mode', 'copy');
+        table.tooltip(
+            'option',
+            'content',
+            'Режим копирования. Пожалуйста, укажите место вставки копируемых элементов экспликации'
+        );
         moveBtn.prop('disabled', true);
         copyBtn.prop('disabled', true);
         table.tooltip('enable');
 
         selected = rows.filter('.' + selectedClass);
-        makeMagic(selected);
+        makeMagic(selected, true);
     });
 
     okBtn.on('click', function () {
+
+        dialog.modal('hide');
         mode = table.attr('move-copy-mode');
         console.log('Операция:', mode);
         console.log('Элементы экспликации:', sourceIds);
         console.log('Назначение:', destinationId);
+        cancelBtn.trigger('click');
     });
 
-    cancelBtn.on('mousedown', function () {
+    cancelBtn.on('click', function () {
         rows.removeClass(
             selectedClass + ' ' +
             borderClass + ' ' +
             validClass + ' ' +
             invalidClass
         );
+        sourceIds = [];
         table.tooltip('disable');
         table.removeAttr('move-copy-mode');
         moveBtn.prop('disabled', true);

@@ -331,34 +331,62 @@ tr.invalid-place td {
 
 /* --- */
 
-table[move-mode="true"] tr.selected td {
-    border: 1px solid rgba(100, 100, 100, .3);
+table[move-copy-mode="move"] tr.selected td,
+table[move-copy-mode="copy"] tr.selected td {
+    border: 1px solid rgba(100, 100, 100, .2);
 }
 
-.ui-tooltip-content {
+.ui-tooltip {
+    max-width: 350px;
+    width: 350px;
     text-align: justify;
-    width: 178px;
 }
 
 /* Диалог */
 
-div.modal-body p {
+#move-copy-dialog .modal-body p {
     font-size: 11px;
     font-weight: bold;
     color: rgb(0, 0, 0);
     font-family: Consolas, monospace;
 }
 
-div.modal-body span.root {
+#move-copy-dialog .modal-body span.root {
     font-weight: normal;
     color: rgb(160, 160, 160);
 }
 
-div.modal-body span.branch {
+#move-copy-dialog .modal-body span.branch {
     font-weight: bold;
     font-size: 15px;
 }
 
-#move-copy-dialog {
-    display: none;
+#check-dialog .modal-header span {
+    font-size: 48px;
+    -webkit-text-fill-color: yellow;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    text-shadow: yellow 0 0 8px;
+
+    /*text-shadow: !* 1 *! 0 0 8px yellow, !* 2 *! 0 0 8px yellow,*/
+    /*!* 3 *! 0 0 8px yellow, !* 4 *! 0 0 8px yellow,*/
+    /*!* 5 *! 0 0 8px yellow, !* 6 *! 0 0 8px yellow,*/
+    /*!* 7 *! 0 0 8px yellow, !* 8 *! 0 0 8px yellow,*/
+    /*!* 9 *! 0 0 8px yellow, !* 10 *! 0 0 8px yellow,*/
+    /*!* 11 *! 0 0 8px yellow, !* 12 *! 0 0 8px yellow,*/
+    /*!* 13 *! 0 0 8px yellow, !* 14 *! 0 0 8px yellow,*/
+    /*!* 15 *! 0 0 8px yellow, !* 16 *! 0 0 8px yellow,*/
+    /*!* 17 *! 0 0 8px yellow, !* 18 *! 0 0 8px yellow,*/
+    /*!* 19 *! 0 0 8px yellow, !* 20 *! 0 0 8px yellow,*/
+    /*!* 21 *! 0 0 8px yellow, !* 22 *! 0 0 8px yellow,*/
+    /*!* 23 *! 0 0 8px yellow, !* 24 *! 0 0 8px yellow,*/
+    /*!* 25 *! 0 0 8px yellow, !* 26 *! 0 0 8px yellow,*/
+    /*!* 27 *! 0 0 8px yellow, !* 28 *! 0 0 8px yellow,*/
+    /*!* 29 *! 0 0 8px yellow, !* 30 *! 0 0 8px yellow,*/
+    /*!* 31 *! 0 0 8px yellow, !* 32 *! 0 0 8px yellow,*/
+    /*!* 33 *! 0 0 8px yellow, !* 34 *! 0 0 8px yellow,*/
+    /*!* 35 *! 0 0 8px yellow, !* 36 *! 0 0 8px yellow,*/
+    /*!* 37 *! 0 0 8px yellow, !* 38 *! 0 0 8px yellow,*/
+    /*!* 39 *! 0 0 8px yellow, !* 40 *! 0 0 8px yellow;*/
+
 }

@@ -5539,13 +5539,33 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="ok-btn" type="button" class="btn btn-success" style="width: 49%">Ок</button>
+                    <button id="move-copy-dialog-ok-btn" type="button" class="btn btn-success" style="width: 49%">Ок</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 49%">Отмена</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
+    <div id="check-dialog" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span class="glyphicon glyphicon-warning-sign"></span>&nbsp;&nbsp;
+                        Внимание!
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p style="text-align: justify">У выделенных Вами элементов для копирования имеются невыбранные вложенные элементы.</p>
+                    <p>Добавить их для копирования?</p>
+                </div>
+                <div class="modal-footer">
+                    <button id="check-dialog-ok-btn" type="button" class="btn btn-success" style="width: 32%">Да</button>
+                    <button id="check-dialog-no-btn" type="button" class="btn btn-warning" style="width: 32%">Нет</button>
+                    <button id="check-dialog-cancel-btn" type="button" class="btn btn-danger" data-dismiss="modal" style="width: 32%">Отмена</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     <script src="../../../_lib/js/jquery-3.2.1.js"></script>
     <script src="../../../_lib/js/bootstrap.js"></script>
     <script src="../../../_lib/js/jquery-ui.js"></script>
