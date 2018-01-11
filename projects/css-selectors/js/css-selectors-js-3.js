@@ -18,9 +18,8 @@ jQuery(document).ready(function main() {
         okBtn         = $('#move-copy-dialog-ok-btn'),
         cancelBtn     = $('#cancel-btn'),
         dialog        = $('#move-copy-dialog'),
-        checkDialog   = $('#check-dialog'),
         blink,
-        makeMagic     = function (selected, doCheck) {
+        makeMagic     = function (selected) {
             var expanded,
                 levels      = [],
                 matrix      = {1: null, 2: [1], 3: [2], 4: [2, 3]},
@@ -48,7 +47,7 @@ jQuery(document).ready(function main() {
 
                     return result;
                 },
-                getGroups   = function (elements, doCheck) {
+                getGroups   = function (elements) {
                     var groups    = [],
                         result,
                         expand    = function (elements) {
@@ -103,10 +102,6 @@ jQuery(document).ready(function main() {
                         };
 
                     if ((elements instanceof jQuery) && (elements.length)) {
-
-                        if (doCheck) {
-                            alert('do check');
-                        }
                         elements.each(function () {
                             groups.push(expand($(this)));
                         });
@@ -124,7 +119,7 @@ jQuery(document).ready(function main() {
                     return result;
                 };
 
-            groups = getGroups(selected, doCheck);
+            groups = getGroups(selected);
             insert = matrix[levels[0]];
 
             if (levels.length > 1) {
@@ -164,12 +159,6 @@ jQuery(document).ready(function main() {
         show    : false
     }).on('hidden.bs.modal', function () {
         table.tooltip('enable');
-    });
-
-    checkDialog.modal({
-        backdrop: 'static',
-        keyboard: false,
-        show    : true
     });
 
     $(document).on('mousedown', 'table tbody > tr', function (e) {
@@ -306,7 +295,76 @@ jQuery(document).ready(function main() {
         table.tooltip('enable');
 
         selected = rows.filter('.' + selectedClass);
-        makeMagic(selected, true);
+
+        var getId        = function (element) {
+                var result;
+
+                if (element instanceof jQuery) {
+                    result = parseInt(element.attr('id'), 10);
+                }
+
+                return result;
+            },
+            getChildren  = function (element) {
+                return rows.filter('[data-parent="' + getId(element) + '"]');
+            },
+            hasChildren  = function (element) {
+                var result = false;
+
+                if (element instanceof jQuery) {
+                    if (getChildren(element).length) result = true;
+                }
+
+                return result;
+            },
+            modalConfirm = function (/* Function */callback) {
+                var ref = $('#check-dialog').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show    : true
+                });
+
+                $('#check-yes, #check-no, #check-cancel').off();
+
+                $('#check-yes').one('click', function () {
+                    if (callback && (typeof callback === 'function')) {
+                        /* Запускаем callback по событию закрытия модали */
+                        ref.modal('hide').on('hidden.bs.modal', function () {
+                            callback();
+                        });
+                    }
+                });
+
+                $('#check-no').one('click', function () {
+                    ref.modal('hide');
+                    if (callback && (typeof callback === 'function')) {
+                        /* Запускаем callback */
+                        callback();
+                    }
+                });
+
+                $('#check-cancel').one('click', function () {
+                    ref.modal('hide');
+                });
+
+            };
+
+        var check = false;
+        for (var i = 0, size = selected.length; i < size; i++) {
+            check = hasChildren($(selected.get(i)));
+            if (check) {
+                check = true;
+                break;
+            }
+        }
+
+        if (check) {
+            modalConfirm(function (message) {
+                var msg = message || 'running callback';
+                console.log(msg);
+                makeMagic(selected);
+            })
+        }
     });
 
     okBtn.on('click', function () {
@@ -316,7 +374,6 @@ jQuery(document).ready(function main() {
         console.log('Операция:', mode);
         console.log('Элементы экспликации:', sourceIds);
         console.log('Назначение:', destinationId);
-        cancelBtn.trigger('click');
     });
 
     cancelBtn.on('click', function () {

@@ -5545,27 +5545,26 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <div id="check-dialog" class="modal fade">
+    <!-- Modal -->
+    <div id="check-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="check-dialog-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">
-                        <span class="glyphicon glyphicon-warning-sign"></span>&nbsp;&nbsp;
-                        Внимание!
-                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="check-dialog-label">Необходимо подтверждение</h4>
                 </div>
                 <div class="modal-body">
-                    <p style="text-align: justify">У выделенных Вами элементов для копирования имеются невыбранные вложенные элементы.</p>
+                    <p>У выделенных Вами элементов для копирования имеются невыбранные вложенные элементы.</p>
                     <p>Добавить их для копирования?</p>
                 </div>
                 <div class="modal-footer">
-                    <button id="check-dialog-ok-btn" type="button" class="btn btn-success" style="width: 32%">Да</button>
-                    <button id="check-dialog-no-btn" type="button" class="btn btn-warning" style="width: 32%">Нет</button>
-                    <button id="check-dialog-cancel-btn" type="button" class="btn btn-danger" data-dismiss="modal" style="width: 32%">Отмена</button>
+                    <button id="check-yes" type="button" class="btn btn-sm btn-success">Да</button>
+                    <button id="check-no" type="button" class="btn btn-sm btn-danger">Нет</button>
+                    <button id="check-cancel" type="button" class="btn btn-sm btn-default" data-dismiss="modal">Отмена</button>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
     <script src="../../../_lib/js/jquery-3.2.1.js"></script>
     <script src="../../../_lib/js/bootstrap.js"></script>
     <script src="../../../_lib/js/jquery-ui.js"></script>
