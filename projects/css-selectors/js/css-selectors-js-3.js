@@ -272,7 +272,7 @@ jQuery(document).ready(function main() {
         table.tooltip(
             'option',
             'content',
-            'Режим перемещения. Пожалуйста, укажите место вставки перемещаемых элементов экспликации'
+            'Пожалуйста, укажите место вставки ПЕРЕМЕЩАЕМЫХ элементов экспликации'
         );
         moveBtn.prop('disabled', true);
         copyBtn.prop('disabled', true);
@@ -288,7 +288,7 @@ jQuery(document).ready(function main() {
         table.tooltip(
             'option',
             'content',
-            'Режим копирования. Пожалуйста, укажите место вставки копируемых элементов экспликации'
+            'Пожалуйста, укажите место вставки КОПИРУЕМЫХ элементов экспликации'
         );
         moveBtn.prop('disabled', true);
         copyBtn.prop('disabled', true);
@@ -299,7 +299,7 @@ jQuery(document).ready(function main() {
         var getId        = function (element) {
                 var result;
 
-                if (element instanceof jQuery) {
+                if (element && (element instanceof jQuery)) {
                     result = parseInt(element.attr('id'), 10);
                 }
 
@@ -311,59 +311,138 @@ jQuery(document).ready(function main() {
             hasChildren  = function (element) {
                 var result = false;
 
-                if (element instanceof jQuery) {
-                    if (getChildren(element).length) result = true;
+                if (getChildren(element).length) {
+                    result = true;
                 }
 
                 return result;
             },
-            modalConfirm = function (/* Function */callback) {
-                var ref = $('#check-dialog').modal({
-                    backdrop: 'static',
-                    keyboard: false,
-                    show    : true
+            getGroup     = function (element) {
+                var group    = $().add(element),
+                    children = hasChildren(element) ? getChildren(element) : null;
+
+                if (children) {
+                    children.each(function () {
+                        group = group.add(getGroup($(this)));
+                    });
+                }
+
+                return group;
+            },
+            getGroups    = function (elements) {
+                var groups = [];
+
+                elements.each(function () {
+                    groups.push(getGroup($(this)));
                 });
+
+                return groups;
+            },
+            getUnique    = function (groups) {
+                var result = groups.slice(0),
+                    i      = 0, j,
+                    left, right;
+
+                if ($.isArray(result)) {
+                    /* outer */
+                    while (i < (result.length - 1)) {
+                        left = result[i];
+                        /* inner */
+                        for (j = (i + 1); j < result.length; j++) {
+                            right = result[j];
+                            if (left.is(right)) {
+                                result.splice(j, 1);
+                                i = -1;
+                                break;
+                            }
+                        }
+                        i += 1;
+                    }
+                }
+
+                return result;
+            },
+            getModel     = function (groups) {
+                var model = [];
+
+                if ($.isArray(groups)) {
+                    groups.forEach(function (group) {
+                        var object = {};
+
+                        object['1-group'] = group;
+                        object['2-size']  = group.length;
+                        object['3-gaps']  = (group.not('.' + selectedClass)).length;
+
+                        model.push(object);
+                    });
+                }
+
+                return model;
+            },
+            hasGaps      = function (model) {
+
+                if ($.isArray(model)) {
+                    for (var i = 0, size = model.length; i < size; i++) {
+                        if (model[i]['3-gaps']) {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            },
+            runDialog    = function (/* Function */yes, /* Function */no) {
+                var dialog = $('#check-dialog').modal({
+                        backdrop: 'static',
+                        keyboard: false,
+                        show    : true
+                    }),
+                    method = function (callback) {
+                        dialog.modal('hide');
+                        if (callback && (typeof callback === 'function')) {
+                            /* Запускаем callback */
+                            callback();
+                        } else {
+                            console.log('canceled');
+                        }
+                    };
 
                 $('#check-yes, #check-no, #check-cancel').off();
 
                 $('#check-yes').one('click', function () {
-                    if (callback && (typeof callback === 'function')) {
-                        /* Запускаем callback по событию закрытия модали */
-                        ref.modal('hide').on('hidden.bs.modal', function () {
-                            callback();
-                        });
-                    }
+                    method(yes);
                 });
 
                 $('#check-no').one('click', function () {
-                    ref.modal('hide');
-                    if (callback && (typeof callback === 'function')) {
-                        /* Запускаем callback */
-                        callback();
-                    }
+                    method(no);
                 });
 
                 $('#check-cancel').one('click', function () {
-                    ref.modal('hide');
+                    method(null);
                 });
 
-            };
+            },
+            setSelection = function (model) {
+                if ($.isArray(model)) {
 
-        var check = false;
-        for (var i = 0, size = selected.length; i < size; i++) {
-            check = hasChildren($(selected.get(i)));
-            if (check) {
-                check = true;
-                break;
-            }
-        }
+                }
+            },
+            model        = getModel(getUnique(getGroups(selected)));
 
-        if (check) {
-            modalConfirm(function (message) {
-                var msg = message || 'running callback';
-                console.log(msg);
-                makeMagic(selected);
-            })
+        if (hasGaps(model)) {
+            runDialog(
+                /* Yes */function (message) {
+                    var msg = message || 'running callback. status CONFIRMED';
+                    console.log(msg);
+                    setSelection(model, 'expand')
+                },
+                /* No  */function (message) {
+                    var msg = message || 'running callback. status REFUSED';
+                    console.log(msg);
+                }
+            );
+        } else {
+
         }
     });
 
@@ -390,4 +469,5 @@ jQuery(document).ready(function main() {
         copyBtn.prop('disabled', true);
         clearInterval(blink);
     });
-});
+})
+;

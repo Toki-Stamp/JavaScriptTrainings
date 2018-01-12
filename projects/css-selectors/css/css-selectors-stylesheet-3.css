@@ -337,8 +337,8 @@ table[move-copy-mode="copy"] tr.selected td {
 }
 
 .ui-tooltip {
-    max-width: 350px;
-    width: 350px;
+    max-width: 280px;
+    width: 280px;
     text-align: justify;
 }
 
@@ -363,7 +363,6 @@ table[move-copy-mode="copy"] tr.selected td {
 
 #check-dialog .modal-body {
     font-size: 15px;
-    font-style: italic;
     text-align: justify;
 }
 
