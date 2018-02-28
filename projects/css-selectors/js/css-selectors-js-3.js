@@ -123,17 +123,21 @@ jQuery(document).ready(function main() {
             var levels = [];
 
             if (model && $.isArray(model)) {
-                model.forEach(function (group) {
-                    if (!$.isEmptyObject(group)) {
-                        var object = group['1-group'];
+                model.forEach(function (item) {
+                    if (!$.isEmptyObject(item)) {
+                        var group = item['1-group'];
 
-                        if ((object instanceof jQuery) && (object.length)) {
-                            object.each(function () {
-                                var me    = $(this),
+                        if ((group instanceof jQuery) && (group.length)) {
+                            group.each(function () {
+                                var me = $(this),
+                                    level;
+
+                                if (me.hasClass(selectedClass)) {
                                     level = me.data('level');
 
-                                if (levels.indexOf(level) === -1) {
-                                    levels.push(level)
+                                    if (levels.indexOf(level) === -1) {
+                                        levels.push(level)
+                                    }
                                 }
                             });
                         }
@@ -178,7 +182,7 @@ jQuery(document).ready(function main() {
             });
 
         },
-        getExpandedSelection = function (model) {
+        getExpandedModel     = function (model) {
             if (model) {
                 setExpandedSelection(model);
 
@@ -268,7 +272,7 @@ jQuery(document).ready(function main() {
                             validInsert = matrix[selectedLevels[0]];
                         } else {
                             /* нет, уровни разные */
-                            if (JSON.stringify(selectedLevels) === '[3,4]') {
+                            if (JSON.stringify(selectedLevels) == '[3,4]') {
                                 validInsert = matrix[3];
                             } else {
                                 validInsert = matrix[1];
@@ -289,7 +293,7 @@ jQuery(document).ready(function main() {
                         validInsert = matrix[selectedLevels[0]];
                     } else {
                         /* нет, уровни разные */
-                        if (JSON.stringify(selectedLevels) === '[3,4]') {
+                        if (JSON.stringify(selectedLevels) == '[3,4]') {
                             validInsert = matrix[3];
                         } else {
                             validInsert = matrix[1];
@@ -297,7 +301,13 @@ jQuery(document).ready(function main() {
                     }
                 }
 
-                console.log(validInsert);
+                if (validInsert) {
+                    if ($.isArray(validInsert)) {
+                        validInsert.forEach(function (level) {
+                            available = available.add(rows.filter('[data-level="' + level + '"]'));
+                        });
+                    }
+                }
 
                 available.addClass(validClass);
                 rows.not(available).not(getSelectedElements()).addClass(invalidClass);
@@ -395,7 +405,7 @@ jQuery(document).ready(function main() {
 
     /* перемещение элементов */
     btnMove.on('click', function () {
-        var model = getExpandedSelection(getModel(getUnique(getGroups(getSelectedElements()))));
+        var model = getExpandedModel(getModel(getUnique(getGroups(getSelectedElements()))));
 
         initMode('move');
 
@@ -413,7 +423,7 @@ jQuery(document).ready(function main() {
             getConfirmation(
                 /* Yes */function () {
                     /* переопределяем модель после расширения */
-                    model = getExpandedSelection(model);
+                    model = getExpandedModel(model);
                     setBorder(model);
                     setAvailability(model);
                     setParameters();
