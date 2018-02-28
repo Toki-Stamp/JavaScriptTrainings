@@ -5,147 +5,332 @@
 
 jQuery(document).ready(function main() {
 
-    var table         = $('table'),
-        tbody         = $('#tbodyForMainTable'),
-        rows          = tbody.find('tr'),
-        selected,
-        groups,
-        sourceIds     = [],
-        destinationId,
-        mode, title,
-        moveBtn       = $('#move-btn'),
-        copyBtn       = $('#copy-btn'),
-        okBtn         = $('#move-copy-dialog-ok-btn'),
-        cancelBtn     = $('#cancel-btn'),
-        dialog        = $('#move-copy-dialog'),
-        blink,
-        makeMagic     = function (selected) {
-            var expanded,
-                levels      = [],
-                matrix      = {1: null, 2: [1], 3: [2], 4: [2, 3]},
-                insert,
-                valid       = rows.first(),
-                invalid,
-                getId       = function (element) {
-                    var result;
+    var
+        /* ------------------------------------------------------ */
+        table                = $('table'),
+        tbody                = $('#tbodyForMainTable'),
+        rows                 = tbody.find('tr'),
+        top                  = rows.first(),
+        /* ------------------------------------------------------ */
+        initMode             = function (mode) {
+            var msg = '';
 
-                    if (element instanceof jQuery) {
-                        result = parseInt(element.attr('id'), 10);
+            if (mode && mode.length) {
+                table.attr('move-copy-mode', mode);
+                msg += 'Пожалуйста, укажите место вставки ';
+                msg += ((mode === 'move') ? 'ПЕРЕМЕЩАЕМЫХ' : 'КОПИРУЕМЫХ') + ' ';
+                msg += 'элементов экспликации';
+                table.tooltip('option', 'content', msg);
+            }
+
+            btnMove.add(btnCopy).prop('disabled', true);
+            table.tooltip('enable');
+        },
+        destroy              = function () {
+            rows.removeClass(
+                selectedClass + ' ' +
+                borderClass + ' ' +
+                validClass + ' ' +
+                invalidClass
+            );
+
+            table.tooltip('disable');
+            table.removeAttr('move-copy-mode');
+            btnMove.add(btnCopy).prop('disabled', true);
+            clearInterval(blink);
+        },
+        /* ------------------------------------------------------ */
+        getId                = function (element) {
+            var result;
+
+            if (element && (element instanceof jQuery)) {
+                result = parseInt(element.attr('id'), 10);
+            }
+
+            return result;
+        },
+        getChildren          = function (element) {
+            return rows.filter('[data-parent="' + getId(element) + '"]');
+        },
+        getGroup             = function (element) {
+            var group    = $().add(element),
+                children = hasChildren(element) ? getChildren(element) : null;
+
+            if (children) {
+                children.each(function () {
+                    group = group.add(getGroup($(this)));
+                });
+            }
+
+            return group;
+        },
+        getGroups            = function (elements) {
+            var groups = [];
+
+            elements.each(function () {
+                groups.push(getGroup($(this)));
+            });
+
+            return groups;
+        },
+        getUnique            = function (groups) {
+            var result = groups.slice(0),
+                i      = 0,
+                j,
+                left,
+                right;
+
+            if ($.isArray(result)) {
+                /* outer */
+                while (i < (result.length - 1)) {
+                    left = result[i];
+                    /* inner */
+                    for (j = (i + 1); j < result.length; j++) {
+                        right = result[j];
+
+                        if (left.is(right)) {
+                            result.splice(j, 1);
+                            i = -1;
+
+                            break;
+                        }
                     }
 
-                    return result;
-                },
-                getChildren = function (element) {
-                    var result;
+                    i += 1;
+                }
+            }
 
-                    if (element instanceof jQuery) {
-                        result = rows.filter(
-                            '[data-parent="' + getId(element) + '"]'
-                        );
-                        result = (result.length) ? result : null;
-                    }
+            return result;
+        },
+        getModel             = function (groups) {
+            var model = [];
 
-                    return result;
-                },
-                getGroups   = function (elements) {
-                    var groups    = [],
-                        result,
-                        expand    = function (elements) {
-                            var group = $();
+            if (groups && $.isArray(groups)) {
+                groups.forEach(function (group) {
+                    var object = {};
 
-                            elements.each(function () {
-                                var me       = $(this),
-                                    children = getChildren(me);
+                    object['1-group'] = group;
+                    object['2-size']  = group.length;
+                    object['3-gaps']  = (group.not('.' + selectedClass)).length;
 
-                                group = group.add(me);
+                    model.push(object);
+                });
+            }
 
-                                if (children) {
-                                    group = group.add(expand(children))
-                                }
-                            });
+            return model;
+        },
+        getLevels            = function (model) {
+            var levels = [];
 
-                            group.addClass(selectedClass).addClass(borderClass);
+            if (model && $.isArray(model)) {
+                model.forEach(function (group) {
+                    if (!$.isEmptyObject(group)) {
+                        var object = group['1-group'];
 
-                            return group;
-                        },
-                        consume   = function (array) {
-                            var result = array.slice(0),
-                                i      = 0, j,
-                                left, right;
-                            if ($.isArray(result)) {
-                                /* outer */
-                                while (i < (result.length - 1)) {
-                                    left = result[i];
-                                    /* inner */
-                                    for (j = (i + 1); j < result.length; j++) {
-                                        right = result[j];
-                                        if (left.is(right)) {
-                                            result.splice(j, 1);
-                                            i = -1;
-                                            break;
-                                        }
-                                    }
-                                    i += 1;
-                                }
-                            }
-                            return result;
-                        },
-                        getLevels = function (array) {
-                            var levels = [];
-                            array.forEach(function (item) {
-                                var level = item.data('level');
+                        if ((object instanceof jQuery) && (object.length)) {
+                            object.each(function () {
+                                var me    = $(this),
+                                    level = me.data('level');
+
                                 if (levels.indexOf(level) === -1) {
                                     levels.push(level)
                                 }
                             });
-                            return levels;
-                        };
-
-                    if ((elements instanceof jQuery) && (elements.length)) {
-                        elements.each(function () {
-                            groups.push(expand($(this)));
-                        });
+                        }
                     }
+                });
+            }
 
-                    expanded = rows.filter('.' + selectedClass);
-                    blink    = setInterval(function () {
-                        expanded.toggleClass(borderClass);
-                    }, 750);
-                    result   = consume(groups);
-                    levels   = getLevels(result).sort(function (a, b) {
-                        return b - a;
-                    });
+            return levels.sort();
+        },
+        getSelectedElements  = function () {
+            return rows.filter('.' + selectedClass);
+        },
+        getConfirmation      = function (/* Function */yes, /* Function */no) {
+            var confirmation = $('#check-dialog').modal({
+                    backdrop: 'static',
+                    keyboard: false,
+                    show    : true
+                }),
+                method       = function (callback) {
+                    confirmation.modal('hide');
 
-                    return result;
+                    if (callback && (typeof callback === 'function')) {
+                        /* Запускаем callback */
+                        callback();
+                    } else {
+                        destroy();
+                    }
                 };
 
-            groups = getGroups(selected);
-            insert = matrix[levels[0]];
+            $('#check-yes, #check-no, #check-cancel').off();
 
-            if (levels.length > 1) {
-                insert = null;
-                if (JSON.stringify(levels) === '[4,3]') {
-                    insert = matrix[3];
+            $('#check-yes').one('click', function () {
+                method(yes);
+            });
+
+            $('#check-no').one('click', function () {
+                method(no);
+            });
+
+            $('#check-cancel').one('click', function () {
+                method(null);
+            });
+
+        },
+        getExpandedSelection = function (model) {
+            if (model) {
+                setExpandedSelection(model);
+
+                return getModel(getUnique(getGroups(getSelectedElements())));
+            }
+        },
+        /* ------------------------------------------------------ */
+        hasChildren          = function (element) {
+            var result = false;
+
+            if (getChildren(element).length) {
+                result = true;
+            }
+
+            return result;
+        },
+        hasGaps              = function (model) {
+            if (model && $.isArray(model)) {
+                for (var i = 0, size = model.length; i < size; i++) {
+                    if (model[i]['3-gaps']) {
+                        return true;
+                    }
                 }
             }
-            if ($.isArray(groups) && groups.length) {
-                groups.forEach(function () {
-                    if (insert) {
-                        insert.forEach(function (level) {
-                            valid = valid.add(rows.filter('[data-level="' + level + '"]'));
-                        });
+
+            return false;
+        },
+        /* ------------------------------------------------------ */
+        setExpandedSelection = function (model) {
+            if ($.isArray(model) && model.length) {
+                model.forEach(function (item) {
+                    var object = item && item['1-group'];
+
+                    object.addClass(selectedClass);
+                });
+            }
+        },
+        setBorder            = function (model) {
+            var border = $();
+
+            if (model && $.isArray(model)) {
+                model.forEach(function (group) {
+                    var elements;
+
+                    if (!$.isEmptyObject(group)) {
+                        elements = group['1-group'];
+
+                        if (elements instanceof jQuery) {
+                            border = border.add(elements.filter('.' + selectedClass));
+                        }
                     }
                 });
 
-                invalid = rows.not(valid).not(expanded);
-                valid.addClass(validClass);
-                invalid.addClass(invalidClass);
+                border.addClass(borderClass);
+                blink = setInterval(function () {
+                    border.toggleClass(borderClass);
+                }, 750);
             }
         },
-        selectedClass = 'selected',
-        borderClass   = 'border',
-        validClass    = 'valid-place',
-        invalidClass  = 'invalid-place';
+        setAvailability      = function (model) {
+            var matrix,
+                selectedLevels,
+                hasGaps,
+                validInsert,
+                available,
+                size,
+                group;
+
+            if (model) {
+                size      = model.length;
+                matrix    = {1: null, 2: [1], 3: [2], 4: [2, 3]};
+                available = top;
+
+                /* сколько групп? */
+                if (size === 1) {
+                    /* группа всего 1 */
+                    group = model[0];
+                    /* есть ли дыры? */
+                    hasGaps = group['3-gaps'];
+                    if (hasGaps) {
+                        /* дыры есть, их количество НЕ равно 0 */
+                        /* какие уровни элементов? */
+                        selectedLevels = getLevels(model);
+                        /* уровни элементов одинаковые? */
+                        if (selectedLevels.length === 1) {
+                            /* да, одинаковые*/
+                            validInsert = matrix[selectedLevels[0]];
+                        } else {
+                            /* нет, уровни разные */
+                            if (JSON.stringify(selectedLevels) === '[3,4]') {
+                                validInsert = matrix[3];
+                            } else {
+                                validInsert = matrix[1];
+                            }
+                        }
+                    } else {
+                        /* дыр нет, их количество равно 0 */
+                        /* рассматриваем как 1 элемент, старший (по уровню) элемент группы */
+                        validInsert = matrix[group['1-group'].first().data('level')];
+                    }
+                } else {
+                    /* групп несколько */
+                    /* какие уровни элементов? */
+                    selectedLevels = getLevels(model);
+                    /* уровни элементов одинаковые? */
+                    if (selectedLevels.length === 1) {
+                        /* да, одинаковые*/
+                        validInsert = matrix[selectedLevels[0]];
+                    } else {
+                        /* нет, уровни разные */
+                        if (JSON.stringify(selectedLevels) === '[3,4]') {
+                            validInsert = matrix[3];
+                        } else {
+                            validInsert = matrix[1];
+                        }
+                    }
+                }
+
+                console.log(validInsert);
+
+                available.addClass(validClass);
+                rows.not(available).not(getSelectedElements()).addClass(invalidClass);
+            }
+        },
+        setParameters        = function () {
+            var move = (table.attr('move-copy-mode'));
+
+            if (move && move.length) {
+                switch (move) {
+                    case 'move':
+                        console.log('move mode!');
+                        break;
+                    case 'copy':
+                        console.log('copy mode!');
+                        break;
+                }
+            }
+        },
+        /* ------------------------------------------------------ */
+        btnMove              = $('#move-btn'),
+        btnCopy              = $('#copy-btn'),
+        btnCancel            = $('#cancel-btn'),
+        btnDialogOk          = $('#move-copy-dialog-ok-btn'),
+        btnDialogCancel      = $('#move-copy-dialog-cancel-btn'),
+        dialog               = $('#move-copy-dialog'),
+        /* ------------------------------------------------------ */
+        blink,
+        /* ------------------------------------------------------ */
+        selectedClass        = 'selected',
+        borderClass          = 'border',
+        validClass           = 'valid-place',
+        invalidClass         = 'invalid-place';
 
     table.tooltip({
         disabled: true,
@@ -161,292 +346,96 @@ jQuery(document).ready(function main() {
         table.tooltip('enable');
     });
 
-    $(document).on('mousedown', 'table tbody > tr', function (e) {
-        var me          = $(this),
-            selected    = rows.filter('.' + selectedClass),
-            current     = (selected.length ? selected.index() : 0),
-            target      = (me.index() + 1),
-            first       = current,
-            last        = target,
-            level       = me.data('level'),
-            mode        = table.attr('move-copy-mode'),
-            getInfo     = function (element, flag) {
-                var str   = '',
-                    level = element.data('level'),
-                    tree  = element.data('tree').substring(1).split('/'),
-                    i, item;
+    $(document).on('mousedown', '#tbodyForMainTable > tr', function (e) {
+        var me            = $(this),
+            selected      = rows.filter('.' + selectedClass),
+            current       = (selected.length ? selected.index() : 0),
+            target        = (me.index() + 1),
+            first         = current,
+            last          = target,
+            disableToggle = true;
 
-                str += '<p>';
-                str += '(Ур:' + level + ') ';
-                str += '<span class="root">';
-                for (i = 0; i < (level - 1); i++) {
-                    item = rows.filter('[id="' + tree[i] + '"]');
-                    str += item.data('name') + ' ' + item.data('number');
-                    str += ' / ';
-                }
-                item = rows.filter('[id="' + tree[level - 1] + '"]');
-                str += '</span> ';
-                str += '<span class="branch">';
-                str += item.data('name') + ' ' + item.data('number');
-                if (!flag && (level < 4)) {
-                    str += ' и вложенные элементы';
-                }
-                str += '</span>';
-                str += '</p>';
+        if (me.is(top)) {
+            return false;
+        }
 
-                return str;
-            },
-            description = function (groups) {
-                var result = '';
+        if (!e.ctrlKey && !e.shiftKey) {
+            selected.removeClass(selectedClass + ' ' + borderClass);
+        }
 
-                if ($.isArray(groups)) {
-                    groups.forEach(function (group) {
-                        var element = group.first();
-                        if (element instanceof jQuery) {
-                            sourceIds.push(element.attr('id'));
-                            result += getInfo(element);
-                        }
-                    });
-                }
-                return result;
-            },
-            elementsList,
-            targetPlace;
+        if (e.shiftKey) {
+            e.preventDefault();
 
-        if (mode) {
-            if (!me.hasClass(validClass)) {
-                return false;
-            }
-            table.tooltip('disable');
-            elementsList  = description(groups);
-            destinationId = me.attr('id');
-            targetPlace   = level ? getInfo(me, true) :
-                '<p>(Ур:0) <span class="branch">Корень таблицы</span></p>';
-            title         = (mode === 'move') ? 'Перемещение элементов экспликации' :
-                'Копирование элементов экспликации';
-
-            dialog.find('#elements-list').html(elementsList);
-            dialog.find('#target-place').html(targetPlace);
-            dialog.find('.modal-title').text(title);
-            dialog.modal('show');
-        } else {
-            if (!level) {
-                console.log('click on top level');
-                return false;
-            }
-
-            if (!e.ctrlKey && !e.shiftKey) {
-                selected.removeClass(selectedClass + ' ' + borderClass);
-            }
-
-            if (e.shiftKey) {
-                e.preventDefault();
-                if (me.is(selected)) {
-                    selected.removeClass(selectedClass);
-                } else {
-                    if (current >= target) {
-                        first = target - 1;
-                        last  = current + 1;
-                    }
-                    $('table > tbody tr').slice(first, last).addClass(selectedClass);
-                }
+            if (me.is(selected)) {
+                selected.removeClass(selectedClass);
             } else {
-                if (me.hasClass(selectedClass)) {
-                    me.removeClass(selectedClass + ' ' + borderClass);
-                } else {
-                    me.addClass(selectedClass);
+                if (current >= target) {
+                    first = target - 1;
+                    last  = current + 1;
                 }
+
+                rows.slice(first, last).addClass(selectedClass);
+            }
+        } else {
+            if (me.hasClass(selectedClass)) {
+                me.removeClass(selectedClass);
+            } else {
+                me.addClass(selectedClass);
             }
         }
-    }).on('mouseup', 'table tbody > tr', function () {
-        mode = table.attr('move-copy-mode');
-        if ((rows.filter('.' + selectedClass)).length) {
-            moveBtn.prop('disabled', false);
-            copyBtn.prop('disabled', false);
+
+        selected = rows.filter('.' + selectedClass);
+
+        if (selected && selected.length) {
+            disableToggle = false;
         }
+
+        btnCopy.add(btnMove).prop('disabled', disableToggle);
     });
 
-    moveBtn.on('click', function () {
+    /* перемещение элементов */
+    btnMove.on('click', function () {
+        var model = getExpandedSelection(getModel(getUnique(getGroups(getSelectedElements()))));
 
-        table.attr('move-copy-mode', 'move');
-        table.tooltip(
-            'option',
-            'content',
-            'Пожалуйста, укажите место вставки ПЕРЕМЕЩАЕМЫХ элементов экспликации'
-        );
-        moveBtn.prop('disabled', true);
-        copyBtn.prop('disabled', true);
-        table.tooltip('enable');
+        initMode('move');
 
-        selected = rows.filter('.' + selectedClass);
-        makeMagic(selected);
+        setBorder(model);
+        setAvailability(model);
+        setParameters();
     });
+    /* копирование элементов */
+    btnCopy.on('click', function () {
+        var model = getModel(getUnique(getGroups(getSelectedElements())));
 
-    copyBtn.on('click', function () {
-
-        table.attr('move-copy-mode', 'copy');
-        table.tooltip(
-            'option',
-            'content',
-            'Пожалуйста, укажите место вставки КОПИРУЕМЫХ элементов экспликации'
-        );
-        moveBtn.prop('disabled', true);
-        copyBtn.prop('disabled', true);
-        table.tooltip('enable');
-
-        selected = rows.filter('.' + selectedClass);
-
-        var getId        = function (element) {
-                var result;
-
-                if (element && (element instanceof jQuery)) {
-                    result = parseInt(element.attr('id'), 10);
-                }
-
-                return result;
-            },
-            getChildren  = function (element) {
-                return rows.filter('[data-parent="' + getId(element) + '"]');
-            },
-            hasChildren  = function (element) {
-                var result = false;
-
-                if (getChildren(element).length) {
-                    result = true;
-                }
-
-                return result;
-            },
-            getGroup     = function (element) {
-                var group    = $().add(element),
-                    children = hasChildren(element) ? getChildren(element) : null;
-
-                if (children) {
-                    children.each(function () {
-                        group = group.add(getGroup($(this)));
-                    });
-                }
-
-                return group;
-            },
-            getGroups    = function (elements) {
-                var groups = [];
-
-                elements.each(function () {
-                    groups.push(getGroup($(this)));
-                });
-
-                return groups;
-            },
-            getUnique    = function (groups) {
-                var result = groups.slice(0),
-                    i      = 0, j,
-                    left, right;
-
-                if ($.isArray(result)) {
-                    /* outer */
-                    while (i < (result.length - 1)) {
-                        left = result[i];
-                        /* inner */
-                        for (j = (i + 1); j < result.length; j++) {
-                            right = result[j];
-                            if (left.is(right)) {
-                                result.splice(j, 1);
-                                i = -1;
-                                break;
-                            }
-                        }
-                        i += 1;
-                    }
-                }
-
-                return result;
-            },
-            getModel     = function (groups) {
-                var model = [];
-
-                if ($.isArray(groups)) {
-                    groups.forEach(function (group) {
-                        var object = {};
-
-                        object['1-group'] = group;
-                        object['2-size']  = group.length;
-                        object['3-gaps']  = (group.not('.' + selectedClass)).length;
-
-                        model.push(object);
-                    });
-                }
-
-                return model;
-            },
-            hasGaps      = function (model) {
-
-                if ($.isArray(model)) {
-                    for (var i = 0, size = model.length; i < size; i++) {
-                        if (model[i]['3-gaps']) {
-                            return true;
-                        }
-                    }
-                }
-
-                return false;
-            },
-            runDialog    = function (/* Function */yes, /* Function */no) {
-                var dialog = $('#check-dialog').modal({
-                        backdrop: 'static',
-                        keyboard: false,
-                        show    : true
-                    }),
-                    method = function (callback) {
-                        dialog.modal('hide');
-                        if (callback && (typeof callback === 'function')) {
-                            /* Запускаем callback */
-                            callback();
-                        } else {
-                            console.log('canceled');
-                        }
-                    };
-
-                $('#check-yes, #check-no, #check-cancel').off();
-
-                $('#check-yes').one('click', function () {
-                    method(yes);
-                });
-
-                $('#check-no').one('click', function () {
-                    method(no);
-                });
-
-                $('#check-cancel').one('click', function () {
-                    method(null);
-                });
-
-            },
-            setSelection = function (model) {
-                if ($.isArray(model)) {
-
-                }
-            },
-            model        = getModel(getUnique(getGroups(selected)));
+        initMode('copy');
 
         if (hasGaps(model)) {
-            runDialog(
-                /* Yes */function (message) {
-                    var msg = message || 'running callback. status CONFIRMED';
-                    console.log(msg);
-                    setSelection(model, 'expand')
+            getConfirmation(
+                /* Yes */function () {
+                    /* переопределяем модель после расширения */
+                    model = getExpandedSelection(model);
+                    setBorder(model);
+                    setAvailability(model);
+                    setParameters();
                 },
-                /* No  */function (message) {
-                    var msg = message || 'running callback. status REFUSED';
-                    console.log(msg);
+                /* No  */function () {
+                    setBorder(model);
+                    setAvailability(model);
+                    setParameters();
                 }
             );
         } else {
-
+            setBorder(model);
+            setAvailability(model);
+            setParameters();
         }
     });
 
-    okBtn.on('click', function () {
+    btnCancel.on('click', function () {
+        destroy();
+    });
+
+    btnDialogOk.on('click', function () {
 
         dialog.modal('hide');
         mode = table.attr('move-copy-mode');
@@ -454,20 +443,4 @@ jQuery(document).ready(function main() {
         console.log('Элементы экспликации:', sourceIds);
         console.log('Назначение:', destinationId);
     });
-
-    cancelBtn.on('click', function () {
-        rows.removeClass(
-            selectedClass + ' ' +
-            borderClass + ' ' +
-            validClass + ' ' +
-            invalidClass
-        );
-        sourceIds = [];
-        table.tooltip('disable');
-        table.removeAttr('move-copy-mode');
-        moveBtn.prop('disabled', true);
-        copyBtn.prop('disabled', true);
-        clearInterval(blink);
-    });
-})
-;
+});
