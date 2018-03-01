@@ -5523,8 +5523,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div id="elements-list" class="col-md-11 col-md-offset-1">
-                        </div>
+                        <div id="source" class="col-md-11 col-md-offset-1"></div>
                     </div>
                     <hr>
                     <div class="row">
@@ -5535,8 +5534,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div id="target-place" class="col-md-11 col-md-offset-1">
-                        </div>
+                        <div id="destination" class="col-md-11 col-md-offset-1"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -5547,11 +5545,11 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     <!-- Modal -->
-    <div id="check-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="check-dialog-label" aria-hidden="true">
+    <div id="confirmation-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="check-dialog-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button id="confirmation-dialog-dismiss-btn" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title" id="check-dialog-label">Необходимо подтверждение</h4>
                 </div>
                 <div class="modal-body">
@@ -5559,9 +5557,9 @@
                     <p>Добавить их для копирования?</p>
                 </div>
                 <div class="modal-footer">
-                    <button id="check-yes" type="button" class="btn btn-sm btn-success">Да</button>
-                    <button id="check-no" type="button" class="btn btn-sm btn-danger">Нет</button>
-                    <button id="check-cancel" type="button" class="btn btn-sm btn-default" data-dismiss="modal">Отмена</button>
+                    <button id="confirmation-dialog-yes-btn" type="button" class="btn btn-sm btn-success">Да</button>
+                    <button id="confirmation-dialog-no-btn" type="button" class="btn btn-sm btn-danger">Нет</button>
+                    <button id="confirmation-dialog-cancel-btn" type="button" class="btn btn-sm btn-default" data-dismiss="modal">Отмена</button>
                 </div>
             </div>
         </div>

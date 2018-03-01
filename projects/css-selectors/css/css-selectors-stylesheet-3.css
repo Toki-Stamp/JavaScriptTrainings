@@ -361,11 +361,11 @@ table[move-copy-mode="copy"] tr.selected td {
     font-size: 15px;
 }
 
-#check-dialog .modal-body {
+#confirmation-dialog .modal-body {
     font-size: 15px;
     text-align: justify;
 }
 
-#check-dialog .modal-footer button {
+#confirmation-dialog .modal-footer button {
     width: 32%;
 }
