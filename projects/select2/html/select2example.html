@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>select2-example</title>
+    <!------------------------- CSS ----------------------------->
+    <!-- Bootstrap -->
+    <link href="../../../_lib/css/bootstrap.css" rel="stylesheet">
+    <link href="../../../_lib/css/bootstrap-theme.css" rel="stylesheet">
+    <!-- Select-2 -->
+    <link href="../../../_lib/css/select2.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="../../../_lib/css/jquery-ui.css" rel="stylesheet">
+    <!-- Google Material Design fonts -->
+    <link href="../../../_lib/css/material-icons.css" rel="stylesheet">
+    <!-- Font Awesome icons-->
+    <link href="../../../_lib/css/font-awesome.css" rel="stylesheet">
+    <!-- Custom CSS goes below -->
+    <link href="../css/select2example-style.css" rel="stylesheet">
+    <!------------------------- CSS ----------------------------->
+</head>
+<body>
+    <!------------------------- Main ---------------------------->
+    <div class="container">
+        <table id="main-table" class="table table-striped">
+            <tr id="blank-row"></tr>
+            <tr id="title-id-row">
+                <td>
+                    <h3>Общие сведения о КС</h3></td>
+                <td>
+                    <h3>ID объекта: 133996</h3>
+                </td>
+            </tr>
+            <tr id="search-row">
+                <td>ID объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <input type="text" minlength="1" maxlength="15" class="form-control" title="Натуральное (целочисленное, положительное) значение от 1 до 15 цифр" placeholder="Введите ID объекта..."/>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <button type="button" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="inventory-number-row">
+                <td>Инвентарный номер</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                            <input type="text" class="form-control" title="Наименование организации" readonly/>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <input type="text" class="form-control" title="Код" readonly/>
+                        </div>
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <input type="text" class="form-control" title="Литер" readonly/>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <input type="text" class="form-control" title="Инвентарный номер" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="object-type-row">
+                <td>Тип объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="text" class="form-control" title="Тип объекта" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="object-name-row">
+                <td>Наименование объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="text" class="form-control" title="Наименование объекта" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="object-purpose-row">
+                <td>Назначение объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="text" class="form-control" title="Назначение объекта" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="address-row">
+                <td>
+                    <div>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-success" onfocus="this.blur()">Местоположение</button>
+                            <button class="btn btn-default" onfocus="this.blur()">Адрес</button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <textarea rows="3" class="form-control" title="Местоположение / Адрес объекта" readonly>224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А</textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="data-char-2-row">
+                <td>Количество надземных этажей максимальное, шт.</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="text" class="form-control" title="Количество надземных этажей максимальное" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="data-char-4-row">
+                <td>Количество подземных этажей максимальное, шт.</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <input type="text" class="form-control" title="Количество подземных этажей максимальное" readonly/>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Год постройки</td>
+                <td colspan="4">
+                    <select id="firstSel" class="btn-block js-example-basic-multiple emptyAfterFindSel" multiple="multiple" disabled></select>
+                </td>
+            </tr>
+            <tr>
+                <td>Год реконструкции</td>
+                <td colspan="4">
+                    <select id="secondSel" class="btn-block js-example-basic-multiple emptyAfterFindSel" multiple="multiple" disabled></select>
+                </td>
+            </tr>
+        </table>
+        <div data-alerts="alerts" data-fade="3000"></div>
+    </div>
+    <!------------------------- Main ---------------------------->
+    <!------------------------- Scripts ------------------------->
+    <!-- jQuery -->
+    <script src="../../../_lib/js/jquery-3.2.1.js"></script>
+    <!--jQuery UI -->
+    <script src="../../../_lib/js/jquery-ui.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../../_lib/js/bootstrap.js"></script>
+    <!-- Select-2 -->
+    <script src="../../../_lib/js/select2.js"></script>
+    <!-- Custom js goes below -->
+    <!-- Handy Stuff -->
+    <script src="../../____handy-stuff/js/handy-stuff.js"></script>
+    <!-- Rest of ... -->
+    <script src="../js/select2example-script.js"></script>
+    <!------------------------- Scripts ------------------------->
+</body>
+</html>
