@@ -19,12 +19,12 @@
 }
 
 /* ---------------------------------- Address row ----------------------------------- */
-#address-row td:first-child {
-    text-align: center !important;
+#address-row td:first-child span:first-child {
+    /*display: none;*/
 }
 
-#address-row button {
-    width: 160px !important;
+#address-row td:first-child span:last-child {
+    display: none;
 }
 
 #address-row textarea {
@@ -43,10 +43,6 @@
     height: 40px;
 }
 
-.container .btn-group button {
-    cursor: default !important;
-}
-
 .container textarea, .container div.form-control {
     height: 74px;
     cursor: text !important;
@@ -54,13 +50,13 @@
 
 /* ---------------------------------- TABLE GLOBAL ---------------------------------- */
 #main-table td {
-    height: 60px;
+    height: 58px;
     vertical-align: middle !important;
 }
 
 #main-table tr td:first-child {
-    width: 350px !important;
-    min-width: 350px !important;
+    width: 320px !important;
+    min-width: 320px !important;
 }
 
 #main-table tr td:last-child {
