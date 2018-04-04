@@ -1,8 +1,6 @@
 /* ----------------------------------- Title row ------------------------------------ */
 #title-id-row td:first-child h3 {
     text-align: left;
-    color: black;
-    font-weight: bold;
 }
 
 #title-id-row td:last-child h3 {
@@ -42,16 +40,21 @@
 .container input,
 .container select,
 .container button {
-    height: 32px;
+    height: 40px;
 }
 
-.container textarea {
+.container .btn-group button {
+    cursor: default !important;
+}
+
+.container textarea, .container div.form-control {
     height: 74px;
+    cursor: text !important;
 }
 
 /* ---------------------------------- TABLE GLOBAL ---------------------------------- */
 #main-table td {
-    height: 50px;
+    height: 60px;
     vertical-align: middle !important;
 }
 
