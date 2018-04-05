@@ -1,0 +1,35 @@
+/* ----------------------- INPUTS / BUTTONS / SELECTS GLOBAL ------------------------ */
+#main-table input,
+#main-table select,
+#main-table button,
+#main-table div.form-control {
+    height: 38px;
+    cursor: text !important;
+}
+
+#main-table div.form-control {
+    padding-top: 7px;
+}
+
+#main-table div.form-control.rows-2 {
+    height: 56px;
+}
+
+#main-table div.form-control.rows-3 {
+    height: 76px;
+}
+
+/* ---------------------------------- TABLE GLOBAL ---------------------------------- */
+#main-table td {
+    height: 58px;
+    vertical-align: middle !important;
+}
+
+#main-table tr td:first-child {
+    width: 320px !important;
+    min-width: 320px !important;
+}
+
+#main-table tr td:last-child {
+    min-width: 350px;
+}

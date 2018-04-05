@@ -1,8 +1,4 @@
 /* ----------------------------------- Title row ------------------------------------ */
-#title-id-row td:first-child h3 {
-    text-align: left;
-}
-
 #title-id-row td:last-child h3 {
     text-align: center;
     color: red;
