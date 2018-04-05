@@ -5,7 +5,7 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    var object = {
+    var object       = {
             "address"              : {
                 "actual"        : null,
                 "adrStatus"     : null,
@@ -42,7 +42,13 @@ jQuery(document).ready(function main() {
             "inventory_number"     : null,
             "isAutoCalc"           : 1,
             "land_category_id"     : null,
-            "nazn"                 : {"auditOut": -1, "code": 99999, "code2": "99999", "immovablePurposeName": "Нет сведений", "objectType": null},
+            "nazn"                 : {
+                "auditOut"            : -1,
+                "code"                : 99999,
+                "code2"               : "99999",
+                "immovablePurposeName": "Нет сведений",
+                "objectType"          : null
+            },
             "object_name"          : "ЧТЗ 17.1 п.2.3 ИП",
             "object_status_type_id": null,
             "object_type_id"       : {
@@ -102,7 +108,13 @@ jQuery(document).ready(function main() {
                         "inventory_number"     : 3309,
                         "isAutoCalc"           : 1,
                         "land_category_id"     : null,
-                        "nazn"                 : {"auditOut": -1, "code": 21103, "code2": "21103", "immovablePurposeName": "Здание одноквартирного жилого дома", "objectType": 6},
+                        "nazn"                 : {
+                            "auditOut"            : -1,
+                            "code"                : 21103,
+                            "code2"               : "21103",
+                            "immovablePurposeName": "Здание одноквартирного жилого дома",
+                            "objectType"          : 6
+                        },
                         "object_name"          : "Тест_жилой дом",
                         "object_status_type_id": null,
                         "object_type_id"       : {
@@ -127,7 +139,12 @@ jQuery(document).ready(function main() {
                             "residential"      : 1,
                             "technicalPassport": 10102
                         },
-                        "object_vyd_id"        : {"auditOut": -1, "code": 2, "immovableTypeName": "Капитальное строение", "literal": "C"},
+                        "object_vyd_id"        : {
+                            "auditOut"         : -1,
+                            "code"             : 2,
+                            "immovableTypeName": "Капитальное строение",
+                            "literal"          : "C"
+                        },
                         "old_id"               : null,
                         "operation_status_code": null,
                         "org_id"               : 110,
@@ -139,7 +156,14 @@ jQuery(document).ready(function main() {
                         "updated"              : "2017-03-28T06:06:56.000Z",
                         "updated_by"           : 177
                     },
-                    "statusId"  : {"abbreviation": "принят в эксп.", "auditin": null, "auditout": -1, "code1": 301, "objectStatusname": "принят в эксплуатацию", "statusType": 1}
+                    "statusId"  : {
+                        "abbreviation"    : "принят в эксп.",
+                        "auditin"         : null,
+                        "auditout"        : -1,
+                        "code1"           : 301,
+                        "objectStatusname": "принят в эксплуатацию",
+                        "statusType"      : 1
+                    }
                 }],
                 "objectTypeId"     : 9,
                 "pageBuild"        : 1,
@@ -159,7 +183,7 @@ jQuery(document).ready(function main() {
             "updated"              : "2018-04-03T15:51:45.000Z",
             "updated_by"           : 2341
         },
-        data   = [
+        data         = [
             {
                 name : 'Общая площадь здания',
                 char : '315',
@@ -171,34 +195,103 @@ jQuery(document).ready(function main() {
                 value: [153.3]
             }
         ],
-        table  = $('#main-table'),
-        tbody  = table.find('tbody');
+        table        = $('#main-table'),
+        tbody        = table.find('tbody'),
+        divTextBlock = table.find('div.form-control');
 
-    data.forEach(function (object) {
-        var element = '';
+    // data.forEach(function (object) {
+    //     var element = '';
+    //
+    //     element += '<tr id="data-char-' + object.char + '-row">';
+    //     element += '<td>';
+    //     element += object.name;
+    //     element += '</td>';
+    //     element += '<td>';
+    //     element += '<div class="row">';
+    //     element += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
+    //     element += '<input type="text" class="form-control" title="' + object.name + '" value="' + object.value + '" readonly/>';
+    //     element += '</div>';
+    //     element += '</div>';
+    //     element += '</td>';
+    //     element += '</tr>';
+    //
+    //     tbody.append(element);
+    // });
 
-        element += '<tr id="data-char-' + object.char + '-row">';
-        element += '<td>';
-        element += object.name;
-        element += '</td>';
-        element += '<td>';
-        element += '<div class="row">';
-        element += '<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
-        element += '<input type="text" class="form-control" title="' + object.name + '" value="' + object.value + '" readonly/>';
-        element += '</div>';
-        element += '</div>';
-        element += '</td>';
-        element += '</tr>';
+    divTextBlock
+        .prepend('<i class="glyphicon glyphicon-copy"></i>')
+        .on('mouseenter', function () {
+            $(this).find('i').show();
+        })
+        .on('mouseleave', function () {
+            var me                  = $(this),
+                copyToClipboardIcon = me.find('i');
 
-        tbody.append(element);
-    });
+            if (copyToClipboardIcon.hasClass('glyphicon-ok')) {
+                copyToClipboardIcon
+                    .hide()
+                    .removeClass('glyphicon-ok')
+                    .addClass('glyphicon-copy')
+                    .attr('title', 'Скопировать текст в буфер обмена');
+
+                me
+                    .removeAttr('style');
+            }
+        });
+
+    divTextBlock
+        .find('i')
+        .attr('title', 'Скопировать текст в буфер обмена')
+        .on('click', function () {
+            var me     = $(this),
+                parent = me.parent();
+
+            /* successfully copied */
+            if (!me.hasClass('glyphicon-ok') && copyToClipboard(parent)) {
+                me
+                    .removeClass('glyphicon-copy')
+                    .addClass('glyphicon-ok')
+                    .attr('title', 'Текст успешно скопирован в буфер обмена');
+
+                parent
+                    .css('background-color', 'rgba(150, 255, 150, .1)');
+            }
+        });
+
 });
 
-function form_action() {
+function formAction() {
     var regex = new RegExp('^[1-9]{1}[0-9]{0,11}$'),
         tests = ['1', '0', '07', '', '-2', '11', '123456789012345', '1234567890123456', '12345678901234567'];
 
     tests.forEach(function (value) {
         console.log(value, '==>', regex.test(value));
     });
-};
+}
+
+function copyToClipboard(element) {
+    var text = element.text(),
+        // var text = element.text().replace(/[^a-zA-Z0-9]/g, '') || 'Empty!',
+        textArea,
+        result;
+
+    console.log(text);
+
+    if (document.queryCommandSupported('copy')) {
+        textArea       = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+
+        try {
+            result = document.execCommand('copy');
+        } catch (err) {
+            result = false;
+        }
+
+        document.body.removeChild(textArea);
+        element.focus();
+    }
+
+    return result;
+}
