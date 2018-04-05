@@ -21,176 +21,176 @@
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
-    <!------------------------- Main ---------------------------->
-    <div class="container">
-        <table id="main-table" class="table table-striped">
-            <tr id="blank"></tr>
-            <!-- Основная информация -->
-            <tr id="common-title-id">
-                <td>
-                    <h3>Общие сведения о КС</h3></td>
-                <td>
-                    <h3>ID объекта</h3>
-                </td>
-            </tr>
-            <tr id="common-search">
-                <td>ID объекта</td>
-                <td>
-                    <div class="row">
-                        <form class="form-inline" onsubmit="return form_action();">
-                            <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-                                <input type="text" minlength="1" maxlength="15" class="form-control"
-                                       title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"
-                                       pattern="^[1-9]{1}[0-9]{0,11}$"
-                                       placeholder="Введите ID объекта..."/>
-                            </div>
-                            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-                                <button type="submit" class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            <tr id="common-inventory-number">
-                <td>Инвентарный номер</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
-                            <div class="form-control rows-3" tabindex="1" title="Наименование организации" readonly>
-                                Буда-Кошелевское бюро
-                                <br>
-                                Буда-Кошелевское бюро
-                                <br>
-                                Буда-Кошелевское бюро
-                            </div>
+<!------------------------- Main ---------------------------->
+<div class="container">
+    <table id="main-table" class="table table-striped">
+        <tr id="blank"></tr>
+        <!-- Основная информация -->
+        <tr id="common-title-id">
+            <td>
+                <h3>Общие сведения о КС</h3></td>
+            <td>
+                <h3>ID объекта</h3>
+            </td>
+        </tr>
+        <tr id="common-search">
+            <td>ID объекта</td>
+            <td>
+                <div class="row">
+                    <form class="form-inline" onsubmit="return form_action();">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" minlength="1" maxlength="15" class="form-control"
+                                   title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"
+                                   pattern="^[1-9]{1}[0-9]{0,11}$"
+                                   placeholder="Введите ID объекта..."/>
                         </div>
-                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                            <input type="text" class="form-control" title="Код агентства" readonly value="123"/>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
+                            </button>
                         </div>
-                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                            <input type="text" class="form-control" title="Литер" readonly value="C"/>
-                        </div>
-                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                            <input type="text" class="form-control" title="Инвентарный номер" readonly value="1234567890"/>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-inventory-number">
+            <td>Инвентарный номер</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="form-control rows-3" tabindex="1" readonly>
+                            Буда-Кошелевское бюро
+                            <br>
+                            Буда-Кошелевское бюро
+                            <br>
+                            Буда-Кошелевское бюро
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr id="common-object-type">
-                <td>Тип объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input type="text" class="form-control" title="Тип объекта" readonly/>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <input type="text" class="form-control" title="Код агентства" readonly value="123"/>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <input type="text" class="form-control" title="Литер" readonly value="C"/>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <input type="text" class="form-control" title="Инвентарный номер" readonly value="1234567890"/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-object-type">
+            <td>Тип объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" class="form-control" title="Тип объекта" readonly/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-object-name">
+            <td>Наименование объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" class="form-control" title="Наименование объекта" readonly/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-object-purpose">
+            <td>Назначение объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" class="form-control" title="Назначение объекта" readonly/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-address">
+            <td>
+                <span>Местоположение</span>
+                <span>Адрес</span>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <textarea rows="3" class="form-control" title="Местоположение / Адрес объекта" readonly>224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А</textarea>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <!-- Характеристики -->
+        <tr id="data-char-2">
+            <td>Количество надземных этажей максимальное бла-бла-бла, шт.</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" class="form-control" title="Количество надземных этажей максимальное"
+                               readonly/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-char-4">
+            <td>Количество подземных этажей максимальное, шт.</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="text" class="form-control" title="Количество подземных этажей максимальное"
+                               readonly/>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-build-year">
+            <td>Год постройки</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-control" tabindex="1" title="Год постройки" readonly>
+                            <span class="label label-default">1920</span>
+                            <span class="label label-primary">1983</span>
+                            <span class="label label-success">1991</span>
+                            <span class="label label-info">2003</span>
+                            <span class="label label-warning">2008</span>
+                            <span class="label label-danger">2017</span>
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr id="common-object-name">
-                <td>Наименование объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input type="text" class="form-control" title="Наименование объекта" readonly/>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-rebuild-year">
+            <td>Год реконструкции</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="form-control" tabindex="1" title="Год реконструкции" readonly>
+                            <span class="label label-default">1920</span>
+                            <span class="label label-primary">1983</span>
+                            <span class="label label-success">1991</span>
+                            <span class="label label-info">2003</span>
+                            <span class="label label-warning">2008</span>
+                            <span class="label label-danger">2017</span>
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr id="common-object-purpose">
-                <td>Назначение объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input type="text" class="form-control" title="Назначение объекта" readonly/>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="common-address">
-                <td>
-                    <span>Местоположение</span>
-                    <span>Адрес</span>
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <textarea rows="3" class="form-control" title="Местоположение / Адрес объекта" readonly>224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А</textarea>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <!-- Характеристики -->
-            <tr id="data-char-2">
-                <td>Количество надземных этажей максимальное бла-бла-бла, шт.</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input type="text" class="form-control" title="Количество надземных этажей максимальное"
-                                   readonly/>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="data-char-4">
-                <td>Количество подземных этажей максимальное, шт.</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <input type="text" class="form-control" title="Количество подземных этажей максимальное"
-                                   readonly/>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="data-build-year">
-                <td>Год постройки</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-control" tabindex="1" title="Год постройки" readonly>
-                                <span class="label label-default">1920</span>
-                                <span class="label label-primary">1983</span>
-                                <span class="label label-success">1991</span>
-                                <span class="label label-info">2003</span>
-                                <span class="label label-warning">2008</span>
-                                <span class="label label-danger">2017</span>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="data-rebuild-year">
-                <td>Год реконструкции</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="form-control" tabindex="1" title="Год реконструкции" readonly>
-                                <span class="label label-default">1920</span>
-                                <span class="label label-primary">1983</span>
-                                <span class="label label-success">1991</span>
-                                <span class="label label-info">2003</span>
-                                <span class="label label-warning">2008</span>
-                                <span class="label label-danger">2017</span>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <div data-alerts="alerts" data-fade="3000"></div>
-    </div>
-    <!------------------------- Main ---------------------------->
-    <!------------------------- Scripts ------------------------->
-    <!-- jQuery -->
-    <script src="../../../_lib/js/jquery-3.2.1.js"></script>
-    <!--jQuery UI -->
-    <script src="../../../_lib/js/jquery-ui.js"></script>
-    <!-- Bootstrap -->
-    <script src="../../../_lib/js/bootstrap.js"></script>
-    <!-- Custom js goes below -->
-    <script src="../js/select2example-script.js"></script>
-    <!------------------------- Scripts ------------------------->
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div data-alerts="alerts" data-fade="3000"></div>
+</div>
+<!------------------------- Main ---------------------------->
+<!------------------------- Scripts ------------------------->
+<!-- jQuery -->
+<script src="../../../_lib/js/jquery-3.2.1.js"></script>
+<!--jQuery UI -->
+<script src="../../../_lib/js/jquery-ui.js"></script>
+<!-- Bootstrap -->
+<script src="../../../_lib/js/bootstrap.js"></script>
+<!-- Custom js goes below -->
+<script src="../js/select2example-script.js"></script>
+<!------------------------- Scripts ------------------------->
 </body>
 </html>

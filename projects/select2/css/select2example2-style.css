@@ -5,10 +5,30 @@
 #main-table div.form-control {
     height: 38px;
     cursor: text !important;
+    width: 100%;
 }
 
 #main-table div.form-control {
+    transition: background-color 250ms;
     padding-top: 7px;
+    overflow-y: auto;
+}
+
+#main-table div.form-control::-webkit-scrollbar {
+    visibility: hidden;
+}
+
+#main-table div.form-control:hover::-webkit-scrollbar {
+    width: 6px;
+}
+
+#main-table div.form-control:hover::-webkit-scrollbar-track {
+    background-color: rgba(153, 153, 153, 0.3);
+}
+
+#main-table div.form-control:hover::-webkit-scrollbar-thumb {
+    background: rgb(153, 153, 153);
+    border-radius: 4px;
 }
 
 #main-table div.form-control.rows-2 {
@@ -19,9 +39,34 @@
     height: 76px;
 }
 
+#main-table div.form-control:hover {
+    background-color: rgba(238, 238, 238, .3);
+    outline: dashed 1px rgb(153, 153, 153);
+    outline-offset: -4px;
+}
+
+#main-table div.form-control i {
+    opacity: 0;
+    transition: opacity 125ms;
+    color: rgb(153, 153, 153);
+    font-size: 14px;
+    position: absolute;
+    top: 8px;
+    right: 24px;
+}
+
+#main-table div.form-control:hover i {
+    opacity: 1;
+    transition: opacity 125ms;
+    cursor: pointer;
+}
+
+#main-table div.form-control:hover i.glyphicon-ok {
+    color: green;
+}
+
 /* ---------------------------------- TABLE GLOBAL ---------------------------------- */
 #main-table td {
-    height: 58px;
     vertical-align: middle !important;
 }
 
