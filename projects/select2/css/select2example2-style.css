@@ -4,11 +4,13 @@
 #main-table button,
 #main-table div.form-control {
     height: 38px;
-    cursor: text !important;
+
     width: 100%;
 }
 
 #main-table div.form-control {
+    cursor: default !important;
+    user-select: none;
     transition: background-color 250ms;
     padding-top: 7px;
     overflow-y: auto;
@@ -48,11 +50,15 @@
 #main-table div.form-control i {
     opacity: 0;
     transition: opacity 125ms;
-    color: rgb(153, 153, 153);
+    color: rgba(153, 153, 153, 0.5);
     font-size: 14px;
     position: absolute;
     top: 8px;
     right: 24px;
+}
+
+#main-table div.form-control i:hover {
+    color: rgb(153, 153, 153);
 }
 
 #main-table div.form-control:hover i {

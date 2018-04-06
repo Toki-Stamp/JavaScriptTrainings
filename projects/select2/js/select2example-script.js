@@ -237,6 +237,8 @@ jQuery(document).ready(function main() {
                 me
                     .removeAttr('style');
             }
+
+            me.blur();
         });
 
     divTextBlock
@@ -270,8 +272,7 @@ function formAction() {
 }
 
 function copyToClipboard(element) {
-    var text = element.text(),
-        // var text = element.text().replace(/[^a-zA-Z0-9]/g, '') || 'Empty!',
+    var text = element.get(0).innerText,
         textArea,
         result;
 
