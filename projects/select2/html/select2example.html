@@ -39,10 +39,11 @@
                 <div class="row">
                     <form class="form-inline" onsubmit="return formAction();">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <input type="text" minlength="1" maxlength="15" class="form-control"
-                                   title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"
-                                   pattern="^[1-9]{1}[0-9]{0,11}$"
-                                   placeholder="Введите ID объекта..."/>
+                            <!--<input type="text" minlength="1" maxlength="12" class="form-control"-->
+                                   <!--title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"-->
+                                   <!--pattern="^[1-9]{1}[0-9]{0,11}$"-->
+                                   <!--placeholder="Введите ID объекта..."/>-->
+                            <input type="text" class="form-control">
                         </div>
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                             <button type="submit" class="btn btn-primary">
@@ -58,32 +59,25 @@
             <td>
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="form-control rows-3" tabindex="1" readonly>
-                            Буда-Кошелевское бюро
-                            <br>
-                            Буда-Кошелевское бюро
-                            <br>
-                            Буда-Кошелевское бюро
+                        <div class="box">
+                            Буда-Кошелевское бюро Буда-Кошелевское бюро Буда-Кошелевское бюро Буда-Кошелевское бюро
+
                         </div>
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        <div class="form-control" tabindex="1" readonly>
+                        <div class="box">
                             123
                         </div>
-                        <!--<input type="text" class="form-control" title="Код агентства" readonly value="123"/>-->
                     </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        <div class="form-control" tabindex="1" readonly>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <div class="box">
                             C
                         </div>
-                        <!--<input type="text" class="form-control" title="Литер" readonly value="C"/>-->
                     </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        <div class="form-control" tabindex="1" readonly>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="box">
                             123456789
                         </div>
-                        <!--<input type="text" class="form-control" title="Инвентарный номер" readonly value="1234567890"/>-->
-                        <!--<input type="text" class="form-control" title="Инвентарный номер" readonly value="1234567890"/>-->
                     </div>
                 </div>
             </td>
@@ -93,7 +87,9 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="form-control" title="Тип объекта" readonly/>
+                        <div class="box">
+                            Здание (Незавершенное законсервированное капитальное строение)
+                        </div>
                     </div>
                 </div>
             </td>
@@ -103,7 +99,7 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="form-control" title="Наименование объекта" readonly/>
+                        <div class="box"></div>
                     </div>
                 </div>
             </td>
@@ -113,7 +109,9 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="form-control" title="Назначение объекта" readonly/>
+                        <div class="box">
+                            21201 - Здание общежития
+                        </div>
                     </div>
                 </div>
             </td>
@@ -126,19 +124,23 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <textarea rows="3" class="form-control" title="Местоположение / Адрес объекта" readonly>224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А</textarea>
+                        <div class="box">
+                            224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001,
+                            Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика
+                            Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь,
+                            Брестская обл., г. Брест, пер. Авиационный, 2А
+                        </div>
                     </div>
                 </div>
             </td>
         </tr>
         <!-- Характеристики -->
         <tr id="data-char-2">
-            <td>Количество надземных этажей максимальное бла-бла-бла, шт.</td>
+            <td>Количество надземных этажей максимальное, шт.</td>
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="form-control" title="Количество надземных этажей максимальное"
-                               readonly/>
+                        <div class="box"></div>
                     </div>
                 </div>
             </td>
@@ -148,8 +150,7 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <input type="text" class="form-control" title="Количество подземных этажей максимальное"
-                               readonly/>
+                        <div class="box"></div>
                     </div>
                 </div>
             </td>
@@ -159,13 +160,13 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="form-control" tabindex="1" title="Год постройки" readonly>
-                            <span class="label label-default">1972</span>
-                            <span class="label label-primary">1988</span>
-                            <span class="label label-success">1991</span>
-                            <span class="label label-info">1999</span>
-                            <span class="label label-warning">2005</span>
-                            <span class="label label-danger">2014</span>
+                        <div class="box multi">
+                            <span>1972</span>
+                            <span>1988</span>
+                            <span>1991</span>
+                            <span>1999</span>
+                            <span>2005</span>
+                            <span>2014</span>
                         </div>
                     </div>
                 </div>
@@ -176,14 +177,9 @@
             <td>
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="form-control" tabindex="1" title="Год реконструкции" readonly>
-                            <span class="label label-default">1920</span>
-                            <span class="label label-primary">1983</span>
-                            <span class="label label-success">1991</span>
-                            <span class="label label-info">2003</span>
-                            <span class="label label-warning">2008</span>
-                            <span class="label label-danger">2017</span>
-                        </div>
+                        <div class="box multi">
+                            <!--<span>1920</span>-->
+                         </div>
                     </div>
                 </div>
             </td>

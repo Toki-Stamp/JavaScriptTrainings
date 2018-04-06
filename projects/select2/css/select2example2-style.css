@@ -1,74 +1,117 @@
 /* ----------------------- INPUTS / BUTTONS / SELECTS GLOBAL ------------------------ */
 #main-table input,
 #main-table select,
-#main-table button,
-#main-table div.form-control {
-    height: 38px;
-
+#main-table button {
+    height: 36px;
+    /*line-height: 1.7;*/
     width: 100%;
 }
 
-#main-table div.form-control {
+#main-table div.box {
+    display: flex;
     cursor: default !important;
-    user-select: none;
-    transition: background-color 250ms;
-    padding-top: 7px;
-    overflow-y: auto;
-}
-
-#main-table div.form-control::-webkit-scrollbar {
-    visibility: hidden;
-}
-
-#main-table div.form-control:hover::-webkit-scrollbar {
-    width: 6px;
-}
-
-#main-table div.form-control:hover::-webkit-scrollbar-track {
-    background-color: rgba(153, 153, 153, 0.3);
-}
-
-#main-table div.form-control:hover::-webkit-scrollbar-thumb {
-    background: rgb(153, 153, 153);
+    margin: auto;
+    border: 1px solid rgb(204, 204, 204);
     border-radius: 4px;
-}
-
-#main-table div.form-control.rows-2 {
-    height: 56px;
-}
-
-#main-table div.form-control.rows-3 {
-    height: 76px;
-}
-
-#main-table div.form-control:hover {
-    background-color: rgba(238, 238, 238, .3);
-    outline: dashed 1px rgb(153, 153, 153);
-    outline-offset: -4px;
-}
-
-#main-table div.form-control i {
-    opacity: 0;
-    transition: opacity 125ms;
-    color: rgba(153, 153, 153, 0.5);
+    user-select: none;
+    padding: 6px 24px 6px 12px;
     font-size: 14px;
+    line-height: 1.7;
+    color: rgb(85, 85, 85);
+    background-color: rgb(238, 238, 238);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    transition: border-color ease-in-out .15s,
+    box-shadow ease-in-out .15s,
+    background-color 250ms;
+    overflow-wrap: break-spaces;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+#main-table div.box:focus {
+    border-color: #66afe9;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+#main-table div.box:hover {
+    background-color: rgba(238, 238, 238, .3);
+}
+
+#main-table div.box :not(i) {
+    margin: auto 0;
+}
+
+#main-table div.box i {
+    color: transparent;
+    transition: color 250ms;
+    font-size: 17px;
     position: absolute;
-    top: 8px;
-    right: 24px;
-}
-
-#main-table div.form-control i:hover {
-    color: rgb(153, 153, 153);
-}
-
-#main-table div.form-control:hover i {
-    opacity: 1;
-    transition: opacity 125ms;
+    top: 9px;
+    right: 12px;
     cursor: pointer;
 }
 
-#main-table div.form-control:hover i.glyphicon-ok {
-    color: green;
+#main-table div.box i:hover {
+    color: rgb(153, 153, 153);
+}
+
+#main-table div.box:hover i {
+    transition: color 250ms;
+    color: rgb(215, 215, 215);
+    cursor: pointer;
+}
+
+#main-table div.box:hover i:hover {
+    transition: color 250ms;
+    color: rgb(153, 153, 153);
+}
+
+#main-table div.box.copied {
+    background-color: rgb(240, 255, 240);
+}
+
+#main-table div.box.copied i {
+    color: rgb(0, 148, 0);
+}
+
+#main-table div.box.copied i:hover {
+    color: rgb(30, 188, 30);
+}
+
+#main-table div.box.empty {
+    color: rgb(153, 153, 153);
+    font-style: italic;
+    cursor: not-allowed !important;
+    border: 1px dashed rgb(153, 153, 153);
+}
+
+#main-table div.box.empty:hover {
+    background-color: rgb(238, 238, 238);
+}
+
+#main-table div.box.multi {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    grid-column-gap: 6px;
+    grid-row-gap: 2px;
+}
+
+#main-table div.box.multi span {
+    padding: 4px 6px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1;
+    color: black;
+    /*color: white;*/
+    background-color: rgb(215, 215, 215);
+    /*background-color: rgb(38, 90, 136);*/
+    border: 1px solid rgb(153, 153, 153);
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: baseline;
 }
 
 /* ---------------------------------- TABLE GLOBAL ---------------------------------- */
@@ -82,5 +125,22 @@
 }
 
 #main-table tr td:last-child {
+    padding-right: 17px;
     min-width: 350px;
+}
+
+#main-table .col-xs-1, #main-table .col-sm-1, #main-table .col-md-1, #main-table .col-lg-1,
+#main-table .col-xs-2, #main-table .col-sm-2, #main-table .col-md-2, #main-table .col-lg-2,
+#main-table .col-xs-3, #main-table .col-sm-3, #main-table .col-md-3, #main-table .col-lg-3,
+#main-table .col-xs-4, #main-table .col-sm-4, #main-table .col-md-4, #main-table .col-lg-4,
+#main-table .col-xs-5, #main-table .col-sm-5, #main-table .col-md-5, #main-table .col-lg-5,
+#main-table .col-xs-6, #main-table .col-sm-6, #main-table .col-md-6, #main-table .col-lg-6,
+#main-table .col-xs-7, #main-table .col-sm-7, #main-table .col-md-7, #main-table .col-lg-7,
+#main-table .col-xs-8, #main-table .col-sm-8, #main-table .col-md-8, #main-table .col-lg-8,
+#main-table .col-xs-9, #main-table .col-sm-9, #main-table .col-md-9, #main-table .col-lg-9,
+#main-table .col-xs-10, #main-table .col-sm-10, #main-table .col-md-10, #main-table .col-lg-10,
+#main-table .col-xs-11, #main-table .col-sm-11, #main-table .col-md-11, #main-table .col-lg-11,
+#main-table .col-xs-12, #main-table .col-sm-12, #main-table .col-md-12, #main-table .col-lg-12 {
+    padding-right: 7px;
+    padding-left: 7px;
 }

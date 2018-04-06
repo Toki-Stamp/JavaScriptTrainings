@@ -1,0 +1,17 @@
+#main-table div.box::-webkit-scrollbar {
+    visibility: hidden;
+    height: 6px;
+    width: 6px;
+}
+
+#main-table div.box:hover::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+}
+
+#main-table div.box:hover::-webkit-scrollbar-track {
+    background-color: rgba(153, 153, 153, 0.3);
+}
+
+#main-table div.box:hover::-webkit-scrollbar-thumb {
+    background: rgb(153, 153, 153);
+}
