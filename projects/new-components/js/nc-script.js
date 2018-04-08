@@ -249,7 +249,8 @@ jQuery(document).ready(function main() {
                     .attr('title', 'Скопировать текст в буфер обмена');
 
                 me
-                    .removeClass('copied');
+                    .removeClass('copied')
+                    .removeAttr('title');
             }
 
             me.blur();
@@ -271,6 +272,7 @@ jQuery(document).ready(function main() {
 
                 parent
                     .addClass('copied')
+                    .attr('title', 'Текст успешно скопирован в буфер обмена');
             }
         });
 
