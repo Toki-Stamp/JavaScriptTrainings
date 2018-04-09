@@ -1,0 +1,234 @@
+<%@ page import="com.nca.rh.util.JSproperties" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Общие сведения о КС</title>
+
+    <%--Bootstrap--%>
+    <link rel="stylesheet" href="../vendor/bootstrap-3.1.1/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../vendor/bootstrap-3.1.1/dist/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="<%=JSproperties.getRootDirCSS()%>sticky-footer-navbar.css"/>
+
+    <%--Библиотека jQueryUI--%>
+    <link rel="stylesheet" href="../vendor/jquery-ui-1.10.4.custom/css/smoothness/jquery-ui-1.10.4.custom.min.css"/>
+    <script type="text/javascript" src="../vendor/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../vendor/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.min.js"></script>
+
+    <%--всплывающие алерты--%>
+    <script type="text/javascript" src="../vendor/jquery-bs-alerts-0.1.5/build/jquery.bsAlerts.min.js"></script>
+    <script src="../vendor/bootstrap-alert.js"></script>
+
+    <%--Селекты--%>
+    <link href="../vendor/select2-3.5.2/select2.css" rel="stylesheet"/>
+    <script src="../vendor/select2-3.5.2/select2.js"></script>
+
+    <script type="text/javascript" src="dwr/engine.js"></script>
+    <script type='text/javascript' src='dwr/util.js'></script>
+    <script type='text/javascript' src='dwr/interface/generalInfoAboutCSService.js'></script>
+    <script type='text/javascript' src='dwr/interface/forAllService.js'></script>
+    <script type='text/javascript' src='dwr/interface/functionsService.js'></script>
+
+    <%--<link rel="stylesheet" href="<%=JSproperties.getRootDirCSS()%>general_info_about_cs.css"/>--%>
+    <link rel="stylesheet" href="<%=JSproperties.getRootDirCSS()%>general_info_about_cs_2.css"/>
+    <script type="text/javascript" src="<%=JSproperties.getRootDir()%>inputValidate.js"></script>
+    <script type="text/javascript" src="<%=JSproperties.getRootDir()%>functions.js"></script>
+    <script type="text/javascript" src="<%=JSproperties.getRootDir()%>sections.js"></script>
+    <script type="text/javascript" src="<%=JSproperties.getRootDir()%>general_info_about_cs.js"></script>
+    <script type="text/javascript" src="<%=JSproperties.getRootDir()%>general_info_about_cs_2.js"></script>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <table class="table">
+            <tr>
+                <td><h3>Общие сведения о КС</h3></td>
+                <td><h3 id="firstH3"></h3></td>
+            </tr>
+        </table>
+
+        <table id="main-table-2" class="table table-striped">
+            <!-- Основная информация -->
+            <tr id="common-search">
+                <td>ID объекта</td>
+                <td>
+                    <div class="row">
+                        <form class="form-inline" onsubmit="return formAction();">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <input type="text" minlength="1" maxlength="12" class="form-control"
+                                       title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"
+                                       pattern="^[1-9]{1}[0-9]{0,11}$"
+                                       placeholder="Введите ID объекта..."/>
+                                <i class="glyphicon glyphicon-remove" title="Очистить поле для ввода"></i>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr id="common-inventory-number">
+                <td>Инвентарный номер</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <div class="box">
+                                Буда-Кошелевское бюро
+                                <br>
+                                Буда-Кошелевское бюро
+                                <br>
+                                Буда-Кошелевское бюро
+                                <br>
+                                Буда-Кошелевское бюро
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="box">
+                                123
+                            </div>
+                        </div>
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <div class="box">
+                                C
+                            </div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="box">
+                                123456789
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="common-object-type">
+                <td>Тип объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box">
+                                Здание (Незавершенное законсервированное капитальное строение)
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="common-object-name">
+                <td>Наименование объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <i class="glyphicon glyphicon-copy"></i>
+                            <div class="box">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="common-object-purpose">
+                <td>Назначение объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box">
+                                21201 - Здание общежития
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="common-address">
+                <td>
+                    <span>Местоположение</span>
+                    <span>Адрес</span>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box">
+                                224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001,
+                                Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика
+                                Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь,
+                                Брестская обл., г. Брест, пер. Авиационный, 2А
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- Характеристики -->
+            <tr id="data-char-2">
+                <td>Количество надземных этажей максимальное, шт.</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="data-char-4">
+                <td>Количество подземных этажей максимальное, шт.</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="data-build-year">
+                <td>Год постройки</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box multi">
+                                <span>1972</span>
+                                <span>1988</span>
+                                <span>1991</span>
+                                <span>1999</span>
+                                <span>2005</span>
+                                <span>2014</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="data-rebuild-year">
+                <td>Год реконструкции</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box multi">
+                                <!--<span>1920</span>-->
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <security:authorize ifAnyGranted="ROLE_SUPER_ADMIN,ROLE_EDITOR_3,ROLE_EDITOR_2">
+            <div class="alignCenter">
+                <button type="button" class="btn btn-success button btnSub" id="saveAllData">
+                    <span class="glyphicon glyphicon-thumbs-up"></span> Сохранить
+                </button>
+            </div>
+        </security:authorize>
+        <br>
+        <br>
+
+        <div data-alerts="alerts" data-fade="3000"></div>
+        <div id="formWait" class="modal fade in" style="display: block">
+            <div class="center_b">
+                <img src="./img/image_836733.bcee64ba.gif" alt=""/>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

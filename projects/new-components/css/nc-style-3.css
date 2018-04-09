@@ -56,7 +56,6 @@
     text-justify: inter-word;
 }
 
-
 #main-table div.box {
     display: flex;
     cursor: default !important;
@@ -99,6 +98,30 @@
 
 #main-table div.box:hover i {
     color: rgb(215, 215, 215);
+}
+
+#main-table div.box.multi {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    grid-column-gap: 6px;
+    grid-row-gap: 2px;
+}
+
+#main-table div.box.multi span {
+    padding: 4px 6px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1;
+    color: black;
+    /*color: white;*/
+    background-color: rgb(215, 215, 215);
+    /*background-color: rgb(38, 90, 136);*/
+    border: 1px solid rgb(153, 153, 153);
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: baseline;
 }
 
 /* ---------------------------------- TABLE GLOBAL ---------------------------------- */
