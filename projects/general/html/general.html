@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>general</title>
+    <!------------------------- CSS ----------------------------->
+    <!-- Bootstrap -->
+    <link href="../../../_lib/css/bootstrap.css" rel="stylesheet">
+    <link href="../../../_lib/css/bootstrap-theme.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="../../../_lib/css/jquery-ui.css" rel="stylesheet">
+    <!-- Custom CSS goes below -->
+    <link href="../css/general.css" rel="stylesheet">
+    <!------------------------- CSS ----------------------------->
+</head>
+<body>
+<!------------------------- Main ---------------------------->
+<div class="container">
+    <table id="main-table" class="table table-striped">
+        <tr id="blank"></tr>
+        <!-- Основная информация -->
+        <tr id="common-title-id">
+            <td>
+                <h3>Общие сведения о КС</h3></td>
+            <td>
+                <h3>ID объекта</h3>
+            </td>
+        </tr>
+        <tr id="common-search">
+            <td>ID объекта</td>
+            <td>
+                <div class="row">
+                    <form class="form-inline" onsubmit="return formAction();">
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <input type="text" minlength="1" maxlength="12" class="form-control"
+                                   title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"
+                                   pattern="^[1-9]{1}[0-9]{0,11}$"
+                                   placeholder="Введите ID объекта..."/>
+                            <i class="glyphicon glyphicon-remove" title="Очистить поле для ввода"></i>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-inventory-number">
+            <td>Инвентарный номер</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box">
+                            Буда-Кошелевское бюро
+                        </div>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="box">
+                            123
+                        </div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <div class="box">
+                            C
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="box">
+                            123456789
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-object-type">
+            <td>Тип объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box">
+                            Здание (Незавершенное законсервированное капитальное строение)
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-object-name">
+            <td>Наименование объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <i class="glyphicon glyphicon-copy"></i>
+                        <div class="box">
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-object-purpose">
+            <td>Назначение объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box">
+                            21201 - Здание общежития
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="common-address">
+            <td>
+                <span>Местоположение</span>
+                <span>Адрес</span>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box">
+                            224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001,
+                            Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика
+                            Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь,
+                            Брестская обл., г. Брест, пер. Авиационный, 2А
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <!-- Характеристики -->
+        <tr id="data-char-2">
+            <td>Количество надземных этажей максимальное, шт.</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-char-4">
+            <td>Количество подземных этажей максимальное, шт.</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-build-year">
+            <td>Год постройки</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box multi">
+                            <span>1972</span>
+                            <span>1988</span>
+                            <span>1991</span>
+                            <span>1999</span>
+                            <span>2005</span>
+                            <span>2014</span>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-rebuild-year">
+            <td>Год реконструкции</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box multi">
+                            <!--<span>1920</span>-->
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div data-alerts="alerts" data-fade="3000"></div>
+</div>
+<!------------------------- Main ---------------------------->
+<!------------------------- Scripts ------------------------->
+<!-- jQuery -->
+<script src="../../../_lib/js/jquery-3.2.1.js"></script>
+<!--jQuery UI -->
+<script src="../../../_lib/js/jquery-ui.js"></script>
+<!-- Bootstrap -->
+<script src="../../../_lib/js/bootstrap.js"></script>
+<!-- Custom js goes below -->
+<script src="../js/general.js"></script>
+<!------------------------- Scripts ------------------------->
+</body>
+</html>

@@ -1,0 +1,164 @@
+/* ----------------------- INPUTS / BUTTONS / SELECTS GLOBAL ------------------------ */
+#main-table input,
+#main-table select,
+#main-table button {
+    height: 36px;
+    width: 100%;
+}
+
+#main-table i {
+    transition: all 250ms;
+    color: transparent;
+    font-size: 17px;
+    position: absolute;
+    cursor: pointer;
+}
+
+#main-table form i {
+    visibility: hidden;
+    top: 11px;
+    right: 6px;
+}
+
+#main-table form input:not(:placeholder-shown) ~ i {
+    right: 12px;
+    visibility: visible;
+    color: rgb(255, 230, 230);
+}
+
+#main-table form input:not(:placeholder-shown) ~ i:hover {
+    color: rgb(255, 100, 100);
+}
+
+#main-table form input:not(:focus) ~ i,
+#main-table form input:not(:focus) ~ i:hover {
+    right: 6px;
+    visibility: hidden;
+    color: transparent;
+}
+
+#main-table .box {
+    display: flex;
+    cursor: default !important;
+    margin: auto;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    user-select: none;
+    padding: 6px 30px 6px 12px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgb(85, 85, 85);
+    background-color: rgb(238, 238, 238);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    transition: border-color ease-in-out 150ms,
+    box-shadow ease-in-out 150ms,
+    background-color 250ms;
+    overflow-wrap: break-spaces;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+#main-table .box:focus {
+    border-color: rgb(102, 175, 233);
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+#main-table .box:not(.empty):hover {
+    transition: background-color 250ms;
+    background-color: rgba(238, 238, 238, .3);
+}
+
+#main-table .box i {
+    top: 11px;
+    right: 6px;
+}
+
+#main-table .box:hover i:hover {
+    color: rgb(153, 153, 153);
+}
+
+#main-table .box:hover i {
+    right: 12px;
+    color: rgb(215, 215, 215);
+}
+
+#main-table .box.empty {
+    cursor: not-allowed !important;
+    font-style: italic;
+    border: 1px dashed rgb(204, 204, 204);
+}
+
+#main-table .box.multi {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+    grid-column-gap: 6px;
+    grid-row-gap: 2px;
+}
+
+#main-table .box.multi span {
+    padding: 4px 6px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-size: 11px;
+    /*font-weight: bold;*/
+    line-height: 1;
+    color: black;
+    /*color: white;*/
+    background-color: rgb(215, 215, 215);
+    /*background-color: rgb(38, 90, 136);*/
+    border: 1px solid rgb(153, 153, 153);
+    border-radius: 4px;
+    text-align: center;
+    vertical-align: baseline;
+}
+
+#main-table .box i.fade {
+    opacity: 0;
+}
+
+#main-table .box.copied,
+#main-table .box.copied:hover {
+    transition: background-color 500ms;
+    background-color: rgb(245, 255, 245);
+}
+
+#main-table .box.copied i {
+    right: 18px;
+    color: rgb(0, 120, 0);
+}
+
+#main-table .box.copied i:hover {
+    color: rgb(0, 190, 0);
+}
+
+/* ---------------------------------- TABLE GLOBAL ---------------------------------- */
+#main-table td {
+    vertical-align: middle !important;
+}
+
+#main-table tr td:first-child {
+    width: 320px !important;
+    min-width: 320px !important;
+}
+
+#main-table tr td:last-child {
+    padding-right: 17px;
+    min-width: 350px;
+}
+
+#main-table .col-xs-1, #main-table .col-sm-1, #main-table .col-md-1, #main-table .col-lg-1,
+#main-table .col-xs-2, #main-table .col-sm-2, #main-table .col-md-2, #main-table .col-lg-2,
+#main-table .col-xs-3, #main-table .col-sm-3, #main-table .col-md-3, #main-table .col-lg-3,
+#main-table .col-xs-4, #main-table .col-sm-4, #main-table .col-md-4, #main-table .col-lg-4,
+#main-table .col-xs-5, #main-table .col-sm-5, #main-table .col-md-5, #main-table .col-lg-5,
+#main-table .col-xs-6, #main-table .col-sm-6, #main-table .col-md-6, #main-table .col-lg-6,
+#main-table .col-xs-7, #main-table .col-sm-7, #main-table .col-md-7, #main-table .col-lg-7,
+#main-table .col-xs-8, #main-table .col-sm-8, #main-table .col-md-8, #main-table .col-lg-8,
+#main-table .col-xs-9, #main-table .col-sm-9, #main-table .col-md-9, #main-table .col-lg-9,
+#main-table .col-xs-10, #main-table .col-sm-10, #main-table .col-md-10, #main-table .col-lg-10,
+#main-table .col-xs-11, #main-table .col-sm-11, #main-table .col-md-11, #main-table .col-lg-11,
+#main-table .col-xs-12, #main-table .col-sm-12, #main-table .col-md-12, #main-table .col-lg-12 {
+    padding-right: 7px;
+    padding-left: 7px;
+}
