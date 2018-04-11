@@ -37,6 +37,26 @@
     color: transparent;
 }
 
+#main-table form input::placeholder {
+    /*transition: color 5000ms;*/
+    /*color: rgba(153, 153, 153, 0) !important;*/
+}
+
+/*-----------------*/
+
+::placeholder {
+    opacity: 1;
+    color: rgb(153, 153, 153);
+    transition: opacity 200ms ease-in-out;
+}
+
+:focus::placeholder {
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+}
+
+/*-----------------*/
+
 #main-table .box {
     display: flex;
     cursor: default !important;
@@ -86,7 +106,7 @@
 #main-table .box.empty {
     cursor: not-allowed !important;
     font-style: italic;
-    border: 1px dashed rgb(204, 204, 204);
+    height: 38px !important;
 }
 
 #main-table .box.multi {
@@ -98,8 +118,8 @@
 
 #main-table .box.multi span {
     padding: 4px 6px;
-    margin-top: 2px;
-    margin-bottom: 2px;
+    margin-top: 1px;
+    margin-bottom: 1px;
     font-size: 11px;
     /*font-weight: bold;*/
     line-height: 1;

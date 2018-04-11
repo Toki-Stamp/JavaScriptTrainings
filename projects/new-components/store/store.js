@@ -1,16 +1,3 @@
-var data = [
-    {
-        name : 'Общая площадь здания',
-        char : '315',
-        value: [443.6]
-    },
-    {
-        name : 'Общая площадь жилых помещений (квартир) жилого дома',
-        char : '334',
-        value: [153.3]
-    }
-];
-
 var object = {
     "address"              : {
         "actual"        : null,
@@ -190,29 +177,6 @@ var object = {
     "updated_by"           : 2341
 };
 
-var data = {
-    "XRh3Materials"         : [[2040200, "Кирпич силикатный", "кирп. с/к", "Состоит из смеси песка (около 90%), извести (около 10%), а также добавок. Применяют силикатный кирпич для кладки наружных и внутренних стен надземных частей зданий и сооружений.", null, -1]],
-    "adrstr"                : "247170, Республика Беларусь, Гомельская обл., Кормянский р-н, гп Корма, ул. Абатурова, 49",
-    "adrstrSign"            : "1",
-    "componentIdGeneral"    : "681670", // TODO Что это такое? Где это нужно использовать?
-    "floorAboveground"      : "5",
-    "floorUnderground"      : "-", // TODO Может быть лучше просто null как в yearReconstruction?
-    "inventoryNumber"       : "4499",
-    "literal"               : "C",
-    "objectId"              : "180610",
-    "objectName"            : "многоквартирный жилой дом",
-    "objectTypeId"          : "3",
-    "objectTypeName"        : "Здание",
-    "orgUid"                : "323",
-    "purposeName"           : "21101 - Здание многоквартирного жилого дома",
-    "shortName"             : "Гомельское агентство",
-    "wallMaterial"          : "2040200",
-    "xRh3YearBuilt"         : [[1981, "1981", null, -1, "1981", 485]],
-    "xRh3YearReconstruction": null,
-    "yearBuilt"             : "1981",
-    "yearReconstruction"    : null
-};
-
 var data2 = {
     "adrstr"                    : null,
     "adrstrSign"                : "0",
@@ -262,54 +226,3 @@ var addTableRow = function (table) {
 
     table.find('tbody').append(element);
 };
-
-// box
-//     .find('i')
-//     .attr('title', messages.before)
-//     .on('click', function () {
-//         var me = $(this),
-//             parent = me.parent();
-//
-//         if (!me.hasClass(classes.i_ok) && copyToClipboard(parent)) {
-//             me
-//                 .removeClass(classes.i_copy)
-//                 .addClass(classes.i_ok)
-//                 .attr('title', messages.after);
-//
-//             parent
-//                 .addClass(classes.box_copied)
-//                 .attr('title', messages.after);
-//         }
-//     });
-
-/* надо? */
-// generalInfoAboutCSService.findObjectParentsForObjects(
-//     general_info_about_cs.obj_id,
-//     false,
-//     {
-//         async: false,
-//         callback: function (list) {
-//             var neededObj = {};
-//
-//             for (var i = 0; i < list.length; i++) {
-//                 if (!list[i].objectParentId.parcel_number) {
-//                     neededObj = list[i];
-//                     break;
-//                 }
-//             }
-//             if ($.isEmptyObject(neededObj)) {
-//                 $("#formWait").hide();
-//                 alert('Ошибка при запросе родительского объекта!');
-//                 return false;
-//             }
-//             general_info_about_cs.parent_row_id = neededObj.id;
-//             general_info_about_cs.parent_id = neededObj.objectParentId.id;
-//             generalInfoAboutCSService.getComponentsWithCharacteristicsByObjectId(neededObj.objectParentId.id, 6, {
-//                 callback: function (componentList) {
-//                     general_info_about_cs.fillFields(neededObj.objectParentId, componentList[0]);
-//                     general_info_about_cs.getWallMaterial(neededObj.objectParentId);
-//                 }
-//             });
-//         }
-//     }
-// );
