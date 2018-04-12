@@ -87,7 +87,7 @@ jQuery(document).ready(function main() {
 
         if (input && parent && (input instanceof jQuery) && (parent instanceof jQuery)) {
             pattern = new RegExp(input.attr('pattern'), 'g');
-            value   = input.val();
+            value = input.val();
 
             if (value && pattern.test(value)) {
                 console.log('validation passed');
@@ -163,7 +163,7 @@ jQuery(document).ready(function main() {
 
     (function init(parent) {
         var input = parent.find('input'),
-            i     = parent.find('i');
+            i = parent.find('i');
         i.on('click', function () {
             input.val('');
             // input.trigger('change');
@@ -181,4 +181,24 @@ jQuery(document).ready(function main() {
             content: 'ID объекта - это натуральное (целочисленное, положительное) значение от 1 до 12 цифр'
         });
     })($('#main-table').find('div.has-feedback').find('[data-toggle="popover"]'));
+
+    $('#test').popover({
+        title: '',
+        content: 'That looks like an invalid location',
+        trigger: 'hover',
+        placement: 'top',
+        template: '' +
+        '<div class="popover alert-error">' +
+        '   <div class="arrow"></div>' +
+        '   <div class="popover-inner">' +
+        '       <div class="popover-content">' +
+        '           <p></p>' +
+        '       </div>' +
+        '   </div>' +
+        '</div>'
+    });
+
+    // $('#test').h(function () {
+    //     $('#test').popover('show');
+    // })
 });
