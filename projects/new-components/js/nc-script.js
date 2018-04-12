@@ -11,7 +11,7 @@ jQuery(document).ready(function main() {
         t_empty: 'Нет данных'
     };
     var classes = {
-        i_copy: 'glyphicon glyphicon-copy',
+        i_copy: 'glyphicon-copy',
         i_ok: 'glyphicon-ok',
         box_copied: 'copied',
         box_empty: 'empty',

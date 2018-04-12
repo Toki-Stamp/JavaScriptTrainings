@@ -14,30 +14,30 @@
     cursor: pointer;
 }
 
-#main-table form i {
+#main-table div.has-feedback i {
     visibility: hidden;
     top: 11px;
     right: 6px;
 }
 
-#main-table form input:not(:placeholder-shown) ~ i {
+#main-table div.has-feedback input:not(:placeholder-shown) ~ i {
     right: 12px;
     visibility: visible;
     color: rgb(255, 230, 230);
 }
 
-#main-table form input:not(:placeholder-shown) ~ i:hover {
+#main-table div.has-feedback input:not(:placeholder-shown) ~ i:hover {
     color: rgb(255, 100, 100);
 }
 
-#main-table form input:not(:focus) ~ i,
-#main-table form input:not(:focus) ~ i:hover {
+#main-table div.has-feedback input:not(:focus) ~ i,
+#main-table div.has-feedback input:not(:focus) ~ i:hover {
     right: 6px;
     visibility: hidden;
     color: transparent;
 }
 
-#main-table form input::placeholder {
+#main-table div.has-feedback input::placeholder {
     /*transition: color 5000ms;*/
     /*color: rgba(153, 153, 153, 0) !important;*/
 }
@@ -181,4 +181,27 @@
 #main-table .col-xs-12, #main-table .col-sm-12, #main-table .col-md-12, #main-table .col-lg-12 {
     padding-right: 7px;
     padding-left: 7px;
+}
+
+#title-id td:last-child {
+    text-align: center;
+    color: rgb(255, 100, 70);
+}
+
+#address td:first-child {
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 12px;
+    text-align: right;
+}
+
+#address td:first-child button {
+    cursor: default !important;
+    width: 150px;
+}
+
+#address td:first-child button:disabled {
+    background-color: rgb(238, 238, 238);
+    cursor: not-allowed !important;
+    color: rgb(204, 204, 204);
 }

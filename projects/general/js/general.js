@@ -80,6 +80,39 @@ jQuery(document).ready(function main() {
         }
     };
 
+    var validateInput = function (input, parent, button) {
+        var pattern,
+            value,
+            popover;
+
+        if (input && parent && (input instanceof jQuery) && (parent instanceof jQuery)) {
+            pattern = new RegExp(input.attr('pattern'), 'g');
+            value   = input.val();
+
+            if (value && pattern.test(value)) {
+                console.log('validation passed');
+                parent.removeClass('has-error');
+                return true;
+            } else {
+                popover = parent.find('[data-toggle="popover"]');
+                popover.popover('show');
+
+                popover.one('shown.bs.popover', function () {
+                    input.focus();
+
+                    $(window).one('click', function (event) {
+                        if (!$(event.target).is(button)) {
+                            parent.find('[data-toggle="popover"]').popover('hide');
+                        }
+                    });
+                });
+
+                console.log('validation error');
+                parent.addClass('has-error');
+            }
+        }
+    };
+
     (function init(boxes) {
         boxes.each(function () {
             var me = $(this),
@@ -128,12 +161,24 @@ jQuery(document).ready(function main() {
         })
     })($('#main-table').find('.box'));
 
-    (function init(form) {
-        var input = form.find('input'),
-            i = form.find('i');
-
+    (function init(parent) {
+        var input = parent.find('input'),
+            i     = parent.find('i');
         i.on('click', function () {
-            clearInput(input);
+            input.val('');
+            // input.trigger('change');
+            // input.focus();
         })
-    })($('#main-table').find('form'));
+    })($('#main-table').find('div.has-feedback'));
+
+    (function init(popover) {
+        popover.popover({
+            animation: true,
+            container: 'body',
+            trigger: 'manual',
+            placement: 'top',
+            title: 'Ошибка ввода',
+            content: 'ID объекта - это натуральное (целочисленное, положительное) значение от 1 до 12 цифр'
+        });
+    })($('#main-table').find('div.has-feedback').find('[data-toggle="popover"]'));
 });

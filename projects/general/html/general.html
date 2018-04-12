@@ -16,183 +16,170 @@
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
-<!------------------------- Main ---------------------------->
-<div class="container">
-    <table id="main-table" class="table table-striped">
-        <tr id="blank"></tr>
-        <!-- Основная информация -->
-        <tr id="common-title-id">
-            <td>
-                <h3>Общие сведения о КС</h3></td>
-            <td>
-                <h3>ID объекта</h3>
-            </td>
-        </tr>
-        <tr id="common-search">
-            <td>ID объекта</td>
-            <td>
-                <div class="row">
-                    <form class="form-inline" onsubmit="return formAction();">
+    <!------------------------- Main ---------------------------->
+    <div class="container">
+        <table id="main-table" class="table table-striped">
+            <tr id="blank"></tr>
+            <!-- Основная информация -->
+            <tr id="title-id">
+                <td>
+                    <h3>Общие сведения о КС</h3>
+                </td>
+                <td>
+                    <h3 id="object-id">ID объекта</h3>
+                </td>
+            </tr>
+            <tr id="search">
+                <td>ID объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="has-feedback">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <!--title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"-->
+                                <input type="text" minlength="1" maxlength="12" class="form-control"
+                                       pattern="^[1-9]{1}[0-9]{0,11}$"
+                                       placeholder="Введите ID объекта..."
+                                       data-toggle="popover"/>
+                                <i class="glyphicon glyphicon-remove" title="Очистить поле для ввода"></i>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <button class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr id="inventory-number">
+                <td>Инвентарный номер</td>
+                <td>
+                    <div class="row">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <input type="text" minlength="1" maxlength="12" class="form-control"
-                                   title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"
-                                   pattern="^[1-9]{1}[0-9]{0,11}$"
-                                   placeholder="Введите ID объекта..."/>
-                            <i class="glyphicon glyphicon-remove" title="Очистить поле для ввода"></i>
+                            <div class="box">
+                                Буда-Кошелевское бюро
+                            </div>
                         </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <button type="submit" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
-                            </button>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <div class="box"></div>
                         </div>
-                    </form>
-                </div>
-            </td>
-        </tr>
-        <tr id="common-inventory-number">
-            <td>Инвентарный номер</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div class="box">
-                            Буда-Кошелевское бюро
+                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <div class="box"></div>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <div class="box"></div>
                         </div>
                     </div>
-                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        <div class="box">
-                            123
+                </td>
+            </tr>
+            <tr id="object-type">
+                <td>Тип объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                        <div class="box">
-                            C
+                </td>
+            </tr>
+            <tr id="object-name">
+                <td>Наименование объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                        <div class="box">
-                            123456789
+                </td>
+            </tr>
+            <tr id="object-purpose">
+                <td>Назначение объекта</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="common-object-type">
-            <td>Тип объекта</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box">
-                            Здание (Незавершенное законсервированное капитальное строение)
+                </td>
+            </tr>
+            <tr id="address">
+                <td>
+                    <div>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-default" onfocus="this.blur()">Местоположение</button>
+                            <button class="btn btn-default" onfocus="this.blur()" disabled>Адрес</button>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="common-object-name">
-            <td>Наименование объекта</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <i class="glyphicon glyphicon-copy"></i>
-                        <div class="box">
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="common-object-purpose">
-            <td>Назначение объекта</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box">
-                            21201 - Здание общежития
+                </td>
+            </tr>
+            <!-- Характеристики -->
+            <tr id="data-char-2">
+                <td>Количество надземных этажей максимальное, шт.</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="common-address">
-            <td>
-                <span>Местоположение</span>
-                <span>Адрес</span>
-            </td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box">
-                            224001, Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001,
-                            Республика Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А224001, Республика
-                            Беларусь, Брестская обл., г. Брест, пер. Авиационный, 2А 224001, Республика Беларусь,
-                            Брестская обл., г. Брест, пер. Авиационный, 2А
+                </td>
+            </tr>
+            <tr id="data-char-4">
+                <td>Количество подземных этажей максимальное, шт.</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <!-- Характеристики -->
-        <tr id="data-char-2">
-            <td>Количество надземных этажей максимальное, шт.</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="data-char-4">
-            <td>Количество подземных этажей максимальное, шт.</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box"></div>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="data-build-year">
-            <td>Год постройки</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box multi">
-                            <span>1972</span>
-                            <span>1988</span>
-                            <span>1991</span>
-                            <span>1999</span>
-                            <span>2005</span>
-                            <span>2014</span>
+                </td>
+            </tr>
+            <tr id="data-build-year">
+                <td>Год постройки</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box multi">
+                                <span>1972</span>
+                                <span>1988</span>
+                                <span>1991</span>
+                                <span>1999</span>
+                                <span>2005</span>
+                                <span>2014</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr id="data-rebuild-year">
-            <td>Год реконструкции</td>
-            <td>
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <div class="box multi">
-                            <!--<span>1920</span>-->
+                </td>
+            </tr>
+            <tr id="data-rebuild-year">
+                <td>Год реконструкции</td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="box"></div>
                         </div>
                     </div>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div data-alerts="alerts" data-fade="3000"></div>
-</div>
-<!------------------------- Main ---------------------------->
-<!------------------------- Scripts ------------------------->
-<!-- jQuery -->
-<script src="../../../_lib/js/jquery-3.2.1.js"></script>
-<!--jQuery UI -->
-<script src="../../../_lib/js/jquery-ui.js"></script>
-<!-- Bootstrap -->
-<script src="../../../_lib/js/bootstrap.js"></script>
-<!-- Custom js goes below -->
-<script src="../js/general.js"></script>
-<!------------------------- Scripts ------------------------->
+                </td>
+            </tr>
+        </table>
+        <div data-alerts="alerts" data-fade="3000"></div>
+    </div>
+    <!------------------------- Main ---------------------------->
+    <!------------------------- Scripts ------------------------->
+    <!-- jQuery -->
+    <script src="../../../_lib/js/jquery-3.2.1.js"></script>
+    <!--jQuery UI -->
+    <script src="../../../_lib/js/jquery-ui.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../../_lib/js/bootstrap.js"></script>
+    <!-- Custom js goes below -->
+    <script src="../js/general.js"></script>
+    <!------------------------- Scripts ------------------------->
 </body>
 </html>
