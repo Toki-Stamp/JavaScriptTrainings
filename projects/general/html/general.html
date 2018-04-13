@@ -16,173 +16,183 @@
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
-    <!------------------------- Main ---------------------------->
-    <div class="container">
-        <table id="main-table" class="table table-striped">
-            <tr id="blank"></tr>
-            <!-- Основная информация -->
-            <tr id="title-id">
-                <td>
-                    <h3>Общие сведения о КС</h3>
-                </td>
-                <td>
-                    <h3 id="object-id">ID объекта</h3>
-                </td>
-            </tr>
-            <tr id="search">
-                <td>ID объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="has-feedback">
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <!--title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"-->
-                                <input type="text" minlength="1" maxlength="12" class="form-control"
-                                       pattern="^[1-9]{1}[0-9]{0,11}$"
-                                       placeholder="Введите ID объекта..."
-                                       data-toggle="popover"/>
-                                <i class="glyphicon glyphicon-remove" title="Очистить поле для ввода"></i>
-                            </div>
-                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                <button class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="inventory-number">
-                <td>Инвентарный номер</td>
-                <td>
-                    <div class="row">
+<!------------------------- Main ---------------------------->
+<div class="container">
+    <table id="main-table" class="table table-striped">
+        <tr id="blank"></tr>
+        <!-- Основная информация -->
+        <tr id="title-id">
+            <td>
+                <h3>Общие сведения о КС</h3>
+            </td>
+            <td>
+                <h3 id="object-id">ID объекта</h3>
+            </td>
+        </tr>
+        <tr id="search">
+            <td>ID объекта</td>
+            <td>
+                <div class="row">
+                    <div class="has-feedback">
                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                            <div class="box">
-                                Буда-Кошелевское бюро
+                            <!--title="Натуральное (целочисленное, положительное) значение от 1 до 12 цифр"-->
+                            <input type="text" minlength="1" maxlength="12" class="form-control"
+                                   pattern="^[1-9]{1}[0-9]{0,11}$"
+                                   placeholder="Введите ID объекта..."/>
+                            <i class="glyphicon glyphicon-remove" title="Очистить поле для ввода"></i>
+                            <div class="validate-popover danger">
+                                <div class="validate-popover-title">
+                                    <span class="glyphicon glyphicon-exclamation-sign"></span>Ошибка ввода!</div>
+                                <div class="validate-popover-content">
+                                    Пожалуйста, введите натуральное (целочисленное, положительное) значение, в пределах
+                                    от 1 до 12 цифр
+                                </div>
+                                <div class="validate-popover-arrow"></div>
                             </div>
                         </div>
-                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                            <div class="box"></div>
-                        </div>
-                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                            <div class="box"></div>
-                        </div>
-                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-                            <div class="box"></div>
+                        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                            <button class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Поиск
+                            </button>
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr id="object-type">
-                <td>Тип объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
+                </div>
+            </td>
+        </tr>
+        <tr id="inventory-number">
+            <td>Инвентарный номер</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div class="box">
+                            заголовок
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr id="object-name">
-                <td>Наименование объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        <div class="box"></div>
+                    </div>
+                    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                        <div class="box"></div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="object-type">
+            <td>Тип объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="object-name">
+            <td>Наименование объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="object-purpose">
+            <td>Назначение объекта</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="address">
+            <td>
+                <div>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-default" onfocus="this.blur()">Местоположение</button>
+                        <button class="btn btn-default" onfocus="this.blur()" disabled>Адрес</button>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <!-- Характеристики -->
+        <tr id="data-char-2">
+            <td>Количество надземных этажей максимальное, шт.</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-char-4">
+            <td>Количество подземных этажей максимальное, шт.</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-build-year">
+            <td>Год постройки</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box multi">
+                            <span>1972</span>
+                            <span>1988</span>
+                            <span>1991</span>
+                            <span>1999</span>
+                            <span>2005</span>
+                            <span>2014</span>
                         </div>
                     </div>
-                </td>
-            </tr>
-            <tr id="object-purpose">
-                <td>Назначение объекта</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
-                        </div>
+                </div>
+            </td>
+        </tr>
+        <tr id="data-rebuild-year">
+            <td>Год реконструкции</td>
+            <td>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="box"></div>
                     </div>
-                </td>
-            </tr>
-            <tr id="address">
-                <td>
-                    <div>
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-default" onfocus="this.blur()">Местоположение</button>
-                            <button class="btn btn-default" onfocus="this.blur()" disabled>Адрес</button>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <!-- Характеристики -->
-            <tr id="data-char-2">
-                <td>Количество надземных этажей максимальное, шт.</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="data-char-4">
-                <td>Количество подземных этажей максимальное, шт.</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="data-build-year">
-                <td>Год постройки</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box multi">
-                                <span>1972</span>
-                                <span>1988</span>
-                                <span>1991</span>
-                                <span>1999</span>
-                                <span>2005</span>
-                                <span>2014</span>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr id="data-rebuild-year">
-                <td>Год реконструкции</td>
-                <td>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="box"></div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <a class="btn btn-default" href="https://stackoverflow.com/questions/24580262/make-bootstrap-popover-work-with-custom-html-template">go here</a>
-        <a class="btn btn-default" href="https://www.bootply.com/ICbHgauH3Y">and go here</a>
-        <button id="test" class="btn btn-default">TEST</button>
-        <div data-alerts="alerts" data-fade="3000"></div>
-    </div>
-    <!------------------------- Main ---------------------------->
-    <!------------------------- Scripts ------------------------->
-    <!-- jQuery -->
-    <script src="../../../_lib/js/jquery-3.2.1.js"></script>
-    <!--jQuery UI -->
-    <script src="../../../_lib/js/jquery-ui.js"></script>
-    <!-- Bootstrap -->
-    <script src="../../../_lib/js/bootstrap.js"></script>
-    <!-- Custom js goes below -->
-    <script src="../js/general.js"></script>
-    <!------------------------- Scripts ------------------------->
+                </div>
+            </td>
+        </tr>
+    </table>
+    <a class="btn btn-default"
+       href="https://stackoverflow.com/questions/24580262/make-bootstrap-popover-work-with-custom-html-template">go
+        here</a>
+    <a class="btn btn-default" href="https://www.bootply.com/ICbHgauH3Y">and go here</a>
+    <a class="btn btn-default" href="https://stackoverflow.com/questions/30299093/speech-bubble-with-arrow">and even more here</a>
+    <div data-alerts="alerts" data-fade="3000"></div>
+</div>
+<!------------------------- Main ---------------------------->
+<!------------------------- Scripts ------------------------->
+<!-- jQuery -->
+<script src="../../../_lib/js/jquery-3.2.1.js"></script>
+<!--jQuery UI -->
+<script src="../../../_lib/js/jquery-ui.js"></script>
+<!-- Bootstrap -->
+<script src="../../../_lib/js/bootstrap.js"></script>
+<!-- Custom js goes below -->
+<script src="../js/general.js"></script>
+<!------------------------- Scripts ------------------------->
 </body>
 </html>
