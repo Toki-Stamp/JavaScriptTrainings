@@ -171,31 +171,6 @@ jQuery(document).ready(function main() {
         })
     })($('#main-table').find('div.has-feedback'));
 
-    // (function init(popover) {
-    //     var template = '',
-    //         content = '';
-    //
-    //     template += '<div class="popover" role="tooltip">';
-    //     template += '   <div class="arrow"></div>';
-    //     template += '   <div class="popover-title"></div>';
-    //     template += '   <div class="popover-content"></div>';
-    //     template += '</div>';
-    //
-    //     content += '<i class="glyphicon glyphicon-warning-sign"></i>';
-    //     content += 'ID объекта - это натуральное (целочисленное, положительное) значение от 1 до 12 цифр';
-    //
-    //     popover.popover({
-    //         html: true,
-    //         animation: true,
-    //         container: 'div.has-feedback div:eq(0)',
-    //         trigger: 'manual',
-    //         placement: 'bottom',
-    //         title: 'Ошибка ввода',
-    //         content: content,
-    //         template: template
-    //     });
-    // })($('#main-table').find('div.has-feedback').find('input'));
-
     $('#main-table').find('div.has-feedback').find('button')
         .on('click', function () {
             var table = $('#main-table');
