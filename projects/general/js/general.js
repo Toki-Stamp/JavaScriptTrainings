@@ -174,6 +174,7 @@ jQuery(document).ready(function main() {
     $('#main-table').find('div.has-feedback').find('button')
         .on('click', function () {
             var table = $('#main-table');
+
             if (table.attr('popover')) {
                 table.removeAttr('popover');
             } else {
