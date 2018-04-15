@@ -110,18 +110,24 @@
 //         .execute();
 // })();
 
-var p1 = Promise.resolve(1);
+var func_a = function () {
+    setTimeout(function () {
+        console.log('show');
+    }, 10000);
+};
+
+var p1 = Promise.resolve(func_a);
 var p2 = new Promise(function (resolve, reject) {
-    setTimeout(resolve, 5000, "2");
+    setTimeout(resolve, 5000, 'step 2 takes 5 sec');
 });
-var p3 = 3;
+var p3 = 'immediate step 3';
 var p4 = new Promise(function (resolve, reject) {
-    setTimeout(resolve, 250, 4);
+    setTimeout(resolve, 250, 'step 4 takes .25s');
 });
-var p5 = Promise.resolve("5");
+var p5 = Promise.resolve('hide');
 
 Promise.all([p1, p2, p3, p4, p5]).then(function (values) {
-    console.log('done!');
+    console.log('all done!');
     console.log(values);
 });
 
