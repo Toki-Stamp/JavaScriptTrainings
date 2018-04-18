@@ -182,27 +182,27 @@
 }
 
 #main-table .box.multi {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
-    grid-column-gap: 6px;
-    grid-row-gap: 2px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    line-height: 22px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 #main-table .box.multi span {
-    padding: 4px 6px;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    font-size: 11px;
-    /*font-weight: bold;*/
-    line-height: 1;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin: 2px;
+    font-size: 12px;
     color: black;
-    /*color: white;*/
     background-color: rgb(215, 215, 215);
-    /*background-color: rgb(38, 90, 136);*/
     border: 1px solid rgb(153, 153, 153);
     border-radius: 4px;
     text-align: center;
-    vertical-align: baseline;
 }
 
 #main-table .box i.fade {
@@ -213,6 +213,7 @@
 #main-table .box.copied:hover {
     transition: background-color 500ms;
     background-color: rgb(245, 255, 245);
+    border-color: rgba(20, 140, 20, 0.5);
 }
 
 #main-table .box.copied i {
