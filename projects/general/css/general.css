@@ -1,9 +1,20 @@
-/* ----------------------- INPUTS / BUTTONS / SELECTS GLOBAL ------------------------ */
+/* global */
 #main-table input,
 #main-table select,
 #main-table button {
     height: 36px;
     width: 100%;
+}
+
+#main-table ::placeholder {
+    opacity: 1;
+    color: rgb(153, 153, 153);
+    transition: opacity 200ms ease-in-out;
+}
+
+#main-table :focus::placeholder {
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
 }
 
 #main-table i {
@@ -37,17 +48,65 @@
     color: transparent;
 }
 
-/*-----------------*/
-
-::placeholder {
-    opacity: 1;
-    color: rgb(153, 153, 153);
-    transition: opacity 200ms ease-in-out;
+.alert {
+    user-select: none;
+    cursor: help;
+    z-index: 3;
+    position: absolute;
+    text-shadow: 0 0 20px rgb(255, 255, 255);
+    left: 15px;
+    right: 15px;
+    top: -48px;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 12px 30px 12px 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .4);
+    transition: all .25s;
 }
 
-:focus::placeholder {
+.alert.alert-success {
+    box-shadow: 0 10px 20px rgba(60, 118, 61, .4);
+}
+
+.alert.alert-danger {
+    box-shadow: 0 10px 20px rgba(210, 180, 180, .8);
+}
+
+.alert:hover .glyphicon {
+    text-shadow: none;
+    opacity: 0.3;
+    right: 6px;
+}
+
+.alert .glyphicon {
+    cursor: pointer;
+    font-size: 17px;
+    position: absolute;
+    right: -1px;
     opacity: 0;
-    transition: opacity 250ms ease-in-out;
+    transition: all .25s;
+    top: 17px;
+}
+
+.alert:hover .glyphicon:hover {
+    opacity: 0.95;
+}
+
+body div#alert-container {
+    transition: all .25s;
+    visibility: hidden;
+    opacity: 0;
+}
+
+body[alert] div#alert-container {
+    visibility: visible;
+    opacity: 1;
+}
+
+body[alert] .alert {
+    top: 8px;
+    visibility: visible;
+    opacity: 1;
 }
 
 #main-table .validate-popover.panel-danger {
@@ -67,7 +126,7 @@
     z-index: 1;
     transition: all .25s;
     border: 1px solid rgb(235, 180, 180);
-    box-shadow: 0 10px 20px rgba(169, 70, 70, 0.4);
+    box-shadow: 0 10px 20px rgba(210, 180, 180, .8);
 }
 
 #main-table .validate-popover.panel-danger:before,
@@ -127,8 +186,6 @@
     opacity: 1;
 }
 
-/*-----------------*/
-
 #main-table .box {
     display: flex;
     cursor: default !important;
@@ -177,8 +234,7 @@
 
 #main-table .box.empty {
     cursor: not-allowed !important;
-    font-style: italic;
-    height: 37px !important;
+    height: 36px !important;
 }
 
 #main-table .box.multi {
@@ -188,16 +244,16 @@
     justify-content: flex-start;
     align-items: center;
     margin: 0;
-    line-height: 22px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    line-height: 25px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 #main-table .box.multi span {
     padding-left: 6px;
     padding-right: 6px;
     margin: 2px;
-    font-size: 12px;
+    font-size: 13px;
     color: black;
     background-color: rgb(215, 215, 215);
     border: 1px solid rgb(153, 153, 153);
@@ -225,7 +281,6 @@
     color: rgb(0, 190, 0);
 }
 
-/* ---------------------------------- TABLE GLOBAL ---------------------------------- */
 #main-table td {
     vertical-align: middle !important;
 }
