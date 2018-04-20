@@ -191,31 +191,91 @@ jQuery(document).ready(function main() {
     $('#main-table')
     .find('div.has-feedback').find('button')
     .on('click', function () {
-        var body  = $('body'),
-            table = $('#main-table'),
+        var body         = $('body'),
+            alert        = $('#alert-container'),
+            text         = alert.find('[role="alert"]'),
+            type         = alert.find('.alert'),
+            messages     = [
+                {
+                    message : 'Message with danger!. Be careful! Bla-bla-bla...',
+                    priority: 'alert-danger'
+                },
+                {
+                    message : 'Message with danger 2! Be very careful! Bla-bla and so on...',
+                    priority: 'alert-danger'
+                },
+                {
+                    message : 'Message with success! Everything fine, no reason to worry...',
+                    priority: 'alert-success'
+                },
+                {
+                    message : 'Message with success 2! Everything fine, nothing worry about...',
+                    priority: 'alert-success'
+                },
+                {
+                    message : 'Message with warning! Behold! Listen very carefully...',
+                    priority: 'alert-warning'
+                },
+                {
+                    message : 'Message with warning 2! Attention! Please, look here...',
+                    priority: 'alert-warning'
+                },
+                {
+                    message : 'Message with info! Just fresh portion of new information...',
+                    priority: 'alert-info'
+                },
+                {
+                    message : 'Message with info 2! Another one new piece of news...',
+                    priority: 'alert-info'
+                }
+            ],
+            msg,
             index,
-            hide  = function (target, attr, delay) {
+            getRandomInt = function (min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            },
+            hide         = function (target, attr, delay) {
                 index = setTimeout(function () {
+                    type.removeClass('alert-success alert-danger alert-info alert-warning');
+                
                     if (target.attr(attr)) {
                         target.removeAttr(attr);
                     }
+                
                     if (index) {
                         clearTimeout(index);
                         body.removeAttr('time-out');
                         index = undefined;
                     }
+                
+                    if (body.attr('time-out')) {
+                        clearTimeout(parseInt(body.attr('time-out'), 10));
+                        body.removeAttr('time-out');
+                    }
                 }, delay);
                 body.attr('time-out', [index]);
             };
         
-        if (!body.attr('alert')) {
-            body.attr('alert', true);
-            hide(body, 'alert', 5000);
+        if (body.attr('time-out')) {
+            clearTimeout(parseInt(body.attr('time-out'), 10));
+            body.removeAttr('time-out');
         }
         
-        if (!table.attr('popover')) {
-            table.attr('popover', true);
-            hide(table, 'popover', 3500);
+        msg = messages[getRandomInt(0, (messages.length - 1))];
+        
+        if (body.attr('alert')) {
+            body.removeAttr('alert');
+            setTimeout(function () {
+                type.removeClass('alert-success alert-danger alert-info alert-warning').addClass(msg.priority);
+                text.text(msg.message);
+                body.attr('alert', true);
+                hide(body, 'alert', 5000);
+            }, 250)
+        } else {
+            text.text(msg.message);
+            type.removeClass('alert-success alert-danger').addClass(msg.priority);
+            body.attr('alert', true);
+            hide(body, 'alert', 5000);
         }
     });
 });
