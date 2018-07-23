@@ -1,0 +1,9 @@
+.table-x, .thead-x, .tbody-x, .tr-x, .th-x, .td-x {
+    font-family: "Consolas", monospace;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.th-x + .th-x, .td-x + .td-x {
+    border-left: 1px solid red;
+}
