@@ -1,21 +1,26 @@
 .box {
     display: flex;
     cursor: default !important;
+    padding: 6px 12px;
+    min-height: 34px;
     margin: auto;
     border: 1px solid rgb(204, 204, 204);
     border-radius: 4px;
     user-select: none;
-    padding: 6px 30px 6px 12px;
     font-size: 14px;
     line-height: 1.7;
     color: rgb(85, 85, 85);
-    background-color: rgb(248, 248, 248);
+    background: #fff none;
     overflow-wrap: break-spaces;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
 .box:empty {
     cursor: not-allowed !important;
-    height: 36px !important;
 }
 
 .box.multi {
@@ -30,33 +35,31 @@
     padding-bottom: 2px;
 }
 
-.box.multi span {
-    cursor: pointer;
-    padding-left: 12px;
-    padding-right: 3px;
-    margin: 2px;
-    font-size: 13px;
-    color: black;
-    background-color: rgb(215, 215, 215);
-    border: 1px solid rgb(153, 153, 153);
-    border-radius: 4px;
-    text-align: center;
-    transition: all .25s;
+.box.has-focus, .box:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
-.box.multi span:after {
-    content: 'X';
-    font-size: 14px;
-    font-weight: bold;
-    visibility: hidden;
-    margin-left: 2px;
+.box.multi span {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    padding-left: 6px;
+    padding-right: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+.box.multi span:focus {
+    background: #ff0;
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
 .box.multi span:hover {
-    background-color: rgb(195, 195, 195);
-}
-
-.box.multi span:hover:after {
-    color: red;
-    visibility: visible;
+    /*background: #ff0;*/
 }
