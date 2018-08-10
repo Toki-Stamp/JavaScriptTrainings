@@ -6,42 +6,102 @@
 /* jQuery */
 jQuery(document).ready(function main() {
     let div,
-        spans;
+        spans,
+        container          = $('.container'),
+        buttons            = container.find('button'),
+        inputContainer     = container.find('[data-role="input-container"]'),
+        inputVisualization = container.find('[data-role="input-visualization"]');
+    
+    buttons.each(function () {
+        let button = $(this),
+            event  = 'click',
+            fn;
+        
+        switch (button.data('action')) {
+            case 'add-date':
+                fn = function () {
+                    let currentDates = inputContainer.data('dates') || [],
+                        dates        = currentDates.slice();
+                    
+                    dates.push(new Date().toLocaleTimeString());
+                    
+                    console.log('add-date-event-handler');
+                    
+                    inputVisualization.empty().addClass('has-focus').attr('tabindex', 1);
+                    inputContainer.data('dates', dates);
+                    inputContainer.val(dates.join(', ')).trigger('change');
+                };
+                break;
+            case 'read-dates':
+                fn = function () {
+                    let currentDates = inputContainer.data('dates') || [],
+                        val
+                                     = inputContainer.val();
+                    
+                    console.log('read-dates-event-handler');
+                    console.log('dates', currentDates);
+                    console.log('val', '"' + val + '"');
+                };
+                break;
+            case 'clear-dates':
+                fn = function () {
+                    console.log('clear-dates-event-handler');
+                    
+                    inputVisualization.empty().removeClass('has-focus').removeAttr('tabindex');
+                    inputContainer.data('dates', []);
+                    inputContainer.val('').removeAttr('value').trigger('change');
+                };
+                break;
+        }
+        
+        button.on(event, fn);
+    });
+    
+    inputContainer.on('change', function () {
+        let me     = $(this),
+            data   = me.data('dates'),
+            create = function (value, index) {
+                if (!inputVisualization.attr('tabindex')) {
+                    inputVisualization.attr('tabindex', 1);
+                }
+            
+                $('<span>').text(value).attr('tabindex', index + 10).appendTo(inputVisualization);
+            
+                if (!inputVisualization.hasClass('has-focus')) {
+                    inputVisualization.addClass('has-focus')
+                }
+            };
+        
+        console.log('on-change-event-handler');
+        
+        if (data && $.isArray(data) && data.length) {
+            data.forEach(function (value, index) {
+                console.log(index, value);
+                create(value, index);
+            });
+        }
+    });
     
     $(document).on('mousedown', function (event) {
         let me = $(event.target);
         
         if (me.is('span') && me.parent().is('.has-control')) {
-            let e = event || window.event,
-                btnCode;
+            let e = event || window.event;
             
-            if ('object' === typeof e) {
-                btnCode = e.button;
+            if (('object' === typeof e) && (1 === e.button)) {
+                e.preventDefault();
+                div = me.parent();
+                me.remove();
+                spans = div.find('span');
                 
-                switch (btnCode) {
-                    case 0:
-                        console.log('Нажата левая кнопка.');
-                        break;
-                    
-                    case 1:
-                        console.log('Нажата средняя кнопка или колёсико.');
-                        e.preventDefault();
-                        break;
-                    
-                    case 2:
-                        console.log('Нажата правая кнопка.');
-                        e.preventDefault();
-                        break;
-                    
-                    default:
-                        e.preventDefault();
-                        console.log('Неопределённое событие: ' + btnCode);
+                if (spans.length) {
+                    div.focus();
+                } else {
+                    div.removeAttr('tabindex').removeClass('has-focus').blur().empty();
                 }
             }
             
-            div = me.parent();
-            
-            if (div && !div.hasClass('has-focus')) {
+            if (div && !div.hasClass('has-focus') && spans && spans.length) {
                 div.addClass('has-focus');
             }
         } else {
@@ -51,13 +111,14 @@ jQuery(document).ready(function main() {
         }
     });
     
-    $(document).on('contextmenu', '.box.has-control', function (event) {
+    $('.box.has-control').on('contextmenu', function (event) {
         event.preventDefault();
         event.stopPropagation();
+        
         return false;
     });
     
-    $(document).on('focus', '.box.has-control span', function (event) {
+    $('.box.has-control span').on('focus', function (event) {
         let me = $(event.target);
         
         div = me.parent();
@@ -67,7 +128,7 @@ jQuery(document).ready(function main() {
         }
     });
     
-    $(document).on('blur', '.box.has-control span', function (event) {
+    $('.box.has-control span').on('blur', function (event) {
         let me = $(event.target);
         
         div = me.parent();
@@ -77,7 +138,7 @@ jQuery(document).ready(function main() {
         }
     });
     
-    $(document).on('keydown', '.box.has-control', function (event) {
+    $('.box.has-control').on('keydown', function (event) {
         let current = $(event.target);
         spans = spans || $(event.target).parent().find('span');
         
@@ -121,18 +182,3 @@ jQuery(document).ready(function main() {
         }
     });
 });
-
-/* Self-invoking function */
-(function main() {
-    (function init(boxes) {
-        let index = 0;
-        
-        boxes.each(function () {
-            let me = $(this);
-            
-            if (me.is('.editable')) {
-                me.attr('contenteditable', true);
-            }
-        })
-    })($('.box'));
-})();

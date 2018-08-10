@@ -7,7 +7,8 @@
     <title>input-box</title>
     <!------------------------- CSS ----------------------------->
     <link href="../../../_lib/css/bootstrap.css" rel="stylesheet">
-    <link href="../css/input-box-style.css" rel="stylesheet">
+    <link href="../../../_lib/new/air-datepicker-2.2.3/css/datepicker.css" rel="stylesheet" type="text/css">
+    <link href="../css/input-box-style.css" rel="stylesheet" type="text/css">
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
@@ -40,13 +41,16 @@
         <hr>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="box multi has-control" tabindex="1">
-                    <span tabindex="11">1234</span>
-                    <span tabindex="12">5678</span>
-                    <span tabindex="13">0101</span>
-                    <span tabindex="14">1010</span>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="box multi has-control" data-placeholder="Выберите дату..."
+                         data-role="input-visualization"></div>
+                    <input type="hidden" data-role="input-container">
                 </div>
-                <input type="hidden">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <button type="button" class="btn btn-primary" data-action="add-date">Добавить дату</button>
+                    <button type="button" class="btn btn-success" data-action="read-dates">Прочитать даты</button>
+                    <button type="button" class="btn btn-danger" data-action="clear-dates">Очистить даты</button>
+                </div>
             </div>
         </div>
         <hr>
@@ -60,6 +64,8 @@
     <!------------------------- Scripts ------------------------->
     <!-- jQuery -->
     <script src="../../../_lib/js/jquery-3.2.1.js"></script>
+    <!-- Air-Datepicker -->
+    <script src="../../../_lib/new/air-datepicker-2.2.3/js/datepicker.js"></script>
     <!-- Bootstrap -->
     <script src="../../../_lib/js/bootstrap.js"></script>
     <!-- Custom js goes below -->
