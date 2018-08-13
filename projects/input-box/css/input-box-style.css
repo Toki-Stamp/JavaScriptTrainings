@@ -56,6 +56,7 @@
 .box.multi.has-focus span,
 .box.multi:focus span {
     cursor: pointer;
+    transform: scale(.85);
 }
 
 .box.multi.has-focus span:focus,
@@ -69,11 +70,33 @@
 
 .box.multi.has-focus span:nth-child(even):focus,
 .box.multi:focus span:nth-child(even):focus {
-    transform: rotateZ(-360deg) scale(1.15);
+    /*transform: rotateZ(-360deg) scale(.85);*/
+    transform: scale(1);
 
 }
 
 .box.multi.has-focus span:nth-child(odd):focus,
 .box.multi:focus span:nth-child(odd):focus {
-    transform: rotateZ(360deg) scale(.85);
+    /*transform: rotateZ(360deg) scale(.85);*/
+    transform: scale(1);
+}
+
+[data-role="datepicker"] .datepicker {
+    position: absolute;
+    z-index: 10000;
+    transition: all .25s ease-in-out;
+    transform: translateX(0) translateY(-200%);
+    visibility: hidden;
+    opacity: 0;
+}
+
+[data-role="datepicker"].has-focus .datepicker {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    transition: all .25s ease-in-out;
+    transform: translateX(0) translateY(-102%);
+    visibility: visible;
+    opacity: 1;
 }

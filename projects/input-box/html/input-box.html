@@ -40,23 +40,16 @@
         </div>
         <hr>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <div class="box multi has-control" data-placeholder="Выберите дату..."
-                         data-role="input-visualization"></div>
-                    <input type="hidden" data-role="input-container">
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <button type="button" class="btn btn-primary" data-action="add-date">Добавить дату</button>
-                    <button type="button" class="btn btn-success" data-action="read-dates">Прочитать даты</button>
-                    <button type="button" class="btn btn-danger" data-action="clear-dates">Очистить даты</button>
-                </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div data-role="datepicker"></div>
+                <div class="box multi has-control" data-placeholder="Выберите дату..."
+                     data-role="visualization"></div>
+                <input type="hidden" data-role="storage">
             </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <input class="form-control" type="text" value="1234 5678">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <button type="button" class="btn btn-primary" data-action="add-date">Добавить дату</button>
+                <button type="button" class="btn btn-success" data-action="read-dates">Прочитать даты</button>
+                <button type="button" class="btn btn-danger" data-action="clear-dates">Очистить даты</button>
             </div>
         </div>
     </div>
