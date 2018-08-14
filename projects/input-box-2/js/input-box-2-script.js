@@ -8,7 +8,13 @@ jQuery(document).ready(function main() {
     let closeBtns  = $('[data-role="remove-date"]'),
         btns       = $('button'),
         input      = $('input'),
-        datepicker = $('[data-role="datepicker"]').datepicker().data('datepicker'),
+        options    = {
+            startDate             : new Date(1983, 4, 9),
+            multipleDates         : true,
+            multipleDatesSeparator: ', ',
+            todayButton           : true
+        },
+        datepicker = $('[data-role="datepicker"]').datepicker(options).data('datepicker'),
         dates      = $('.pick-date').find('span.text');
 
     closeBtns.on('click', function () {

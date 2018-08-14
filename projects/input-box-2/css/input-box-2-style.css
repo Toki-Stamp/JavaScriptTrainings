@@ -2,6 +2,7 @@
     --border-color: rgb(204, 204, 204);
     --background-color: rgb(248, 248, 248);
     --box-height: 34px;
+    --empty-message: 'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
 }
 
 .box {
@@ -29,7 +30,12 @@
 }
 
 .box:empty {
-    height: var(--box-height);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    min-height: var(--box-height);
     background: var(--background-color) repeating-linear-gradient(
             -45deg,
             transparent 0px,
@@ -54,7 +60,8 @@
 }
 
 .box:empty:after {
-    content: 'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
+    padding: 4px;
+    content: var(--empty-message);
 }
 
 .box .pick-date {
@@ -65,7 +72,7 @@
     align-items: center;
     border: 1px solid rgb(204, 204, 204);
     border-radius: 4px;
-    background-color: white;
+    background-color: transparent;
     user-select: none;
     margin-right: 4px;
     margin-bottom: 4px;
@@ -80,34 +87,45 @@
 }
 
 .box .pick-date .text {
-    max-width: 80px;
-    border-right: 1px solid var(--border-color);
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-}
-
-.box .pick-date .x {
-    width: 20%;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    font-size: 10px;
+    align-content: center;
+
+    min-width: 76px;
+}
+
+.box .pick-date .x-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    width: 16px;
 
     font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
 
+    font-size: 10px;
+
+    cursor: pointer;
+
     transition: all .25s ease-in-out;
 }
 
-.box .pick-date .x:before {
-    content: "\e014";;
+.box .pick-date .x-btn:before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    content: "\e014";
 }
 
-.box .pick-date .x:hover {
+.box .pick-date .x-btn:hover {
     transform: rotate(180deg);
-    color: red;
+    color: rgb(217, 83, 79);
 }
 
 .box .pick-date.fade-out {
