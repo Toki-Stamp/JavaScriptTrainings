@@ -20,6 +20,8 @@
 
     border-radius: 4px;
 
+    position: relative;
+
     user-select: none;
     font-size: 14px;
 
@@ -31,40 +33,44 @@
     transition: all .25s ease-in-out;
 }
 
-/*.box:empty {*/
-/*display: flex;*/
-/*flex-flow: row wrap;*/
-/*justify-content: center;*/
-/*align-items: center;*/
-/*align-content: center;*/
-/*min-height: var(--box-height);*/
-/*background: var(--background-color) repeating-linear-gradient(*/
-/*-45deg,*/
-/*transparent 0px,*/
-/*var(--border-color) 1px,*/
-/*transparent 2px,*/
-/*transparent 7px*/
-/*);*/
-/*-webkit-font-smoothing: antialiased;*/
-/*color: rgb(248, 248, 248);*/
-/*letter-spacing: 2px;*/
-/*text-shadow: !* 1 *! 0 0 4px var(--border-color), !* 2 *! 0 0 4px var(--border-color),*/
-/*!* 3 *! 0 0 4px var(--border-color), !* 4 *! 0 0 4px var(--border-color),*/
-/*!* 5 *! 0 0 4px var(--border-color), !* 6 *! 0 0 4px var(--border-color),*/
-/*!* 7 *! 0 0 4px var(--border-color), !* 8 *! 0 0 4px var(--border-color),*/
-/*!* 9 *! 0 0 4px var(--border-color), !* 10*! 0 0 4px var(--border-color),*/
-/*!* 11*! 0 0 4px var(--border-color), !* 12*! 0 0 4px var(--border-color),*/
-/*!* 13*! 0 0 4px var(--border-color), !* 14*! 0 0 4px var(--border-color),*/
-/*!* 15*! 0 0 4px var(--border-color), !* 16*! 0 0 4px var(--border-color),*/
-/*!* 17*! 0 0 4px var(--border-color), !* 18*! 0 0 4px var(--border-color),*/
-/*!* 19*! 0 0 4px var(--border-color), !* 20*! 0 0 4px var(--border-color)*/
+.box:empty {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    min-height: var(--box-height);
+    background: var(--background-color) repeating-linear-gradient(
+            -45deg,
+            transparent 0px,
+            var(--border-color) 1px,
+            transparent 2px,
+            transparent 7px
+    );
+    -webkit-font-smoothing: antialiased;
+    color: rgb(248, 248, 248);
+    letter-spacing: 2px;
+    text-shadow: /* 1 */ 0 0 4px var(--border-color), /* 2 */ 0 0 4px var(--border-color),
+        /* 3 */ 0 0 4px var(--border-color), /* 4 */ 0 0 4px var(--border-color),
+        /* 5 */ 0 0 4px var(--border-color), /* 6 */ 0 0 4px var(--border-color),
+        /* 7 */ 0 0 4px var(--border-color), /* 8 */ 0 0 4px var(--border-color),
+        /* 9 */ 0 0 4px var(--border-color), /* 10*/ 0 0 4px var(--border-color),
+        /* 11*/ 0 0 4px var(--border-color), /* 12*/ 0 0 4px var(--border-color),
+        /* 13*/ 0 0 4px var(--border-color), /* 14*/ 0 0 4px var(--border-color),
+        /* 15*/ 0 0 4px var(--border-color), /* 16*/ 0 0 4px var(--border-color),
+        /* 17*/ 0 0 4px var(--border-color), /* 18*/ 0 0 4px var(--border-color),
+        /* 19*/ 0 0 4px var(--border-color), /* 20*/ 0 0 4px var(--border-color)
+    /**/
+}
 
-/*}*/
+.box:empty:after {
+    padding: 4px;
+    content: var(--empty-message);
+}
 
-/*.box:empty:after {*/
-/*padding: 4px;*/
-/*content: var(--empty-message);*/
-/*}*/
+.box:empty.datepicker-container:before {
+    display: none;
+}
 
 .box .pick-date {
     display: flex;
@@ -74,6 +80,8 @@
     align-content: center;
 
     height: 100%;
+
+    width: 94px;
 
     border: 1px solid rgb(204, 204, 204);
     border-radius: 4px;
@@ -92,6 +100,7 @@
     /*background-color: rgba(255, 255, 0, .2);*/
     /*background-color: rgba(92, 196, 239, .5);*/
 }
+
 .box .pick-date:focus:hover {
     /*background-color: rgb(235, 235, 235);*/
     /*background-color: rgba(255, 255, 0, .2);*/
@@ -141,11 +150,33 @@
     color: rgb(217, 83, 79);
 }
 
+/* --- effects begin --- */
 .box .pick-date.fade-out {
     transform: scale(0);
     opacity: 0;
     transition: opacity .25s ease-in-out, transform .25s ease-in-out;;
 }
+
+.box .pick-date.collapse-out {
+    transform: scale(.3);
+    width: 10px;
+    opacity: 0;
+    font-size: 1px;
+    transition: transform .25s ease-in-out,
+    opacity .25s ease-in-out,
+    width .3s ease-in-out,
+    font-size .25s ease-in-out;
+}
+
+.box .pick-date.zoom-in {
+    transform: scale(2);
+    opacity: 0;
+    z-index: 1000;
+    transition: transform .25s ease-in-out,
+    opacity .25s ease-in-out;
+}
+
+/* --- effects end --- */
 
 .box.datepicker-container {
     padding-right: 22px;
@@ -157,12 +188,16 @@
     font-family: 'Glyphicons Halflings';
     font-style: normal;
     font-weight: normal;
+
     position: absolute;
+
     z-index: 2000;
-    right: 19px;
+    /*right: 19px;*/
+    right: 4px;
     font-size: 18px;
     color: rgba(0, 0, 0, .075);
-    top: 6px;
+    /*top: 6px;*/
+    top: 5px;
     transition: all .25s ease-in-out;
 }
 
@@ -171,13 +206,15 @@
 }
 
 .box.has-focus,
-.pick-date:focus {
+.pick-date:focus,
+.box:focus {
     border-color: #66afe9;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
     transition: all .25s ease-in-out;
 }
+
 .pick-date:focus {
     background-color: rgba(92, 196, 239, .2);
     transition: all .25s ease-in-out;
