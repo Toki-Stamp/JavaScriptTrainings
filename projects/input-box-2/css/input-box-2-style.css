@@ -68,6 +68,18 @@
     content: var(--empty-message);
 }
 
+.box[contenteditable="true"] {
+    height: var(--box-height);
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
 .box:empty.datepicker-container:before {
     display: none;
 }
@@ -150,7 +162,7 @@
     color: rgb(217, 83, 79);
 }
 
-/* --- effects begin --- */
+/* --- effects --- */
 .box .pick-date.fade-out {
     transform: scale(0);
     opacity: 0;
@@ -176,8 +188,6 @@
     opacity .25s ease-in-out;
 }
 
-/* --- effects end --- */
-
 .box.datepicker-container {
     padding-right: 22px;
 }
@@ -199,6 +209,12 @@
     /*top: 6px;*/
     top: 5px;
     transition: all .25s ease-in-out;
+}
+
+.datepicker-container.v1 .datepicker-inline {
+    position: absolute;
+    z-index: 3;
+    top: 2px;
 }
 
 .box.datepicker-container.has-focus:before {

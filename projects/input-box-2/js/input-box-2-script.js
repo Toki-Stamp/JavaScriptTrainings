@@ -13,7 +13,9 @@ jQuery(document).ready(function main() {
             startDate             : new Date(1983, 4, 9),
             multipleDates         : true,
             multipleDatesSeparator: ', ',
-            todayButton           : true,
+            position              : 'top left',
+            todayButton           : new Date(),
+            clearButton           : true,
             onShow                : function (instance, animationCompleted) {
                 if (!animationCompleted) {
                     datepickerContainer.addClass('has-focus');
@@ -25,7 +27,8 @@ jQuery(document).ready(function main() {
                 }
             }
         },
-        datepicker          = $('[data-role="datepicker"]').datepicker(options).data('datepicker'),
+        // datepicker          = $('[data-role="datepicker"]').datepicker(options).data('datepicker'),
+        datepicker          = $(".datepicker-container.v1").datepicker({inline: true}),
         picks               = $('.pick-date').find('span.text');
 
     remove.on('click', function () {
@@ -41,11 +44,11 @@ jQuery(document).ready(function main() {
                 }
             };
 
-        if (grandParent.is('.1')) {
+        if (grandParent.is('.v1')) {
             _class = effect[0];
-        } else if (grandParent.is('.2')) {
+        } else if (grandParent.is('.v2')) {
             _class = effect[1];
-        } else if (grandParent.is('.3')) {
+        } else if (grandParent.is('.v3')) {
             _class = effect[2];
         }
 
