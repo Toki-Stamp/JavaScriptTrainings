@@ -28,8 +28,8 @@ jQuery(document).ready(function main() {
             }
         },
         // datepicker          = $('[data-role="datepicker"]').datepicker(options).data('datepicker'),
-        datepicker          = $(".datepicker-container.v1").datepicker({inline: true}),
-        picks               = $('.pick-date').find('span.text');
+        // datepicker          = $(".datepicker-container").datepicker({inline: true}),
+        picks               = $('.x-date').find('.x-text');
 
     remove.on('click', function () {
         let parent      = $(this).parent(),

@@ -5,19 +5,20 @@
     --empty-message: 'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
 }
 
+/*--- Box ---*/
 .box {
-    min-width: 104px;
-    min-height: var(--box-height);
-
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
     align-items: center;
     align-content: center;
 
-    cursor: default;
-    border: 1px solid var(--border-color);
+    min-width: 104px;
+    min-height: var(--box-height);
 
+    cursor: default;
+
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 
     position: relative;
@@ -31,6 +32,14 @@
     color: rgb(85, 85, 85);
 
     transition: all .25s ease-in-out;
+}
+
+.box > [role="group"] {
+    display: inherit;
+    flex-flow: inherit;
+    justify-content: inherit;
+    align-items: inherit;
+    align-content: inherit;
 }
 
 .box:empty {
@@ -84,7 +93,12 @@
     display: none;
 }
 
-.box .pick-date {
+/*--- Datepicker ---*/
+.box.datepicker-container {
+    padding-right: 22px;
+}
+
+.box.datepicker-container .x-date {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -107,19 +121,19 @@
     transform: scale(1);
 }
 
-.box .pick-date:not(:focus):hover {
+.box.datepicker-container .x-date:not(:focus):hover {
     background-color: rgb(235, 235, 235);
     /*background-color: rgba(255, 255, 0, .2);*/
     /*background-color: rgba(92, 196, 239, .5);*/
 }
 
-.box .pick-date:focus:hover {
+.box.datepicker-container .x-date:focus:hover {
     /*background-color: rgb(235, 235, 235);*/
     /*background-color: rgba(255, 255, 0, .2);*/
     background-color: rgba(255, 255, 0, .2);
 }
 
-.box .pick-date .text {
+.box.datepicker-container .x-date .x-text {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -129,7 +143,7 @@
     min-width: 76px;
 }
 
-.box .pick-date .x-btn {
+.box.datepicker-container .x-date .x-btn {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -148,7 +162,7 @@
     transition: all .25s ease-in-out;
 }
 
-.box .pick-date .x-btn:before {
+.box.datepicker-container .x-date .x-btn:before {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -157,19 +171,19 @@
     content: "\e014";
 }
 
-.box .pick-date .x-btn:hover {
+.box.datepicker-container .x-date .x-btn:hover {
     transform: rotate(180deg);
     color: rgb(217, 83, 79);
 }
 
-/* --- effects --- */
-.box .pick-date.fade-out {
+/*--- Effects ---*/
+.box.datepicker-container .x-date.fade-out {
     transform: scale(0);
     opacity: 0;
     transition: opacity .25s ease-in-out, transform .25s ease-in-out;;
 }
 
-.box .pick-date.collapse-out {
+.box.datepicker-container .x-date.collapse-out {
     transform: scale(.3);
     width: 10px;
     opacity: 0;
@@ -180,16 +194,12 @@
     font-size .25s ease-in-out;
 }
 
-.box .pick-date.zoom-in {
+.box.datepicker-container .x-date.zoom-in {
     transform: scale(2);
     opacity: 0;
     z-index: 1000;
     transition: transform .25s ease-in-out,
     opacity .25s ease-in-out;
-}
-
-.box.datepicker-container {
-    padding-right: 22px;
 }
 
 .box.datepicker-container:before {
@@ -211,18 +221,18 @@
     transition: all .25s ease-in-out;
 }
 
-.datepicker-container.v1 .datepicker-inline {
-    position: absolute;
-    z-index: 3;
-    top: 2px;
-}
+/*.datepicker-container.v1 .datepicker-inline {*/
+/*position: absolute;*/
+/*z-index: 3;*/
+/*top: 2px;*/
+/*}*/
 
 .box.datepicker-container.has-focus:before {
     color: rgb(102, 175, 233);
 }
 
 .box.has-focus,
-.pick-date:focus,
+.x-date:focus,
 .box:focus {
     border-color: #66afe9;
     outline: 0;
@@ -231,7 +241,7 @@
     transition: all .25s ease-in-out;
 }
 
-.pick-date:focus {
+.x-date:focus {
     background-color: rgba(92, 196, 239, .2);
     transition: all .25s ease-in-out;
 }
