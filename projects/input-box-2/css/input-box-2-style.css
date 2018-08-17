@@ -5,6 +5,9 @@
     --empty-message: 'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
 }
 
+body {
+    background-color: white;
+}
 /*--- Box ---*/
 .box {
     display: flex;
@@ -221,11 +224,36 @@
     transition: all .25s ease-in-out;
 }
 
-/*.datepicker-container.v1 .datepicker-inline {*/
-/*position: absolute;*/
-/*z-index: 3;*/
-/*top: 2px;*/
-/*}*/
+.box.datepicker-container.v1 .x-datepicker {
+    width: 295px;
+    height: 350px;
+    background-color: white;
+    position: absolute;
+    z-index: 999;
+    top: 37px;
+    left: 0px;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+
+    cursor: default;
+
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+
+    user-select: none;
+    font-size: 14px;
+
+    line-height: calc(var(--box-height) - 12px);
+    padding: 4px 0 0 4px;
+
+    color: rgb(85, 85, 85);
+
+    transition: all .25s ease-in-out;
+}
 
 .box.datepicker-container.has-focus:before {
     color: rgb(102, 175, 233);
