@@ -8,6 +8,7 @@
 body {
     background-color: white;
 }
+
 /*--- Box ---*/
 .box {
     display: flex;
@@ -37,7 +38,7 @@ body {
     transition: all .25s ease-in-out;
 }
 
-.box > [role="group"] {
+.box > .x-datepicker-dates {
     display: inherit;
     flex-flow: inherit;
     justify-content: inherit;
@@ -146,7 +147,7 @@ body {
     min-width: 76px;
 }
 
-.box.datepicker-container .x-date .x-btn {
+.box.datepicker-container .x-date .x-remove {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -165,7 +166,7 @@ body {
     transition: all .25s ease-in-out;
 }
 
-.box.datepicker-container .x-date .x-btn:before {
+.box.datepicker-container .x-date .x-remove:before {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -174,7 +175,7 @@ body {
     content: "\e014";
 }
 
-.box.datepicker-container .x-date .x-btn:hover {
+.box.datepicker-container .x-date .x-remove:hover {
     transform: rotate(180deg);
     color: rgb(217, 83, 79);
 }
@@ -224,22 +225,20 @@ body {
     transition: all .25s ease-in-out;
 }
 
-.box.datepicker-container.v1 .x-datepicker {
+/* Datepicker popup */
+.box.datepicker-container.v1 .x-datepicker-popup {
     width: 295px;
-    height: 350px;
+    height: 300px;
     background-color: white;
-    position: absolute;
-    z-index: 999;
-    top: 37px;
-    left: 0px;
+    /*position: absolute;*/
+    z-index: 2999;
+    /*top: 37px;*/
+    /*left: -1px;*/
 
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-    align-content: center;
+    opacity: 1 !important;
+    top: 0 !important;
 
-    cursor: default;
+    display: none;
 
     border: 1px solid var(--border-color);
     border-radius: 4px;
@@ -248,11 +247,32 @@ body {
     font-size: 14px;
 
     line-height: calc(var(--box-height) - 12px);
-    padding: 4px 0 0 4px;
+    padding: 4px;
+    /*margin-bottom: 4px;*/
 
     color: rgb(85, 85, 85);
 
+    transition: opacity .25s linear, top .25s ease-in-out;
+}
+
+.box.datepicker-container.v1 .x-datepicker-popup.fade {
+    opacity: 0 !important;
+    top: -500px !important;
+    transition: opacity .25s linear, top .25s ease-in-out;
+}
+
+.box.datepicker-container.v1 .x-datepicker-popup h1 {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
     transition: all .25s ease-in-out;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    flex-direction: column;
 }
 
 .box.datepicker-container.has-focus:before {

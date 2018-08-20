@@ -5,32 +5,27 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    let remove              = $('[data-role="remove-date"]'),
-        btns                = $('button'),
-        input               = $('input'),
-        datepickerContainer = $('.datepicker-container'),
-        options             = {
-            startDate             : new Date(1983, 4, 9),
-            multipleDates         : true,
-            multipleDatesSeparator: ', ',
-            position              : 'top left',
-            todayButton           : new Date(),
-            clearButton           : true,
-            onShow                : function (instance, animationCompleted) {
-                if (!animationCompleted) {
-                    datepickerContainer.addClass('has-focus');
+    let remove    = $('.x-remove'),
+        btns      = $('button'),
+        input     = $('input'),
+        reference = $('.datepicker-container.v1'),
+        popup     = $('.x-datepicker-popup').css('display', 'none'),
+        popper    = new Popper(reference, popup, {
+            placement: 'top-end',
+            modifiers: {
+                // flip  : {
+                //     behavior: ['top-start', 'bottom-start']
+                // },
+                offset: {
+                    enabled: true,
+                    offset : '0, 4'
                 }
             },
-            onHide                : function (instance, animationCompleted) {
-                if (!animationCompleted) {
-                    datepickerContainer.removeClass('has-focus');
-                }
+            onCreate : function (data) {
+                console.log(data);
             }
-        },
-        // datepicker          = $('[data-role="datepicker"]').datepicker(options).data('datepicker'),
-        // datepicker          = $(".datepicker-container").datepicker({inline: true}),
-        picks               = $('.x-date').find('.x-text');
-
+        });
+    
     remove.on('click', function () {
         let parent      = $(this).parent(),
             grandParent = parent.parent(),
@@ -38,12 +33,12 @@ jQuery(document).ready(function main() {
             _class,
             check       = function () {
                 let count = grandParent.find('.pick-date');
-
+            
                 if (!count.length) {
                     grandParent.empty();
                 }
             };
-
+        
         if (grandParent.is('.v1')) {
             _class = effect[0];
         } else if (grandParent.is('.v2')) {
@@ -51,39 +46,19 @@ jQuery(document).ready(function main() {
         } else if (grandParent.is('.v3')) {
             _class = effect[2];
         }
-
+        
         parent.addClass(_class).blur();
-
+        
         setTimeout(function () {
             parent.remove();
             check();
         }, 250);
     });
-
-    // datepickerContainer.on('click', function () {
-    //     datepicker.show();
-    // });
-
-    picks.each(function () {
-        let me = $(this);
-
-        me.on('click', function () {
-            let parts = me.text().split('.'),
-                year  = parseInt(parts[2], 10),
-                month = parseInt(parts[1], 10),
-                day   = parseInt(parts[0], 10),
-                date  = new Date(year, month - 1, day);
-
-            datepicker.clear();
-            datepicker.selectDate(date);
-            datepicker.show();
-        });
-    });
-
+    
     btns.each(function () {
         let me = $(this),
             fn;
-
+        
         switch (me.data('role')) {
             case 'read-dates':
                 fn = function () {
@@ -95,7 +70,28 @@ jQuery(document).ready(function main() {
                     datepicker.show();
                 }
         }
-
+        
         me.on('click', fn);
     });
+    reference.on('click', function () {
+        let timeout;
+        
+        if (popup.hasClass('fade')) {
+            popup.css('display', 'block');
+            
+            timeout = setTimeout(function () {
+                popup.removeClass('fade');
+                clearTimeout(timeout);
+                timeout = null;
+            }, 50);
+        } else {
+            popup.addClass('fade');
+            
+            timeout = setTimeout(function () {
+                popup.css('display', 'none');
+                clearTimeout(timeout);
+                timeout = null;
+            }, 250);
+        }
+    })
 });
