@@ -227,13 +227,15 @@ body {
 
 /* Datepicker popup */
 .box.datepicker-container.v1 .x-datepicker-popup {
+    /*position: absolute;*/
+    /*top: 37px;*/
+    /*left: -1px;*/
+
     width: 295px;
     height: 300px;
     background-color: white;
-    /*position: absolute;*/
+
     z-index: 2999;
-    /*top: 37px;*/
-    /*left: -1px;*/
 
     opacity: 1 !important;
     top: 0 !important;
@@ -248,7 +250,10 @@ body {
 
     line-height: calc(var(--box-height) - 12px);
     padding: 4px;
-    /*margin-bottom: 4px;*/
+
+    margin-bottom: 4px;
+    margin-top: 4px;
+    margin-left: 1px;
 
     color: rgb(85, 85, 85);
 
