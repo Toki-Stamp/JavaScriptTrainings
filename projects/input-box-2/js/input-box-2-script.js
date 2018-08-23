@@ -17,7 +17,7 @@ jQuery(document).ready(function main() {
                 console.log(data);
             }
         });
-    
+
     remove.on('click', function () {
         let parent      = $(this).parent(),
             grandParent = parent.parent(),
@@ -25,12 +25,12 @@ jQuery(document).ready(function main() {
             _class,
             check       = function () {
                 let count = grandParent.find('.pick-date');
-            
+
                 if (!count.length) {
                     grandParent.empty();
                 }
             };
-        
+
         if (grandParent.is('.v1')) {
             _class = effect[0];
         } else if (grandParent.is('.v2')) {
@@ -38,19 +38,19 @@ jQuery(document).ready(function main() {
         } else if (grandParent.is('.v3')) {
             _class = effect[2];
         }
-        
+
         parent.addClass(_class).blur();
-        
+
         setTimeout(function () {
             parent.remove();
             check();
         }, 250);
     });
-    
+
     btns.each(function () {
         let me = $(this),
             fn;
-        
+
         switch (me.data('role')) {
             case 'read-dates':
                 fn = function () {
@@ -62,27 +62,38 @@ jQuery(document).ready(function main() {
                     datepicker.show();
                 }
         }
-        
+
         me.on('click', fn);
     });
-    reference.on('click', function () {
+
+    reference.on('click', onClick);
+
+    function onClick() {
         let timeout,
             delay    = 50,
-            style    = getComputedStyle(document.body),
             duration = (function () {
                 let multipliers = {
-                    s : 100,
-                    ms: 1
-                };
-                console.log(multipliers);
-                console.log(style.getPropertyValue('--duration'));
+                        s : 1000,
+                        ms: 1
+                    },
+                    style       = getComputedStyle(document.body),
+                    property    = style.getPropertyValue('--duration').replace(/\s/g, ''),
+                    unit        = property.replace(/[.\d]/g, ''),
+                    time        = parseFloat(property.replace(unit, ''));
+
+                console.log('root-property', typeof property, '"' + property + '"');
+                console.log('unit', typeof unit, '"' + unit + '"');
+                console.log('time', typeof time, '"' + time + '"');
+                console.log('---');
+                console.log('time:', time, 'unit:', unit, '*', 'multiplier:', multipliers[unit], 'result:', (time * multipliers[unit]), 'ms');
+
+                return (time * multipliers[unit]);
             })();
-        
+
         popper.update();
-        
+
         if (popup.hasClass('fade')) {
             popup.css('display', 'block');
-            
             timeout = setTimeout(function () {
                 popup.removeClass('fade');
                 clearTimeout(timeout);
@@ -90,12 +101,29 @@ jQuery(document).ready(function main() {
             }, delay);
         } else {
             popup.addClass('fade');
-            
+
             timeout = setTimeout(function () {
                 popup.css('display', 'none');
                 clearTimeout(timeout);
                 timeout = null;
-            }, 1050);
+            }, (duration + delay));
         }
-    })
+    }
+
+    function debounce(fn, ms) {
+        let timer = null;
+
+        return function (...args) {
+            const onComplete = () => {
+                fn.apply(this, args);
+                timer = null;
+            };
+
+            if (timer) {
+                clearTimeout(timer);
+            }
+
+            timer = setTimeout(onComplete, ms);
+        };
+    }
 });
