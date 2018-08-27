@@ -17,20 +17,20 @@ jQuery(document).ready(function main() {
                 console.log(data);
             }
         });
-
+    
     remove.on('click', function () {
         let parent      = $(this).parent(),
             grandParent = parent.parent(),
             effect      = ['fade-out', 'collapse-out', 'zoom-in'],
             _class,
             check       = function () {
-                let count = grandParent.find('.pick-date');
-
+                let count = grandParent.find('.x-date');
+            
                 if (!count.length) {
                     grandParent.empty();
                 }
             };
-
+        
         if (grandParent.is('.v1')) {
             _class = effect[0];
         } else if (grandParent.is('.v2')) {
@@ -38,19 +38,19 @@ jQuery(document).ready(function main() {
         } else if (grandParent.is('.v3')) {
             _class = effect[2];
         }
-
+        
         parent.addClass(_class).blur();
-
+        
         setTimeout(function () {
             parent.remove();
             check();
         }, 250);
     });
-
+    
     btns.each(function () {
         let me = $(this),
             fn;
-
+        
         switch (me.data('role')) {
             case 'read-dates':
                 fn = function () {
@@ -62,13 +62,13 @@ jQuery(document).ready(function main() {
                     datepicker.show();
                 }
         }
-
+        
         me.on('click', fn);
     });
-
-    reference.on('click', onClick);
-
-    function onClick() {
+    
+    reference.on('click', utils.debounce.run(toggleDatepicker));
+    
+    function toggleDatepicker() {
         let timeout,
             delay    = 50,
             duration = (function () {
@@ -80,50 +80,83 @@ jQuery(document).ready(function main() {
                     property    = style.getPropertyValue('--duration').replace(/\s/g, ''),
                     unit        = property.replace(/[.\d]/g, ''),
                     time        = parseFloat(property.replace(unit, ''));
-
-                console.log('root-property', typeof property, '"' + property + '"');
-                console.log('unit', typeof unit, '"' + unit + '"');
-                console.log('time', typeof time, '"' + time + '"');
-                console.log('---');
-                console.log('time:', time, 'unit:', unit, '*', 'multiplier:', multipliers[unit], 'result:', (time * multipliers[unit]), 'ms');
-
+            
+                // console.log('root-property', typeof property, '"' + property + '"');
+                // console.log('unit', typeof unit, '"' + unit + '"');
+                // console.log('time', typeof time, '"' + time + '"');
+                // console.log('---');
+                // console.log('time:', time, 'unit:', unit, '*', 'multiplier:', multipliers[unit], 'result:', (time * multipliers[unit]), 'ms');
+            
                 return (time * multipliers[unit]);
             })();
-
+        
         popper.update();
-
+        
         if (popup.hasClass('fade')) {
             popup.css('display', 'block');
+            
             timeout = setTimeout(function () {
                 popup.removeClass('fade');
                 clearTimeout(timeout);
                 timeout = null;
+                
+                setTimeout(function () {
+                    utils.debounce.done(function () {
+                        console.log('done');
+                    });
+                }, delay);
             }, delay);
         } else {
-            popup.addClass('fade');
-
             timeout = setTimeout(function () {
-                popup.css('display', 'none');
-                clearTimeout(timeout);
-                timeout = null;
-            }, (duration + delay));
+                popup.addClass('fade');
+                
+                timeout = setTimeout(function () {
+                    popup.css('display', 'none');
+                    clearTimeout(timeout);
+                    timeout = null;
+                    
+                    setTimeout(function () {
+                        utils.debounce.done(function () {
+                            console.log('done');
+                        });
+                    }, delay);
+                }, (duration));
+            }, delay);
         }
     }
-
-    function debounce(fn, ms) {
-        let timer = null;
-
-        return function (...args) {
-            const onComplete = () => {
-                fn.apply(this, args);
-                timer = null;
-            };
-
-            if (timer) {
-                clearTimeout(timer);
-            }
-
-            timer = setTimeout(onComplete, ms);
-        };
-    }
 });
+
+let utils = {
+    debounce: (function () {
+        let inProgress = false,
+            counter    = 1,
+            check      = function (fn) {
+                return $.type(fn) === 'function';
+            };
+        
+        return {
+            run : function (callback) {
+                return function () {
+                    if (!inProgress) {
+                        inProgress = true;
+                        
+                        if (callback && check(callback)) {
+                            console.log('run fn');
+                            callback.apply(null, arguments);
+                        }
+                    } else {
+                        console.log('bounce', counter++);
+                    }
+                }
+            },
+            done: function (callback) {
+                inProgress = false;
+                counter = 1;
+                
+                if (callback && check(callback)) {
+                    callback.apply(this, arguments);
+                }
+            }
+        }
+    })()
+};
