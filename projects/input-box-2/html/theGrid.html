@@ -3,27 +3,27 @@
 <head>
     <style>
         .grid-container {
-            display:               grid;
+            display: grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-gap:              2px;
-            padding:               2px;
-            grid-auto-rows:        minmax(35px, auto);
-            justify-content:       center;
-            align-items:           center;
-            background-color:      #2196F3;
+            grid-gap: 2px;
+            padding: 2px;
+            grid-auto-rows: minmax(35px, auto);
+            justify-content: center;
+            align-items: center;
+            background-color: #2196F3;
         }
 
         .grid-container div {
-            display:          flex;
-            align-items:      center;
-            justify-content:  center;
-            height:           100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
             background-color: rgba(255, 255, 255, 0.8);
         }
 
         .grid-container [class|="item"] {
             font-size: 25px;
-            color:     red;
+            color: red;
         }
 
         .item-01 {
@@ -32,45 +32,78 @@
         }
 
         /*----------------------------------*/
-        .info {
-            width:           300px;
-            height:          30px;
-
-            margin-left:     auto;
-            margin-right:    auto;
-            margin-top:      10px;
-            border:          3px solid #2196F3;
-
-            display:         flex;
-            flex-direction:  row;
+        .info,
+        .scroll-container:before,
+        .scroll-container:after {
+            display: flex;
+            flex-direction: row;
             justify-content: center;
-            align-items:     center;
+            align-items: center;
+        }
+
+        .info {
+            max-width: 300px;
+            max-height: 30px;
+
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 10px;
+            border: 3px solid #2196F3;
+        }
+
+        .info:empty {
+            border: 0;
         }
 
         .scroll-container {
-            max-width:    300px;
-            max-height:   150px;
-            margin-left:  auto;
+            max-width: 300px;
+            max-height: 150px;
+            margin-top: 10px;
+            margin-left: auto;
             margin-right: auto;
-            border:       3px solid #2196F3;
-            overflow-y:   auto;
+            border: 3px solid #2196F3;
+            overflow-y: auto;
+
+            position: absolute;
+        }
+
+        .scroll-container:before, .scroll-container:after {
+            position: fixed;
+            z-index: 100;
+
+            background-color: rgba(128, 128, 128, .3);
+
+            width: 100%;
+            height: 30px;
+        }
+
+        .scroll-container:before {
+            content: 'top-before';
+            top: 0;
+            left: 0;
+        }
+
+        .scroll-container:after {
+            content: 'top-after';
+            bottom: 0;
+            left: 0;
         }
 
         .scroll-container .item {
             /*box-sizing:      content-box = padding-box; !* 10 + 30 + 10*!*/
-            box-sizing:      border-box; /* 30 */
-            display:         flex;
-            flex-direction:  column;
+            box-sizing: border-box; /* 30 */
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items:     center;
-            height:          30px;
-            padding:         10px;
+            align-items: center;
+            height: 30px;
+            padding: 10px;
         }
 
         .scroll-container .item:focus {
-            outline:          0;
+            outline: 0;
             background-color: tomato;
-            color:            white;
+            color: white;
         }
     </style>
     <title>G R I D</title>
@@ -118,18 +151,50 @@
         <div class="item" tabindex="13">Item 13</div>
         <div class="item" tabindex="14">Item 14</div>
         <div class="item" tabindex="15">Item 15</div>
+        <div class="item" tabindex="16">Item 16</div>
+        <div class="item" tabindex="17">Item 17</div>
+        <div class="item" tabindex="18">Item 18</div>
+        <div class="item" tabindex="19">Item 19</div>
+        <div class="item" tabindex="20">Item 20</div>
+        <div class="item" tabindex="21">Item 21</div>
+        <div class="item" tabindex="22">Item 22</div>
+        <div class="item" tabindex="23">Item 23</div>
+        <div class="item" tabindex="24">Item 24</div>
+        <div class="item" tabindex="25">Item 25</div>
     </div>
     <div class="info"></div>
     <div class="info"></div>
-    <!-- jQuery -->
+    <div class="info"></div>
+    <div class="info"></div>
+    <!--</editor-fold>-->
+    <!--<editor-fold desc="Scripts">-->
     <script src="../../../_lib/new/jquery-3.3.1/jquery.js"></script>
     <script>
         (function () {
             let ref  = $('.scroll-container'),
-                info = $('.info');
-            $('.scroll-container').on('scroll', function () {
-                info.eq(0).text('scroll-top: ' + $(this).scrollTop() + ' of ' + $(this).height());
+                info = $('.info'),
+                focused;
+
+            ref.on('scroll', function () {
+                info.eq(0).text('scroll-top: ' + $(this).scrollTop());
+
+                if (focused && focused.length) {
+                    info.eq(2).text('Position: ' + focused.position().top + ', Offset: ' + focused.offset().top);
+                }
+
+                $(this).find('.item').each(function () {
+                    if ($(this).position().top < 13) {
+                        $(this).animate({opacity: .1}, 150);
+                    }
+
+                    info.eq(3).text($(this).position().top);
+                });
             });
+
+            ref.find('.item').on('focus', function () {
+                focused = $(this);
+            });
+
             $(document).on('mousemove', function (event) {
                 info.eq(1).text('X: ' + event.pageX + ', Y: ' + event.pageY);
             });
