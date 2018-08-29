@@ -2,28 +2,32 @@
 <html lang="en">
 <head>
     <style>
+        :root {
+            --box-height: 300px;
+        }
+
         .grid-container {
-            display: grid;
+            display:               grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-gap: 2px;
-            padding: 2px;
-            grid-auto-rows: minmax(35px, auto);
-            justify-content: center;
-            align-items: center;
-            background-color: #2196F3;
+            grid-gap:              2px;
+            padding:               2px;
+            grid-auto-rows:        minmax(35px, auto);
+            justify-content:       center;
+            align-items:           center;
+            background-color:      #2196F3;
         }
 
         .grid-container div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
+            display:          flex;
+            align-items:      center;
+            justify-content:  center;
+            height:           100%;
             background-color: rgba(255, 255, 255, 0.8);
         }
 
         .grid-container [class|="item"] {
             font-size: 25px;
-            color: red;
+            color:     red;
         }
 
         .item-01 {
@@ -35,20 +39,20 @@
         .info,
         .scroll-container:before,
         .scroll-container:after {
-            display: flex;
-            flex-direction: row;
+            display:         flex;
+            flex-direction:  row;
             justify-content: center;
-            align-items: center;
+            align-items:     center;
         }
 
         .info {
-            max-width: 300px;
-            max-height: 30px;
+            max-width:    300px;
+            max-height:   30px;
 
-            margin-left: auto;
+            margin-left:  auto;
             margin-right: auto;
-            margin-top: 10px;
-            border: 3px solid #2196F3;
+            margin-top:   10px;
+            border:       3px solid #2196F3;
         }
 
         .info:empty {
@@ -56,55 +60,59 @@
         }
 
         .scroll-container {
-            max-width: 300px;
-            max-height: 150px;
-            margin-top: 10px;
-            margin-left: auto;
+            width:        300px;
+            max-height:   var(--box-height);
+            margin-top:   100px;
+            margin-left:  auto;
             margin-right: auto;
-            border: 3px solid #2196F3;
-            overflow-y: auto;
-
-            position: absolute;
+            border:       3px solid #2196F3;
+            overflow-y:   auto;
+            position:     relative;
         }
 
         .scroll-container:before, .scroll-container:after {
-            position: fixed;
-            z-index: 100;
+            position:         fixed;
+            z-index:          100;
 
             background-color: rgba(128, 128, 128, .3);
 
-            width: 100%;
-            height: 30px;
+            width:            inherit;
+            height:           30px;
         }
 
         .scroll-container:before {
-            content: 'top-before';
-            top: 0;
-            left: 0;
+            /*content:    'top-before';*/
+            content:    '';
+
+            /*background: linear-gradient(to top, rgba(0, 255, 255, 0) 0%, rgba(0, 255, 255, 1) 150%);*/
+            background: linear-gradient(to top, transparent 0, white 50%);
+            border-bottom: 1px solid #2196F3;
         }
 
         .scroll-container:after {
-            content: 'top-after';
-            bottom: 0;
-            left: 0;
+            content:    '';
+            top:        calc(300px + 100px - 30px + 3px);
+            /*left:    0;*/
+            background: linear-gradient(to bottom, rgba(0, 255, 255, 0) 0%, rgba(0, 255, 255, 1) 150%);
         }
 
         .scroll-container .item {
             /*box-sizing:      content-box = padding-box; !* 10 + 30 + 10*!*/
-            box-sizing: border-box; /* 30 */
-            display: flex;
-            flex-direction: column;
+            box-sizing:      border-box; /* 30 */
+            display:         flex;
+            flex-direction:  column;
             justify-content: center;
-            align-items: center;
-            height: 30px;
-            padding: 10px;
+            align-items:     center;
+            height:          30px;
+            padding:         10px;
         }
 
         .scroll-container .item:focus {
-            outline: 0;
+            outline:          0;
             background-color: tomato;
-            color: white;
+            color:            white;
         }
+
     </style>
     <title>G R I D</title>
 </head>
@@ -175,21 +183,21 @@
                 info = $('.info'),
                 focused;
 
-            ref.on('scroll', function () {
-                info.eq(0).text('scroll-top: ' + $(this).scrollTop());
-
-                if (focused && focused.length) {
-                    info.eq(2).text('Position: ' + focused.position().top + ', Offset: ' + focused.offset().top);
-                }
-
-                $(this).find('.item').each(function () {
-                    if ($(this).position().top < 13) {
-                        $(this).animate({opacity: .1}, 150);
-                    }
-
-                    info.eq(3).text($(this).position().top);
-                });
-            });
+            // ref.on('scroll', function () {
+            //     info.eq(0).text('scroll-top: ' + $(this).scrollTop());
+            //
+            //     if (focused && focused.length) {
+            //         info.eq(2).text('Position: ' + focused.position().top + ', Offset: ' + focused.offset().top);
+            //     }
+            //
+            //     $(this).find('.item').each(function () {
+            //         if ($(this).position().top < 13) {
+            //             $(this).animate({opacity: .1}, 150);
+            //         }
+            //
+            //         info.eq(3).text($(this).position().top);
+            //     });
+            // });
 
             ref.find('.item').on('focus', function () {
                 focused = $(this);
