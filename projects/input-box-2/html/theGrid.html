@@ -8,12 +8,7 @@
             --item-height:  30px;
             --scroll-width: 17px;
             --margin-top:   100px;
-            --border-width: 3px;
-        }
-
-        hr {
-            padding: 0;
-            margin:  0;
+            --border-width: 1px;
         }
 
         .grid-container {
@@ -46,7 +41,7 @@
         }
 
         /*----------------------------------*/
-        .info, .scroll-container:before, .scroll-container:after {
+        .info, .scroll-container:before, .scroll-container:after, .item {
             display:         flex;
             flex-direction:  row;
             justify-content: center;
@@ -78,34 +73,52 @@
             position:     relative;
         }
 
-        .scroll-container:before, .scroll-container:after {
-            content:  '';
+        /*.scroll-container:before, .scroll-container:after {*/
+        /*content:  '';*/
 
-            position: fixed;
-            z-index:  100;
+        /*position: fixed;*/
+        /*z-index:  0;*/
 
-            width:    calc(var(--box-width) - var(--scroll-width));
-            height:   var(--item-height);
+        /*width:    calc(var(--box-width) - var(--scroll-width));*/
+        /*height:   var(--item-height);*/
+        /*}*/
+
+        /*.scroll-container:before {*/
+        /*background: linear-gradient(to top, transparent 25%, white 90%, white 90%, white 100%);*/
+        /*border-bottom: 1px solid firebrick;*/
+        /*}*/
+
+        /*.scroll-container:after {*/
+        /*top:        calc(var(--margin-top) + var(--box-height) - var(--item-height) + var(--border-width));*/
+        /*background: linear-gradient(to bottom, transparent 25%, white 90%, white 90%, white 100%);*/
+        /*border-top: 1px solid firebrick;*/
+        /*}*/
+
+        /* width */
+        .scroll-container::-webkit-scrollbar {
+            width: 10px;
         }
 
-        .scroll-container:before {
-            background: linear-gradient(to top, transparent 25%, white 90%, white 90%, white 100%);
+        /*!* Track *!*/
+        /*.scroll-container::-webkit-scrollbar-track {*/
+        /*background: #f1f1f1;*/
+        /*}*/
+
+        /*!* Handle *!*/
+        .scroll-container::-webkit-scrollbar-thumb {
+            background: #888;
         }
 
-        .scroll-container:after {
-            top:        calc(var(--margin-top) + var(--box-height) - var(--item-height) + var(--border-width));
-            background: linear-gradient(to bottom, transparent 25%, white 90%, white 90%, white 100%);
-        }
+        /*!* Handle on hover *!*/
+        /*.scroll-container::-webkit-scrollbar-thumb:hover {*/
+        /*background: #555;*/
+        /*}*/
 
         .scroll-container .item {
-            /*box-sizing:      content-box = padding-box; !* 10 + 30 + 10*!*/
-            box-sizing:      border-box; /* 30 */
-            display:         flex;
-            flex-direction:  column;
-            justify-content: center;
-            align-items:     center;
-            height:          var(--item-height);
-            padding:         10px;
+            box-sizing: border-box; /* 30 */
+            color:      #555;
+            height:     var(--item-height);
+            padding:    10px;
         }
 
         .scroll-container .item:focus {
@@ -171,11 +184,10 @@
         <div class="item" tabindex="24">Item 24</div>
         <div class="item" tabindex="25">Item 25</div>
     </div>
+    <div class="info" title="Click on Scroll-container"></div>
+    <div class="info" title="Mousemove on window"></div>
     <div class="info"></div>
     <div class="info"></div>
-    <div class="info"></div>
-    <div class="info"></div>
-    <hr>
     <div class="info"></div>
     <div class="info"></div>
     <!--</editor-fold>-->
@@ -197,22 +209,17 @@
                 })();
 
             ref.on('scroll', function () {
+                let currentTopItem    = ($(this).scrollTop() + height.item) / height.item,
+                    currentBottomItem = ($(this).scrollTop() + (height.item * 5)) / height.item;
+
                 info.eq(2).text('scroll-top: ' + $(this).scrollTop());
 
                 if (focused && focused.length) {
                     info.eq(3).text('Position: ' + focused.position().top + ', Offset: ' + focused.offset().top);
                 }
 
-                info.eq(4).text('nearest to top: ' + (Math.floor(($(this).scrollTop() + height.item) / height.item)));
-                info.eq(5).text('nearest to bottom: ' + (Math.floor(($(this).scrollTop() + height.box) / height.item)));
-
-                //     $(this).find('.item').each(function () {
-                //         if ($(this).position().top < 13) {
-                //             $(this).animate({opacity: .1}, 150);
-                //         }
-                //
-                //         info.eq(3).text($(this).position().top);
-                //     });
+                info.eq(4).text('nearest to top: ' + currentTopItem);
+                info.eq(5).text('nearest to bottom: ' + currentBottomItem);
             });
 
             ref.on('click', function (e) {
