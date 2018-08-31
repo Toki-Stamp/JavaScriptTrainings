@@ -1,31 +1,63 @@
 :root {
-    --border-color:     rgb(204, 204, 204);
-    --background-color: rgb(248, 248, 248);
-    --box-height:       34px;
-    --empty-message:    'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
-    --duration:         .25s;
-    --shadow:           0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-    --shadow-2:         0 0 6px rgba(168, 168, 168, .5);
+    --border-color:       rgb(204, 204, 204);
+    --background-color-1: rgb(255, 255, 255);
+    --background-color-2: rgb(248, 248, 248);
+    --color:              rgb(85, 85, 85);
+    --box-height:         34px;
+    --empty-message:      'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
+    --duration:           .25s;
+    --time-fn:            ease-in-out;
+    --shadow:             0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    --shadow-2:           0 0 6px rgba(168, 168, 168, .5);
 }
 
-.box {
-    min-width:     104px;
-    min-height:    var(--box-height);
+@font-face {
+    font-family: 'FontAwesome';
+    src:         url('../../../_lib/new/font-awesome-5.3.1/Font Awesome 5 Free-Regular-400.otf') format('opentype');
+}
 
-    cursor:        default;
+.x-box {
+    display:                flex;
+    flex-direction:         row;
+    flex-wrap:              wrap;
+    justify-content:        flex-start;
+    align-content:          center;
+    min-width:              104px;
+    min-height:             var(--box-height);
+    border:                 1px solid var(--border-color);
+    background-color:       var(--background-color-1);
+    border-radius:          4px;
+    user-select:            none;
+    font-size:              14px;
+    padding:                4px 30px 4px 4px;
+    color:                  var(--color);
+    /*box-shadow:             var(--shadow-2);*/
+    transition:             all var(--duration) var(--time-fn);
+    position:               relative;
+    font-style:             normal;
+    font-variant:           normal;
+    text-rendering:         auto;
+    -webkit-font-smoothing: antialiased;
+}
 
-    border:        1px solid var(--border-color);
-    border-radius: 4px;
+.x-box:after {
+    width:       30px;
+    height:      var(--box-height);
+    content:     '\f044';
+    font-family: 'FontAwesome';
+    position:    absolute;
+    font-size:   15px;
+    color:       var(--border-color);
+    top: 0;
+    right:       0;
+    transition:  all var(--duration) var(--time-fn);
+}
 
-    user-select:   none;
-    font-size:     14px;
+.x-box:hover, .x-box:focus {
+    outline:    none;
+    box-shadow: var(--shadow);
+}
 
-    line-height:   calc(var(--box-height) - 12px);
-    padding:       4px;
-
-    color:         rgb(85, 85, 85);
-
-    box-shadow:    var(--shadow-2);
-
-    transition:    all .25s ease-in-out;
+.x-box:hover:after, .x-box:focus:after {
+    color: var(--color);
 }
