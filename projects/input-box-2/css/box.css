@@ -16,22 +16,42 @@
     src:         url('../../../_lib/new/font-awesome-5.3.1/Font Awesome 5 Free-Regular-400.otf') format('opentype');
 }
 
+@font-face {
+    font-family: 'FiraMono';
+    src:         url('../../../_lib/new/fonts/FiraMono-Medium.ttf') format('truetype');
+}
+
+body {
+    margin:  0;
+    padding: 0;
+}
+
+.x-box, .x-box * {
+    font-size:   16px !important;
+    font-family: 'FiraMono', monospace;
+    padding:     0;
+    margin:      0;
+}
+
+.x-box, .x-box:after {
+    display:         flex;
+    flex-direction:  row;
+    flex-wrap:       wrap;
+    justify-content: start;
+    align-content:   center;
+}
+
 .x-box {
-    display:                flex;
-    flex-direction:         row;
-    flex-wrap:              wrap;
-    justify-content:        flex-start;
-    align-content:          center;
     min-width:              104px;
     min-height:             var(--box-height);
-    border:                 1px solid var(--border-color);
+    border:                 2px solid var(--border-color);
     background-color:       var(--background-color-1);
     border-radius:          4px;
     user-select:            none;
     font-size:              14px;
-    padding:                4px 30px 4px 4px;
-    color:                  var(--color);
-    /*box-shadow:             var(--shadow-2);*/
+    padding:                4px 30px 4px 8px;
+    margin-bottom:          8px;
+    color:                  var(--border-color);
     transition:             all var(--duration) var(--time-fn);
     position:               relative;
     font-style:             normal;
@@ -41,23 +61,44 @@
 }
 
 .x-box:after {
-    width:       30px;
-    height:      var(--box-height);
-    content:     '\f044';
-    font-family: 'FontAwesome';
-    position:    absolute;
-    font-size:   15px;
-    color:       var(--border-color);
-    top: 0;
-    right:       0;
-    transition:  all var(--duration) var(--time-fn);
+    content:         '\f044';
+    font-family:     'FontAwesome';
+
+    display:         flex;
+    flex-direction:  row;
+    flex-wrap:       wrap;
+    justify-content: center;
+    align-content:   center;
+
+    width:           30px;
+    height:          var(--box-height);
+    padding-top:     1px;
+    padding-bottom:  2px;
+    position:        absolute;
+    font-size:       19px;
+    color:           var(--border-color);
+    top:             0;
+    right:           0;
+    transition:      all var(--duration) var(--time-fn);
 }
 
 .x-box:hover, .x-box:focus {
-    outline:    none;
-    box-shadow: var(--shadow);
+    color:        var(--color);
+    box-shadow:   var(--shadow);
+    border-color: var(--color);
 }
 
-.x-box:hover:after, .x-box:focus:after {
+.x-box:hover:after {
     color: var(--color);
 }
+
+.x-box:focus {
+    outline:    none;
+    border:     2px solid rgb(102, 175, 233);
+    transition: all var(--duration) var(--time-fn);
+}
+
+.x-box:focus:after {
+    color: rgb(102, 175, 233);
+}
+
