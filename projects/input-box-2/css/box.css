@@ -13,7 +13,8 @@
 
 @font-face {
     font-family: 'FontAwesome';
-    src:         url('../../../_lib/new/font-awesome-5.3.1/Font Awesome 5 Free-Regular-400.otf') format('opentype');
+    /*src:         url('../../../_lib/new/font-awesome-5.3.1/Font Awesome 5 Free-Regular-400.otf') format('opentype');*/
+    src:         url('../../../_lib/new/font-awesome-4.7.0/FontAwesome.otf') format('opentype');
 }
 
 .x-box {
@@ -46,9 +47,9 @@
     content:     '\f044';
     font-family: 'FontAwesome';
     position:    absolute;
-    font-size:   15px;
+    font-size:   25px;
     color:       var(--border-color);
-    top: 0;
+    top:         0;
     right:       0;
     transition:  all var(--duration) var(--time-fn);
 }
