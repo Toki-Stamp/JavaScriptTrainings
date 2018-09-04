@@ -9,14 +9,14 @@ jQuery(document).ready(function main() {
         btns      = $('button'),
         input     = $('input'),
         reference = $('.datepicker-container.v1'),
-        popup     = $('.x-datepicker-popup').css('display', 'none'),
-        popper    = new Popper(reference, popup, {
-            placement    : 'top-start',
-            eventsEnabled: false,
-            onCreate     : function (data) {
-                console.log(data);
-            }
-        });
+        popup     = $('.x-datepicker-popup');
+    // popper    = new Popper(reference, popup, {
+    //     placement    : 'top-start',
+    //     eventsEnabled: false,
+    //     onCreate     : function (data) {
+    //         console.log(data);
+    //     }
+    // });
     
     remove.on('click', function () {
         let parent      = $(this).parent(),
