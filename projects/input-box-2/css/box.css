@@ -1,37 +1,36 @@
 :root {
-    --border-color:       rgb(204, 204, 204);
+    --border-color-1:     rgb(204, 204, 204);
+    --border-color-2:     rgb(102, 175, 233);
+    --border-width:       1px;
     --background-color-1: rgb(255, 255, 255);
     --background-color-2: rgb(248, 248, 248);
     --color:              rgb(85, 85, 85);
     --box-height:         34px;
     --empty-message:      'Контейнер пуст... Пожалуйста, заполните контейнер необходимым содержимым!';
-    --duration:           .25s;
+    --duration:           1.15s;
     --time-fn:            ease-in-out;
-    --shadow:             0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-    --shadow-2:           0 0 6px rgba(168, 168, 168, .5);
+    --shadow-1:           0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    --shadow-2:           0 0 0.625rem -0.125rem rgba(0, 0, 0, .5);
 }
 
 @font-face {
-    font-family: 'FontAwesome';
-    /*src:         url('../../../_lib/new/font-awesome-5.3.1/Font Awesome 5 Free-Regular-400.otf') format('opentype');*/
+    font-family: 'Font Awesome 4.7';
     src:         url('../../../_lib/new/font-awesome-4.7.0/FontAwesome.otf') format('opentype');
 }
 
 @font-face {
-    font-family: 'FiraMono';
-    src:         url('../../../_lib/new/fonts/FiraMono-Medium.ttf') format('truetype');
+    font-family: 'Font Awesome 5.3';
+    src:         url('../../../_lib/new/font-awesome-5.3.1/Font Awesome 5 Free-Regular-400.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Fira Mono Regular';
+    src:         url('../../../_lib/new/fonts/FiraMono-Regular.ttf') format('truetype');
 }
 
 body {
     margin:  0;
     padding: 0;
-}
-
-.x-box, .x-box * {
-    font-size:   16px !important;
-    font-family: 'FiraMono', monospace;
-    padding:     0;
-    margin:      0;
 }
 
 .x-box, .x-box:after {
@@ -45,15 +44,15 @@ body {
 .x-box {
     min-width:              104px;
     min-height:             var(--box-height);
-    border:                 2px solid var(--border-color);
+    border:                 var(--border-width) solid var(--border-color-1);
     background-color:       var(--background-color-1);
     border-radius:          4px;
     user-select:            none;
     font-size:              14px;
     padding:                4px 30px 4px 8px;
+    margin-top:             8px;
     margin-bottom:          8px;
-    color:                  var(--border-color);
-    transition:             all var(--duration) var(--time-fn);
+    color:                  var(--border-color-1);
     position:               relative;
     font-style:             normal;
     font-variant:           normal;
@@ -63,43 +62,35 @@ body {
 
 .x-box:after {
     content:         '\f044';
-    font-family:     'FontAwesome';
+    font-family:     'Font Awesome 4.7', monospace;
 
-    display:         flex;
-    flex-direction:  row;
-    flex-wrap:       wrap;
     justify-content: center;
-    align-content:   center;
 
     width:           30px;
     height:          var(--box-height);
-    padding-top:     1px;
-    padding-bottom:  2px;
     position:        absolute;
-    font-size:       19px;
+    font-size:       21px;
     color:           var(--border-color);
-    top:             0;
+    top:             2px;
     right:           0;
-    transition:      all var(--duration) var(--time-fn);
 }
 
 .x-box:hover, .x-box:focus {
     color:        var(--color);
-    box-shadow:   var(--shadow);
     border-color: var(--color);
+    box-shadow: var(--shadow-2);
 }
 
 .x-box:hover:after {
-    color: var(--color);
+    color:      var(--color);
 }
 
 .x-box:focus {
-    outline:    none;
-    border:     2px solid rgb(102, 175, 233);
-    transition: all var(--duration) var(--time-fn);
+    outline: none;
+    border:  var(--border-width) solid var(--border-color-2);
 }
 
 .x-box:focus:after {
-    color: rgb(102, 175, 233);
+    color: var(--border-color-2);
 }
 
