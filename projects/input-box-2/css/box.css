@@ -78,7 +78,7 @@ body {
 .x-box:hover, .x-box:focus {
     color:        var(--color);
     border-color: var(--color);
-    box-shadow: var(--shadow-2);
+    box-shadow: var(--shadow-1);
 }
 
 .x-box:hover:after {
@@ -94,3 +94,48 @@ body {
     color: var(--border-color-2);
 }
 
+/*---*/
+#loading {
+    cursor: wait;
+    display: none;
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .2);
+}
+
+#loading > div {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#loading > div, #loading > div > img {
+    transform: scale(.3);
+    opacity: 0;
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    animation-name: zoom-in;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+    animation-timing-function: ease-in;
+    animation-duration: .25s;
+}
+
+@keyframes zoom-in {
+    to {
+        opacity: .5;
+        transform: scale(.8);
+    }
+}
