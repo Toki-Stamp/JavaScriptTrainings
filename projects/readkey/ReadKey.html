@@ -3,27 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>ReadKey</title>
+    <style>
+        code {
+            font-weight:      bold;
+            color:            white;
+            background-color: lightcoral;
+            padding:          2px;
+            border-radius:    4px;
+            box-shadow:       0 0 0.625rem -0.125rem rgba(0, 0, 0, .5);
+        }
+    </style>
 </head>
 <body>
     <script>
-        document.onkeydown = function readKey(event) {
+        document.onkeydown = function readKey(e) {
             var inputs = document.getElementsByTagName('input'),
                 labels = document.getElementsByTagName('label'),
+                event  = e || window.event,
                 keyCode,
                 key,
-                code;
+                code,
+                ctrl;
+
             if (event) {
                 keyCode = event.keyCode;
-                key = event.key;
-                code = event.code;
+                key     = event.key;
+                code    = event.code;
+                ctrl    = event.ctrlKey;
+
+                if (ctrl && (parseInt(keyCode, 10) === 112)) {
+                    alert('Voilà!');
+                }
             } else {
                 keyCode = key = code = 'empty';
             }
-            inputs[0].value = keyCode;
+
+            inputs[0].value       = keyCode;
             labels[0].textContent = 'KeyCode (' + (typeof keyCode) + ')';
-            inputs[1].value = '"' + key + '"';
+            inputs[1].value       = '"' + key + '"';
             labels[1].textContent = 'Key (' + (typeof key) + ')';
-            inputs[2].value = '"' + code + '"';
+            inputs[2].value       = '"' + code + '"';
             labels[2].textContent = 'Code (' + (typeof code) + ')';
         }
     </script>
@@ -40,5 +59,7 @@
         <label for="output-code">Code:</label>
         <input id="output-code" type="text" tabindex="-1" readonly/>
     </form>
+    <br>
+    <small>Try to press <code>Ctrl+F1</code> keys combination, it's a pure magic!</small>
 </body>
 </html>
