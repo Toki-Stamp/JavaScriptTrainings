@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tree</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="../icon/favicon-2.png"/>
+    <!------------------------- CSS ----------------------------->
+    <!-- Bootstrap -->
+    <link href="../../../_lib/css/bootstrap.css" rel="stylesheet">
+    <!-- jQuery UI -->
+    <link href="../../../_lib/css/jquery-ui.css" rel="stylesheet">
+    <!-- Custom CSS goes below -->
+    <link href="../css/tree-style.css" rel="stylesheet">
+    <!------------------------- CSS ----------------------------->
+</head>
+<body>
+    <!------------------------- Main ---------------------------->
+    <div class="wrapper">
+        <div class="block tree-container"></div>
+        <div class="block table-container">
+            <div id="div_20018491749" class="divCharacteristics selectedDiv">
+                <table id="div_">
+                    <tbody id="nameAndLiter_">
+                        <tr>
+                            <td>Наименование</td>
+                            <td><input type="text" class="form-control" title="Строка 1024 символа"
+                                       data-expression="^([^\s].{0,1024})$" id="nameOfObject_20018491749" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Литер</td>
+                            <td><input type="text" class="form-control"
+                                       title="Строка 16 символов, может содержать только: буквы русского алфавита срочные и заглавные, кроме букв «Ё», «З», «Й», «О», «Щ», «Ь», «Ъ», «Ы», «ё», «й», «щ», «ь», «ъ», «ы» арабские цифры 0-9, символы «.», «-», «/», «(», «)»"
+                                       data-expression="^([а-ежзик-шэ-яА-ЕЖИК-НП-ШЭ-Я0-9.\-/()]{1,16})$"
+                                       id="literOfObject_20018491749" value="БС-1-К1"></td>
+                        </tr>
+                    </tbody>
+                    <tbody id="is-expl-div">
+                        <tr>
+                            <td colspan="2">
+                                <label for="is-expl_20018491749">
+                                    <input type="checkbox" id="is-expl_20018491749">
+                                    Включить экспликацию
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="table_">
+                        <tr>
+                            <th scope="rowgroup" colspan="2">Основные характеристики</th>
+                        </tr>
+                        <tr>
+                            <td>Количество путей, шт.</td>
+                            <td><input type="text" class="form-control exitData" id="12"
+                                       title="Целое число от 0 до 99 999"
+                                       data-multi="false" data-charid="112" data-expression="^(\d|[0-9]\d{1,4})$"
+                                       data-expressionid="9"></td>
+                        </tr>
+                        <tr>
+                            <td>Местоположение</td>
+                            <td><input type="text" class="form-control exitData" id="11" title="Строка 1024 символа"
+                                       data-multi="false" data-charid="170" data-expression="^([^\s].{0,1024})$"
+                                       data-expressionid="39"></td>
+                        </tr>
+                    </tbody>
+                    <tbody id="tableOfAdditionalFeatures_">
+                        <tr>
+                            <th scope="rowgroup" colspan="2">Дополнительные характеристики</th>
+                        </tr>
+                        <tr>
+                            <th scope="rowgroup" colspan="2">
+                                <button class="btn btn-warning">
+                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Добавить
+                                </button>
+                                <button class="btn btn-danger">
+                                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Удалить
+                                </button>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Виды дополнительных конструктивных элементов</td>
+                            <td>
+                                <select class="btn-block exitData js-example-basic-multiple" id="33" data-multi="false"
+                                        data-charid="40" tabindex="-1">
+                                    <option value="10300">Французский балкон(ы)</option>
+                                    <option value="90000">Наружная(ые) лестница(ы)</option>
+                                    <option value="100000">Наружная теплоизоляция</option>
+                                    <option value="110000">Рампа(ы)</option>
+                                    <option value="120000">Вход в подвал</option>
+                                    <option value="130000">Входная группа</option>
+                                    <option value="140000">Опоры</option>
+                                    <option value="140100">Колонны</option>
+                                    <option value="150000">Фонарь</option>
+                                    <option value="990300">Предусмотренно проектом</option>
+                                    <option value="160000">Смотровая яма</option>
+                                    <option value="10000">Балкон(ы)</option>
+                                    <option value="10100">Балкон(ы) без остекления</option>
+                                    <option value="10200">Балкон(ы) с остеклением</option>
+                                    <option value="20000">Лоджия(и) без остекления</option>
+                                    <option value="20100">Лоджия(и) с остеклением</option>
+                                    <option value="30000">Терраса(ы)</option>
+                                    <option value="40000">Крыльцо(а)</option>
+                                    <option value="40100">Пандус(ы)</option>
+                                    <option value="50000">Приямок(ки)</option>
+                                    <option value="60000">Отмостка</option>
+                                    <option value="70000">Железнодорожный(е) путь(и)</option>
+                                    <option value="80000">Подкрановый(е) путь(и)</option>
+                                    <option value="990100">Нет</option>
+                                    <option value="990200">Нет сведений</option>
+                                    <option value="170000">Вход в цокольный этаж</option>
+                                    <option value="180000">Вход в техническое подполье</option>
+                                    <option value="190000">Вход в погреб</option>
+                                    <option value="200000">Бассейн</option>
+                                    <option value="210000">Дымоход</option>
+                                    <option value="220000">Стилобат(ы)</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <!--<tr>-->
+                            <!--<td>Стоимость выполненных работ, руб.</td>-->
+                            <!--<td><input type="text" class="form-control exitData" id="32"-->
+                                       <!--title="Целое число от 0 до 999 999 999 999" data-multi="false" data-charid="124"-->
+                                       <!--data-expression="^(\d|([1-9]\d{1,11}))$" data-expressionid="23"></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Наличие теплых полов</td>-->
+                            <!--<td>-->
+                                <!--<select class="btn-block exitData" id="31-1" data-multi="false" data-charid="33"-->
+                                        <!--title=""-->
+                                        <!--tabindex="-1">-->
+                                    <!--<option value="0">Нет</option>-->
+                                    <!--<option value="1">Да</option>-->
+                                <!--</select></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Наличие теплых полов</td>-->
+                            <!--<td>-->
+                                <!--<select class="btn-block exitData" id="31-2" data-multi="false" data-charid="33"-->
+                                        <!--title=""-->
+                                        <!--tabindex="-1">-->
+                                    <!--<option value="0">Нет</option>-->
+                                    <!--<option value="1">Да</option>-->
+                                <!--</select></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Наличие теплых полов</td>-->
+                            <!--<td>-->
+                                <!--<select class="btn-block exitData" id="31-3" data-multi="false" data-charid="33"-->
+                                        <!--title=""-->
+                                        <!--tabindex="-1">-->
+                                    <!--<option value="0">Нет</option>-->
+                                    <!--<option value="1">Да</option>-->
+                                <!--</select></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Наличие теплых полов</td>-->
+                            <!--<td>-->
+                                <!--<select class="btn-block exitData" id="31-4" data-multi="false" data-charid="33"-->
+                                        <!--title=""-->
+                                        <!--tabindex="-1">-->
+                                    <!--<option value="0">Нет</option>-->
+                                    <!--<option value="1">Да</option>-->
+                                <!--</select></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Наличие теплых полов</td>-->
+                            <!--<td>-->
+                                <!--<select class="btn-block exitData" id="31-5" data-multi="false" data-charid="33"-->
+                                        <!--title=""-->
+                                        <!--tabindex="-1">-->
+                                    <!--<option value="0">Нет</option>-->
+                                    <!--<option value="1">Да</option>-->
+                                <!--</select></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Наличие теплых полов</td>-->
+                            <!--<td>-->
+                                <!--<select class="btn-block exitData" id="31-6" data-multi="false" data-charid="33"-->
+                                        <!--title=""-->
+                                        <!--tabindex="-1">-->
+                                    <!--<option value="0">Нет</option>-->
+                                    <!--<option value="1">Да</option>-->
+                                <!--</select></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Площадь, кв.м</td>-->
+                            <!--<td><input type="text" class="form-control exitData" id="34-1"-->
+                                       <!--title="Десятичная дробь от 0.0 до 999 999.9" data-multi="false" data-charid="268"-->
+                                       <!--data-expression="^((\d|([1-9]\d{1,5}))\.\d)$" data-expressionid="11"></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Площадь, кв.м</td>-->
+                            <!--<td><input type="text" class="form-control exitData" id="34-2"-->
+                                       <!--title="Десятичная дробь от 0.0 до 999 999.9" data-multi="false" data-charid="268"-->
+                                       <!--data-expression="^((\d|([1-9]\d{1,5}))\.\d)$" data-expressionid="11"></td>-->
+                        <!--</tr>-->
+                        <!--<tr>-->
+                            <!--<td>Площадь, кв.м</td>-->
+                            <!--<td><input type="text" class="form-control exitData" id="34-3"-->
+                                       <!--title="Десятичная дробь от 0.0 до 999 999.9" data-multi="false" data-charid="268"-->
+                                       <!--data-expression="^((\d|([1-9]\d{1,5}))\.\d)$" data-expressionid="11"></td>-->
+                        <!--</tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="block tree-alerts-container"></div>
+    </div>
+    <!------------------------- Main ---------------------------->
+    <!------------------------- Scripts ------------------------->
+    <!-- jQuery -->
+    <script src="../../../_lib/js/jquery-3.2.1.js"></script>
+    <!--jQuery UI -->
+    <script src="../../../_lib/js/jquery-ui.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../../_lib/js/bootstrap.js"></script>
+    <!-- Custom js goes below -->
+    <script src="../js/tree-script.js"></script>
+    <!------------------------- Scripts ------------------------->
+</body>
+</html>

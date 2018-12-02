@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin:  0;
+}
+
+.slider {
+    display:         flex;
+    flex-direction:  row;
+    align-items:     center;
+    justify-content: center;
+    cursor:          pointer;
+}
+
+.item {
+    height:          100vh;
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    flex-basis:      25%;
+    transition:      all 500ms ease-in-out;
+}
+
+.item span {
+    font-size:   3rem;
+    font-family: 'Custom Font', monospace;
+    color:       white;
+    text-shadow: 0 0 5px aquamarine;
+    transition:  all 500ms ease-in-out;
+}
+
+.item:hover {
+    flex-basis: 70%;
+}
+
+.item:hover span {
+    animation: glow 2s ease-in-out infinite;
+}
+
+.item-1 {
+    background:      url("../image/img-1.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.item-2 {
+    background:      url("../image/img-2.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.item-3 {
+    background:      url("../image/img-3.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+.item-4 {
+    background:      url("../image/img-4.jpg") no-repeat center center;
+    background-size: cover;
+}
+
+@media (max-width: 640px) {
+    .slider {
+        height:    100vh;
+        flex-flow: column;
+    }
+
+    .item {
+        width:  100%;
+        height: 25vh;
+    }
+
+    .item:hover {
+        flex-grow: 30%;
+    }
+}
+
+@font-face {
+    font-family: 'Custom Font';
+    src:         url('../font/font-1.ttf') format('truetype');
+}
+
+@-webkit-keyframes glow {
+    0% {
+        text-shadow: 0 0 5px aquamarine;
+    }
+    50% {
+        text-shadow: 0 0 70px aquamarine;
+    }
+    100% {
+        text-shadow: 0 0 5px aquamarine;
+    }
+}
