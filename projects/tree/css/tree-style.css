@@ -100,7 +100,8 @@
 }
 
 .tree-container, .table-container {
-    height: calc(60vh - 15px);
+    /*height: calc(60vh - 15px);*/
+    height: calc(60% - 15px);
 }
 
 .block {
@@ -109,7 +110,8 @@
 }
 
 .tree-container {
-    width:  calc(40vw - 15px);
+    /*width:  calc(40vw - 15px);*/
+    width:  calc(40% - 15px);
     margin: 10px 5px 5px 10px;
 }
 
@@ -140,7 +142,8 @@
 .tree-alerts-container {
     position:   absolute;
     top:        60vh;
-    width:      calc(40vw - 15px);
+    /*width:      calc(40vw - 15px);*/
+    width:      calc(40% - 15px);
     margin:     10px 5px 10px 10px;
     height:     calc(40vh - 20px);
     overflow-y: auto;
