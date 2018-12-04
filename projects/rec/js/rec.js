@@ -12,12 +12,12 @@ const rec = (() => {
             return (function recursion(obj, pth) {
                 let prop = pth.shift();
 
-                if (!pth.length) {
-                    obj[prop] = value;
-                } else {
+                if (pth.length) {
                     obj[prop] = (obj[prop] || {});
 
                     recursion(obj[prop], pth);
+                } else {
+                    obj[prop] = value;
                 }
 
                 return result;
@@ -113,9 +113,10 @@ const rec = (() => {
     // }
 
     let oo1 = {goo: true, gle: false, 'level-1': {foo: true, bar: false}},
-        oo2;
+        oo2, oo3;
 
     oo2 = rec.setProperty(oo1, 'level-1.level-2.value', {e: 'eee', f: 'fff'}, true);
+    oo3 = rec.setProperty(oo2, 'the', 'horse', true);
 
-    console.log({oo1, oo2});
+    console.log({oo1, oo2, oo3});
 })();
