@@ -28,8 +28,8 @@ button.btn {
 }
 
 body {
-    width:            100vw;
-    height:           100vh;
+    width:  100vw;
+    height: 100vh;
     /*background-color: var(--color-1);*/
 }
 
@@ -86,8 +86,8 @@ body {
 }
 
 .tree-container .tree .test-content {
-    height:           2000px;
-    background-color: var(--color-3);
+    height:           1000px;
+    background-color: var(--color-1);
 }
 
 .chars {
@@ -115,12 +115,14 @@ body {
 /*}*/
 
 .grid-item::-webkit-scrollbar-track {
-    background-color: var(--color-0);
-    border-left:      1px solid var(--color-1);
+    background-color:           var(--color-0);
+    border-left:                1px solid var(--color-1);
+    border-top-right-radius:    4px;
+    border-bottom-right-radius: 4px;
 }
 
 .grid-item::-webkit-scrollbar-thumb {
-    background:   var(--color-2);
+    background:   var(--color-1);
     border:       1px solid var(--color-1);
     border-right: 0;
     /*border-radius: calc(var(--padding));*/
