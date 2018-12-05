@@ -13,8 +13,17 @@
     margin:     0;
 }
 
-button, input, select {
+input, select {
     height: var(--element-height);
+}
+
+button.btn {
+    font-size: 85%;
+    height:    calc(85% * var(--element-height));
+    padding:   var(--padding) calc(var(--padding) + 1px);
+    margin:    0;
+    /*padding-left:  ;*/
+    /*padding-right: calc(var(--padding));*/
 }
 
 body {
@@ -91,8 +100,8 @@ body {
 }
 
 /*.grid-item::-webkit-scrollbar-button {*/
-    /*height:      calc(var(--padding));*/
-    /*border-left: 1px solid var(--color-1);*/
+/*height:      calc(var(--padding));*/
+/*border-left: 1px solid var(--color-1);*/
 /*}*/
 
 .grid-item::-webkit-scrollbar-track {
@@ -101,9 +110,9 @@ body {
 }
 
 .grid-item::-webkit-scrollbar-thumb {
-    background:    var(--color-2);
-    border:        1px solid var(--color-1);
-    border-right:  0;
+    background:   var(--color-2);
+    border:       1px solid var(--color-1);
+    border-right: 0;
     /*border-radius: calc(var(--padding));*/
 }
 
