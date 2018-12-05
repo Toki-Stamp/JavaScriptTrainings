@@ -1,7 +1,10 @@
 :root {
-    --color-1: rgb(223, 223, 223);
-    --color-2: rgb(111, 111, 111);
-    --color-3: rgb(102, 175, 233);
+    --color-0:        rgb(255, 255, 255);
+    --color-1:        rgb(223, 223, 223);
+    --color-2:        rgb(111, 111, 111);
+    --color-3:        rgb(102, 175, 233);
+    --padding:        5px;
+    --element-height: 34px;
 }
 
 * {
@@ -10,56 +13,128 @@
     margin:     0;
 }
 
-.grid-container {
-    padding:               1em;
-    display:               grid;
-    grid-template-columns: 3fr 5fr;
-    grid-template-rows:    6fr 4fr;
-    grid-gap:              1em;
-    width:                 100vw;
-    height:                100vh;
+button, input, select {
+    height: var(--element-height);
 }
 
-.grid-container .grid-item {
-    padding:          1em;
+body {
+    width:            100vw;
+    height:           100vh;
     background-color: var(--color-1);
-    border:           1px solid var(--color-2);
 }
 
-.grid-container .grid-item.colored {
+.grid-container {
+    width:                 100%;
+    min-width:             calc(800px + (3 * var(--padding)));
+    height:                100%;
+    padding:               var(--padding);
+    display:               grid;
+    grid-template-columns: minmax(300px, 3fr) minmax(500px, 6fr);
+    /*grid-template-rows:    10% 60% 20% calc(10% - 15px);*/
+    /*grid-template-rows:    3fr 10fr 4fr 1fr;*/
+    grid-template-rows:    minmax(10%, 3fr) minmax(60%, 10fr) minmax(20%, 4fr) minmax(calc(10% - 15px), 1fr);
+    grid-gap:              var(--padding);
+}
+
+.grid-item {
+    padding:          var(--padding);
+    background-color: var(--color-0);
+    color:            var(--color-2);
+    border:           1px solid var(--color-1);
+}
+
+.header {
+    grid-column: 1 / span 2;
+    grid-row:    1;
+}
+
+.tree-container {
+    grid-column:        1;
+    grid-row:           2;
+    display:            grid;
+    grid-template-rows: 2fr 9fr;
+    grid-row-gap:       var(--padding);
+}
+
+.tree-container .controls {
+    display:            grid;
+    grid-template-rows: calc(var(--element-height) + (3 * var(--padding))) 1fr;
+    grid-row-gap:       var(--padding);
+}
+
+.tree-container .tree {
+    overflow-y: auto;
+}
+
+.tree-container .tree .test-content {
+    height:           2000px;
     background-color: var(--color-3);
 }
 
-.item-02 {
+.chars {
     grid-column: 2;
-    grid-row:    1 / span 2;
-    overflow-y:  auto;
+    grid-row:    2 / span 2;
+}
+
+.alerts {
+    grid-column: 1;
+    grid-row:    3;
+}
+
+.footer {
+    grid-column: 1 / span 2;
+    grid-row:    4;
 }
 
 .grid-item::-webkit-scrollbar {
-    width: .5em;
+    width: calc(var(--padding) * 2);
 }
 
+/*.grid-item::-webkit-scrollbar-button {*/
+    /*height:      calc(var(--padding));*/
+    /*border-left: 1px solid var(--color-1);*/
+/*}*/
+
 .grid-item::-webkit-scrollbar-track {
-    background-color: var(--color-3);
+    background-color: var(--color-0);
+    border-left:      1px solid var(--color-1);
 }
 
 .grid-item::-webkit-scrollbar-thumb {
-    background: var(--color-2);
+    background:    var(--color-2);
+    border:        1px solid var(--color-1);
+    border-right:  0;
+    /*border-radius: calc(var(--padding));*/
 }
 
-@media screen and (max-width: 700px) {
-    .grid-container {
-        padding:        0;
-        display:        flex;
-        width:          100vw;
-        height:         100vh;
-        flex-direction: row;
-        flex-wrap:      wrap;
-    }
+/*@media screen and (max-width: 815px) {*/
+/*.grid-container {*/
+/*!*width:                 calc(100% - 10px);*!*/
+/*display:               grid;*/
+/*grid-auto-rows:        auto;*/
+/*}*/
 
-    .grid-item {
-        width:  calc(100vw);
-        height: calc(100vh / 3);
-    }
-}
+/*.item-1, .item-2, .item-3, .item-4, .item-5 {*/
+/*grid-column: 1;*/
+/*}*/
+
+/*.item-1 {*/
+/*grid-row: 1;*/
+/*}*/
+
+/*.item-2 {*/
+/*grid-row: 2;*/
+/*}*/
+
+/*.item-3 {*/
+/*grid-row: 3;*/
+/*}*/
+
+/*.item-4 {*/
+/*grid-row: 4;*/
+/*}*/
+
+/*.item-5 {*/
+/*grid-row: 5;*/
+/*}*/
+/*}*/
