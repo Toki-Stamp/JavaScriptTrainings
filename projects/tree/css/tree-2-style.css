@@ -3,7 +3,7 @@
     --color-1:        rgb(223, 223, 223);
     --color-2:        rgb(111, 111, 111);
     --color-3:        rgb(102, 175, 233);
-    --padding:        5px;
+    --padding:        8px;
     --element-height: 34px;
 }
 
@@ -11,47 +11,34 @@
     box-sizing: border-box;
     padding:    0;
     margin:     0;
+    overflow: hidden;
 }
 
 input, select {
-    height: var(--element-height);
+    height: var(--element-height) !important;
+    border: 1px solid var(--color-1) !important;
 }
 
-button.btn {
-    font-size: 87%;
-    /*height:    calc(85% * var(--element-height));*/
-    height:    calc(var(--element-height));
-    padding:   var(--padding) calc(var(--padding) + 1px);
-    margin:    0;
-    /*padding-left:  ;*/
-    /*padding-right: calc(var(--padding));*/
+input:focus, select:focus {
+    border-color: var(--color-3) !important;
 }
 
-body {
-    width:  100vw;
-    height: 100vh;
-    /*background-color: var(--color-1);*/
-}
-
+/*----------------------------------------------------------------------------------------*/
 .grid-container {
-    width:                 100%;
-    min-width:             calc(800px + (3 * var(--padding)));
-    height:                100%;
+    width:                 100vw;
+    height:                calc(100vh - var(--padding));
     padding:               var(--padding);
     display:               grid;
-    grid-template-columns: minmax(300px, 3fr) minmax(500px, 6fr);
-    /*grid-template-rows:    10% 60% 20% calc(10% - 15px);*/
-    /*grid-template-rows:    3fr 10fr 4fr 1fr;*/
+    grid-template-columns: minmax(600px, 1fr) minmax(600px, 2fr);
     grid-template-rows:    minmax(10%, 3fr) minmax(60%, 10fr) minmax(20%, 4fr) minmax(calc(10% - 15px), 1fr);
     grid-gap:              var(--padding);
 }
 
-.grid-item {
-    padding:          var(--padding);
-    background-color: var(--color-0);
-    color:            var(--color-2);
-    border:           1px solid var(--color-1);
-    border-radius:    4px;
+.grid-cell {
+    border:        1px solid var(--color-1);
+    border-radius: calc(var(--padding) / 2);
+    padding:       calc(var(--padding) / 2);
+    /*padding:       calc(var(--padding));*/
 }
 
 .header {
@@ -64,30 +51,52 @@ body {
     grid-row:           2;
     display:            grid;
     grid-template-rows: auto 9fr;
-    grid-row-gap:       var(--padding);
+    /*grid-row-gap:       calc(var(--padding) / 2);*/
+    grid-row-gap:       calc(var(--padding));
+    /*background-color:   var(--color-1);*/
 }
 
 .tree-container .controls {
-    display:            grid;
-    grid-template-rows: calc(var(--element-height)) calc(var(--element-height));
-    grid-row-gap:       var(--padding);
+    display:               grid;
+    grid-template-columns: minmax(100%, 1fr);
+    grid-template-rows:    2fr;
+    grid-row-gap:          calc(var(--padding) / 2);
+    /*grid-row-gap:          calc(var(--padding));*/
+}
+
+.tree-container .controls .search > input::placeholder {
+    color: var(--color-1);
 }
 
 .tree-container .controls .buttons {
+    /*width:          100%;*/
+    /*height:         100%;*/
     display:         flex;
     flex-direction:  row;
-    flex-wrap:       wrap;
-    justify-content: space-between;
+    justify-content: stretch;
     align-items:     center;
+    /*flex-wrap:       wrap;*/
 }
 
-.tree-container .tree {
-    overflow-y: auto;
+.tree-container .controls .buttons > div {
+    width:           100%;
+    /*height:          calc(1.5 * var(--element-height));*/
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    margin-right:    calc(var(--padding) / 2);
+    /*margin-right:    calc(var(--padding));*/
 }
 
-.tree-container .tree .test-content {
-    height:           1000px;
-    background-color: var(--color-1);
+.tree-container .controls .buttons > div:last-child {
+    margin-right: 0;
+}
+
+.tree-container .controls .buttons > div > button {
+    outline:   0;
+    font-size: 13px;
+    width:     100%;
+    height:    100%;
 }
 
 .chars {
@@ -105,57 +114,18 @@ body {
     grid-row:    4;
 }
 
-.grid-item::-webkit-scrollbar {
-    width: calc(var(--padding) * 2);
+.header, .footer {
+    visibility: hidden;
 }
 
-/*.grid-item::-webkit-scrollbar-button {*/
-/*height:      calc(var(--padding));*/
-/*border-left: 1px solid var(--color-1);*/
-/*}*/
-
-.grid-item::-webkit-scrollbar-track {
-    background-color:           var(--color-0);
-    border-left:                1px solid var(--color-1);
-    border-top-right-radius:    4px;
-    border-bottom-right-radius: 4px;
+@media screen and (max-width: 1224px) {
+    body {
+        background-color: #bd362f;
+    }
 }
 
-.grid-item::-webkit-scrollbar-thumb {
-    background:   var(--color-1);
-    border:       1px solid var(--color-1);
-    border-right: 0;
-    /*border-radius: calc(var(--padding));*/
+@media screen and (max-width: 616px) {
+    body {
+        background-color: #17a2b8;
+    }
 }
-
-/*@media screen and (max-width: 815px) {*/
-/*.grid-container {*/
-/*!*width:                 calc(100% - 10px);*!*/
-/*display:               grid;*/
-/*grid-auto-rows:        auto;*/
-/*}*/
-
-/*.item-1, .item-2, .item-3, .item-4, .item-5 {*/
-/*grid-column: 1;*/
-/*}*/
-
-/*.item-1 {*/
-/*grid-row: 1;*/
-/*}*/
-
-/*.item-2 {*/
-/*grid-row: 2;*/
-/*}*/
-
-/*.item-3 {*/
-/*grid-row: 3;*/
-/*}*/
-
-/*.item-4 {*/
-/*grid-row: 4;*/
-/*}*/
-
-/*.item-5 {*/
-/*grid-row: 5;*/
-/*}*/
-/*}*/
