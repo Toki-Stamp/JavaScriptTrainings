@@ -5,55 +5,89 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    let tableContainer  = $('.table-container'),
-        items           = tableContainer.find('.item'),
-        alertsContainer = $('.tree-alerts-container'),
-        additionsTable  = $('#tableOfAdditionalFeatures_'),
-        addBtn          = additionsTable.find('[data-role="add"]');
-
-    // items.on('click', function () {
-    //     $('<div>', {
-    //         'id'   : $(this).text(),
-    //         'class': 'tree-alert',
-    //         'title': 'Click to remove!',
-    //         'text' : 'Clicked on ' + $(this).text()
-    //     }).appendTo(alertsContainer);
-    // });
-
-    alertsContainer.on('click', '.tree-alert', function () {
-        $(this).remove();
-    });
-
-    tableContainer.get(0).addEventListener('change', function (event) {
-        let target = $(event.target);
-
-        if (target.is('input, select')) {
-            $('<div>', {
-                'id':    target.text(),
-                'class': 'tree-alert',
-                'title': 'Click to remove!',
-                'text':  'Change event on ' + target.attr('id')
-            })
-                .appendTo(alertsContainer);
-        }
-
-        /* блокировать дальнейшее погружение */
-        //event.stopImmediatePropagation();
-        console.log(event);
-    }, true);
-    tableContainer.on('click', 'tr', function () {
-        let me      = $(this),
-            parent  = me.parent(),
-            headers = parent.find('tr:eq(0), tr:eq(1)');
-
-        if (!me.is(headers)) {
-            $(this).toggleClass('active');
-        }
-    });
-
-    addBtn.on('click', function () {
-        let last = tableContainer.find('tr').last().clone();
-
-        last.appendTo(additionsTable);
-    });
+    gl.buttons = $('.buttons');
+    gl.tree = $('.tree');
+    gl.controls = $('.controls');
+    gl.chars = $('.chars');
+    gl.body = $('body');
+    
+    gl.buttons.on('click', '.btn-info', gl.debounce.run(function () {
+        gl.loading(gl.body);
+    })).on('click', '.btn-success', gl.debounce.run(function () {
+        gl.loading(gl.tree);
+    })).on('click', '.btn-danger', function () {
+        let target   = $('.loading-container'),
+            callback = function () {
+                target.parent().css('position', '');
+                target.remove();
+            };
+        gl.debounce.done(callback);
+    }).on('click', '.btn-primary', gl.debounce.run(function () {
+        gl.loading(gl.chars, 'Загрузка содержимого... Пожалуйста, подождите...');
+    })).on('click', '.btn-warning', gl.debounce.run(function () {
+        gl.loading(gl.controls, 'Загрузка содержимого... Пожалуйста, подождите...');
+    }));
 });
+
+let gl = {
+    loading : function (target, msg) {
+        let div        = [],
+            img,
+            paragraph,
+            defaultMsg = 'Loading in progress...';
+        
+        if (target && (target instanceof jQuery) && target.length) {
+            target.css('position', 'relative');
+            div.push($('<div></div>', {
+                'class': 'loading-container'
+            }).prependTo(target));
+            div.push($('<div></div>', {
+                'class': 'animation-container'
+            }).appendTo(div[0]));
+            // div.push($('<div></div>', {
+            //     'class': 'text-container'
+            // }).appendTo(div[0]));
+            // paragraph = $('<p></p>', {
+            //     'class': 'loading-text',
+            //     'text' : msg || defaultMsg
+            // }).appendTo(div[2]);
+            img = $('<img class="loading-animation" src="../image/loading-1.gif">').appendTo(div[1]);
+        }
+    },
+    debounce: (function () {
+        let inProgress = false,
+            counter    = 1,
+            check      = function (fn) {
+                return $.type(fn) === 'function';
+            };
+        
+        return {
+            run : function (callback) {
+                return function () {
+                    if (!inProgress) {
+                        inProgress = true;
+                        
+                        if (callback && check(callback)) {
+                            console.log('run fn');
+                            callback.apply(null, arguments);
+                        }
+                    } else {
+                        console.log('bounce', counter++);
+                    }
+                }
+            },
+            done: function (callback) {
+                if (inProgress) {
+                    inProgress = false;
+                    counter = 1;
+                    
+                    console.log('debounce done!');
+                    
+                    if (callback && check(callback)) {
+                        callback.apply(this, arguments);
+                    }
+                }
+            }
+        }
+    })()
+};
