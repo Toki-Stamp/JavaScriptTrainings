@@ -116,7 +116,7 @@ input:focus, select:focus {
 }
 
 .header, .footer {
-    visibility: hidden;
+    /*visibility: hidden;*/
 }
 
 @media screen and (max-width: 1224px) {
@@ -132,29 +132,36 @@ input:focus, select:focus {
 }
 
 .loading-container {
-    display:           flex;
-    align-items:       center;
+    display:                flex;
+    align-items:            center;
 
-    flex-wrap:         wrap;
-    flex-direction:    row;
-    position:          absolute;
-    top:               0;
-    bottom:            0;
-    right:             0;
-    left:              0;
-    z-index:           100;
-    height:            100%;
-    width:             100%;
-    border:            1px solid rgba(0, 0, 0, .3);
-    border-radius:     calc(var(--padding) / 2);;
+    flex-wrap:              wrap;
+    flex-direction:         row;
+    position:               absolute;
+    top:                    0;
+    bottom:                 0;
+    right:                  0;
+    left:                   0;
+    z-index:                100;
+    height:                 100%;
+    width:                  100%;
+    border:                 1px solid rgba(0, 0, 0, .3);
+    border-radius:          calc(var(--padding) / 2);;
     /*background-color:  rgba(200, 200, 200, .1);*/
-    background-color:  rgba(0, 0, 0, .1);
-    margin:            0;
-    padding:           0;
-    cursor:            progress;
-    user-select:       none;
-    -webkit-user-drag: none;
-    box-shadow:        0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    /*background-color:  rgba(0, 0, 0, .1);*/
+    background:             rgba(100, 100, 100, .1) repeating-linear-gradient(
+                                    -45deg,
+                                    transparent 0px,
+                                    rgba(0, 0, 0, .3) 1px,
+                                    transparent 2px,
+                                    transparent 10px);
+    -webkit-font-smoothing: antialiased;
+    margin:                 0;
+    padding:                0;
+    cursor:                 progress;
+    user-select:            none;
+    -webkit-user-drag:      none;
+    box-shadow:             0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
 }
 
 .loading-container > div {
@@ -174,8 +181,8 @@ input:focus, select:focus {
 .loading-container .animation-container > img {
     user-select:       none;
     -webkit-user-drag: none;
-    height:            15%;
-    width:             15%;
+    height:            10%;
+    width:             10%;
 }
 
 .loading-container .animation-container,
@@ -183,4 +190,62 @@ input:focus, select:focus {
     display:         flex;
     align-items:     center;
     justify-content: center;
+}
+
+/*[loading-in-progress], [loading-in-progress]:hover {*/
+/*border:           1px solid black !important;*/
+/*color:            black !important;*/
+/*background-color: gainsboro !important;*/
+/*}*/
+/* ---------------------------------------------------------- */
+.loading-spinner {
+    cursor:           wait;
+    display:          none;
+    position:         fixed;
+    z-index:          101;
+    left:             0;
+    top:              0;
+    width:            100%;
+    height:           100%;
+    overflow:         hidden;
+    background-color: rgba(0, 0, 0, .1);
+}
+
+#formWait > div {
+    width:           100%;
+    height:          100%;
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    justify-content: center;
+}
+
+#formWait > div > p {
+    z-index:       102;
+    font-size:     18px;
+    font-weight:   normal;
+    margin-top:    40px;
+    margin-bottom: 40px;
+    color:         rgb(85, 85, 85);
+}
+
+#formWait > div > p, #formWait > div > img {
+    box-shadow:       0 0 10px 0 rgba(0, 0, 0, .5);
+    padding:          4px 8px;
+    border-radius:    4px;
+    background-color: rgb(255, 255, 255);
+}
+
+#formWait > div > img {
+    padding:       10px;
+    border-radius: 50%;
+}
+
+#formWait > div, #formWait > div > img {
+    user-drag:           none;
+    user-select:         none;
+    -moz-user-select:    none;
+    -webkit-user-drag:   none;
+    -webkit-user-select: none;
+    -ms-user-select:     none;
 }

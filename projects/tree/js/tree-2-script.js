@@ -1,173 +1,169 @@
 /**
- * Created by Fomichev Yuri on 19.10.2017
+ * Created by Fomichev Yuri on 30.12.2018
  * Contact me at : toki.stamp@gmail.com
  */
 
-/* jQuery */
 jQuery(document).ready(function main() {
-    let utils     = window['rh_utils'],
+    let ref       = global.reference, // shorthand
+        utils     = window['rh_utils'],
         disabler  = utils.disabler,
-        debouncer = utils.debounce,
+        debouncer = utils.debouncer,
+        domer     = utils.domer,
         instance  = debouncer.getNewInstance();
-
-    gl.treeContainer   = $('.tree-container');
-    gl.buttons         = $('.buttons');
-    gl.tree            = $('.tree');
-    gl.controls        = $('.controls');
-    gl.alertsContainer = $('.alerts');
-    gl.chars           = $('.chars');
-    gl.body            = $('body');
-
-    gl.buttons.on('click', '.btn-info', function (e) {
-        let target = $(this);
-
-        disabler.disable(target, function () {
-            target.empty();
-            target.html('&nbsp;&nbsp;Загрузка...');
-            $('<span>', {'class': 'glyphicon glyphicon-refresh fa-spin'}).prependTo(target);
-            gl.loading(gl.treeContainer);
-            gl.loading(gl.alertsContainer);
-            gl.loading(gl.chars);
-        });
-
-        instance.run(function () {
-            console.log('Work to do!');
-        }).call(this, e);
-    }).on('click', '.btn-success', gl.debounce.run(function () {
-        gl.loading(gl.tree);
-    })).on('click', '.btn-danger', function () {
-        let target   = $('.loading-container'),
-            callback = function () {
-                target.parent().css('position', '');
-                target.remove();
-            };
-        gl.debounce.done(callback);
-    }).on('click', '.btn-primary', gl.debounce.run(function () {
-        gl.loading(gl.chars, 'Загрузка содержимого... Пожалуйста, подождите...');
-    })).on('click', '.btn-warning', gl.debounce.run(function () {
-        gl.loading(gl.controls, 'Загрузка содержимого... Пожалуйста, подождите...');
-    }));
+    
+    ref.treeContainer = $('.tree-container');
+    ref.header = $('.header');
+    ref.buttons = $('.buttons');
+    ref.tree = $('.tree');
+    ref.controls = $('.controls');
+    ref.alertsContainer = $('.alerts');
+    ref.chars = $('.chars');
+    ref.body = $('body');
+    
+    ref.buttons.on('click', 'button', function (e) {
+           let target   = $(this),
+               callback = function () {
+                   let span            = $('<span>', {'class': 'glyphicon glyphicon-hourglass fa-spin'}),
+                       space           = '&nbsp;&nbsp;',
+                       text            = 'Загрузка...',
+                       textNode        = domer.createTextNode(text),
+                       originalContent = target.html();
+            
+                   target
+                   .empty()
+                   .attr('loading-in-progress', true)
+                   .data('original-content', originalContent)
+                   .append(span)
+                   .append(space)
+                   .append(textNode);
+            
+                   // disabler.shield(ref.controls.add(ref.chars));
+                   disabler.shield(ref.header);
+                   // gl.loading(gl.chars.add(gl.alertsContainer).add(gl.controls));
+               };
+        
+           disabler.disable(target, callback);
+        
+           instance.run(function () {
+               console.log('Work to do!');
+           }).call(this, e);
+       })
+       .on('click', '.btn-danger', function () {
+           let target   = $('.loading-container'),
+               callback = function () {
+                   target.parent().css('position', '');
+                   target.remove();
+               },
+               all      = debouncer.getAllInstances(),
+               key,
+               buttons  = $('[loading-in-progress]');
+        
+           for (key in all) {
+               if (all.hasOwnProperty(key)) {
+                   all[key].done(callback);
+               }
+           }
+        
+           buttons.each(function () {
+               let item            = $(this),
+                   originalContent = item.data('original-content');
+            
+               item
+               .html(originalContent)
+               .removeAttr('loading-in-progress')
+               .removeAttr('disabled');
+           });
+        
+       });
+    
+    // gl.body.on('onpagehide', function (e) {
+    //     console.log('onpagehide!');
+    // })
 });
 
-let gl = {
-    loading:  function (target, msg) {
-        let div        = [],
-            img,
-            paragraph,
-            defaultMsg = 'Loading in progress...';
-
-        if (target && (target instanceof jQuery) && target.length) {
-            target.css('position', 'relative');
-            div.push($('<div></div>', {
-                'class': 'loading-container'
-            }).prependTo(target));
-            div.push($('<div></div>', {
-                'class': 'animation-container'
-            }).appendTo(div[0]));
-            // div.push($('<div></div>', {
-            //     'class': 'text-container'
-            // }).appendTo(div[0]));
-            // paragraph = $('<p></p>', {
-            //     'class': 'loading-text',
-            //     'text' : msg || defaultMsg
-            // }).appendTo(div[2]);
-            img = $('<img class="loading-animation" src="../image/loading-1.gif">').appendTo(div[1]);
-        }
-    },
-    debounce: (function () {
-        let inProgress = false,
-            counter    = 1,
-            check      = function (fn) {
-                return $.type(fn) === 'function';
-            };
-
-        return {
-            run:  function (callback) {
-                return function () {
-                    if (!inProgress) {
-                        inProgress = true;
-
-                        if (callback && check(callback)) {
-                            console.log('run fn');
-                            callback.apply(null, arguments);
-                        }
-                    } else {
-                        console.log('bounce', counter++);
-                    }
-                }
-            },
-            done: function (callback) {
-                if (inProgress) {
-                    inProgress = false;
-                    counter    = 1;
-
-                    console.log('debounce done!');
-
-                    if (callback && check(callback)) {
-                        callback.apply(this, arguments);
-                    }
-                }
-            }
-        }
-    })()
+let global = {
+    reference: {},
+    
 };
 
 (function init_utils(varName) {
-    var utils = window[varName] || {};
-
+    let utils = (window[varName] || {});
+    
     function /* constructor */ Debounce() {
         var id         = (arguments[0] || null),
             inProgress = false,
             counter    = 1;
-
+        
         this.run = function (fn) {
             return function (e) {
                 if (inProgress) {
                     console.log({'Status': 'Bounce', 'ID': id, 'Counter': counter++, 'Event': e});
                 } else {
                     inProgress = true;
-
-                    if (fn && $.isFunction(fn)) {
+                    
+                    if (isFunction(fn)) {
                         console.log({'Status': 'Run', 'ID': id, 'Event': e});
-
+                        
                         fn.apply(null, arguments);
                     }
                 }
             }
         };
-
+        
         this.done = function (fn) {
             if (inProgress) {
                 inProgress = false;
-                counter    = 1;
-
+                counter = 1;
+                
                 console.log({'Status': 'Done', 'ID': id, 'Arguments': arguments});
-
-                if (fn && $.isFunction(fn)) {
+                
+                if (isFunction(fn)) {
                     fn.apply(this, arguments);
                 }
             }
         }
     }
-
-    utils.debounce = (function () {
+    
+    function is$(target) {
+        return (target && (target instanceof jQuery));
+    }
+    
+    function isFunction(target) {
+        return (target && (jQuery.isFunction(target)));
+    }
+    
+    utils.domer = (function () {
+        return {
+            createTextNode  : function (text) {
+                return $(document.createTextNode(text));
+            },
+            createElement   : function (tagName) {
+                return $(document.createElement(tagName));
+            },
+            createStylesheet: function (fileName) {
+                return $('<link>', {href: fileName, rel: 'stylesheet', type: 'text/css'});
+            }
+        }
+    })();
+    
+    utils.debouncer = (function () {
         var instancesCount = 1,
             instancesBank  = {};
-
+        
         return {
-            getNewInstance:    function () {
+            getNewInstance   : function () {
                 var newInstance = new Debounce(instancesCount);
-
+                
                 instancesBank[instancesCount++] = newInstance;
-
+                
                 return newInstance;
             },
-            getInstance:       function (instanceID) {
+            getInstance      : function (instanceID) {
                 var instance = instancesBank[instanceID];
-
+                
                 return (instance || null);
             },
-            getAllInstances:   function () {
+            getAllInstances  : function () {
                 return instancesBank;
             },
             getInstancesCount: function () {
@@ -175,48 +171,52 @@ let gl = {
             }
         }
     })();
-
+    
     utils.disabler = (function () {
-        var is$        = function (target) {
-                return (target && (target instanceof jQuery));
-            },
-            isFunction = function (target) {
-                return (target && (jQuery.isFunction(target)));
-            },
-            execute    = function (fn) {
-                fn.apply(null, arguments);
-            };
-
+        utils.domer.createStylesheet('../css/shield.css').appendTo($('head'));
+        
         return {
-            disable: function (target, callback) {
-                if (is$(target)) {
-                    target.attr('disabled', 'disabled');
-                }
-                if (isFunction(callback)) {
-                    execute(callback);
+            /* --- */
+            shield  : function (target) {
+                let shieldContainer = $('<div>', {'class': 'shield-container'});
+                
+                if (is$(target) && !target.is('[shield-in-progress]')) {
+                    target.attr('shield-in-progress', true);
+                    shieldContainer.prependTo(target);
                 }
             },
-            enable:  function (target, callback) {
+            unshield: function (target) {},
+            /* --- */
+            enable  : function (target, callback, arguments) {
                 if (is$(target)) {
                     target.removeAttr('disabled');
                 }
                 if (isFunction(callback)) {
-                    execute(callback);
+                    callback.apply(null, arguments);
                 }
             },
-            show:    function (target) {
+            disable : function (target, callback, arguments) {
+                if (is$(target)) {
+                    target.attr('disabled', 'disabled');
+                }
+                if (isFunction(callback)) {
+                    callback.apply(null, arguments);
+                }
+            },
+            /* --- */
+            show    : function (target) {
                 if (is$(target)) {
                     target.show();
                 }
             },
-            hide:    function (target) {
+            hide    : function (target) {
                 if (is$(target)) {
                     target.hide();
                 }
             }
         }
     })();
-
+    
     /* return */
     window[varName] = utils;
 })('rh_utils');
