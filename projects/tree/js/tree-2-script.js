@@ -8,7 +8,7 @@ jQuery(document).ready(function main() {
         utils     = window['rh_utils'],
         disabler  = utils.disabler,
         debouncer = utils.debouncer,
-        domer     = utils.domer,
+        wizard    = utils.wizard,
         instance  = debouncer.getNewInstance();
     
     ref.treeContainer = $('.tree-container');
@@ -26,7 +26,7 @@ jQuery(document).ready(function main() {
                    let span            = $('<span>', {'class': 'glyphicon glyphicon-hourglass fa-spin'}),
                        space           = '&nbsp;&nbsp;',
                        text            = 'Загрузка...',
-                       textNode        = domer.createTextNode(text),
+                       textNode        = wizard.createTextNode(text),
                        originalContent = target.html();
             
                    target
@@ -37,9 +37,9 @@ jQuery(document).ready(function main() {
                    .append(space)
                    .append(textNode);
             
-                   // disabler.shield(ref.controls.add(ref.chars));
-                   disabler.shield(ref.header);
-                   // gl.loading(gl.chars.add(gl.alertsContainer).add(gl.controls));
+                   // disabler.shield(ref.controls);
+                   disabler.shield(ref.header.add(ref.controls).add(ref.chars));
+                   // disabler.shield(ref.body);
                };
         
            disabler.disable(target, callback);
@@ -75,15 +75,10 @@ jQuery(document).ready(function main() {
            });
         
        });
-    
-    // gl.body.on('onpagehide', function (e) {
-    //     console.log('onpagehide!');
-    // })
 });
 
 let global = {
     reference: {},
-    
 };
 
 (function init_utils(varName) {
@@ -132,7 +127,7 @@ let global = {
         return (target && (jQuery.isFunction(target)));
     }
     
-    utils.domer = (function () {
+    utils.wizard = (function () {
         return {
             createTextNode  : function (text) {
                 return $(document.createTextNode(text));
@@ -173,16 +168,28 @@ let global = {
     })();
     
     utils.disabler = (function () {
-        utils.domer.createStylesheet('../css/shield.css').appendTo($('head'));
+        utils.wizard.createStylesheet('../css/shield.css').appendTo($('head'));
         
         return {
             /* --- */
             shield  : function (target) {
-                let shieldContainer = $('<div>', {'class': 'shield-container'});
+                let body               = $('body'),
+                    shieldScreen       = $('<div>', {'class': 'shield-screen'}),
+                    shieldMessage      = $('<div>', {'class': 'shield-message'}),
+                    animationContainer = $('<div>', {'class': 'shield-message-animation-container'}),
+                    textContainer      = $('<div>', {'class': 'shield-message-text-container'}),
+                    animation          = $('<span>', {'class': 'fa fa-spinner fa-pulse'}),
+                    text               = $('<span>', {'class': 'shield-text', 'text': 'Загрузка данных...'});
                 
                 if (is$(target) && !target.is('[shield-in-progress]')) {
                     target.attr('shield-in-progress', true);
-                    shieldContainer.prependTo(target);
+                    body.attr('user-select', 'none');
+                    animationContainer.appendTo(shieldMessage);
+                    textContainer.appendTo(shieldMessage);
+                    animation.appendTo(animationContainer);
+                    text.appendTo(textContainer);
+                    shieldMessage.appendTo(shieldScreen);
+                    shieldScreen.prependTo(target);
                 }
             },
             unshield: function (target) {},
@@ -220,3 +227,11 @@ let global = {
     /* return */
     window[varName] = utils;
 })('rh_utils');
+
+window.addEventListener("beforeunload", function (event) {
+    console.log(event);
+    // Cancel the event as stated by the standard.
+    event.preventDefault();
+    // Chrome requires returnValue to be set.
+    event.returnValue = '';
+});
