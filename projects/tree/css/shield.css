@@ -2,7 +2,7 @@
     user-select: none;
 }
 
-[shield-in-progress] {
+[shield-in-progress="true"] {
     position: relative;
 }
 
@@ -28,6 +28,7 @@
     display:         flex;
     justify-content: center;
     align-items:     center;
+    cursor:          progress;
 }
 
 .shield-screen, .shield-screen * {

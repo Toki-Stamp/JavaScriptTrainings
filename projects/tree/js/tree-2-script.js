@@ -2,199 +2,297 @@
  * Created by Fomichev Yuri on 30.12.2018
  * Contact me at : toki.stamp@gmail.com
  */
-
-jQuery(document).ready(function main() {
-    let ref       = global.reference, // shorthand
-        utils     = window['rh_utils'],
-        disabler  = utils.disabler,
-        debouncer = utils.debouncer,
-        wizard    = utils.wizard,
-        instance  = debouncer.getNewInstance();
-    
-    ref.treeContainer = $('.tree-container');
-    ref.header = $('.header');
-    ref.buttons = $('.buttons');
-    ref.tree = $('.tree');
-    ref.controls = $('.controls');
-    ref.alertsContainer = $('.alerts');
-    ref.chars = $('.chars');
-    ref.body = $('body');
-    
-    ref.buttons.on('click', 'button', function (e) {
-           let target   = $(this),
-               callback = function () {
-                   let span            = $('<span>', {'class': 'glyphicon glyphicon-hourglass fa-spin'}),
-                       space           = '&nbsp;&nbsp;',
-                       text            = 'Загрузка...',
-                       textNode        = wizard.createTextNode(text),
-                       originalContent = target.html();
-            
-                   target
-                   .empty()
-                   .attr('loading-in-progress', true)
-                   .data('original-content', originalContent)
-                   .append(span)
-                   .append(space)
-                   .append(textNode);
-            
-                   // disabler.shield(ref.controls);
-                   disabler.shield(ref.header.add(ref.controls).add(ref.chars));
-                   // disabler.shield(ref.body);
-               };
-        
-           disabler.disable(target, callback);
-        
-           instance.run(function () {
-               console.log('Work to do!');
-           }).call(this, e);
-       })
-       .on('click', '.btn-danger', function () {
-           let target   = $('.loading-container'),
-               callback = function () {
-                   target.parent().css('position', '');
-                   target.remove();
-               },
-               all      = debouncer.getAllInstances(),
-               key,
-               buttons  = $('[loading-in-progress]');
-        
-           for (key in all) {
-               if (all.hasOwnProperty(key)) {
-                   all[key].done(callback);
-               }
-           }
-        
-           buttons.each(function () {
-               let item            = $(this),
-                   originalContent = item.data('original-content');
-            
-               item
-               .html(originalContent)
-               .removeAttr('loading-in-progress')
-               .removeAttr('disabled');
-           });
-        
-       });
-});
-
 let global = {
     reference: {},
 };
 
+jQuery(document).ready(function main() {
+    let ref      = global.reference, // shorthand
+        utils    = window['rh_utils'],
+        disable  = utils.disable,
+        debounce = utils.debounce,
+        shield   = utils.shield,
+        wizard   = utils.wizard,
+        helper   = utils.helper;
+
+    ref.treeContainer   = $('.tree-container');
+    ref.header          = $('.header');
+    ref.footer          = $('.footer');
+    ref.buttons         = $('.buttons');
+    ref.tree            = $('.tree');
+    ref.controls        = $('.controls');
+    ref.alertsContainer = $('.alerts');
+    ref.chars           = $('.chars');
+    ref.body            = $('body');
+
+    ref.buttons
+        .on('click', '.btn-success, .btn-info, .btn-primary, .btn-warning', function (e) {
+            let self             = $(this),
+                debounceID       = self.attr('debounce-id'),
+                debounceInstance = (debounce.getInstance(debounceID) || debounce.getNewInstance());
+
+            if (debounceInstance) {
+                debounceInstance.run(function () {
+                    let attributes       = {'debounce-id': debounceInstance.getID(), 'debounce-in-progress': true},
+                        shieldInstanceID = self.attr('shield-id'),
+                        shieldInstance   = (shield.getInstance(shieldInstanceID) || shield.getNewInstance());
+
+                    self.attr(attributes);
+                    // shieldInstance.rise(self, ref.header.add(ref.footer).add(ref.chars));
+                    /* --- */
+                    console.log('Work to do!');
+                    /* --- */
+                }).call(this, e);
+            }
+        })
+        .on('click', '.btn-danger', function () {
+            let instanceID       = 1,
+                debounceInstance = debounce.getInstance(instanceID),
+                attributesList   = ['debounce-id', 'debounce-in-progress'],
+                // target           = $('[debounce-id="' + instanceID + '"]');
+                target           = $('[debounce-in-progress]');
+
+            if (helper.is$(target)) {
+                //todo тут хуйня, переделать!!!
+                attributesList.forEach(function (attribute, index) {
+                    if (index === 0) {
+                        debounce.deleteInstance(target.eq(index).attr(attribute));
+                    }
+
+                    target.removeAttr(attribute);
+                })
+            }
+
+            if (debounceInstance) {
+                debounceInstance.done(function () {
+                });
+            }
+        });
+});
+
 (function init_utils(varName) {
     let utils = (window[varName] || {});
-    
-    function /* constructor */ Debounce() {
-        var id         = (arguments[0] || null),
+
+    function /* constructor */ Debounce(ID) {
+        let reference  = {
+                ID:       ID,
+                fn:       null,
+                args:     null,
+                callback: null
+            },
             inProgress = false,
             counter    = 1;
-        
-        this.run = function (fn) {
-            return function (e) {
+
+        this.run       = function (fn) {
+            reference.fn = fn;
+
+            return function (args) {
+                reference.args = args;
+
                 if (inProgress) {
-                    console.log({'Status': 'Bounce', 'ID': id, 'Counter': counter++, 'Event': e});
+                    console.log({'Status': 'Boing-Boing! Bounce!', 'ID': reference.ID, 'Function': reference.fn, 'Arguments': reference.args, 'Counter': counter++});
                 } else {
                     inProgress = true;
-                    
-                    if (isFunction(fn)) {
-                        console.log({'Status': 'Run', 'ID': id, 'Event': e});
-                        
-                        fn.apply(null, arguments);
+
+                    if (isFunction(reference.fn)) {
+                        console.log({'Status': 'Debounce Run', 'ID': reference.ID, 'Function': reference.fn, 'Arguments': reference.args});
+
+                        reference.fn.apply(null, reference.args);
                     }
                 }
             }
         };
-        
-        this.done = function (fn) {
+        this.done      = function (callback) {
+            reference.callback = callback;
+
             if (inProgress) {
                 inProgress = false;
-                counter = 1;
-                
-                console.log({'Status': 'Done', 'ID': id, 'Arguments': arguments});
-                
-                if (isFunction(fn)) {
-                    fn.apply(this, arguments);
+                counter    = 1;
+
+                console.log({'Status': 'Debounce Done', 'ID': reference.ID, 'Function': reference.fn, 'Arguments': reference.args});
+
+                if (isFunction(reference.callback)) {
+                    reference.callback.apply(null, arguments);
                 }
             }
+        };
+        this.isRunning = function () {
+            return inProgress;
+        };
+        this.getID     = function () {
+            return reference.ID;
         }
     }
-    
+
+    function /* constructor */ Shield(ID) {
+        let reference          = {
+                ID:     ID,
+                target: null,
+                caller: null,
+            },
+            inProgress         = false,
+            text               = 'Загрузка данных...',
+            bodyAttributes     = {'user-select': 'none'},
+            targetAttributes   = {'shield-in-progress': true, 'shield-id': ID},
+            body               = $('body'),
+            shieldScreen       = $('<div>', {'class': 'shield-screen'}),
+            shieldMessage      = $('<div>', {'class': 'shield-message'}),
+            animationContainer = $('<div>', {'class': 'shield-message-animation-container'}),
+            textContainer      = $('<div>', {'class': 'shield-message-text-container'}),
+            animation          = $('<span>', {'class': 'fa fa-spinner fa-pulse'}),
+            shieldText         = $('<span>', {'class': 'shield-text', 'text': text});
+
+        this.rise      = function (caller, shieldTarget) {
+            if (is$(shieldTarget) && !shieldTarget.is('[shield-in-progress="true"]')) {
+                inProgress       = true;
+                reference.target = shieldTarget;
+
+                console.log({'Status': 'Shield Rise', 'Target': shieldTarget, 'ID': ID});
+
+                body.attr(bodyAttributes);
+                shieldTarget.attr(targetAttributes);
+
+                if (is$(caller)) {
+                    reference.caller = caller;
+                    caller.attr(targetAttributes);
+                }
+
+                animationContainer.appendTo(shieldMessage);
+                textContainer.appendTo(shieldMessage);
+                animation.appendTo(animationContainer);
+                shieldText.appendTo(textContainer);
+                shieldMessage.appendTo(shieldScreen);
+                shieldScreen.prependTo(shieldTarget);
+            }
+        };
+        this.decline   = function () {
+            let bodyAttributesKeys = Object.keys(bodyAttributes);
+
+            if (inProgress && is$(reference.target)) {
+                inProgress = false;
+
+                console.log({'Status': 'Shield Decline', 'Target': reference.target, 'Caller': reference.caller, 'ID': reference.ID});
+
+                shieldScreen.remove();
+
+                bodyAttributesKeys.forEach(function (attributeName) {
+                    body.removeAttr(attributeName);
+                });
+                if (reference.target) {
+                    reference.target.attr('shield-in-progress', false);
+                }
+                if (reference.caller) {
+                    reference.caller.attr('shield-in-progress', false);
+                }
+            }
+        };
+        this.getTarget = function () {
+            return reference.target;
+        };
+        this.getCaller = function () {
+            return reference.caller;
+        };
+        this.getID     = function () {
+            return reference.ID;
+        };
+    }
+
     function is$(target) {
         return (target && (target instanceof jQuery));
     }
-    
+
     function isFunction(target) {
         return (target && (jQuery.isFunction(target)));
     }
-    
+
     utils.wizard = (function () {
         return {
-            createTextNode  : function (text) {
+            createTextNode:   function (text) {
                 return $(document.createTextNode(text));
             },
-            createElement   : function (tagName) {
+            createElement:    function (tagName) {
                 return $(document.createElement(tagName));
             },
-            createStylesheet: function (fileName) {
-                return $('<link>', {href: fileName, rel: 'stylesheet', type: 'text/css'});
+            createStylesheet: function (file) {
+                return $('<link>', {href: file, rel: 'stylesheet', type: 'text/css'});
             }
         }
     })();
-    
-    utils.debouncer = (function () {
-        var instancesCount = 1,
-            instancesBank  = {};
-        
+
+    utils.debounce = (function () {
+        let debounceInstancesCount = 0,
+            nextInstance           = 0,
+            debounceInstancesStore = {};
+
         return {
-            getNewInstance   : function () {
-                var newInstance = new Debounce(instancesCount);
-                
-                instancesBank[instancesCount++] = newInstance;
-                
+            getNewInstance:     function () {
+                let newInstance = new Debounce(++nextInstance);
+
+                debounceInstancesStore[nextInstance] = newInstance;
+
                 return newInstance;
             },
-            getInstance      : function (instanceID) {
-                var instance = instancesBank[instanceID];
-                
-                return (instance || null);
+            getInstance:        function (instanceID) {
+                return debounceInstancesStore[instanceID];
             },
-            getAllInstances  : function () {
-                return instancesBank;
+            getAllInstances:    function () {
+                return debounceInstancesStore;
             },
-            getInstancesCount: function () {
-                return instancesCount;
+            getInstancesCount:  function () {
+                return debounceInstancesCount;
+            },
+            deleteInstance:     function (instanceID) {
+                debounceInstancesCount -= 1;
+                delete debounceInstancesStore[instanceID];
+            },
+            deleteAllInstances: function () {
+                debounceInstancesCount = 0;
+                debounceInstancesStore = {};
             }
         }
     })();
-    
-    utils.disabler = (function () {
+
+    utils.shield = (function () {
+        let shieldInstancesCounter = 0,
+            shieldInstancesStore   = {};
+
         utils.wizard.createStylesheet('../css/shield.css').appendTo($('head'));
-        
+
+        return {
+            getNewInstance:     function () {
+                let newInstance = new Shield(++shieldInstancesCounter);
+
+                shieldInstancesStore[shieldInstancesCounter] = newInstance;
+
+                return newInstance;
+            },
+            getInstance:        function (instanceID) {
+                return shieldInstancesStore[instanceID];
+            },
+            getAllInstances:    function () {
+                return shieldInstancesStore;
+            },
+            getInstancesCount:  function () {
+                return shieldInstancesCounter;
+            },
+            deleteInstance:     function (instanceID) {
+                shieldInstancesCounter -= 1;
+                delete shieldInstancesStore[instanceID];
+            },
+            deleteAllInstances: function () {
+                shieldInstancesCounter = 0;
+                shieldInstancesStore   = {};
+            }
+        }
+    })();
+
+    utils.disable = (function () {
+        let disableInstancesStore   = {},
+            disableInstancesCounter = 0;
+
         return {
             /* --- */
-            shield  : function (target) {
-                let body               = $('body'),
-                    shieldScreen       = $('<div>', {'class': 'shield-screen'}),
-                    shieldMessage      = $('<div>', {'class': 'shield-message'}),
-                    animationContainer = $('<div>', {'class': 'shield-message-animation-container'}),
-                    textContainer      = $('<div>', {'class': 'shield-message-text-container'}),
-                    animation          = $('<span>', {'class': 'fa fa-spinner fa-pulse'}),
-                    text               = $('<span>', {'class': 'shield-text', 'text': 'Загрузка данных...'});
-                
-                if (is$(target) && !target.is('[shield-in-progress]')) {
-                    target.attr('shield-in-progress', true);
-                    body.attr('user-select', 'none');
-                    animationContainer.appendTo(shieldMessage);
-                    textContainer.appendTo(shieldMessage);
-                    animation.appendTo(animationContainer);
-                    text.appendTo(textContainer);
-                    shieldMessage.appendTo(shieldScreen);
-                    shieldScreen.prependTo(target);
-                }
-            },
-            unshield: function (target) {},
-            /* --- */
-            enable  : function (target, callback, arguments) {
+            enable:  function (target, callback, arguments) {
                 if (is$(target)) {
                     target.removeAttr('disabled');
                 }
@@ -202,7 +300,7 @@ let global = {
                     callback.apply(null, arguments);
                 }
             },
-            disable : function (target, callback, arguments) {
+            disable: function (target, callback, arguments) {
                 if (is$(target)) {
                     target.attr('disabled', 'disabled');
                 }
@@ -211,19 +309,26 @@ let global = {
                 }
             },
             /* --- */
-            show    : function (target) {
+            show:    function (target) {
                 if (is$(target)) {
                     target.show();
                 }
             },
-            hide    : function (target) {
+            hide:    function (target) {
                 if (is$(target)) {
                     target.hide();
                 }
             }
         }
     })();
-    
+
+    utils.helper = (function () {
+        return {
+            is$:        is$,
+            isFunction: isFunction
+        }
+    })();
+
     /* return */
     window[varName] = utils;
 })('rh_utils');
