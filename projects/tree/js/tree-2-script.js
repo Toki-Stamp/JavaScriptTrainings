@@ -29,43 +29,54 @@ jQuery(document).ready(function main() {
         .on('click', '.btn-success, .btn-info, .btn-primary, .btn-warning', function (e) {
             let self             = $(this),
                 debounceID       = self.attr('debounce-id'),
-                debounceInstance = (debounce.getInstance(debounceID) || debounce.getNewInstance());
-
-            if (debounceInstance) {
-                debounceInstance.run(function () {
-                    let attributes       = {'debounce-id': debounceInstance.getID(), 'debounce-in-progress': true},
+                debounceInstance = (debounce.getInstance(debounceID) || debounce.getNewInstance()),
+                task             = function () {
+                    let timeout,
                         shieldInstanceID = self.attr('shield-id'),
-                        shieldInstance   = (shield.getInstance(shieldInstanceID) || shield.getNewInstance());
+                        shieldInstance   = (shield.getInstance(shieldInstanceID) || shield.getNewInstance()),
+                        shieldTarget     = ref.header.add(ref.footer);
 
-                    self.attr(attributes);
-                    // shieldInstance.rise(self, ref.header.add(ref.footer).add(ref.chars));
-                    /* --- */
+                    shieldInstance.rise(self, shieldTarget);
+
                     console.log('Work to do!');
-                    /* --- */
-                }).call(this, e);
-            }
-        })
-        .on('click', '.btn-danger', function () {
-            let instanceID       = 1,
-                debounceInstance = debounce.getInstance(instanceID),
-                attributesList   = ['debounce-id', 'debounce-in-progress'],
-                // target           = $('[debounce-id="' + instanceID + '"]');
-                target           = $('[debounce-in-progress]');
+                    console.log('Timeout 5 sec...');
 
-            if (helper.is$(target)) {
-                //todo тут хуйня, переделать!!!
-                attributesList.forEach(function (attribute, index) {
-                    if (index === 0) {
-                        debounce.deleteInstance(target.eq(index).attr(attribute));
-                    }
+                    timeout = setTimeout(function () {
+                        let shieldInstances;
 
-                    target.removeAttr(attribute);
-                })
-            }
+                        debounceInstance.done(function () {
+                            console.log('Run callback...');
+                        });
+                        debounce.deleteInstance(debounceInstance.getID());
+
+                        //todo вот эту всю магию, вон нахуй отсюда! пользователь ничего этого не должен видеть
+
+                        if (shield.getInstancesCount() && (shield.getInstancesCount() > 1)) {
+                            shieldInstances = shield.getAllInstances();
+
+                            for (let key in shieldInstances) {
+                                if (shieldInstances.hasOwnProperty(key)) {
+                                    let target = shieldInstances[key].getTarget();
+
+                                    if (utils.helper.is$(shieldTarget) &&
+                                        utils.helper.is$(target) && !shieldTarget.is(target)) {
+                                        shieldInstance.decline();
+                                    }
+                                }
+                            }
+                        } else {
+                            shieldInstance.decline();
+                        }
+
+                        shield.deleteInstance(shieldInstance.getID());
+
+                        clearTimeout(timeout);
+                        timeout = null;
+                    }, 5000);
+                };
 
             if (debounceInstance) {
-                debounceInstance.done(function () {
-                });
+                debounceInstance.run(self, task, true).call(this, e);
             }
         });
 });
@@ -75,27 +86,58 @@ jQuery(document).ready(function main() {
 
     function /* constructor */ Debounce(ID) {
         let reference  = {
-                ID:       ID,
-                fn:       null,
-                args:     null,
-                callback: null
+                debounceID:  ID,
+                caller:      null,
+                fn:          null,
+                isProtected: false,
+                args:        null,
+                callback:    null
             },
             inProgress = false,
-            counter    = 1;
+            counter    = 1,
+            attributes = {'debounce-id': ID, 'debounce-in-progress': true};
 
-        this.run       = function (fn) {
-            reference.fn = fn;
+        /**
+         * Запуск Debounce. Возвращает обёртку над функцией fn, запускает её в первый раз и
+         * переходит в состояние inProgress = true, до отмены состояния вызовом функции this.done.
+         *
+         * @param {Object} caller - jQuery объект элемента DOM, который инициирует вызов функции
+         * @param {Function} fn - функция, выполняющая основную работу
+         * @param {Boolean} isProtected - признак защиты от закрытия / обновления / перехода на другую страницу
+         * @returns {Function} - обёртка над функцией fn
+         */
+        this.run = function (caller, fn, isProtected) {
+            reference.caller      = caller;
+            reference.fn          = fn;
+            reference.isProtected = isProtected;
 
             return function (args) {
                 reference.args = args;
 
                 if (inProgress) {
-                    console.log({'Status': 'Boing-Boing! Bounce!', 'ID': reference.ID, 'Function': reference.fn, 'Arguments': reference.args, 'Counter': counter++});
+                    console.log({
+                        'Status':  'Boing-Boing! Bounce!',
+                        'ID':      reference.debounceID,
+                        'counter': counter++,
+                        'fn':      reference.fn,
+                        'args':    reference.args,
+                        'caller':  reference.caller
+                    });
                 } else {
                     inProgress = true;
+                    utils.helper.setAttributes(reference.caller, attributes);
 
-                    if (isFunction(reference.fn)) {
-                        console.log({'Status': 'Debounce Run', 'ID': reference.ID, 'Function': reference.fn, 'Arguments': reference.args});
+                    if (reference.isProtected) {
+                        utils.helper.setBeforeUnloadEventTo(true);
+                    }
+                    if (utils.helper.isFunction(reference.fn)) {
+                        console.log({
+                            'Status': 'Debounce Run...',
+                            'ID':     reference.debounceID,
+                            'fn':     reference.fn,
+                            'args':   reference.args,
+                            'caller': reference.caller
+                        });
 
                         reference.fn.apply(null, reference.args);
                     }
@@ -109,81 +151,105 @@ jQuery(document).ready(function main() {
                 inProgress = false;
                 counter    = 1;
 
-                console.log({'Status': 'Debounce Done', 'ID': reference.ID, 'Function': reference.fn, 'Arguments': reference.args});
+                utils.helper.removeAttributes(reference.caller, attributes);
 
-                if (isFunction(reference.callback)) {
-                    reference.callback.apply(null, arguments);
+                console.log({
+                    'Status': 'Debounce Done!',
+                    'ID':     reference.debounceID,
+                    'fn':     reference.fn,
+                    'args':   reference.args,
+                    'caller': reference.caller
+                });
+
+                if (reference.isProtected) {
+                    utils.helper.setBeforeUnloadEventTo(false);
+                }
+                if (utils.helper.isFunction(reference.callback)) {
+                    reference.callback.apply(null, reference.args);
                 }
             }
         };
         this.isRunning = function () {
             return inProgress;
         };
+        this.getCaller = function () {
+            return reference.caller;
+        };
         this.getID     = function () {
-            return reference.ID;
-        }
+            return reference.debounceID;
+        };
     }
 
     function /* constructor */ Shield(ID) {
-        let reference          = {
-                ID:     ID,
-                target: null,
-                caller: null,
+        let reference        = {
+                shieldID: ID,
+                target:   null,
+                caller:   null,
             },
-            inProgress         = false,
-            text               = 'Загрузка данных...',
-            bodyAttributes     = {'user-select': 'none'},
-            targetAttributes   = {'shield-in-progress': true, 'shield-id': ID},
-            body               = $('body'),
-            shieldScreen       = $('<div>', {'class': 'shield-screen'}),
-            shieldMessage      = $('<div>', {'class': 'shield-message'}),
-            animationContainer = $('<div>', {'class': 'shield-message-animation-container'}),
-            textContainer      = $('<div>', {'class': 'shield-message-text-container'}),
-            animation          = $('<span>', {'class': 'fa fa-spinner fa-pulse'}),
-            shieldText         = $('<span>', {'class': 'shield-text', 'text': text});
+            inProgress       = false,
+            text             = 'Загрузка данных...',
+            shieldClassName  = 'shield-screen',
+            body             = $('body'),
+            bodyAttributes   = {'user-select': 'none'},
+            targetAttributes = {'shield-id': ID, 'shield-in-progress': true};
 
-        this.rise      = function (caller, shieldTarget) {
-            if (is$(shieldTarget) && !shieldTarget.is('[shield-in-progress="true"]')) {
+        function createShield(className, message) {
+            let shieldScreen       = $('<div>', {'class': className}),
+                shieldMessage      = $('<div>', {'class': 'shield-message'}),
+                animationContainer = $('<div>', {'class': 'shield-message-animation-container'}),
+                textContainer      = $('<div>', {'class': 'shield-message-text-container'}),
+                animation          = $('<span>', {'class': 'fa fa-spinner fa-pulse'}),
+                shieldText         = $('<span>', {'class': 'shield-text', 'text': message});
+
+            animationContainer.appendTo(shieldMessage);
+            textContainer.appendTo(shieldMessage);
+            animation.appendTo(animationContainer);
+            shieldText.appendTo(textContainer);
+            shieldMessage.appendTo(shieldScreen);
+
+            return shieldScreen;
+        }
+
+        this.rise      = function (caller, target) {
+            if (utils.helper.is$(caller) && utils.helper.is$(target)) {
+                reference.caller = caller;
+                reference.target = target;
                 inProgress       = true;
-                reference.target = shieldTarget;
 
-                console.log({'Status': 'Shield Rise', 'Target': shieldTarget, 'ID': ID});
+                if (!target.is('[shield-in-progress="true"]')) {
+                    console.log({
+                        'Status': 'Shield Rise',
+                        'ID':     reference.shieldID,
+                        'target': reference.target,
+                        'caller': reference.caller
+                    });
 
-                body.attr(bodyAttributes);
-                shieldTarget.attr(targetAttributes);
+                    createShield(shieldClassName, text).prependTo(target);
 
-                if (is$(caller)) {
-                    reference.caller = caller;
-                    caller.attr(targetAttributes);
+                    utils.helper.setAttributes(body, bodyAttributes);
+                    utils.helper.setAttributes(caller, targetAttributes);
+                    utils.helper.setAttributes(target, targetAttributes);
                 }
-
-                animationContainer.appendTo(shieldMessage);
-                textContainer.appendTo(shieldMessage);
-                animation.appendTo(animationContainer);
-                shieldText.appendTo(textContainer);
-                shieldMessage.appendTo(shieldScreen);
-                shieldScreen.prependTo(shieldTarget);
             }
         };
         this.decline   = function () {
-            let bodyAttributesKeys = Object.keys(bodyAttributes);
-
-            if (inProgress && is$(reference.target)) {
+            if (inProgress && utils.helper.is$(reference.target)) {
                 inProgress = false;
 
-                console.log({'Status': 'Shield Decline', 'Target': reference.target, 'Caller': reference.caller, 'ID': reference.ID});
-
-                shieldScreen.remove();
-
-                bodyAttributesKeys.forEach(function (attributeName) {
-                    body.removeAttr(attributeName);
+                console.log({
+                    'Status': 'Shield Decline',
+                    'ID':     reference.shieldID,
+                    'target': reference.target,
+                    'caller': reference.caller
                 });
-                if (reference.target) {
-                    reference.target.attr('shield-in-progress', false);
-                }
-                if (reference.caller) {
-                    reference.caller.attr('shield-in-progress', false);
-                }
+
+                //todo сюда перенести логику по отключению щита из обработчика клика
+
+                reference.target.find('.'.concat(shieldClassName)).remove();
+
+                utils.helper.removeAttributes(body, bodyAttributes);
+                utils.helper.removeAttributes(reference.caller, targetAttributes);
+                utils.helper.removeAttributes(reference.target, targetAttributes);
             }
         };
         this.getTarget = function () {
@@ -193,19 +259,11 @@ jQuery(document).ready(function main() {
             return reference.caller;
         };
         this.getID     = function () {
-            return reference.ID;
+            return reference.shieldID;
         };
     }
 
-    function is$(target) {
-        return (target && (target instanceof jQuery));
-    }
-
-    function isFunction(target) {
-        return (target && (jQuery.isFunction(target)));
-    }
-
-    utils.wizard = (function () {
+    utils.wizard   = (function () {
         return {
             createTextNode:   function (text) {
                 return $(document.createTextNode(text));
@@ -218,16 +276,16 @@ jQuery(document).ready(function main() {
             }
         }
     })();
-
     utils.debounce = (function () {
-        let debounceInstancesCount = 0,
-            nextInstance           = 0,
-            debounceInstancesStore = {};
+        let debounceInstancesCounter = 0,
+            nextInstance             = 0,
+            debounceInstancesStore   = {};
 
         return {
             getNewInstance:     function () {
                 let newInstance = new Debounce(++nextInstance);
 
+                debounceInstancesCounter += 1;
                 debounceInstancesStore[nextInstance] = newInstance;
 
                 return newInstance;
@@ -239,30 +297,31 @@ jQuery(document).ready(function main() {
                 return debounceInstancesStore;
             },
             getInstancesCount:  function () {
-                return debounceInstancesCount;
+                return debounceInstancesCounter;
             },
             deleteInstance:     function (instanceID) {
-                debounceInstancesCount -= 1;
+                debounceInstancesCounter -= 1;
                 delete debounceInstancesStore[instanceID];
             },
             deleteAllInstances: function () {
-                debounceInstancesCount = 0;
-                debounceInstancesStore = {};
+                debounceInstancesCounter = 0;
+                debounceInstancesStore   = {};
             }
         }
     })();
-
-    utils.shield = (function () {
+    utils.shield   = (function () {
         let shieldInstancesCounter = 0,
+            nextInstance           = 0,
             shieldInstancesStore   = {};
 
         utils.wizard.createStylesheet('../css/shield.css').appendTo($('head'));
 
         return {
             getNewInstance:     function () {
-                let newInstance = new Shield(++shieldInstancesCounter);
+                let newInstance = new Shield(++nextInstance);
 
-                shieldInstancesStore[shieldInstancesCounter] = newInstance;
+                shieldInstancesCounter += 1;
+                shieldInstancesStore[nextInstance] = newInstance;
 
                 return newInstance;
             },
@@ -285,8 +344,7 @@ jQuery(document).ready(function main() {
             }
         }
     })();
-
-    utils.disable = (function () {
+    utils.disable  = (function () {
         let disableInstancesStore   = {},
             disableInstancesCounter = 0;
 
@@ -321,22 +379,46 @@ jQuery(document).ready(function main() {
             }
         }
     })();
+    utils.helper   = (function () {
+        let handler = function (event) {
+            let msg = '';
 
-    utils.helper = (function () {
+            event.returnValue = msg;
+
+            return msg;
+        };
+
         return {
-            is$:        is$,
-            isFunction: isFunction
+            is$:                    function is$(target) {
+                return (target && (target instanceof jQuery));
+            },
+            isFunction:             function isFunction(target) {
+                return (target && (jQuery.isFunction(target)));
+            },
+            setBeforeUnloadEventTo: function (state) {
+                if (state) {
+                    window.addEventListener('beforeunload', handler);
+                } else {
+                    window.removeEventListener('beforeunload', handler);
+                }
+            },
+            setAttributes:          function (target, attributes) {
+                if (utils.helper.is$(target)) {
+                    target.attr(attributes);
+                }
+            },
+            removeAttributes:       function (target, attributes) {
+                let attributesList = Object.keys(attributes);
+
+                if (utils.helper.is$(target)) {
+                    attributesList.forEach(function (attribute) {
+                        target.removeAttr(attribute);
+                    });
+                }
+            }
         }
     })();
 
     /* return */
     window[varName] = utils;
 })('rh_utils');
-
-window.addEventListener("beforeunload", function (event) {
-    console.log(event);
-    // Cancel the event as stated by the standard.
-    event.preventDefault();
-    // Chrome requires returnValue to be set.
-    event.returnValue = '';
-});
