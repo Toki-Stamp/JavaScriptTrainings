@@ -4,75 +4,104 @@
     /* Medium devices (landscape tablets, 768px and up) min-width: 768px */
     /* Large devices (laptops/desktops, 992px and up) min-width: 992px */
     /* Extra large devices (large laptops and desktops, 1200px and up) min-width: 1200px */
-    --c-1:   rgb(255, 101, 153);
-    --bgc-1: rgb(102, 51, 153);
-    --bgc-2: rgb(51, 102, 203);
-    --bgc-3: rgb(51, 153, 51)
+    --color-1: rgba(255, 153, 153, .2);
+    --color-2: rgba(102, 51, 153, .2);
+    --color-3: rgba(51, 102, 203, .2);
+    --color-4: rgba(51, 153, 51, .2);
+    --color-5: rgba(251, 51, 51, .2);
+    --color-6: rgba(51, 51, 51, .7);
 }
 
 .table-container {
-    background-color: var(--bgc-1);
-    width:            90%;
-    min-width:        600px;
-    height:           500px;
+    background-color: var(--color-2);
+    transition:       background-color ease-in-out 500ms;
+    width:            80%;
+    min-width:        462px;
+    height:           80vh;
     margin-left:      auto;
     margin-right:     auto;
-    padding:          10px;
+    /*padding:          10px;*/
     /* h-offset | v-offset | blur | spread | color [inset] */
-    /*box-shadow:       10px 10px 0 0 var(--c-1) inset, -10px -10px 0 0 var(--c-1) inset;*/
+    /*box-shadow:       10px 10px 0 0 var(--color-4) inset, -10px -10px 0 0 var(--color-4) inset;*/
+    overflow:         auto;
 }
 
-/*@media screen and (max-width: 900px) {*/
-    /*.table-container {*/
-        /*background-color: var(--bgc-2);*/
-    /*}*/
-/*}*/
+@media screen and (max-width: 900px) {
+    .table-container {
+        background-color: var(--color-3);
+    }
+}
 
-/*@media screen and (max-width: 768px) {*/
-    /*.table-container {*/
-        /*background-color: var(--bgc-3);*/
-    /*}*/
-/*}*/
+@media screen and (max-width: 768px) {
+    .table-container {
+        background-color: var(--color-4);
+    }
+}
+
+@media screen and (max-width: 462px) {
+    .table-container {
+        background-color: var(--color-5);
+    }
+}
 
 .main-table {
-    width: 100%;
-    /*table-layout: fixed;*/
-}
-
-.main-table th {
-    background-color: wheat;
-    text-align:       center;
-    vertical-align:   center;
+    border-collapse: collapse;
+    width:           100%;
+    table-layout:    fixed;
 }
 
 .main-table th, .main-table td {
-    border: 1px solid var(--c-1);
+    border:         1px solid var(--color-1);
+    vertical-align: top;
+    padding:        2px;
+    overflow:       hidden;
+    /*white-space:    nowrap;*/
+    text-overflow:  ellipsis;
 }
 
-.main-table td.x-td-1 {
+.main-table td.hover {
+    transition:       all ease-in-out 1s;
+    transition-delay: 250ms;
+    background-color: var(--color-6);
+    color:            white;
 }
 
-.main-table td.x-td-2 {
+.main-table th {
+    background-color: var(--color-3);
+    text-align:       center;
 }
 
-.main-table td.x-td-3 {
+.main-table td {
+    transition:       all ease-in-out 1s;
+    transition-delay: 250ms;
+    text-align:       left;
 }
 
-.main-table td.x-td-4 {
+.main-table .x-width-1 {
+    width: 68px;
 }
 
-.main-table td.x-td-5 {
+.main-table .x-width-2 {
 }
 
-.main-table td.x-td-6 {
+.main-table .x-width-3 {
+    width: 90px;
 }
 
-.main-table td.x-td-7 {
+.main-table .x-width-4 {
 }
 
-.main-table td.x-td-8 {
+.main-table .x-width-5 {
 }
 
-.main-table td.x-td-9 {
+.main-table .x-width-6 {
 }
 
+.main-table .x-width-7 {
+}
+
+.main-table .x-width-8 {
+}
+
+.main-table .x-width-9 {
+}
