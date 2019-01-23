@@ -1,0 +1,78 @@
+:root {
+    /* Extra small devices (phones, 600px and down) max-width: 600px) */
+    /* Small devices (portrait tablets and large phones, 600px and up) min-width: 600px */
+    /* Medium devices (landscape tablets, 768px and up) min-width: 768px */
+    /* Large devices (laptops/desktops, 992px and up) min-width: 992px */
+    /* Extra large devices (large laptops and desktops, 1200px and up) min-width: 1200px */
+    --c-1:   rgb(255, 101, 153);
+    --bgc-1: rgb(102, 51, 153);
+    --bgc-2: rgb(51, 102, 203);
+    --bgc-3: rgb(51, 153, 51)
+}
+
+.table-container {
+    background-color: var(--bgc-1);
+    width:            90%;
+    min-width:        600px;
+    height:           500px;
+    margin-left:      auto;
+    margin-right:     auto;
+    padding:          10px;
+    /* h-offset | v-offset | blur | spread | color [inset] */
+    /*box-shadow:       10px 10px 0 0 var(--c-1) inset, -10px -10px 0 0 var(--c-1) inset;*/
+}
+
+/*@media screen and (max-width: 900px) {*/
+    /*.table-container {*/
+        /*background-color: var(--bgc-2);*/
+    /*}*/
+/*}*/
+
+/*@media screen and (max-width: 768px) {*/
+    /*.table-container {*/
+        /*background-color: var(--bgc-3);*/
+    /*}*/
+/*}*/
+
+.main-table {
+    width: 100%;
+    /*table-layout: fixed;*/
+}
+
+.main-table th {
+    background-color: wheat;
+    text-align:       center;
+    vertical-align:   center;
+}
+
+.main-table th, .main-table td {
+    border: 1px solid var(--c-1);
+}
+
+.main-table td.x-td-1 {
+}
+
+.main-table td.x-td-2 {
+}
+
+.main-table td.x-td-3 {
+}
+
+.main-table td.x-td-4 {
+}
+
+.main-table td.x-td-5 {
+}
+
+.main-table td.x-td-6 {
+}
+
+.main-table td.x-td-7 {
+}
+
+.main-table td.x-td-8 {
+}
+
+.main-table td.x-td-9 {
+}
+
