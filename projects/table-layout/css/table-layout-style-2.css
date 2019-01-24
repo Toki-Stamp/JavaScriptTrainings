@@ -1,0 +1,104 @@
+.table-container {
+    width:        80%;
+    height:       80vh;
+    margin-left:  auto;
+    margin-right: auto;
+    margin-top:   10vh;
+    overflow:     auto;
+    box-shadow:   0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.main-table {
+    border-collapse: collapse;
+    margin:          0;
+    padding:         0;
+    width:           100%;
+    table-layout:    fixed;
+}
+
+.main-table tr {
+    background-color: #f8f8f8;
+    padding:          .35em;
+}
+
+.main-table th,
+.main-table td {
+    padding:    .625em;
+    text-align: center;
+    border:     1px solid #ddd;
+}
+
+.main-table th {
+    vertical-align: top;
+    font-size:      .85em;
+    text-transform: uppercase;
+}
+
+.main-table tr.active td {
+    background-color: rgb(223, 240, 216);
+}
+
+.main-table tr.active:hover td {
+    background-color: rgb(208, 233, 198);
+}
+
+.main-table tr:hover td {
+    background-color: rgb(232, 232, 232);
+}
+
+@media screen and (max-width: 992px) {
+    .table-container {
+        box-shadow: none;
+    }
+
+    .main-table {
+        border: 0;
+    }
+
+    .main-table thead {
+        display: none;
+    }
+
+    .main-table tr {
+        border:        1px solid #ddd;
+        display:       block;
+        padding:       0;
+        margin-bottom: 10px;
+        margin-left:   5px;
+        margin-right:  5px;
+        box-shadow:    0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    }
+
+    .main-table tbody tr:last-child {
+        margin-bottom: 5px;
+    }
+
+    .main-table td {
+        border:     none;
+        display:    block;
+        font-size:  .8em;
+        text-align: right;
+    }
+
+    .main-table td::before {
+        content:        attr(data-label);
+        float:          left;
+        font-weight:    bold;
+        text-transform: uppercase;
+
+    }
+
+    .main-table td:empty {
+        height:      30px;
+        line-height: 30px;
+    }
+
+    .main-table td:empty::before {
+        margin-left: 0;
+        margin-top:  -8px;
+    }
+
+    .main-table td + td {
+        border-top: 1px solid #ddd;
+    }
+}
