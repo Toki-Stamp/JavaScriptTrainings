@@ -34,8 +34,9 @@
 }
 
 .main-table div.x-data-wrapper {
+    /*transition:    all 2.5s ease-in-out;*/
     width:         100%;
-    height:        100%;
+
     max-height:    80px;
     overflow:      hidden;
     text-overflow: ellipsis;
@@ -45,6 +46,9 @@
 
 .main-table div.x-data-wrapper:hover {
     /*max-height: fit-content;*/
+    transition: max-height .5s ease-in-out;
+    height:     auto;
+
     max-height: max-content;
 }
 
@@ -107,14 +111,15 @@
         background-color: transparent !important;
         border:           none;
         display:          block;
-        font-size:        .8em;
-        /*text-align:       right;*/
+        font-size:        .9em;
+        text-align:       right;
         min-height:       30px;
     }
 
     .main-table div.x-data-wrapper {
+        display:    inline;
         text-align: right;
-        width:      unset;
+        width:      100%;
         max-height: none;
     }
 
@@ -125,9 +130,11 @@
     .main-table td::before {
         content:        attr(data-label);
         float:          left;
+        font-size:      1em;
         font-weight:    bold;
         text-transform: uppercase;
         margin-right:   .625em;
+        margin-bottom:  .3125em;
     }
 
     .main-table td + td {
