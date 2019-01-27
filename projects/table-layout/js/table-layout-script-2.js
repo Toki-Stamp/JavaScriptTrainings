@@ -36,6 +36,12 @@ jQuery(document).ready(function main() {
     // }).on('mouseout', function (event) {
     //     $(this).find('div.x-data-wrapper').css('max-height', '80px');
     // });
+    
+    var header = document.getElementsByTagName('body')[0].getElementsByTagName('h1')[0],
+        paragraph = document.getElementsByTagName('body')[0].getElementsByTagName('div')[0];
+    
+    $clamp(header, {clamp: 1, useNativeClamp: false});
+    $clamp(paragraph, {clamp: 10, useNativeClamp: false, animate: true});
 });
 
 /* Self-invoking function */
