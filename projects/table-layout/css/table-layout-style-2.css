@@ -1,72 +1,73 @@
 .table-container {
     width:        80%;
-    max-height:   80vh;
     margin-left:  auto;
     margin-right: auto;
     margin-top:   10vh;
-    overflow:     auto;
     box-shadow:   0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    overflow:     hidden;
 }
 
-.main-table * {
-    transition: background-color ease-in-out 250ms;
-}
-
-.main-table {
+.table-container * {
+    transition:      background-color ease-in-out 250ms;
     border-collapse: collapse;
     margin:          0;
     padding:         0;
-    width:           100%;
-    table-layout:    auto;
 }
 
-.main-table tr {
+.table-container div {
+    width:  100%;
+    height: 100%;
+}
+
+.table-container .table-header {
+    background-color: yellow;
+    height:           max-content;
+}
+
+.table-container .table-body {
+    max-height: 70vh;
+    overflow:   auto;
+}
+
+.table-container table {
+    /*table-layout: fixed;*/
+}
+
+.table-container tr {
     padding: .35em;
 }
 
-.main-table tr:nth-child(odd) td {
+.table-container tr:nth-child(odd) td {
     background-color: rgb(248, 248, 248);
 }
 
-.main-table td {
+.table-container td {
     vertical-align: top;
     cursor:         default;
 }
 
-/*.main-table div.x-data-wrapper {*/
-/*width:         100%;*/
-/*max-height:    80px;*/
-/*overflow:      hidden;*/
-/*text-overflow: ellipsis;*/
-/*text-align:    justify;*/
-/*text-justify:  inter-word;*/
-/*}*/
-
-.main-table div.x-data-wrapper {
-    display:            block;
-    /*width:              300px;*/
-    text-overflow:      ellipsis;
+.table-container div.x-data-wrapper {
     overflow:           hidden;
-    /*max-height:         200px;*/
+    text-align:         justify;
+    text-justify:       inter-word;
     display:            -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    text-overflow:      ellipsis;
 }
 
-.main-table div.x-data-wrapper:hover {
-    /*max-height: fit-content;*/
-    /*height:     auto;*/
-    /*max-height: max-content;*/
-    -webkit-line-clamp: 15;
+.table-container div.x-data-wrapper:hover {
+    max-height:         100%;
+    -webkit-line-clamp: 100;
 }
 
-.main-table th,
-.main-table td {
+.table-container th,
+.table-container td {
     padding: .625em;
     border:  1px solid #ddd;
 }
 
-.main-table th {
+.table-container th {
     vertical-align:   top;
     text-align:       center;
     font-size:        .85em;
@@ -74,15 +75,15 @@
     background-color: rgb(230, 238, 238);
 }
 
-.main-table tr.active td {
+.table-container tr.active td {
     background-color: rgb(223, 240, 216) !important;
 }
 
-.main-table tr.active:hover td {
+.table-container tr.active:hover td {
     background-color: rgb(208, 233, 198) !important;
 }
 
-.main-table tr:hover td {
+.table-container tr:hover td {
     background-color: rgb(232, 232, 232) !important;
 }
 
@@ -92,16 +93,16 @@
         padding-top: 5px;
     }
 
-    .main-table {
+    .table-container {
         border:       0;
         table-layout: fixed;
     }
 
-    .main-table thead {
+    .table-container thead {
         display: none;
     }
 
-    .main-table tr {
+    .table-container tr {
         border:        1px solid #ddd;
         display:       block;
         padding:       0;
@@ -111,11 +112,11 @@
         box-shadow:    0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
     }
 
-    .main-table tbody tr:last-child {
+    .table-container tbody tr:last-child {
         margin-bottom: 5px;
     }
 
-    .main-table td {
+    .table-container td {
         background-color: transparent !important;
         border:           none;
         display:          block;
@@ -124,18 +125,18 @@
         min-height:       30px;
     }
 
-    .main-table div.x-data-wrapper {
+    .table-container div.x-data-wrapper {
         display:    inline;
         text-align: right;
         width:      100%;
         max-height: none;
     }
 
-    .main-table td:nth-child(odd) {
+    .table-container td:nth-child(odd) {
         background-color: rgb(248, 248, 248) !important;
     }
 
-    .main-table td::before {
+    .table-container td::before {
         content:        attr(data-label);
         float:          left;
         font-size:      1em;
@@ -145,7 +146,7 @@
         margin-bottom:  .3125em;
     }
 
-    .main-table td + td {
+    .table-container td + td {
         border-top: 1px solid #ddd;
     }
 }

@@ -5,37 +5,37 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
-    (function ellipsizeTextBox_2(item) {
-        let element      = item.get(0),
+    (function ellipsizeTextBox() {
+        let element      = document.getElementById('version-3'),
             originalText = element.innerText,
             wordsArray   = originalText.split(/\s/),
             truncatedText,
             timeout;
-        
-        item.attr('data-original-text', originalText);
-        
+
+        element.setAttribute('data-original-text', originalText);
+
         while (element.scrollHeight > element.offsetHeight) {
             wordsArray.pop();
             element.innerText = wordsArray.join(' ') + '...'
         }
-        
+
         truncatedText = element.innerText;
-        
-        console.log({'original': originalText, 'truncated': truncatedText})
-        
-        item.on('mouseover', function () {
+
+        console.log({'original': originalText, 'truncated': truncatedText});
+
+        element.addEventListener('mouseover', function () {
             clearTimeout(timeout);
-            timeout = null;
-            item.text(originalText);
-        }).on('mouseout', function () {
+            timeout           = null;
+            element.innerText = originalText;
+        });
+        element.addEventListener('mouseout', function () {
             timeout = setTimeout(function () {
-                item.text(truncatedText);
+                element.innerText = truncatedText;
                 clearTimeout(timeout);
                 timeout = null;
             }, 500);
-        })
-        
-    })($('#version-3'));
+        });
+    })();
 });
 
 // (function ellipsizeTextBox(id) {
