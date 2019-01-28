@@ -21,7 +21,8 @@
 
 .table-container .table-header {
     background-color: yellow;
-    height:           max-content;
+    max-height:       96px;
+    overflow-y:       auto;
 }
 
 .table-container .table-body {
@@ -30,7 +31,7 @@
 }
 
 .table-container table {
-    /*table-layout: fixed;*/
+    table-layout: fixed;
 }
 
 .table-container tr {
@@ -68,8 +69,8 @@
 }
 
 .table-container th {
-    vertical-align:   top;
-    text-align:       center;
+    /*vertical-align:   top;*/
+    /*text-align:       center;*/
     font-size:        .85em;
     text-transform:   uppercase;
     background-color: rgb(230, 238, 238);
@@ -85,6 +86,16 @@
 
 .table-container tr:hover td {
     background-color: rgb(232, 232, 232) !important;
+}
+
+.table-container tr th:nth-child(1),
+.table-container tr td:nth-child(1) {
+    min-width: 85px;
+}
+
+.table-container tr th:nth-child(2),
+.table-container tr td:nth-child(2) {
+    min-width: 115px;
 }
 
 @media screen and (max-width: 992px) {
