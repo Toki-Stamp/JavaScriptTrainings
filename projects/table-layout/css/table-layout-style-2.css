@@ -16,6 +16,11 @@
     overflow:     auto;
 }
 
+.x-table-container table {
+    margin-right: 1px;
+    border-right: 1px solid var(--border-color);
+}
+
 .x-table-container * {
     transition:      background-color ease-in-out 250ms;
     border-collapse: collapse;
