@@ -1,0 +1,50 @@
+.x-table-container thead > tr > th .x-data-wrapper {
+    display:         flex;
+    align-items:     flex-start;
+    justify-content: center;
+    border-top:      1px solid white;
+    height:          var(--height);
+    padding:         var(--padding);
+}
+
+.x-table-container thead > tr:nth-child(2) th .x-data-wrapper,
+.x-table-container thead > tr:nth-child(3) th .x-data-wrapper {
+    align-items: center;
+}
+
+.x-table-container thead > tr th + th .x-data-wrapper {
+    border-left: 1px solid white;
+}
+
+.x-table-container td .x-data-wrapper {
+    border-top:         1px solid var(--border-color);
+    display:            -webkit-box;
+    -webkit-line-clamp: var(--lines-count);
+    -webkit-box-orient: vertical;
+    overflow:           hidden;
+    text-align:         justify;
+    text-justify:       inter-word;
+    text-overflow:      ellipsis;
+    padding:            var(--padding);
+    line-height:        var(--line-height);
+}
+
+.x-table-container td .x-data-wrapper:hover {
+    max-height:         100%;
+    -webkit-line-clamp: 100;
+}
+
+.x-table-container thead tr:nth-child(3) .x-data-wrapper {
+    padding:       0 0 1px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.x-table-container thead tr:nth-child(3) .x-data-wrapper * {
+    height: 100%;
+    width:  100%;
+}
+
+.x-table-container thead tr:nth-child(3) th:nth-child(1) .x-data-wrapper {
+    min-width: 80px;
+    width:     30%;
+}

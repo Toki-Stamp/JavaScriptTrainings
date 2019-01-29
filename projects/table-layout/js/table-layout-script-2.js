@@ -8,39 +8,37 @@ jQuery(document).ready(function main() {
      *  2. Оборачиваем текстовые данные внутри элементов td конструкцией
      *  <div class="..."></div>, с целью фиксирования параметра height элемента td
      * */
-    $('.table-body td, .table-header th').each(function (index, item) {
+    $('.x-table-container td, .x-table-container th').each(function (index, item) {
         let element = $(item),
-            text    = element.text();
-        
-        element
-        .attr('data-label', (function () {
-            let map = {};
-            
-            $('.main-table #name th').each(function (index, item) {
-                if (!map.hasOwnProperty(map[index])) {
-                    map[index] = item.textContent;
-                }
-            });
-            
-            return map;
-        })()[item.cellIndex])
-        .html('<div class="x-data-wrapper">' + text + '</div>');
+            wrap,
+            text    = element.text(),
+            html    = element.html();
+
+        if (element.is('td')) {
+            element.attr('data-label', (function () {
+                let map = {};
+
+                $('#name').find('th').each(function (index, item) {
+                    if (!map.hasOwnProperty(map[index])) {
+                        map[index] = item.textContent;
+                    }
+                });
+
+                return map;
+            })()[item.cellIndex])
+        }
+        if (element.is('.x-table-container thead tr:eq(2) th')) {
+            wrap = html;
+        } else {
+            wrap = text;
+        }
+
+        element.html('<div class="x-data-wrapper">' + wrap + '</div>');
     });
-    
-    $('.main-table').on('click', 'tbody tr', function (e) {
+
+    $('.x-table-container').find('tbody').on('click', 'tr', function (e) {
         $(e.currentTarget).addClass('active').siblings().removeClass('active');
     });
-    
-    (function () {
-        var target = $(".table-header")[0]; // <== Getting raw element
-        
-        $(".table-body").scroll(function () {
-            target.scrollTop = this.scrollTop;
-            target.scrollLeft = this.scrollLeft;
-        });
-    })();
-});
 
-/* Self-invoking function */
-(function main() {
-})();
+    $('.x-table-container').find('thead').find('select, input').addClass('form-control');
+});

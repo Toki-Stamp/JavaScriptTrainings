@@ -1,101 +1,92 @@
-.table-container {
+:root {
+    --height:       36px;
+    --line-heigh:   1.2em;
+    --lines-count:  3;
+    --padding:      .2em;
+    --border-color: rgb(221, 221, 221);
+}
+
+.x-table-container {
     width:        80%;
     margin-left:  auto;
     margin-right: auto;
     margin-top:   10vh;
     box-shadow:   0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
-    overflow:     hidden;
+    max-height:   80vh;
+    overflow:     auto;
 }
 
-.table-container * {
+.x-table-container * {
     transition:      background-color ease-in-out 250ms;
     border-collapse: collapse;
+    box-sizing:      border-box;
     margin:          0;
     padding:         0;
 }
 
-.table-container div {
-    width:  100%;
-    height: 100%;
-}
-
-.table-container .table-header {
-    background-color: yellow;
-    max-height:       96px;
-    overflow-y:       auto;
-}
-
-.table-container .table-body {
-    max-height: 70vh;
-    overflow:   auto;
-}
-
-.table-container table {
-    table-layout: fixed;
-}
-
-.table-container tr {
-    padding: .35em;
-}
-
-.table-container tr:nth-child(odd) td {
+.x-table-container tbody > tr:nth-child(odd) > td {
     background-color: rgb(248, 248, 248);
 }
 
-.table-container td {
+.x-table-container tbody > tr td + td {
+    border-left: 1px solid var(--border-color);
+}
+
+.x-table-container th,
+.x-table-container td {
+    text-align:     left;
     vertical-align: top;
-    cursor:         default;
 }
 
-.table-container div.x-data-wrapper {
-    overflow:           hidden;
-    text-align:         justify;
-    text-justify:       inter-word;
-    display:            -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    text-overflow:      ellipsis;
+.x-table-container thead > tr > th {
+    position: sticky;
 }
 
-.table-container div.x-data-wrapper:hover {
-    max-height:         100%;
-    -webkit-line-clamp: 100;
-}
-
-.table-container th,
-.table-container td {
-    padding: .625em;
-    border:  1px solid #ddd;
-}
-
-.table-container th {
-    /*vertical-align:   top;*/
-    /*text-align:       center;*/
-    font-size:        .85em;
+.x-table-container th {
+    text-align:       center;
     text-transform:   uppercase;
     background-color: rgb(230, 238, 238);
+    height:           var(--line-heigh);
+    font-size:        .9em;
 }
 
-.table-container tr.active td {
+.x-table-container thead tr:nth-child(1) th {
+    top: 0;
+}
+
+.x-table-container thead tr:nth-child(2) th {
+    top: var(--height);
+}
+
+.x-table-container thead tr:nth-child(3) th {
+    top: calc(var(--height) * 2);
+}
+
+.x-table-container tbody > tr.active td {
     background-color: rgb(223, 240, 216) !important;
 }
 
-.table-container tr.active:hover td {
+.x-table-container tbody > tr.active:hover td {
     background-color: rgb(208, 233, 198) !important;
 }
 
-.table-container tr:hover td {
+.x-table-container tbody tr:hover td {
     background-color: rgb(232, 232, 232) !important;
 }
 
 .table-container tr th:nth-child(1),
-.table-container tr td:nth-child(1) {
-    min-width: 85px;
+.table-container tr td:nth-child(1) .x-data-wrapper {
+    width: 85px;
 }
 
 .table-container tr th:nth-child(2),
-.table-container tr td:nth-child(2) {
+.table-container tr td:nth-child(2) .x-data-wrapper {
     min-width: 115px;
+}
+
+.table-container tr th:nth-child(3),
+.table-container tr td:nth-child(3) .x-data-wrapper {
+    min-width: 150px;
 }
 
 @media screen and (max-width: 992px) {
@@ -133,7 +124,7 @@
         display:          block;
         font-size:        .9em;
         text-align:       right;
-        min-height:       30px;
+        min-height:       33.75px;
     }
 
     .table-container div.x-data-wrapper {
