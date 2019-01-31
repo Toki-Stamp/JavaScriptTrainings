@@ -1,14 +1,14 @@
 :root {
     --height:         36px;
     --line-heigh:     1.2em;
-    --lines-count:    2;
+    --lines-count:    4;
     --padding:        .2em;
     --border-color:   rgb(221, 221, 221);
     --width-1-column: 80px;
-    --width-2-column: 92px;
-    --width-3-column: 165px;
+    --width-2-column: 95px;
+    --width-3-column: 170px;
     --width-4-column: 190px;
-    --width-5-column: 190px;
+    --width-5-column: 150px;
     --width-6-column: 190px;
     --width-7-column: 190px;
     --width-8-column: 190px;
