@@ -1,20 +1,12 @@
 :root {
-    --height:         36px;
-    --line-heigh:     1.2em;
-    --lines-count:    4;
-    --padding:        .2em;
-    --border-color:   rgb(221, 221, 221);
-    --width-1-column: 80px;
-    --width-2-column: 95px;
-    --width-3-column: 170px;
-    --width-4-column: 190px;
-    --width-5-column: 150px;
-    --width-6-column: 190px;
-    --width-7-column: 190px;
-    --width-8-column: 190px;
-    --width-9-column: 190px;
+    --height:       34px;
+    --line-heigh:   1.2em;
+    --lines-count:  2;
+    --padding:      .2em;
+    --border-color: rgb(221, 221, 221);
 }
 
+/* контейнер и разметка таблицы x-table-container */
 .x-table-container {
     width:        80%;
     margin-left:  auto;
@@ -30,23 +22,19 @@
     margin-bottom: 1px;
     border-right:  1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
-    table-layout:  auto;
+    table-layout:  fixed;
+}
+
+.x-table-container input {
+    padding-left:  calc(var(--padding) * 2);
+    padding-right: calc(var(--padding) * 2);
+    font-size:     12px !important;
+    font-weight:   normal;
 }
 
 .x-table-container * {
-    transition:      background-color ease-in-out 250ms;
-    border-collapse: collapse;
-    box-sizing:      border-box;
-    margin:          0;
-    padding:         0;
-}
-
-.x-table-container tbody > tr:nth-child(odd) > td {
-    background-color: rgb(248, 248, 248);
-}
-
-.x-table-container tbody > tr td + td {
-    border-left: 1px solid var(--border-color);
+    transition: all ease-in-out 250ms;
+    box-sizing: border-box;
 }
 
 .x-table-container th,
@@ -55,27 +43,36 @@
     vertical-align: top;
 }
 
-.x-table-container thead > tr > th {
-    position: sticky;
-}
-
-.x-table-container th {
+.x-table-container thead th {
+    position:         sticky;
     text-transform:   uppercase;
     background-color: rgb(230, 238, 238);
     height:           var(--line-heigh);
     font-size:        .8em;
 }
 
+/* прикреплённая шапка таблицы */
+/* позиция 1 */
 .x-table-container thead tr:nth-child(1) th {
     top: 0;
 }
 
+/* позиция 2 */
 .x-table-container thead tr:nth-child(2) th {
     top: var(--height);
 }
 
+/* позиция 3 */
 .x-table-container thead tr:nth-child(3) th {
-    top: calc(var(--height) * 2);
+    top: calc(var(--height) + (var(--height) * .7));
+}
+
+.x-table-container tbody > tr:nth-child(odd) > td {
+    background-color: rgb(248, 248, 248);
+}
+
+.x-table-container tbody > tr td + td {
+    border-left: 1px solid var(--border-color);
 }
 
 .x-table-container tbody > tr.active td {
@@ -90,66 +87,178 @@
     background-color: rgb(232, 232, 232) !important;
 }
 
-@media screen and (max-width: 992px) {
-    .table-container {
+/* контейнер данных x-data-wrapper */
+.x-table-container thead > tr th + th .x-data-wrapper {
+    border-left: 1px solid white;
+}
+
+/* thead */
+.x-table-container thead .x-data-wrapper {
+    height:  var(--height);
+    padding: var(--padding);
+}
+
+.x-table-container thead > tr:nth-child(1) .x-data-wrapper {
+    border-top: 1px solid white;
+    text-align: center;
+}
+
+.x-table-container thead > tr:nth-child(2) .x-data-wrapper {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    height:          calc(var(--height) * .7);
+    border-top:      1px solid white;
+    border-bottom:   1px solid white;
+}
+
+.x-table-container thead > tr:nth-child(3) .x-data-wrapper {
+    padding:       1px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.x-table-container thead > tr:nth-child(3) .select2-container,
+.x-table-container thead > tr:nth-child(3) .select2-choice,
+.x-table-container thead > tr:nth-child(3) input {
+    margin: 0;
+    width:  100%;
+    height: 100%;
+}
+
+.x-table-container thead > tr:nth-child(3) .select2-container,
+.x-table-container thead > tr:nth-child(3) input {
+    display: block;
+}
+
+/* адрес (местонахождение) */
+.x-table-container thead > tr:nth-child(3) th:nth-child(6) {
+    width: 30%;
+}
+
+.x-table-container thead > tr:nth-child(3) th:nth-child(6) .x-data-wrapper {
+    display:               grid;
+    grid-template-columns: minmax(300px, 1fr);
+}
+
+/* инвентарный номер input и select */
+.x-table-container thead > tr:nth-child(3) th:nth-child(7) .x-data-wrapper {
+    display:               grid;
+    grid-template-columns: minmax(60px, 1fr) minmax(40px, 1fr) minmax(70px, 1fr);
+    grid-column-gap:       1px;
+}
+
+/* операции */
+.x-table-container thead > tr:nth-child(3) th:nth-child(8) {
+    width: 30%;
+}
+
+.x-table-container thead > tr:nth-child(3) th:nth-child(8) {
+    width: 5%;
+}
+
+.x-table-container thead > tr:nth-child(3) th:nth-child(8) .x-data-wrapper {
+    display:               grid;
+    grid-template-columns: minmax(34px, 1fr) 6px minmax(34px, 1fr);
+    grid-column-gap:       1px;
+}
+
+.x-table-container thead > tr:nth-child(3) th:nth-child(8) .x-data-wrapper div {
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    font-size:       150%;
+}
+
+/* tbody */
+.x-table-container tbody > tr > td .x-data-wrapper {
+    display:            -webkit-box;
+    -webkit-line-clamp: var(--lines-count);
+    -webkit-box-orient: vertical;
+    overflow:           hidden;
+    text-align:         justify;
+    text-justify:       inter-word;
+    text-overflow:      ellipsis;
+    border-top:         1px solid var(--border-color);
+    padding:            var(--padding);
+    line-height:        var(--line-height);
+}
+
+.x-table-container tbody > tr > td .x-data-wrapper:hover {
+    max-height:         100%;
+    -webkit-line-clamp: 100;
+}
+
+.x-table-container tbody .x-data-wrapper:empty {
+    height: 26.59px;
+}
+
+
+@media screen and (max-width: 1400px) {
+    :root {
+        --line-heigh: 1em;
+    }
+
+    .x-table-container {
+        width: 90%;
+    }
+
+    .x-data-wrapper {
+        font-size: 90%;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .x-table-container {
         box-shadow:  none;
         padding-top: 5px;
+        border:      none;
+        width:       80% !important;
     }
 
-    .table-container {
-        border:       0;
-        table-layout: fixed;
+    .x-table-container table {
+        border: none;
     }
 
-    .table-container thead {
+    .x-table-container thead {
         display: none;
     }
 
-    .table-container tr {
-        border:        1px solid #ddd;
+    .x-table-container tbody tr {
         display:       block;
+        border:        1px solid var(--border-color);
         padding:       0;
         margin-bottom: 10px;
-        margin-left:   5px;
-        margin-right:  5px;
+        margin-left:   10px;
+        margin-right:  10px;
         box-shadow:    0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
     }
 
-    .table-container tbody tr:last-child {
+    .x-table-container tbody tr:last-child {
         margin-bottom: 5px;
     }
 
-    .table-container td {
-        background-color: transparent !important;
-        border:           none;
+    .x-table-container tbody td {
         display:          block;
-        font-size:        .9em;
-        text-align:       right;
-        min-height:       33.75px;
+        background-color: transparent !important;
+        border:           none !important;
     }
 
-    .table-container div.x-data-wrapper {
-        display:    inline;
-        text-align: right;
+    .x-table-container tbody .x-data-wrapper {
+        font-size:  14px;
+        display:    block !important;
+        text-align: right !important;
         width:      100%;
         max-height: none;
     }
 
-    .table-container td:nth-child(odd) {
+    .x-table-container tbody td:nth-child(odd) {
         background-color: rgb(248, 248, 248) !important;
     }
 
-    .table-container td::before {
+    .x-table-container tbody .x-data-wrapper::before {
         content:        attr(data-label);
         float:          left;
-        font-size:      1em;
         font-weight:    bold;
         text-transform: uppercase;
-        margin-right:   .625em;
-        margin-bottom:  .3125em;
-    }
-
-    .table-container td + td {
-        border-top: 1px solid #ddd;
     }
 }

@@ -1,0 +1,70 @@
+:root {
+    --height:              36px;
+    --line-heigh:          1.2em;
+    --lines-count:         1;
+    --padding:             .2em;
+    --border-main-color:   rgb(221, 221, 221);
+    --border-second-color: rgb(255, 255, 255);
+    --container-width-1:   80vw;
+    --container-width-2:   85vw;
+    --container-width-3:   90vw;
+    --container-width-4:   95vw;
+    --container-width-5:   100vw;
+}
+
+.x-table-container {
+    transition:   all ease-in-out 250ms;
+    width:        var(--container-width-1);
+    margin-left:  auto;
+    margin-right: auto;
+    margin-top:   10vh;
+    box-shadow:   0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    max-height:   80vh;
+    overflow:     auto;
+}
+
+.x-table-container > table {
+    /*border-collapse: collapse;*/
+    width:           100%;
+    /*table-layout:    fixed;*/
+}
+
+.x-table-container th, .x-table-container td {
+    border: 1px solid var(--border-main-color);
+}
+
+.x-table-container th {
+    position: sticky;
+}
+
+.x-table-container tr:nth-child(1) th {
+    top: 0;
+}
+
+.x-table-container tr:nth-child(2) th {
+    top: 40px;
+}
+
+@media screen and (max-width: 1366px) {
+    .x-table-container {
+        width: var(--container-width-2);
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .x-table-container {
+        width: var(--container-width-3);
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .x-table-container {
+        width: var(--container-width-4);
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .x-table-container {
+        width: var(--container-width-5);
+    }
+}
