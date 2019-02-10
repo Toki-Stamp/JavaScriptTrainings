@@ -1,0 +1,22 @@
+.grid-container {
+    width:          100vw;
+    height:         100vh;
+    overflow:       hidden;
+
+    display:        grid;
+    grid-auto-rows: auto;
+}
+
+.grid-cell {
+    border:          1px solid rgb(221, 221, 221);
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    transition:      all ease-in-out 250ms;
+}
+
+/*.active-cell {*/
+    /*outline-offset: -15px;*/
+    /*outline:        rgb(224, 168, 224) solid 1px;*/
+    /*color:          rgb(224, 168, 224);*/
+/*}*/
