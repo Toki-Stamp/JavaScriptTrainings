@@ -7,63 +7,41 @@ body {
     background-color: rgb(246, 246, 246);
 }
 
-.container-x {
+.container-x-3 {
     border:         1px solid rgba(0, 0, 0, 0.2);
     width:          33.3%;
-    height:         calc(50% + 40px);
+    height:         50%;
     flex-direction: row;
     flex-wrap:      wrap;
     overflow-y:     auto;
     overflow-x:     hidden;
     position:       relative;
+    padding:        20px;
 }
 
-.container-x:before, .container-x:after {
-    content:  '';
-    position: sticky;
-    left:     0;
-    right:    0;
-    z-index:  2;
-    height:   20px;
-    display:  block;
-    border:   1px solid red;
-}
-
-.container-x:before {
-    top:        0;
-    background: linear-gradient(to top, transparent 0%, rgb(246, 246, 246) 90%, rgb(246, 246, 246) 100%);
-}
-
-.container-x:after {
-    bottom:     -1px;
-    background: linear-gradient(to bottom, transparent 0%, rgb(246, 246, 246) 90%, rgb(246, 246, 246) 100%);
-}
-
-.the-box {
+.the-box-3 {
     text-align:    justify;
     text-justify:  inter-character;
     user-select:   none;
     padding:       30px 20px;
-    margin-left:   20px;
-    margin-right:  20px;
     margin-bottom: 30px;
     background:    none repeat scroll 0 0 rgb(255, 255, 255);
     box-shadow:    0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
     position:      relative;
 }
 
-.the-box:last-child {
+.the-box-3:last-child {
     margin-bottom: 0;
 }
 
-.the-box:before,
-.the-box:after {
+.the-box-3:before,
+.the-box-3:after {
     content:  "";
     position: absolute;
     z-index:  -2;
 }
 
-.the-box:before {
+.the-box-3:before {
     box-shadow:    0 0 15px rgba(0, 0, 0, 0.6);
     top:           50%;
     bottom:        0;
@@ -71,4 +49,3 @@ body {
     right:         10px;
     border-radius: 100px / 10px;
 }
-
