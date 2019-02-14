@@ -5,6 +5,18 @@
 
 /* jQuery */
 jQuery(document).ready(function main() {
+    $('.container-x').on('scroll', function () {
+        $('.container-x-2').scrollTop($(this).scrollTop());
+        $('.container-x-3').scrollTop($(this).scrollTop());
+    });
+    $('.container-x-2').on('scroll', function () {
+        $('.container-x').scrollTop($(this).scrollTop());
+        $('.container-x-3').scrollTop($(this).scrollTop());
+    });
+    $('.container-x-3').on('scroll', function () {
+        $('.container-x').scrollTop($(this).scrollTop());
+        $('.container-x-2').scrollTop($(this).scrollTop());
+    });
 });
 
 /* Self-invoking function */

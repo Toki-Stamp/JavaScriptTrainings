@@ -4,15 +4,6 @@
     --margin:      30px;
 }
 
-body {
-    display:          flex;
-    align-items:      center;
-    justify-content:  center;
-    width:            100vw;
-    height:           100vh;
-    background-color: rgb(246, 246, 246);
-}
-
 .container-x-2 {
     border:     1px solid rgba(0, 0, 0, 0.2);
     width:      33.3%;
