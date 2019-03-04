@@ -29,9 +29,9 @@
     background:      repeating-linear-gradient(
                              -45deg,
                              rgba(200, 200, 200, .3),
-                             rgba(200, 200, 200, .3) calc(var(--element-height) / 2),
-                             rgba(150, 150, 150, .3) calc(var(--element-height) / 2),
-                             rgba(150, 150, 150, .3) var(--element-height)
+                             rgba(200, 200, 200, .3) var(--element-height),
+                             rgba(150, 150, 150, .3) var(--element-height),
+                             rgba(150, 150, 150, .3) calc(var(--element-height) * 2)
                      );
 
     display:         flex;
@@ -79,4 +79,8 @@
     line-height:   var(--element-height);
     height:        100%;
     padding-right: var(--padding);
+}
+
+.x-hidden {
+    display: none;
 }
