@@ -1,0 +1,36 @@
+body {
+    width:  100vw;
+    height: 100vh;
+}
+
+#input {
+    display:          flex;
+    align-items:      center;
+    justify-content:  center;
+    position:         absolute;
+    top:              0;
+    left:             0;
+    height:           10vh;
+    width:            100vw;
+    background-color: aliceblue;
+}
+
+#input > input {
+    width: 50vmax;
+}
+
+#app {
+    width:           100%;
+    height:          100%;
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    flex-direction:  column;
+}
+
+#app h1 {
+    display:         flex;
+    justify-content: center;
+    width:           100%;
+    color:           #6ab8d6;
+}
