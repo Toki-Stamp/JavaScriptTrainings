@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,13 +7,13 @@
     <title>vue-project</title>
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="../icon/favicon-2.png"/>
-    <!------------------------- CSS ----------------------------->
-    <!-- Normalize CSS -->
-    <link href="../../../_lib/css/normalize.css" rel="stylesheet">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="../../../_lib/new/bootstrap-4.3.1/css/bootstrap.css">
+    <!------------------------- Scripts ------------------------->
     <!-- Vue -->
     <script src="../../../_lib/new/vue-js-2.6.10/vue.js"></script>
+    <!------------------------- Scripts ------------------------->
+    <!------------------------- CSS ----------------------------->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../../../_lib/new/bootstrap-4.3.1/css/bootstrap.css">
     <!-- Custom CSS goes below -->
     <link href="../css/vue-style.css" rel="stylesheet">
     <!------------------------- CSS ----------------------------->
@@ -21,28 +21,77 @@
 <body>
     <!------------------------- Main ---------------------------->
     <div id="app">
-        <div id="input">
-            <input type="text" class="form-control" placeholder="Введите текст..."
-                   :title="'Вы ввели: [' + message + ']'">
-        </div>
-        <h1>{{'Вы ввели: [' + message + ']'}}</h1>
-        <template v-if="message == 1">
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно единице</h1>
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно единице</h1>
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно единице</h1>
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно единице</h1>
-        </template>
-        <template v-else-if="message == 2">
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно двойке</h1>
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно двойке</h1>
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно двойке</h1>
-            <h1 :class="{one: (message == 1), two: (message == 2)}">Свойство равно двойке</h1>
+        <!--<editor-fold desc="Disabled...">-->
+        <!--        <div id="input">-->
+        <!--            <input type="text" class="form-control" placeholder="Введите текст..."-->
+        <!--                   v-bind:title="'Вы ввели: [' + message + ']'" v-on:input="onInputHandler">-->
+        <!--            <input type="text" class="form-control" placeholder="Введите текст..." v-model="message">-->
+        <!--        </div>-->
+        <!--        <h1 v-if="message">{{'message: [' + message + ']'}}</h1>-->
+        <!--        <template v-if="(message == 1)">-->
+        <!--            <h1 v-bind:class="{one: (message == 1), two: (message == 2)}">Свойство равно единице</h1>-->
+        <!--            <p>... писанина для единицы...</p>-->
+        <!--            <p>... писанина для единицы...</p>-->
+        <!--        </template>-->
+        <!--        <template v-else-if="(message == 2)">-->
+        <!--            <h1 v-bind:class="{one: (message == 1), two: (message == 2)}">Свойство равно двойке</h1>-->
+        <!--            <p>... писанина для двойки...</p>-->
+        <!--            <p>... писанина для двойки...</p>-->
+        <!--        </template>-->
+        <!--        <template v-else>-->
+        <!--            &lt;!&ndash; nothing here... &ndash;&gt;-->
+        <!--            &lt;!&ndash; <h1>Свойство равно [{{ message }}]</h1>&ndash;&gt;-->
+        <!--        </template>-->
+        <!--        <ul>-->
+        <!--            <li v-for="(item, index) in list">Индекс: {{index}} / Значение: {{item}}</li>-->
+        <!--        </ul>-->
+        <!--        <ul>-->
+        <!--            <li v-for="item in list">{{item}}</li>-->
+        <!--        </ul>-->
+        <!--        <h3>Пользователи:</h3>-->
+        <!--        <ul>-->
+        <!--            <li v-for="user in users">{{user.id}}: {{user.name}}</li>-->
+        <!--        </ul>-->
+        <!--        <table class="table table-bordered table-striped">-->
+        <!--            <thead>-->
+        <!--                <tr>-->
+        <!--                    <th>ID</th>-->
+        <!--                    <th>Name</th>-->
+        <!--                </tr>-->
+        <!--            </thead>-->
+        <!--            <tbody>-->
+        <!--                <tr v-for="user in users">-->
+        <!--                    <td>{{user.id}}</td>-->
+        <!--                    <td>{{user.name}}</td>-->
+        <!--                </tr>-->
+        <!--            </tbody>-->
+        <!--        </table>-->
+        <!--        <table class="table table-bordered">-->
+        <!--            <tr>-->
+        <!--                <td>-->
+        <!--                    <button class="btn btn-primary" v-on:click="increase">Increase: {{counter}}</button>-->
+        <!--                </td>-->
+        <!--                <td>-->
+        <!--                    <button class="btn btn-secondary" v-on:click="decrease">Decrease: {{counter}}</button>-->
+        <!--                </td>-->
+        <!--            </tr>-->
+        <!--        </table>-->
+        <!--</editor-fold>-->
+        <template v-if="list">
+            <h1>Исходные данные:</h1>
+            <ul>
+                <li v-for="item in list">{{item.key}}: {{item.value}}</li>
+            </ul>
+            <h1>Отфильтрованные данные:</h1>
+            <label>
+                <input type="text" v-model="sift" class="form-control">
+            </label>
+            <ul>
+                <li v-for="item in siftedList">{{item.key}}: {{item.value | customFilter('string', 2, null, true, Object.create(null))}}</li>
+            </ul>
         </template>
         <template v-else>
-            <h1>Свойство равно [{{ message }}]</h1>
-            <h1>Свойство равно [{{ message }}]</h1>
-            <h1>Свойство равно [{{ message }}]</h1>
-            <h1>Свойство равно [{{ message }}]</h1>
+            <button class="btn btn-primary" v-on:click="getList('1', 1, sift)">Получить данные!</button>
         </template>
     </div>
     <!------------------------- Main ---------------------------->
