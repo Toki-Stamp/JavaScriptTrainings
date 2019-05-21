@@ -1,0 +1,30 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+    padding:    0;
+    margin:     0;
+}
+
+.rh-container {
+    height:          100vh;
+    width:           100vw;
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+}
+
+.rh-container section:nth-child(1) {
+    width: 25%
+}
+
+.input-group-addon {
+    width: 80px;
+    max-width: 120px;
+}
+
+.btn-group {
+    width: 100%
+}
+
+.btn-group > button {
+    width: 50%;
+}

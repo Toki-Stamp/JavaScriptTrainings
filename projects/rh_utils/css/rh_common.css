@@ -1,0 +1,67 @@
+.btn-secondary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(64, 140, 153);
+    border-color: rgb(64, 120, 133);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary.active {
+    color: rgb(255, 255, 255);
+    background-color: rgb(62, 124, 137);
+    border-color: rgb(58, 104, 117);
+}
+
+.btn-secondary:active,
+.btn-secondary.active {
+    background-image: none;
+}
+
+.btn-secondary.disabled,
+.btn-secondary[disabled],
+.btn-secondary.disabled:hover,
+.btn-secondary[disabled]:hover,
+.btn-secondary.disabled:focus,
+.btn-secondary[disabled]:focus,
+.btn-secondary.disabled:active,
+.btn-secondary[disabled]:active,
+.btn-secondary.disabled.active,
+.btn-secondary[disabled].active {
+    background-color: rgb(64, 140, 153);
+    border-color: rgb(64, 120, 133);
+}
+
+.btn-pear {
+    color: rgb(255, 255, 255);
+    background-color: rgb(116, 183, 46);
+    border-color: rgb(99, 163, 43);
+}
+
+.btn-pear:hover,
+.btn-pear:focus,
+.btn-pear:active,
+.btn-pear.active {
+    color: rgb(255, 255, 255);
+    background-color: rgb(101, 167, 45);
+    border-color: rgb(86, 147, 40);
+}
+
+.btn-pear:active,
+.btn-pear.active {
+    background-image: none;
+}
+
+.btn-pear.disabled,
+.btn-pear[disabled],
+.btn-pear.disabled:hover,
+.btn-pear[disabled]:hover,
+.btn-pear.disabled:focus,
+.btn-pear[disabled]:focus,
+.btn-pear.disabled:active,
+.btn-pear[disabled]:active,
+.btn-pear.disabled.active,
+.btn-pear[disabled].active {
+    background-color: rgb(116, 183, 46);
+    border-color: rgb(99, 163, 43);
+}
