@@ -5,6 +5,7 @@
 
 (function () {
     var rhAlert       = window['rh_utils'].alert.getInstance(),
+        rhConfirm     = window['rh_utils'].confirm.getInstance(),
         buttons       = $('#x-controls').find('.btn-group').find('button'),
         setTitle      = $('#set-title'),
         setMessage    = $('#set-message'),
@@ -97,11 +98,21 @@
             return Math.round(rand);
         };
     
-    buttons.first().on('click', function (e) {
-        window.alert('Hello, World!');
+    buttons.eq(0).on('click', function (e) {
+        window.alert(messages[randomInteger(0, (messages.length - 1))]);
     });
     
-    buttons.last().on('click', function (e) {
+    buttons.eq(1).on('click', function (e) {
+        var userReply = window.confirm(messages[randomInteger(0, (messages.length - 1))]);
+        
+        if (userReply) {
+            alert('OK');
+        } else {
+            alert('Cancel or ESC');
+        }
+    });
+    
+    buttons.eq(2).on('click', function (e) {
         var message = setMessage.find('input').val();
         
         if (!message || (message && !message.length)) {
@@ -109,6 +120,10 @@
         }
         
         rhAlert.create().message(message).show().status();
+    });
+    
+    buttons.eq(3).on('click', function (e) {
+        rhConfirm.show();
     });
     
     setTitle.find('button').first().on('click', function (e) {

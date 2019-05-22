@@ -4,9 +4,22 @@
     margin:     0;
 }
 
+@media (min-width: 768px) {
+    #rh-alert .modal-dialog {
+        width:  600px;
+        margin: 10px auto;
+    }
+}
+
+#rh-alert .modal-content {
+    max-height: calc(100vh - 20px);
+    overflow:   hidden;
+}
+
 #rh-alert .modal-body {
     white-space: pre-wrap;
-    max-height:  300px;
+    min-height:  50px;
+    max-height:  calc(100vh - 20px - 125px);
     overflow-y:  auto;
 }
 
@@ -50,9 +63,9 @@
 }
 
 .btn-group {
-    width: 100%
+    width: 100%;
 }
 
 .btn-group > button {
-    width: 50%;
+    width: 25%;
 }
