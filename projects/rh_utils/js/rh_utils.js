@@ -107,8 +107,8 @@
     }
 
     function /* constructor */ Alert() {
-        let reference = (function () {
-            let description = {
+        var reference = (function () {
+            var description = {
                 'target':  $('body'),
                 'modal':   null,
                 'title':   {
@@ -133,22 +133,22 @@
                 },
             };
 
-            Object.keys(description).forEach(item => {
-                let internalValue;
+            Object.keys(description).forEach(function (item) {
+                var internalValue;
 
                 if (description[item] && description[item]['reactive']) {
                     internalValue = description[item]['currentValue'];
 
                     Object.defineProperty(description[item], 'currentValue', {
-                        get() {
-                            // console.log(`Прочитали "${item}" равное "${internalValue}"`);
+                        get: function () {
+                            console.log(`Прочитали "${item}" равное "${internalValue}"`);
 
                             return internalValue;
                         },
-                        set(newValue) {
-                            let preValue = ((newValue && newValue.length) ? newValue : null);
+                        set: function (newValue) {
+                            var preValue = ((newValue && newValue.length) ? newValue : null);
 
-                            // console.log(`Установили "${item}" из "${internalValue}" в значение "${preValue}"`);
+                            console.log(`Установили "${item}" из "${internalValue}" в значение "${preValue}"`);
                             internalValue = preValue;
                             description[item]['callback'](preValue);
                         }
@@ -160,7 +160,7 @@
         })();
 
         this.create  = function () {
-            let modal,
+            var modal,
                 modalDialog,
                 modalContent,
                 modalHeader,
