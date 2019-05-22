@@ -89,27 +89,28 @@
             '   - ID 40240922;\n' +
             '   - ID 40240923;\n' +
             '\n' +
-            'Таким образом, для удаления данного объекта, сперва необходимо удалить (либо назначить нового родителя) всем его связанным объектам.'],
+            'Таким образом, для удаления данного объекта, сперва необходимо удалить (либо назначить нового родителя) всем его связанным объектам.'
+        ],
         randomInteger = function (min, max) {
             var rand = min - 0.5 + Math.random() * (max - min + 1);
-
+        
             return Math.round(rand);
         };
-
+    
     buttons.first().on('click', function (e) {
         window.alert('Hello, World!');
     });
-
+    
     buttons.last().on('click', function (e) {
         var message = setMessage.find('input').val();
-
+        
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-
+        
         rhAlert.create().message(message).show().status();
     });
-
+    
     setTitle.find('button').first().on('click', function (e) {
         rhAlert.title(setTitle.find('input').val());
     });
@@ -117,14 +118,14 @@
         setTitle.find('input').val('');
         rhAlert.title(null);
     });
-
+    
     setMessage.find('button').first().on('click', function (e) {
         var message = setMessage.find('input').val();
-
+        
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-
+        
         rhAlert.message(message);
     });
     setMessage.find('button').last().on('click', function (e) {
