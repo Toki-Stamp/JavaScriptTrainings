@@ -93,34 +93,34 @@
         ],
         randomInteger = function (min, max) {
             var rand = min - 0.5 + Math.random() * (max - min + 1);
-
+        
             return Math.round(rand);
         };
-
+    
     controls.eq(0).on('click', function (e) {
         window.alert(messages[randomInteger(0, (messages.length - 1))]);
     });
-
+    
     controls.eq(1).on('click', function (e) {
         var userReply = window.confirm(messages[randomInteger(0, (messages.length - 1))]);
-
+        
         if (userReply) {
             alert('OK');
         } else {
             alert('Cancel or ESC');
         }
     });
-
+    
     controls.eq(2).on('click', function (e) {
         // var message = setMessage.find('input').val();
         //
         // if (!message || (message && !message.length)) {
         //     message = messages[randomInteger(0, (messages.length - 1))];
         // }
-
-        alfirm.show().status();
+        
+        alfirm.bind($('.rh-container')).show().status();
     });
-
+    
     // controls.eq(3).on('click', function (e) {
     //     rhConfirm.show();
     // });
