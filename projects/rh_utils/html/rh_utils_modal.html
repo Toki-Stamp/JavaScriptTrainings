@@ -9,20 +9,24 @@
     <!-- Bootstrap -->
     <link href="../../../_lib/css/bootstrap.css" rel="stylesheet">
     <!-- Custom CSS goes below -->
-    <link href="../css/rh_utils_modal.css" rel="stylesheet">
-    <link href="../css/rh_common.css" rel="stylesheet">
+    <link href="../css/rh_utils_common.css" rel="stylesheet">
+    <link href="../css/rh_utils_alert.css" rel="stylesheet">
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
     <!------------------------- Main ---------------------------->
     <div class="rh-container">
-        <section id="x-controls">
+        <section id="x-inputs">
             <div id="set-title" class="input-group">
                 <span class="input-group-addon">Title</span>
                 <input type="text" class="form-control" placeholder="Set title...">
                 <span class="input-group-btn">
-                <button class="btn btn-pear" type="button">Set</button>
-                <button class="btn btn-danger" type="button">Clear</button>
+                <button class="btn btn-success" type="button">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Set
+                </button>
+                <button class="btn btn-danger" type="button">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Clear
+                </button>
             </span>
             </div>
             <br>
@@ -30,17 +34,22 @@
                 <span class="input-group-addon">Message</span>
                 <input type="text" class="form-control" placeholder="Set message...">
                 <span class="input-group-btn">
-                <button class="btn btn-pear" type="button">Set</button>
-                <button class="btn btn-danger" type="button">Clear</button>
+                <button class="btn btn-success" type="button">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Set
+                </button>
+                <button class="btn btn-danger" type="button">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Clear
+                </button>
             </span>
             </div>
-            <br>
-            <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default">Alert</button>
-                <button type="button" class="btn btn-default">Confirm</button>
-                <button type="button" class="btn btn-default">rhAlert</button>
-                <button type="button" class="btn btn-default">rhConfirm</button>
-            </div>
+        </section>
+        <section id="x-standard" class="rh-controls">
+            <button type="button" class="btn btn-default">Alert</button>
+            <button type="button" class="btn btn-default">Confirm</button>
+        </section>
+        <section id="x-custom" class="rh-controls">
+            <button type="button" class="btn btn-primary">Alfirm</button>
+<!--            <button type="button" class="btn btn-primary">rhConfirm</button>-->
         </section>
     </div>
     <!------------------------- Main ---------------------------->
@@ -51,7 +60,7 @@
     <script src="../../../_lib/js/bootstrap.js"></script>
     <!-- Custom js goes below -->
     <script src="../js/rh_utils.js"></script>
-    <script src="../js/rh_utils_modal.js"></script>
+    <script src="../js/rh_utils_alert.js"></script>
     <!------------------------- Scripts ------------------------->
 </body>
 </html>
