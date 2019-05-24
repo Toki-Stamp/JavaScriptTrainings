@@ -113,25 +113,16 @@
                 body:         'Пустое сообщение...',
                 container:    $('body'),
                 onOkay:       function (e) {
-                    var callback = (alfirm.callback || null),
-                        timer;
                     //todo не забыть убрать debug
                     (debug) && console.log('Alfirm Confirmed! [Oк]');
 
-                    if (callback) {
-                        self.hide();
-                        timer = setTimeout(function () {
-                            //todo не забыть убрать debug
-                            (debug) && console.log('Alfirm Run Callback!');
-                            callback();
-                            clearTimeout(timer);
-                            timer = null;
-                        }, 350);
-                    }
+                    (alfirm.callback.okay) && execute(alfirm.callback.okay);
                 },
                 onCancel:     function (e) {
                     //todo не забыть убрать debug
                     (debug) && console.log('Alfirm Canceled! [Отмена]');
+
+                    (alfirm.callback.cancel) && execute(alfirm.callback.cancel);
                 },
                 modalShown:   function (e) {
                     //todo не забыть убрать debug
@@ -142,9 +133,13 @@
                     (debug) && console.log('Alfirm Modal Hidden!');
 
                     if (alfirm) {
-                        if (alfirm.callback) {
-                            (debug) && console.log('Alfirm Clear Callback!');
-                            alfirm.callback = null;
+                        if (alfirm.callback.okay) {
+                            (debug) && console.log('Alfirm Clear Okay Callback!');
+                            alfirm.callback.okay = null;
+                        }
+                        if (alfirm.callback.cancel) {
+                            (debug) && console.log('Alfirm Clear Cancel Callback!');
+                            alfirm.callback.cancel = null;
                         }
                         if (alfirm.content.title.text !== defaultValues.title) {
                             (debug) && console.log('Alfirm Clear Title!');
@@ -159,6 +154,8 @@
                 modalEscaped: function (e) {
                     //todo не забыть убрать debug
                     (debug) && (e.keyCode === 27) && console.log('Alfirm Modal Escaped! [ESC]');
+
+                    (alfirm.callback.cancel) && execute(alfirm.callback.cancel);
                 },
                 setTitle:     function (reference, title) {
                     reference.text(title);
@@ -169,7 +166,7 @@
             },
             alfirm        = null;
         //todo не забыть убрать debug
-        var debug         = true;
+        var debug         = false;
 
         function init() {
             var modal        = $('<div>', {
@@ -197,7 +194,7 @@
                 }),
                 object       = (function update() {
                     var obj      = {
-                            callback:  null,
+                            callback:  {okay: null, cancel: null},
                             container: null,
                             content:   {
                                 title:  {reference: modalTitle, text: defaultValues.title},
@@ -263,7 +260,18 @@
             return object;
         }
 
-        this.bind     = function (container) {
+        function execute(callback) {
+            var timer = setTimeout(function () {
+                //todo не забыть убрать debug
+                (debug) && console.log('Alfirm Execute Callback!');
+                callback();
+                clearTimeout(timer);
+                timer = null;
+            }, 350);
+            self.hide();
+        }
+
+        this.bind   = function (container) {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
             (debug) && console.log('Alfirm Bind!');
@@ -273,7 +281,7 @@
 
             return this;
         };
-        this.title    = function (title) {
+        this.title  = function (title) {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
             (debug) && console.log('Alfirm Title!');
@@ -282,7 +290,7 @@
 
             return this;
         };
-        this.body     = function (body) {
+        this.body   = function (body) {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
             (debug) && console.log('Alfirm Body!');
@@ -291,28 +299,37 @@
 
             return this;
         };
-        this.callback = function (callback) {
+        this.okay   = function (callback) {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
-            (debug) && console.log('Alfirm Callback!');
+            (debug) && console.log('Alfirm Okay Callback!');
 
-            (callback && jQuery.isFunction(callback)) && (alfirm.callback = callback);
+            (callback && jQuery.isFunction(callback)) && (alfirm.callback.okay = callback);
 
             return this;
         };
-        this.show     = function () {
+        this.cancel = function (callback) {
+            alfirm = (alfirm || init());
+            //todo не забыть убрать debug
+            (debug) && console.log('Alfirm Cancel Callback!');
+
+            (callback && jQuery.isFunction(callback)) && (alfirm.callback.cancel = callback);
+
+            return this;
+        };
+        this.show   = function () {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
             (debug) && console.log('Alfirm Show!');
 
             (!alfirm.container) && this.bind(defaultValues.container);
-            (alfirm.callback) ? alfirm.content.footer.buttons.cancel.reference.show() : alfirm.content.footer.buttons.cancel.reference.hide();
+            (alfirm.callback.okay) ? alfirm.content.footer.buttons.cancel.reference.show() : alfirm.content.footer.buttons.cancel.reference.hide();
 
             (alfirm.reference) && alfirm.reference.modal('show');
 
             return this;
         };
-        this.hide     = function hide() {
+        this.hide   = function () {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
             (debug) && console.log('Alfirm Hide!');
@@ -321,7 +338,7 @@
 
             return this;
         };
-        this.status   = function () {
+        this.status = function () {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug
             (debug) && console.info('Alfirm Status!', alfirm);

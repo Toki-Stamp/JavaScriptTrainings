@@ -133,14 +133,40 @@
             message = messages[randomInteger(0, (messages.length - 1))];
         }
 
-        alfirm.title(title).body(message).callback(function () {
-            alert('Alfirm Callback Function Begin!');
+        alfirm.title(title).body(message).okay(function () {
+            alert('Alfirm Only Okay Callback Function Begin!');
             console.log(test1);
             console.log(test2);
             console.log(test3);
             console.log(test4);
             console.log(test5);
-            alert('Alfirm Callback Function End!');
+            alert('Alfirm Only Okay Callback Function End!');
+        }).show().status();
+    });
+    controls.eq(4).on('click', function (e) {
+        var message = setMessage.find('input').val(),
+            title   = setTitle.find('input').val();
+
+        if (!message || (message && !message.length)) {
+            message = messages[randomInteger(0, (messages.length - 1))];
+        }
+
+        alfirm.title(title).body(message).okay(function () {
+            alert('Alfirm Okay (Okay + Cancel) Callback Function Begin!');
+            console.log(test1);
+            console.log(test2);
+            console.log(test3);
+            console.log(test4);
+            console.log(test5);
+            alert('Alfirm Okay (Okay + Cancel) Callback Function End!');
+        }).cancel(function () {
+            alert('Alfirm Cancel (Okay + Cancel) Callback Function Begin!');
+            console.log(test1);
+            console.log(test2);
+            console.log(test3);
+            console.log(test4);
+            console.log(test5);
+            alert('Alfirm Cancel (Okay + Cancel) Callback Function End!');
         }).show().status();
     });
 
