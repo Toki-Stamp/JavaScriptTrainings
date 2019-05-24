@@ -93,57 +93,61 @@
         ],
         randomInteger = function (min, max) {
             var rand = min - 0.5 + Math.random() * (max - min + 1);
-        
+
             return Math.round(rand);
-        };
-    
+        },
+        test1         = {},
+        test2         = [],
+        test3         = function () {
+        },
+        test4         = '1',
+        test5         = 1;
+
     controls.eq(0).on('click', function (e) {
         window.alert(messages[randomInteger(0, (messages.length - 1))]);
     });
-    
     controls.eq(1).on('click', function (e) {
         var userReply = window.confirm(messages[randomInteger(0, (messages.length - 1))]);
-        
+
         if (userReply) {
             alert('OK');
         } else {
             alert('Cancel or ESC');
         }
     });
-    
     controls.eq(2).on('click', function (e) {
-        // var message = setMessage.find('input').val();
-        //
-        // if (!message || (message && !message.length)) {
-        //     message = messages[randomInteger(0, (messages.length - 1))];
-        // }
-        
-        alfirm.bind($('.rh-container')).show().status();
+        var message = setMessage.find('input').val(),
+            title   = setTitle.find('input').val();
+
+        if (!message || (message && !message.length)) {
+            message = messages[randomInteger(0, (messages.length - 1))];
+        }
+
+        alfirm.title(title).body(message).show().status();
     });
-    
-    // controls.eq(3).on('click', function (e) {
-    //     rhConfirm.show();
-    // });
-    //
-    // setTitle.find('button').eq(0).on('click', function (e) {
-    //     rhAlert.title(setTitle.find('input').val());
-    // });
-    // setTitle.find('button').eq(1).on('click', function (e) {
-    //     setTitle.find('input').val('');
-    //     rhAlert.title(null);
-    // });
-    //
-    // setMessage.find('button').eq(0).on('click', function (e) {
-    //     var message = setMessage.find('input').val();
-    //
-    //     if (!message || (message && !message.length)) {
-    //         message = messages[randomInteger(0, (messages.length - 1))];
-    //     }
-    //
-    //     rhAlert.message(message);
-    // });
-    // setMessage.find('button').eq(1).on('click', function (e) {
-    //     rhAlert.message(null);
-    //     setMessage.find('input').val('');
-    // });
+    controls.eq(3).on('click', function (e) {
+        var message = setMessage.find('input').val(),
+            title   = setTitle.find('input').val();
+
+        if (!message || (message && !message.length)) {
+            message = messages[randomInteger(0, (messages.length - 1))];
+        }
+
+        alfirm.title(title).body(message).callback(function () {
+            alert('Alfirm Callback Function Begin!');
+            console.log(test1);
+            console.log(test2);
+            console.log(test3);
+            console.log(test4);
+            console.log(test5);
+            alert('Alfirm Callback Function End!');
+        }).show().status();
+    });
+
+    setTitle.find('button').on('click', function (e) {
+        setTitle.find('input').val('');
+    });
+    setMessage.find('button').on('click', function (e) {
+        setMessage.find('input').val('');
+    });
 })();

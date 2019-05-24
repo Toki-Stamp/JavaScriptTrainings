@@ -4,11 +4,9 @@
     margin:     0;
 }
 
-@media (min-width: 768px) {
-    #x-alfirm .modal-dialog {
-        width:  500px;
-        margin: 10px auto;
-    }
+#x-alfirm .modal-dialog {
+    width:  500px;
+    margin: 10px auto;
 }
 
 #x-alfirm .modal-header,
@@ -17,7 +15,14 @@
     padding: 10px 15px;
 }
 
-#x-alfirm .modal-header, #x-alfirm .modal-footer {
+#x-alfirm .modal-title,
+#x-alfirm .modal-body {
+    text-align:   justify;
+    text-justify: auto;
+}
+
+#x-alfirm .modal-header,
+#x-alfirm .modal-footer {
     border: none;
 }
 
@@ -27,17 +32,17 @@
 }
 
 #x-alfirm .modal-body {
-    white-space:  pre-wrap;
-    text-align:   justify;
-    text-justify: auto;
-    max-height:   50vmin;
-    font-size:    13px;
-    overflow-y:   auto;
+    white-space: pre-wrap;
+    max-height:  50vmin;
+    font-size:   13px;
+    overflow-y:  auto;
 }
 
 #x-alfirm .modal-footer > button:focus {
     outline: none;
 }
+
+/* ------------------------------------------------- */
 
 .rh-container {
     margin-left:     auto;
@@ -75,7 +80,7 @@
     width: 100px;
 }
 
-.rh-controls {
+.rh-container > .rh-controls {
     display:               grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap:              10px;
