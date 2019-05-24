@@ -9,7 +9,15 @@
         setTitle      = $('#set-title'),
         setMessage    = $('#set-message'),
         messages      = [
-            'Внимание!!!\n',
+            'Внимание!!!\n' +
+            'Записи по данному объекту (внесено 1 помещение в отношении данного ИП) были внесены в экспликацию объекта ID 20246623.\n' +
+            '\n' +
+            'Таким образом, для удаления данного объекта, сперва необходимо удалить записи по нему в экспликации объекта ID 20246623.',
+            'Внимание!!!\n' +
+            'В базе актуальных объектов найден эквивалентый объект (ID 20246617) у которого совпадает:\n' +
+            '   - Инвентарный номер (0/C-62);\n' +
+            '\n' +
+            'Таким образом, восстановление данного объекта невозможно.',
             'Внимание!!!\n' +
             'У данного объекта (ID 40337291) не завершена операция по удалению: \n' +
             '   - Заказ №100297746;\n' +
@@ -93,7 +101,7 @@
         ],
         randomInteger = function (min, max) {
             var rand = min - 0.5 + Math.random() * (max - min + 1);
-
+        
             return Math.round(rand);
         },
         test1         = {},
@@ -102,13 +110,13 @@
         },
         test4         = '1',
         test5         = 1;
-
+    
     controls.eq(0).on('click', function (e) {
         window.alert(messages[randomInteger(0, (messages.length - 1))]);
     });
     controls.eq(1).on('click', function (e) {
         var userReply = window.confirm(messages[randomInteger(0, (messages.length - 1))]);
-
+        
         if (userReply) {
             alert('OK');
         } else {
@@ -118,58 +126,69 @@
     controls.eq(2).on('click', function (e) {
         var message = setMessage.find('input').val(),
             title   = setTitle.find('input').val();
-
+        
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-
+        
         alfirm.title(title).body(message).show().status();
     });
     controls.eq(3).on('click', function (e) {
         var message = setMessage.find('input').val(),
             title   = setTitle.find('input').val();
-
+        
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-
-        alfirm.title(title).body(message).okay(function () {
-            alert('Alfirm Only Okay Callback Function Begin!');
+        
+        alfirm
+        // .title(title)
+        .body(message)
+        .okay(function () {
+            console.error('Alfirm Only Okay Callback Function Begin!');
             console.log(test1);
             console.log(test2);
             console.log(test3);
             console.log(test4);
             console.log(test5);
-            alert('Alfirm Only Okay Callback Function End!');
-        }).show().status();
+            console.error('Alfirm Only Okay Callback Function End!');
+        })
+        .show()
+        .status();
     });
     controls.eq(4).on('click', function (e) {
         var message = setMessage.find('input').val(),
             title   = setTitle.find('input').val();
-
+        
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-
-        alfirm.title(title).body(message).okay(function () {
-            alert('Alfirm Okay (Okay + Cancel) Callback Function Begin!');
+        
+        alfirm
+        // .title(title)
+        .body(message)
+        .okay(function () {
+            console.error('Alfirm Okay (Okay + Cancel) Callback Function Begin!');
             console.log(test1);
             console.log(test2);
             console.log(test3);
             console.log(test4);
             console.log(test5);
-            alert('Alfirm Okay (Okay + Cancel) Callback Function End!');
-        }).cancel(function () {
-            alert('Alfirm Cancel (Okay + Cancel) Callback Function Begin!');
+            console.error('Alfirm Okay (Okay + Cancel) Callback Function End!');
+        })
+        .cancel(function () {
+            console.error('Alfirm Cancel (Okay + Cancel) Callback Function Begin!');
             console.log(test1);
             console.log(test2);
             console.log(test3);
             console.log(test4);
             console.log(test5);
-            alert('Alfirm Cancel (Okay + Cancel) Callback Function End!');
-        }).show().status();
+            console.error('Alfirm Cancel (Okay + Cancel) Callback Function End!');
+        })
+        .show()
+        .status();
     });
-
+    
     setTitle.find('button').on('click', function (e) {
         setTitle.find('input').val('');
     });
