@@ -28,12 +28,12 @@
 
 #x-alfirm .modal-header,
 #x-alfirm .modal-footer {
-    border: none;
+    border:      none;
+    user-select: none;
 }
 
 #x-alfirm .modal-title {
-    user-select: none;
-    font-size:   15px;
+    font-size: 15px;
 }
 
 #x-alfirm .modal-body {
