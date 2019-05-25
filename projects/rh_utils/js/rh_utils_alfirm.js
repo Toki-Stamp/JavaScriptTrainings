@@ -5,6 +5,7 @@
 
 (function () {
     var alfirm        = window['rh_utils'].alfirm.getInstance(),
+        malfirm       = window['rh_utils'].multialfirm.getNewInstance(),
         controls      = $('.rh-controls').find('button'),
         setTitle      = $('#set-title'),
         setMessage    = $('#set-message'),
@@ -222,7 +223,19 @@
     });
     /* multi */
     controls.eq(6).on('click', function (e) {
-        console.log('multi 1');
+        var message = setMessage.find('input').val(),
+            title   = setTitle.find('input').val();
+
+        if (!message || (message && !message.length)) {
+            message = messages[randomInteger(0, (messages.length - 1))];
+        }
+
+        alfirm
+            .confirm(true)
+            .title('Multi Confirm Then Alert')
+            .body(message)
+            .show()
+            .status();
     });
     controls.eq(7).on('click', function (e) {
         console.log('multi 2');
