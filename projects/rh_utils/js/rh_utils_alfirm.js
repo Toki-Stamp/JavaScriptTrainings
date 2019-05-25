@@ -101,7 +101,7 @@
         ],
         randomInteger = function (min, max) {
             var rand = min - 0.5 + Math.random() * (max - min + 1);
-        
+
             return Math.round(rand);
         },
         test1         = {},
@@ -110,85 +110,124 @@
         },
         test4         = '1',
         test5         = 1;
-    
+
+    /* standard */
     controls.eq(0).on('click', function (e) {
         window.alert(messages[randomInteger(0, (messages.length - 1))]);
     });
     controls.eq(1).on('click', function (e) {
         var userReply = window.confirm(messages[randomInteger(0, (messages.length - 1))]);
-        
+
         if (userReply) {
             alert('OK');
         } else {
             alert('Cancel or ESC');
         }
     });
+    /* alerts */
     controls.eq(2).on('click', function (e) {
         var message = setMessage.find('input').val(),
             title   = setTitle.find('input').val();
-        
+
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-        
-        alfirm.title(title).body(message).show().status();
+
+        alfirm
+            .title('Alert')
+            .body(message)
+            .show()
+            .status();
     });
     controls.eq(3).on('click', function (e) {
         var message = setMessage.find('input').val(),
             title   = setTitle.find('input').val();
-        
+
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-        
+
         alfirm
-        // .title(title)
-        .body(message)
-        .okay(function () {
-            console.error('Alfirm Only Okay Callback Function Begin!');
-            console.log(test1);
-            console.log(test2);
-            console.log(test3);
-            console.log(test4);
-            console.log(test5);
-            console.error('Alfirm Only Okay Callback Function End!');
-        })
-        .show()
-        .status();
+            .title('Alert + Okay')
+            .body(message)
+            .okay(function () {
+                console.error('Alfirm Only Okay Callback Function Begin!');
+                console.log(test1);
+                console.log(test2);
+                console.log(test3);
+                console.log(test4);
+                console.log(test5);
+                console.error('Alfirm Only Okay Callback Function End!');
+            })
+            .show()
+            .status();
     });
+    /* confirms */
     controls.eq(4).on('click', function (e) {
         var message = setMessage.find('input').val(),
             title   = setTitle.find('input').val();
-        
+
         if (!message || (message && !message.length)) {
             message = messages[randomInteger(0, (messages.length - 1))];
         }
-        
+
         alfirm
-        // .title(title)
-        .body(message)
-        .okay(function () {
-            console.error('Alfirm Okay (Okay + Cancel) Callback Function Begin!');
-            console.log(test1);
-            console.log(test2);
-            console.log(test3);
-            console.log(test4);
-            console.log(test5);
-            console.error('Alfirm Okay (Okay + Cancel) Callback Function End!');
-        })
-        .cancel(function () {
-            console.error('Alfirm Cancel (Okay + Cancel) Callback Function Begin!');
-            console.log(test1);
-            console.log(test2);
-            console.log(test3);
-            console.log(test4);
-            console.log(test5);
-            console.error('Alfirm Cancel (Okay + Cancel) Callback Function End!');
-        })
-        .show()
-        .status();
+            .confirm(true)
+            .title('Confirm + Okay')
+            .body(message)
+            .okay(function () {
+                console.error('Alfirm Only Okay Callback Function Begin!');
+                console.log(test1);
+                console.log(test2);
+                console.log(test3);
+                console.log(test4);
+                console.log(test5);
+                console.error('Alfirm Only Okay Callback Function End!');
+            })
+            .show()
+            .status();
     });
-    
+    controls.eq(5).on('click', function (e) {
+        var message = setMessage.find('input').val(),
+            title   = setTitle.find('input').val();
+
+        if (!message || (message && !message.length)) {
+            message = messages[randomInteger(0, (messages.length - 1))];
+        }
+
+        alfirm
+            .confirm(true)
+            .title('Confirm + Okay + Cancel')
+            .body(message)
+            .okay(function () {
+                console.error('Alfirm Okay (Okay + Cancel) Callback Function Begin!');
+                console.log(test1);
+                console.log(test2);
+                console.log(test3);
+                console.log(test4);
+                console.log(test5);
+                console.error('Alfirm Okay (Okay + Cancel) Callback Function End!');
+            })
+            .cancel(function () {
+                console.error('Alfirm Cancel (Okay + Cancel) Callback Function Begin!');
+                console.log(test1);
+                console.log(test2);
+                console.log(test3);
+                console.log(test4);
+                console.log(test5);
+                console.error('Alfirm Cancel (Okay + Cancel) Callback Function End!');
+            })
+            .show()
+            .status();
+    });
+    /* multi */
+    controls.eq(6).on('click', function (e) {
+        console.log('multi 1');
+    });
+    controls.eq(7).on('click', function (e) {
+        console.log('multi 2');
+    });
+    /* setters */
     setTitle.find('button').on('click', function (e) {
         setTitle.find('input').val('');
     });
