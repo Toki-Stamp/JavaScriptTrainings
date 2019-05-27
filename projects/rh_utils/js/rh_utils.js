@@ -5,7 +5,7 @@
 
 (function init_utils(referenceName) {
     var utils = (window[referenceName] || {}),
-        debug = true;
+        debug = false;
 
     function /* constructor */ Shield() {
         var classes   = {
@@ -703,8 +703,6 @@
                 counter            = instance.id;
 
                 storage.push(instance);
-
-                window.alfirm = instance;
 
                 return instance.reference;
             },
