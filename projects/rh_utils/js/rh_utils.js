@@ -639,6 +639,9 @@
             (debug) && console.info('alfirm:', alfirm);
             (debug) && console.info('instance:', instance);
         };
+        this.timer   = function (msecs) {
+        
+        };
         this.title   = function (title) {
             alfirm = (alfirm || init());
             //todo не забыть убрать debug

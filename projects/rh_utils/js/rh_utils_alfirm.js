@@ -5,6 +5,7 @@
 
 (function () {
     var alfirm        = window['rh_utils'].alfirm.getInstance(),
+        shield        = window['rh_utils'].shield.getNewInstance().create(),
         controls      = $('.rh-controls').find('button'),
         setTitle      = $('#set-title'),
         setMessage    = $('#set-message'),
@@ -228,6 +229,9 @@
             message = messages[randomInteger(0, (messages.length - 1))];
         }
 
+        shield
+            .bind($('body'))
+            .show();
         alfirm
             .confirm(true)
             .title('Confirm + Okay, Then Alert')
@@ -236,7 +240,16 @@
                 alfirm
                     .title('Alert Okay!')
                     .body('Confirmed!')
-                    .show()
+                    .okay(function () {
+                        shield
+                            .hide()
+                    })
+                    .show();
+                
+            })
+            .cancel(function () {
+                shield
+                    .hide();
             })
             .show()
     });
