@@ -468,14 +468,14 @@
                     'class':        'btn btn-primary',
                     'type':         'button',
                     'data-dismiss': 'modal',
-                    'html':         '&nbsp;&nbsp;Ок&nbsp;&nbsp;'
+                    'html':         'Ок'
                 }),
                 btnCancel    = $('<button>', {
                     'id':           'x-alfirm-btn-cancel',
                     'class':        'btn btn-default',
                     'type':         'button',
                     'data-dismiss': 'modal',
-                    'html':         '&nbsp;&nbsp;Отмена&nbsp;&nbsp;'
+                    'html':         'Отмена'
                 }),
                 description  = {
                     callback:  {okay: null, cancel: null},

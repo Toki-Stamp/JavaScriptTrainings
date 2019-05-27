@@ -43,11 +43,53 @@
     overflow-y:  auto;
 }
 
+#x-alfirm-container .modal-footer > button {
+    min-width: 84px;
+}
+
+#x-alfirm-container .modal-footer > button:last-child {
+    margin-left: 10px;
+}
+
 #x-alfirm-container .modal-footer > button:focus {
     outline: none;
 }
 
 /* ------------------------------------------------- */
+#x-alfirm-container .modal.modal-primary .modal-content {
+    /*border: 1px solid rgb(13, 71, 161);*/
+}
+
+#x-alfirm-container .modal.modal-primary .modal-header {
+    background-color: rgba(66, 133, 244, .8);
+    border-bottom:    1px solid rgb(13, 71, 161);
+}
+
+#x-alfirm-container .modal.modal-primary .modal-title {
+    color:       white;
+    font-weight: bold;
+}
+
+#x-alfirm-container .modal.modal-primary button#x-alfirm-btn-okay {
+    border-color:     rgb(13, 71, 161);
+    background-color: rgba(66, 133, 244, .8);
+    color:            rgb(255, 255, 255);
+    transition:       all 150ms ease-in-out;
+}
+
+#x-alfirm-container .modal.modal-primary button#x-alfirm-btn-okay:hover,
+#x-alfirm-container .modal.modal-primary button#x-alfirm-btn-okay:active,
+#x-alfirm-container .modal.modal-primary button#x-alfirm-btn-okay:focus {
+    background-color: rgba(13, 71, 161, .8);
+}
+
+#x-alfirm-container .modal.modal-primary button#x-alfirm-btn-cancel {
+    color:      rgba(66, 133, 244, .8);
+    transition: all 150ms ease-in-out;
+}
+
+/* ------------------------------------------------- */
+
 
 .rh-container {
     margin-left:     auto;
