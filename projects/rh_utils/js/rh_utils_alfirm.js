@@ -231,6 +231,7 @@
 
         shield
             .bind($('body'))
+            .prevent()
             .show();
         alfirm
             .confirm(true)
@@ -245,7 +246,7 @@
                             .hide()
                     })
                     .show();
-                
+
             })
             .cancel(function () {
                 shield

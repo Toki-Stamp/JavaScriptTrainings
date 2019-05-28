@@ -8,22 +8,66 @@
         debug = false;
 
     function /* constructor */ Shield() {
-        var classes   = {
+        var classes           = {
                 'shield':   'x-shield-container',
-                'message':  'x-shield-message',
                 'body':     'x-body',
                 'relative': 'x-relative',
                 'text':     'x-shield-text',
                 'hidden':   'x-hidden',
-                'get':      function (className) {
+                getClass:   function (className) {
                     return ['.', this[className]].join('');
                 }
             },
-            reference = {'target': null, 'shield': null, 'message': null};
+            reference         = {
+                'target':       null,
+                'shield':       null,
+                'message':      'Загрузка данных...',
+                'shield-state': null,
+                'prevent':      false
+            },
+            keyCodesWhiteList = {
+                'F5':  {keyCode: 116, description: 'Reload/Refresh Page'},
+                check: function (event) {
+                    return (this['F5'].keyCode === event.keyCode);
+                }
+            },
+            events            = {
+                keydownHandler:      function (event) {
+                    if (!keyCodesWhiteList.check(event)) {
+                        event.preventDefault();
+
+                        return false;
+                    }
+                },
+                beforeunloadHandler: function (event) {
+                    var confirmationMessage = 'Собираетесь покинуть страницу?';
+
+                    event.returnValue = confirmationMessage;
+
+                    return confirmationMessage;
+                }
+            };
+
+        function disableKeydown(state) {
+            document.removeEventListener('keydown', events.keydownHandler);
+
+            if (state) {
+                document.addEventListener('keydown', events.keydownHandler);
+            }
+        }
+
+        function preventLeavePage(state) {
+            window.removeEventListener('beforeunload', events.beforeunloadHandler);
+
+            if (state) {
+                window.addEventListener('beforeunload', events.beforeunloadHandler)
+            }
+        }
+
         /* chain call pattern */
         this.create  = function () {
             var shieldScreen       = $('<div>', {'class': classes['shield']}),
-                shieldMessage      = $('<div>', {'class': classes['message']}),
+                shieldMessage      = $('<div>', {'class': 'x-shield-message'}),
                 animationContainer = $('<div>', {'class': 'x-shield-message-animation-container'}),
                 textContainer      = $('<div>', {'class': 'x-shield-message-text-container'}),
                 spinnerAnimation   = $('<span>', {'class': 'fa fa-spinner fa-pulse'}),
@@ -46,18 +90,22 @@
         };
         this.message = function (message) {
             reference['message'] = message;
-            reference['shield'].find(classes.get('text')).text(message);
 
-            if (reference['message']) {
-                reference['shield'].find(classes.get('message')).removeClass(classes['hidden']);
-            } else {
-                reference['shield'].find(classes.get('message')).addClass(classes['hidden']);
+            if (reference['shield']) {
+                reference['shield'].find(classes.getClass('text')).text(message);
             }
 
             return this;
         };
         this.show    = function () {
             if (reference['target']) {
+                disableKeydown(true);
+
+                (reference['prevent'] === true) && (preventLeavePage(true));
+
+                reference['target'].find('*').blur();
+                reference['shield-state'] = 'shown';
+
                 if (reference['target'].is('body')) {
                     if (!reference['target'].hasClass(classes['body'])) {
                         reference['target'].addClass(classes['body']);
@@ -68,16 +116,10 @@
                     }
                 }
 
-                if (reference['message']) {
-                    reference['shield'].find(classes.get('message')).removeClass(classes['hidden']);
-                } else {
-                    reference['shield'].find(classes.get('message')).addClass(classes['hidden']);
-                }
-
                 if (reference['shield'].hasClass(classes['hidden'])) {
                     reference['shield'].removeClass(classes['hidden']);
                 } else {
-                    if (!reference['target'].find(classes.get('shield')).length) {
+                    if (!reference['target'].find(classes.getClass('shield')).length) {
                         reference['shield'].prependTo(reference['target']);
                     }
                 }
@@ -86,7 +128,12 @@
             return this;
         };
         this.hide    = function () {
-            if (reference['shield']) {
+            if (reference['shield'] && reference['target']) {
+                disableKeydown(false);
+                preventLeavePage(false);
+
+                reference['shield-state'] = 'hidden';
+
                 if (!reference['shield'].hasClass(classes['hidden'])) {
                     reference['shield'].addClass(classes['hidden']);
                 }
@@ -94,10 +141,22 @@
 
             return this;
         };
+        this.prevent = function (mode) {
+            reference['prevent'] = mode;
+
+            return this;
+        };
         this.destroy = function () {
             if (reference['target']) {
+                disableKeydown(false);
                 reference['target'].removeClass(classes['relative']).removeClass(classes['body']);
-                reference['target'].find(classes.get('shield')).remove();
+                reference['target'].find(classes.getClass('shield')).remove();
+                reference = {
+                    'target':       null,
+                    'shield':       null,
+                    'message':      'Загрузка данных...',
+                    'shield-state': null
+                };
             }
 
             return this;
@@ -640,7 +699,7 @@
             (debug) && console.info('instance:', instance);
         };
         this.timer   = function (msecs) {
-        
+
         };
         this.title   = function (title) {
             alfirm = (alfirm || init());
