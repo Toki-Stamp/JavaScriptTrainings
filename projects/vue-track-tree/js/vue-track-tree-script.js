@@ -4,36 +4,52 @@
  */
 
 let app = new Vue({
-    el:      '#vue-app',
-    data:    {
-        list: null
+    el     : '#vue-app',
+    data   : {
+        id   : null,
+        list : null,
+        chars: null
     },
-    watch:   {
-        list: function (current, previous) {
+    watch  : {
+        id   : function (current, previous) {
+            console.log('Watch data.id...');
+            console.log({current: current, previous: previous});
+        },
+        list : function (current, previous) {
             console.log('Watch data.list...');
             console.log({current: current, previous: previous});
         },
+        chars: function (current, previous) {
+            console.log('Watch data.chars...');
+            console.log({current: current, previous: previous});
+        }
     },
     methods: {
-        getList:  function () {
+        getList : function () {
             this.$set(this, 'list', (function (data) {
                 let object = {};
-
+                
                 data.forEach(function (item) {
                     object[item.id] = item;
                 });
-
+                
                 return object;
             })(storage.list));
         },
-        getChars: function () {
-
+        getChars: function (id) {
+            this.$set(this, 'chars', (storage.chars[id] ? storage.chars[id] : null));
+            
+            $('#bootstrap-modal').modal('show');
+        },
+        setID   : function (id) {
+            this.$set(this, 'id', id);
         },
         highlight(event) {
             $(event.target).parent().addClass('bg-primary text-light').siblings().removeClass('bg-primary text-light');
-        },
-        doSomeMoreStuff(item, key, index) {
-            console.log(arguments);
         }
+    },
+    mounted: function () {
+        $('#bootstrap-modal').modal({backdrop: false, keyboard: true, focus: true, show: false});
+        console.log('Mounted Hook!');
     }
 });
