@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>vue-track-tree</title>
@@ -10,35 +10,41 @@
     <!------------------------- CSS ----------------------------->
     <!-- Bootstrap -->
     <link href="../../../_lib/new/bootstrap-4.3.1/css/bootstrap.css" rel="stylesheet">
+    <!-- Custom css goes below -->
+    <link href="../css/vue-track-tree-style.css" rel="stylesheet">
     <!------------------------- CSS ----------------------------->
 </head>
 <body>
     <!------------------------- Main ---------------------------->
     <div id="vue-app">
         <div class="container">
-            <nav class="navbar bg-white sticky-top">
-                <button class="btn btn-outline-primary" @click="getList()">Get List</button>
-            </nav>
             <template v-if="list">
-                <table class="table table-striped table-bordered table-hover">
-                    <thead>
+                <table class="table table-hover">
+                    <thead class="thead-light">
                         <tr>
                             <th>#</th>
                             <th>ID</th>
                             <th>Liter</th>
                             <th>Name</th>
+                            <th>Characteristics</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, key, index) in list" @click="highlight($event), setID(key)"
-                            @dblclick="getChars(key)" title="Double Click to Open Characteristics...">
+                        <tr v-for="(item, key, index) in list"
+                            @click="highlight($event), setID(key), getChars(key)" title="Click to load characteristics!">
                             <td>{{++index}}</td>
                             <td>{{item.id}}</td>
                             <td>{{item.liter}}</td>
                             <td>{{item.nameComponent}}</td>
+                            <td v-bind:class="item.characteristics ? 'loaded' : 'empty'">{{item.characteristics ? 'Loaded' : 'Empty'}}</td>
                         </tr>
                     </tbody>
                 </table>
+            </template>
+            <template v-else>
+                <div class="intro">
+                    <button class="btn btn-primary" @click="getList()">START</button>
+                </div>
             </template>
         </div>
         <div id="bootstrap-modal" class="modal fade" tabindex="-1" role="dialog">
@@ -51,12 +57,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <template v-if="chars">
-                            <pre>{{JSON.stringify(chars, null, 2)}}</pre>
-                        </template>
-                        <template v-else>
-                            <pre>No data found...</pre>
-                        </template>
+<!--                        <template v-if="list">-->
+<!--                            <pre>Display characteristics!</pre>-->
+<!--                        </template>-->
+<!--                        <template v-else>-->
+<!--                            <pre>No data found...</pre>-->
+<!--                        </template>-->
+                        <characteristics :characteristics="chars" v-for="chars in list"></characteristics>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">Save changes</button>
