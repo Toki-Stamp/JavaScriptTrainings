@@ -49,8 +49,8 @@ let app = new Vue({
     }
 });
 
-Vue.component('characteristics', {
-    props:    ['characteristics'],
+Vue.component('characteristics-component', {
+    // props:    ['characteristics'],
     template: '<div>chars</div>',
     watch:    {
         characteristics: {

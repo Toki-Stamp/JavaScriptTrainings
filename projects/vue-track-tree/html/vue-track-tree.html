@@ -63,8 +63,8 @@
 <!--                        <template v-else>-->
 <!--                            <pre>No data found...</pre>-->
 <!--                        </template>-->
-                        <characteristics :characteristics="chars" v-for="chars in list"></characteristics>
-
+<!--                        <characteristics :characteristics="chars" v-for="chars in list"></characteristics>-->
+                        <characteristics-component v-for="() in list"></characteristics-component>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">Save changes</button>
