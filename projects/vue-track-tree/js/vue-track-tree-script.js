@@ -34,7 +34,7 @@ let app = new Vue({
         getChars: function (id) {
             (storage.chars[id] && (this.list[id].characteristics = storage.chars[id]));
 
-            $('#bootstrap-modal').modal('show');
+            // $('#bootstrap-modal').modal('show');
         },
         setID:    function (id) {
             this.$set(this, 'id', id);
@@ -49,8 +49,8 @@ let app = new Vue({
     }
 });
 
-Vue.component('characteristics', {
-    props:    ['characteristics'],
+Vue.component('characteristics-component', {
+    // props:    ['characteristics'],
     template: '<div>chars</div>',
     watch:    {
         characteristics: {
