@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>vue-track-tree</title>
@@ -33,7 +33,7 @@
                     <tbody>
                         <tr v-for="(item, key, index) in list"
                             v-bind:key="item.id"
-                            @click="highlight($event), setID(key), getChars(key)" title="Click to load characteristics!">
+                            v-on:click="highlight($event), setID(key), getChars(key)" title="Click to load characteristics!">
                             <td>{{++index}}</td>
                             <td>{{item.id}}</td>
                             <td>{{item.parentId}}</td>
@@ -51,7 +51,7 @@
             </template>
         </div>
         <div id="bootstrap-modal" class="modal fade" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">ID:{{id}}</h5>
@@ -60,14 +60,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-<!--                        <template v-if="list">-->
-<!--                            <pre>Display characteristics!</pre>-->
-<!--                        </template>-->
-<!--                        <template v-else>-->
-<!--                            <pre>No data found...</pre>-->
-<!--                        </template>-->
-                        <characteristics :characteristics="chars" v-for="chars in list"></characteristics>
-
+                        <h1>PARENT_TEXT: {{parentText}}</h1>
+                        <hr>
+                        <chars-component v-bind:linktoparenttext="parentText" v-on:parentTextChanged="parentTextChanged($event)"></chars-component>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">Save changes</button>
@@ -77,6 +72,23 @@
             </div>
         </div>
     </div>
+    <template id="chars">
+        <div>
+            <h1>COMPONENT_TEXT: {{selftext}}</h1>
+            <hr>
+            <label>
+                Change self text:
+                <input type="text" v-model="selftext">
+            </label>
+            <label>
+                Change parent text:
+                <input type="text" v-bind:value="linktoparenttext" v-on:input="changeParentText">
+            </label>
+            <hr>
+            <p>OUTPUT IN COMPONENT: {{selftext}}</p>
+            <p>OUTPUT IN COMPONENT: {{linktoparenttext}}</p>
+        </div>
+    </template>
     <!------------------------- Main ---------------------------->
     <!------------------------- Scripts ------------------------->
     <!-- jQuery -->

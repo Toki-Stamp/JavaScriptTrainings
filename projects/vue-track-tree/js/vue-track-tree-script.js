@@ -3,11 +3,27 @@
  * Contact me at : toki.stamp@gmail.com
  */
 
+Vue.component('chars-component', {
+    template: '#chars',
+    data:     function () {
+        return {selftext: 'Self text here!'}
+    },
+    props:    ['linktoparenttext'],
+    methods:  {
+        changeParentText: function (event) {
+            this.selftext = event.target.value;
+            this.$emit('parentTextChanged', this.selftext);
+            console.log(event);
+        }
+    }
+});
+
 let app = new Vue({
     el:      '#vue-app',
     data:    {
-        id:   null,
-        list: null
+        id:         null,
+        list:       null,
+        parentText: 'Vue text here!'
     },
     watch:   {
         id:   function (current, previous) {
@@ -20,7 +36,7 @@ let app = new Vue({
         },
     },
     methods: {
-        getList:  function () {
+        getList:                  function () {
             this.$set(this, 'list', (function (data) {
                 let object = {};
 
@@ -31,34 +47,24 @@ let app = new Vue({
                 return object;
             })(storage.list));
         },
-        getChars: function (id) {
+        getChars:                 function (id) {
             (storage.chars[id] && (this.list[id].characteristics = storage.chars[id]));
 
-            // $('#bootstrap-modal').modal('show');
+            $('#bootstrap-modal').modal('show');
         },
-        setID:    function (id) {
+        setID:                    function (id) {
             this.$set(this, 'id', id);
         },
-        highlight(event) {
+        highlight:                function (event) {
             $(event.target).parent().addClass('table-primary').siblings().removeClass('table-primary');
+        },
+        parentTextChangedHandler: function (event) {
+            console.log('parentTextChanged!', event);
         }
+
     },
     mounted: function () {
-        $('#bootstrap-modal').modal({backdrop: false, keyboard: true, focus: true, show: false});
         console.log('Mounted Hook!');
-    }
-});
-
-Vue.component('characteristics-component', {
-    props:    ['characteristics'],
-    template: '<div>chars</div>',
-    watch:    {
-        characteristics: {
-            handler: function (current, previous) {
-                console.log('Watch characteristics...');
-                console.log({current: current, previous: previous});
-            },
-            deep:    true
-        }
+        $('#bootstrap-modal').modal({backdrop: false, keyboard: true, focus: true, show: false});
     }
 });
