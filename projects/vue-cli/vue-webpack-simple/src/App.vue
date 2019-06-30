@@ -1,17 +1,16 @@
 <template>
     <div id="app">
         <app-message></app-message>
-        <app-message></app-message>
     </div>
 </template>
 
 <script>
     export default {
-        data() {
+        name: 'App',
+        data: function () {
             return {}
         }
     }
 </script>
 
-<style>
-</style>
+<style></style>
