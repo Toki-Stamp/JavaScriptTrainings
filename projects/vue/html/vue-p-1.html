@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue-p-1</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="../icon/favicon-2.png"/>
+    <!------------------------- Scripts ------------------------->
+    <!-- Vue -->
+    <script src="../../../_lib/new/vue-js-2.6.10/vue.js"></script>
+    <!------------------------- Scripts ------------------------->
+    <!------------------------- CSS ----------------------------->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../../../_lib/new/bootstrap-4.3.1/css/bootstrap.css">
+    <!-- Custom CSS goes below -->
+    <!-- Empty -->
+    <!------------------------- CSS ----------------------------->
+</head>
+<body>
+    <!------------------------- Main ---------------------------->
+    <div id="vue-p-1">
+        <div class="container">
+            <h1>{{ message }}</h1>
+            <input class="form-control" type="text" v-model="message">
+            <pre>{{ $data | json }}</pre>
+        </div>
+    </div>
+    <!------------------------- Main ---------------------------->
+    <!------------------------- Scripts ------------------------->
+    <!-- Custom js goes below -->
+    <script src="../js/vue-p-1.js"></script>
+    <!------------------------- Scripts ------------------------->
+</body>
+</html>
