@@ -1,0 +1,24 @@
+{
+  "name": "vue-webpack-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "webpack": "*",
+    "vue": "*",
+    "vue-loader": "*",
+    "babel-core": "*",
+    "babel-loader": "*",
+    "babel-plugin-transform-runtime": "*",
+    "babel-preset-es2015": "*",
+    "css-loader": "*",
+    "vue-html-loader": "*",
+    "vue-style-loader": "*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
