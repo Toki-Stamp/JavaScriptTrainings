@@ -6,13 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t vueify -e main.js -o build.js",
-	"watch": "watchify -t vueify -e main.js -o build.js"
+    "watch": "watchify -t vueify -e main.js -o build.js"
   },
   "devDependencies": {
     "browserify": "*",
     "vue": "*",
     "vueify": "*",
-    "watchify": "^3.11.1"
+    "watchify": "*"
   },
   "keywords": [],
   "author": "",

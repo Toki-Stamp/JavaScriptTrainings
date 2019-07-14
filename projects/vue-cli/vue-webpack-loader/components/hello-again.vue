@@ -1,19 +1,19 @@
 <template>
-	<h1>{{greeting}}</h1>
+    <h1>{{ greeting }}</h1>
 </template>
 
 <script>
-	module.exports = {
-		data: function () {
-			return {
-				greeting: 'Hello from Component!'
-			}
-		}
-	}
+    module.exports = {
+        data: function () {
+            return {
+                greeting: 'Hello from Component!'
+            }
+        }
+    }
 </script>
 
 <style>
-	h1 {
-		color: red;
-	}
+    h1 {
+        color: red;
+    }
 </style>
