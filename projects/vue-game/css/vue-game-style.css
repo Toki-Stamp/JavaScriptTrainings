@@ -13,6 +13,7 @@
 }
 
 #image {
+    transition:      all 500ms ease-in-out;
     height:          260px;
     background:      url("../img/Recycle-Bin-Full.png") center no-repeat;
     background-size: 100%;
@@ -30,13 +31,23 @@
 }
 
 #progress-bar > .bar > div {
+    transition: all 500ms ease-in-out;
     height:     38px;
-    background: rgba(220, 20, 60, .4);
+    background: rgba(220, 20, 60, .7);
 }
 
-#title, #image, #progress-bar, #controls {
+#title, #image, #progress-bar, #residue, #steps-taken, #controls {
     width:  200px;
     margin: 0 auto;
+}
+
+#residue, #steps-taken {
+    text-align: center;
+}
+
+#residue > p, #steps-taken > p {
+    font-weight:   bold;
+    margin-bottom: 0;
 }
 
 #controls button {
@@ -49,7 +60,7 @@
     margin-bottom: 0;
 }
 
-#title:before, #image:before, #progress-bar:before, #controls:before {
+#title:before, #image:before, #progress-bar:before, #residue:before, #steps-taken:before, #controls:before {
     content:         attr(id) ':';
     display:         flex;
     align-items:     center;

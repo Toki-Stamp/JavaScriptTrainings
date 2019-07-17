@@ -25,15 +25,26 @@
     <div id="game-app">
         <div class="container">
             <div id="title">
-                <h1>Clear the Trash Bin</h1>
+                <h1>{{(isEmpty ? title.empty : title.filled)}}</h1>
             </div>
             <!-- image -->
             <div id="image" v-bind:class="{empty: isEmpty}"></div>
-            <!-- progress -->
-            <div id="progress-bar" v-show="!isEmpty">
-                <div class="bar">
-                    <div v-bind:style="{width: progress + '%'}"></div>
+            <div v-show="!isEmpty">
+                <!-- progress -->
+                <div id="progress-bar">
+                    <div class="bar">
+                        <div v-bind:style="{width: progress + '%', opacity: progress * .01}" transition="fade"></div>
+                    </div>
                 </div>
+                <!-- status -->
+                <div id="residue">
+                    <p>{{residue}}</p>
+                </div>
+                <!-- steps taken -->
+                <div id="steps-taken">
+                    <p>{{stepsTaken}}</p>
+                </div>
+
             </div>
             <!-- controls -->
             <div id="controls">
