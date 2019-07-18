@@ -1,4 +1,4 @@
-# vue-webpack-simple
+# webpack-simple-example
 
 > A Vue.js project
 

@@ -1,8 +1,8 @@
 {
-  "name": "vue-webpack-simple",
+  "name": "webpack-simple-example",
   "description": "A Vue.js project",
   "version": "1.0.0",
-  "author": "fomichev <fomichev@nca.by>",
+  "author": "Yuri Fomichev",
   "license": "MIT",
   "private": true,
   "scripts": {
