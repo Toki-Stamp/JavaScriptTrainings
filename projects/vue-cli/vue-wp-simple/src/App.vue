@@ -1,8 +1,9 @@
 <template>
     <div>
-        <app-header></app-header>
+        <!--        <app-header v-bind:title="title.header" v-on:changeTitleEvent="changeTitle($event)"></app-header>-->
+        <app-header v-bind:title="title.header"></app-header>
         <app-ninjas v-bind:list="ninjas"></app-ninjas>
-        <app-footer></app-footer>
+        <app-footer v-bind:title="title.footer"></app-footer>
     </div>
 </template>
 
@@ -27,10 +28,23 @@
                     {name: 'Tango', speciality: 'Conditionals', show: false},
                     {name: 'Kami', speciality: 'Webpack', show: false},
                     {name: 'Yoshi', speciality: 'Data Diggin', show: false}
-                ]
+                ],
+                title : {
+                    header: 'This is header component title passed as prop to nested component',
+                    footer: 'This is footer component title passed as prop to nested component'
+                }
+            }
+        },
+        methods   : {
+            changeTitle(changedTitle) {
+                this.title.header = changedTitle;
             }
         }
     }
 </script>
 
-<style></style>
+<style>
+    header, footer {
+        cursor: pointer;
+    }
+</style>
