@@ -1,6 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
-var projectName = 'webpack-simple-example';
+var projectName = 'vue-blog-example';
 
 module.exports = {
     entry      : './' + projectName + '/src/main.js',
