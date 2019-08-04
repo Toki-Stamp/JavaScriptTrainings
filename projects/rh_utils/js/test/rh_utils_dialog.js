@@ -1,0 +1,44 @@
+/**
+ * Created by Fomichev Yuri on 21.05.2019
+ * Contact me at : toki.stamp@gmail.com
+ */
+
+(function () {
+    var dialog = window['rh_utils'].dialog.getInstance();
+    var body = $('<table>', {
+        'class': 'table table-condensed table-hover',
+        'html' : '<thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Username</th></tr></thead><tbody><tr><th scope="row">1</th> <td>Mark</td> <td>Otto</td> <td>@mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>@fat</td> </tr> <tr> <th scope="row">3</th> <td colspan="2">Larry the Bird</td> <td>@twitter</td></tr></tbody>'
+    });
+    var button1 = {
+        'class': 'btn btn-success',
+        'click': {
+            handler: function () {
+                console.log('Callback for Success', {args: arguments})
+            },
+            args   : ['hello, world', null, 7]
+        },
+        'text' : 'Button 1 Text'
+    };
+    var button2 = {
+        'class': 'btn btn-warning',
+        'click': {
+            handler: function () {
+                console.log('Callback for Warning', {args: arguments})
+            },
+            args   : [{'w1': 'hello', 'w2': 'world'}, [1, 2, 3], function () {
+                console.log('call-callback!');
+            }]
+        },
+        'text' : 'Button 2 Text'
+    };
+
+    $('.rh-container').find('section').find('button').on('click', function () {
+        dialog
+            .title('Таблица 1')
+            .body(body)
+            .button(button2)
+            .button(button1)
+            .show()
+            .info();
+    });
+})();

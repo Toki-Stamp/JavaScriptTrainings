@@ -1,0 +1,45 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+#x-dialog-container .modal-dialog {
+    width: 800px;
+    margin: 10px auto;
+}
+
+#x-dialog-container .modal-content {
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    -webkit-box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+}
+
+#x-dialog-container .modal-title,
+#x-dialog-container .modal-body {
+    text-align: justify;
+    text-justify: auto;
+}
+
+#x-dialog-container .modal-title {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#x-dialog-container .modal-body {
+    white-space: pre-wrap;
+    max-height: 50vmin;
+    font-size: 13px;
+    overflow-y: auto;
+}
+
+#x-dialog-container .modal-footer > button {
+    min-width: 84px;
+}
+
+#x-dialog-container .modal-footer > button:last-child {
+    margin-left: 10px;
+}
+
+#x-dialog-container .modal-footer > button:focus {
+    outline: none;
+}
