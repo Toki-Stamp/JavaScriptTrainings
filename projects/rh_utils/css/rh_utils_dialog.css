@@ -5,7 +5,7 @@
 }
 
 #x-dialog-container .modal-dialog {
-    width: 800px;
+    width: 640px;
     margin: 10px auto;
 }
 
@@ -32,14 +32,27 @@
     overflow-y: auto;
 }
 
-#x-dialog-container .modal-footer > button {
-    min-width: 84px;
+#x-dialog-container .modal-footer {
+    display: flex;
+    flex-direction: row-reverse;
 }
 
-#x-dialog-container .modal-footer > button:last-child {
-    margin-left: 10px;
+#x-dialog-container .modal-footer .modal-controls {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
-#x-dialog-container .modal-footer > button:focus {
+#x-dialog-container .modal-footer .modal-controls button,
+#x-dialog-container .modal-footer > .modal-close {
+    margin: 2px;
+}
+
+#x-dialog-container .modal-footer > .modal-close button {
+    height: 100%;
+}
+
+#x-dialog-container .modal-footer button:focus {
     outline: none;
 }
