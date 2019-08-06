@@ -5,11 +5,20 @@
             <label>Blog Title (input):<input type="text" required v-model.lazy="blog.title"></label>
             <label>Blog Content (text area):<textarea cols="30" rows="3" v-model.lazy="blog.content"></textarea></label>
         </form>
+        <p>Blog Categories (checkboxes):</p>
         <div id="checkboxes">
             <label>Ninja<input type="checkbox" value="Ninjas" v-model="blog.categories"></label>
             <label>Wizard<input type="checkbox" value="Wizards" v-model="blog.categories"></label>
             <label>Mario<input type="checkbox" value="Mario" v-model="blog.categories"></label>
             <label>Cheese<input type="checkbox" value="Cheese" v-model="blog.categories"></label>
+        </div>
+        <div id="select">
+            <label>
+                Author (select):
+                <select v-model="blog.author">
+                    <option v-for="author in authors">{{author}}</option>
+                </select>
+            </label>
         </div>
         <div id="preview">
             <h3>Preview Blog</h3>
@@ -20,20 +29,34 @@
             <ul>
                 <li v-for="category in blog.categories">{{category}}</li>
             </ul>
+            <p>Author: {{blog.author}}</p>
+        </div>
+        <div id="controls">
+            <button v-on:click="reset">Reset</button>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "AddBlog",
+        name   : "AddBlog",
         data() {
             return {
-                blog: {
+                blog   : {
                     title     : '',
                     content   : '',
-                    categories: []
-                }
+                    categories: [],
+                    author    : ''
+                },
+                authors: ['The Net Ninja', 'The Angular Avenger', 'The Vue Vindicator']
+            }
+        },
+        methods: {
+            reset() {
+                this.blog.title = '';
+                this.blog.content = '';
+                this.blog.categories = [];
+                this.blog.author = '';
             }
         }
     }
@@ -46,6 +69,10 @@
         border:     1px solid lightgrey;
         padding:    10px;
         box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    }
+
+    #add-blog p {
+        margin: 4px 0;
     }
 
     #add-blog h2, #preview h3 {
@@ -73,23 +100,24 @@
     }
 
     #checkboxes {
-        display: flex;
-        flex-direction: row;
+        display:         flex;
+        flex-direction:  row;
         justify-content: space-between;
     }
 
     #checkboxes input {
-        margin-left: 4px;
+        margin-left:  4px;
         margin-right: 0;
     }
 
     #checkboxes label {
-        display: flex;
-        align-items: center;
+        display:         flex;
+        align-items:     center;
         justify-content: center;
-        border: 1px dotted grey;
-        padding: 4px;
-        cursor: pointer;
+        border:          1px dotted grey;
+        padding:         4px;
+        cursor:          pointer;
+        margin:          0;
     }
 
     #preview {

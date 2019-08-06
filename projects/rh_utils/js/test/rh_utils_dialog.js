@@ -16,64 +16,90 @@
         },
         'text' : 'Button 1 Text'
     };
-
+    
     $('.rh-container')
-        .find('section')
-        .find('button')
-        .on('click', function () {
-            (function when() {
-                var deferred = jQuery.Deferred();
-                var dialog = window['rh_utils'].dialog.getInstance();
-
-                dialog
-                    .title('Step 1')
-                    .body('Body for step 1')
-                    .button({
-                        click: {
-                            handler: function () {
-                                deferred.resolve(dialog);
-                            }
-                        },
-                        text : 'Next...'
-                    })
-                    .button({
-                        'class': 'btn btn-danger',
-                        click  : {
-                            handler: function () {
-                                deferred.reject('Error!');
-                            }
-                        },
-                        text   : 'Interrupt'
-                    })
-                    .show();
-
-                return deferred.promise();
-            })()
-                .then(function (dialog1) {
-                    var deferred = jQuery.Deferred();
-                    var dialog = window['rh_utils'].dialog.getInstance();
-
-                    dialog
-                        .title('Step 2')
-                        .body('Body for step 2<br>Body for step 2<br>Body for step 2<br>Body for step 2<br>Body for step 2<br>Body for step 2')
-                        .button({
-                            type : 'success',
-                            click: {
-                                handler: function () {
-                                    deferred.resolve(dialog);
-                                }
-                            },
-                            text : 'Reload...'
-                        })
-                        .show();
-
-                    return deferred.promise();
-                })
-                .done(function (dialog2) {
-                    window.location.reload();
-                })
-                .fail(function (error) {
-                    alert(error);
-                });
+    .find('section')
+    .find('button')
+    .on('click', function () {
+        (function when() {
+            var deferred = jQuery.Deferred();
+            var dialog = window['rh_utils'].dialog.getInstance();
+            
+            dialog
+            .title('Step 1')
+            .body('Body for step 1')
+            .button({
+                click: {
+                    handler: function () {
+                        deferred.resolve({'step-1': dialog});
+                    }
+                },
+                text : 'Next...'
+            })
+            .button({
+                'class': 'btn btn-danger',
+                click  : {
+                    handler: function () {
+                        deferred.reject('Error!');
+                    }
+                },
+                text   : 'Interrupt'
+            })
+            .show();
+            
+            return deferred.promise();
+        })()
+        .then(function (transport) {
+            var deferred = jQuery.Deferred();
+            var dialog = window['rh_utils'].dialog.getInstance();
+            
+            dialog
+            .title('Step 2')
+            .body('Body for step 2<br>Body for step 2<br>Body for step 2<br>Body for step 2<br>Body for step 2<br>Body for step 2')
+            .button({
+                type : 'success',
+                click: {
+                    handler: function () {
+                        transport['step-2'] = dialog;
+                        deferred.resolve(transport);
+                    }
+                },
+                text : 'Go further...'
+            })
+            .show();
+            
+            return deferred.promise();
+        })
+        .then(function (transport) {
+            var deferred = jQuery.Deferred();
+            var dialog = window['rh_utils'].dialog.getInstance();
+            
+            dialog
+            .title('Step 3')
+            .body(body)
+            .button({
+                type : 'success',
+                click: {
+                    handler: function () {
+                        transport['step-3'] = dialog;
+                        deferred.resolve(transport);
+                    }
+                },
+                text : 'To Final Step...'
+            })
+            .show();
+            
+            return deferred.promise();
+        })
+        .done(function (transport) {
+            console.log('Done!', {transport: transport});
+            
+            if (confirm('Reload?')) {
+                window.location.reload();
+            }
+        })
+        .fail(function (error) {
+            alert(error);
         });
+    });
 })();
