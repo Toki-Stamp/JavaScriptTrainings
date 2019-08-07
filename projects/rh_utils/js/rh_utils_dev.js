@@ -6,7 +6,7 @@
 (function init_utils(referenceName) {
     var utils = (window[referenceName] || {}),
         debug = true;
-
+    
     function /* constructor */ Dialog(instance) {
         var defaultValues = {
                 id       : 'x-dialog-' + (instance.id ? instance.id : 1),
@@ -18,19 +18,19 @@
                 },
                 container: (function getContainer() {
                     var alfirmContainer = $('#x-dialog-container');
-
+                
                     if (alfirmContainer && alfirmContainer.length) {
                         return alfirmContainer;
                     }
-
+                
                     alfirmContainer = $('<div>', {'id': 'x-dialog-container'});
                     alfirmContainer.appendTo($('body'));
-
+                
                     return alfirmContainer;
                 })(),
                 delay    : 200,
             },
-            events = {
+            events        = {
                 onModalShow   : function (e) {
                     (debug) && console.log('Dialog: Modal Show Event', {id: instance.id, event: e});
                 },
@@ -44,25 +44,25 @@
                 onModalHidden : function (e) {
                     (debug) && console.log('Dialog: Modal Hidden Event', {id: instance.id, event: e});
                     (instance) && (instance.shown = false);
-
+                
                     //todo маленький крестик не вызывает callback
-                    // if (dialog.content.close.hasCallback) {
-                    //     dialog.content.close.callback.call(null);
-                    // }
+                    if (dialog.content.close.hasCallback) {
+                        dialog.content.close.callback.call(null);
+                    }
                 },
                 onModalEscaped: function (e) {
                     if (e.keyCode === 27) {
                         (debug) && console.log('Dialog: Escaped [ESC] Event', {id: instance.id, event: e});
-
-                        if (dialog.content.close.hasCallback) {
-                            dialog.content.close.callback.call(null);
-                        } else {
-                            dialog.el.modal('hide');
-                        }
+                    
+                        // if (dialog.content.close.hasCallback) {
+                        //     dialog.content.close.callback.call(null);
+                        // } else {
+                        dialog.el.modal('hide');
+                        // }
                     }
                 }
             },
-            dialog = {
+            dialog        = {
                 el       : null,
                 container: null,
                 content  : {
@@ -73,29 +73,29 @@
                     close   : null
                 }
             };
-
+        
         function init() {
-            var modal = $('<div>', {
+            var modal         = $('<div>', {
                     'class'   : 'modal fade',
                     'id'      : defaultValues.id,
                     'tabindex': '-1',
                     'role'    : 'dialog'
                 }),
-                modalDialog = $('<div>', {'class': 'modal-dialog', 'role': 'document'}),
-                modalContent = $('<div>', {'class': 'modal-content'}),
-                modalHeader = $('<div>', {'class': 'modal-header'}),
-                modalTitle = $('<div>', {'class': 'modal-title', 'html': defaultValues.title}),
-                modalBody = $('<div>', {'class': 'modal-body', 'html': defaultValues.body}),
-                modalFooter = $('<div>', {'class': 'modal-footer'}),
-                modalClose = $('<div>', {'class': 'modal-close'}),
+                modalDialog   = $('<div>', {'class': 'modal-dialog', 'role': 'document'}),
+                modalContent  = $('<div>', {'class': 'modal-content'}),
+                modalHeader   = $('<div>', {'class': 'modal-header'}),
+                modalTitle    = $('<div>', {'class': 'modal-title', 'html': defaultValues.title}),
+                modalBody     = $('<div>', {'class': 'modal-body', 'html': defaultValues.body}),
+                modalFooter   = $('<div>', {'class': 'modal-footer'}),
+                modalClose    = $('<div>', {'class': 'modal-close'}),
                 modalControls = $('<div>', {'class': 'modal-controls'}),
-                buttonX = $('<button>', {
+                buttonX       = $('<button>', {
                     'class'       : 'close',
                     'type'        : 'button',
                     'data-dismiss': 'modal',
                     'html'        : '<span aria-hidden="true">&times;</span>'
                 });
-
+            
             (debug) && console.log('Dialog: Init', {id: instance.id});
             /* content */
             modalTitle.appendTo(modalHeader);
@@ -132,7 +132,7 @@
             //todo не забыть убрать это!
             window['dialog'] = dialog;
         }
-
+        
         function execute(callback, args) {
             var timer = setTimeout(function () {
                 (debug) && console.log('Dialog: Executing Callback', {id: instance.id, callback: callback, args: args});
@@ -140,39 +140,38 @@
                 clearTimeout(timer);
                 timer = null;
             }, defaultValues.delay);
-
-            dialog.el.modal('hide');
         }
-
+        
         this.bind = function (container) {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Bind', {id: instance.id, container: container});
-
+            
             if (container && container.length) {
                 dialog.el.appendTo(container);
                 dialog.container = container;
             }
-
+            
             return this;
         };
         this.body = function (body) {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Set Body', {id: instance.id, body: body});
             (body && body.length) && dialog.content.body.html(body);
-
+            
             return this;
         };
         this.button = function (description) {
-            var button = {
+            var button      = {
                     'type' : 'button',
                     'text' : defaultValues.button.text,
                     'class': defaultValues.button.class
                 },
-                destination = dialog.content.controls;
-
+                destination = dialog.content.controls,
+                handler;
+            
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Add Button', {id: instance.id, description: description});
-
+            
             if (description) {
                 if (description.type) {
                     button['class'] = (function getClass() {
@@ -190,10 +189,10 @@
                             case 'info':
                                 return 'btn btn-info';
                         }
-
+                        
                         return defaultValues.button.class;
                     })();
-
+                    
                     if (description.type === 'close') {
                         if (!dialog.content.close.hasButton) {
                             button['data-dismiss'] = 'modal';
@@ -205,37 +204,42 @@
                     }
                 }
                 if (description.click && jQuery.isFunction(description.click.handler)) {
-                    button['click'] = function handler() {
+                    handler = function handler() {
                         execute(description.click.handler, (description.click.args || null));
                     };
-
+                    
                     if ((description.type === 'close') && dialog.content.close.hasButton) {
-                        dialog.content.close.hasCallback = true;
-                        dialog.content.close.callback = button['click'];
+                        //todo dialog.content.close.callback не добавлять второй раз
+                        if (!dialog.content.close.hasCallback) {
+                            dialog.content.close.hasCallback = true;
+                            dialog.content.close.callback = handler;
+                        }
+                    } else {
+                        button['click'] = handler;
                     }
                 }
                 if (description.text) {
                     button['text'] = description.text;
                 }
             }
-
+            
             if (destination && button) {
                 $('<button>', button).appendTo(destination);
             }
-
+            
             return this;
         };
         this.hide = function () {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Hide', {id: instance.id, shown: instance.shown});
             dialog.el.modal('hide');
-
+            
             return this;
         };
         this.info = function () {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Info', {dialog: dialog, instance: instance});
-
+            
             return this;
         };
         this.show = function () {
@@ -244,7 +248,7 @@
             (!dialog.content.close.hasButton) && (dialog.content.close.ref.remove());
             (!dialog.container) && (this.bind(defaultValues.container));
             dialog.el.modal('show');
-
+            
             return this;
         };
         this.destroy = function () {
@@ -256,50 +260,52 @@
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Set Title', {id: instance.id, title: title});
             (title && title.length) && dialog.content.title.html(title);
-
+            
             return this;
         };
     }
-
-    utils.dialog = (function () {
+    
+    utils.dialog = (function factory() {
         var counter = 0,
             storage = {};
-
+        
         return {
             getInstance: function (keepAliveOnHide) {
-                var id = ++counter,
+                var id    = ++counter,
                     state = false,
-                    item = Object.create({shown: state}, {
+                    item  = Object.create({shown: state}, {
                         'id'   : {
                             /* non mutable */
                             value: id
                         },
                         'shown': {
                             set: function (value) {
-                                (debug) && (console.log('Dialog Factory: Setting Shown State', {id: id, from: state, to: value}));
-
+                                (debug) && (console.log('Dialog Factory: Setting Shown State', {
+                                    id: id, from: state, to: value
+                                }));
+                            
                                 if ((!keepAliveOnHide) && (value === false) && item.ref) {
                                     /* destroy on hide */
                                     item.ref.destroy.call(null);
                                     storage[id] = null;
                                 }
-
+                            
                                 state = value;
                             },
                             get: function () {
                                 (debug) && (console.log('Dialog Factory: Getting Shown State', {id: id, shown: state}));
-
+                            
                                 return state;
                             }
                         }
                     });
-
+                
                 Object.defineProperty(item, 'ref', {
                     value: new Dialog(item)
                 });
-
+                
                 storage[id] = item;
-
+                
                 return item.ref;
             },
             status     : function () {
@@ -307,7 +313,7 @@
             }
         };
     })();
-
+    
     /* return */
     window[referenceName] = utils;
 })('rh_utils');
