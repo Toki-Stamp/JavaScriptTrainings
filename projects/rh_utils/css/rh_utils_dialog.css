@@ -34,7 +34,7 @@
 
 #x-dialog-container .modal-footer {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
 }
 
 #x-dialog-container .modal-footer .modal-controls {
