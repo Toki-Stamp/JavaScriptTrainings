@@ -41,7 +41,7 @@
                     })
                     // .config({height: {value: 80, unit: 'vh'}, width: {value: 90, unit: '%'}})
                     // .config({height: {value: 80, unit: 'vh'}})
-                    // .config({width: {value: 90, unit: '%'}})
+                    .config({width: {value: 90, unit: '%'}})
                     .show();
 
                 return deferred.promise();

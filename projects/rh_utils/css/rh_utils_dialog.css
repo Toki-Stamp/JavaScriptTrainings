@@ -45,11 +45,11 @@
 }
 
 #x-dialog-container .modal-footer .modal-controls button,
-#x-dialog-container .modal-footer > .modal-close {
+#x-dialog-container .modal-footer .modal-close {
     margin: 2px;
 }
 
-#x-dialog-container .modal-footer > .modal-close button {
+#x-dialog-container .modal-footer .modal-close button {
     height: 100%;
 }
 

@@ -5,7 +5,8 @@
 
 (function init_utils(referenceName) {
     var utils = (window[referenceName] || {}),
-        debug = true;
+        debug = true,
+        greetingMsg = '... rh_utils successfully loaded!';
 
     function /* constructor */ Dialog(instance) {
         var defaultValues = {
@@ -56,7 +57,6 @@
                 onModalEscaped: function (e) {
                     if (e.keyCode === 27) {
                         (debug) && console.log('Dialog: Escaped [ESC] Event', {id: instance.id, event: e});
-
                         (instance && instance.shown) && (dialog.el.modal('hide'));
                     }
                 }
@@ -138,10 +138,6 @@
                     (debug) && console.log('Dialog: Executing Callback', {id: instance.id, callback: callback, args: args});
                     callback.apply(null, args);
 
-                    if (dialog.content.close.hasCallback) {
-                        dialog.content.close.hasCallback = false;
-                        dialog.content.close.callback = null;
-                    }
                 } else {
                     (debug) && console.log('Dialog: Skip Executing Callback', {id: instance.id, callback: callback, args: args});
                 }
@@ -149,6 +145,11 @@
                 clearTimeout(timer);
                 timer = null;
             }, defaultValues.delay);
+
+            if (dialog.content.close.hasCallback) {
+                dialog.content.close.hasCallback = false;
+                dialog.content.close.callback = null;
+            }
 
             (instance && instance.shown) && (dialog.el.modal('hide'));
         }
@@ -330,9 +331,7 @@
                         }
                     });
 
-                Object.defineProperty(item, 'ref', {
-                    value: new Dialog(item)
-                });
+                Object.defineProperty(item, 'ref', {value: new Dialog(item)});
 
                 storage[id] = item;
 
@@ -343,7 +342,8 @@
             }
         };
     })();
-
+    /* greeting */
+    (debug) && (console.info(greetingMsg));
     /* return */
     window[referenceName] = utils;
 })('rh_utils');
