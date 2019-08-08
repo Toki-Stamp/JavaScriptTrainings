@@ -18,16 +18,16 @@
                     'text' : 'Default button text...',
                 },
                 container: (function getContainer() {
-                    var alfirmContainer = $('#x-dialog-container');
+                    var container = $('#x-dialog-container');
 
-                    if (alfirmContainer && alfirmContainer.length) {
-                        return alfirmContainer;
+                    if (container && container.length) {
+                        return container;
                     }
 
-                    alfirmContainer = $('<div>', {'id': 'x-dialog-container'});
-                    alfirmContainer.appendTo($('body'));
+                    container = $('<div>', {'id': 'x-dialog-container'});
+                    container.appendTo($('body'));
 
-                    return alfirmContainer;
+                    return container;
                 })(),
                 config   : {
                     height: {max: {value: 50, unit: 'vmin'}, current: null},
@@ -120,7 +120,10 @@
                 title   : modalTitle,
                 body    : modalBody,
                 footer  : modalFooter,
-                controls: modalControls,
+                controls: {
+                    hasButton: false,
+                    ref      : modalControls
+                },
                 close   : {
                     hasButton  : false,
                     hasCallback: false,
@@ -195,7 +198,7 @@
                     'text' : defaultValues.button.text,
                     'class': defaultValues.button.class
                 },
-                destination = dialog.content.controls,
+                destination = dialog.content.controls.ref,
                 handler;
 
             (!dialog.el) && (init.call(null));
@@ -254,6 +257,10 @@
             if (destination && button) {
                 (debug) && console.log('Dialog: Add Button', {id: instance.id, description: description});
                 $('<button>', button).appendTo(destination);
+
+                if (destination.is(dialog.content.controls.ref) && !dialog.content.controls.hasButton) {
+                    dialog.content.controls.hasButton = true;
+                }
             } else {
                 (debug) && console.log('Dialog: Skip Add Button', {id: instance.id, description: description});
             }
@@ -281,8 +288,16 @@
         this.show = function () {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Show', {id: instance.id});
-            (!dialog.content.close.hasButton) && (dialog.content.close.ref.remove());
             (!dialog.container) && (this.bind(defaultValues.container));
+
+            if (!dialog.content.close.hasButton) {
+                if (!dialog.content.controls.hasButton) {
+                    dialog.content.footer.remove();
+                } else {
+                    dialog.content.close.ref.remove();
+                }
+            }
+
             dialog.el.modal('show');
 
             return this;
