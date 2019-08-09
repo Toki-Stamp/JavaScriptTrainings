@@ -131,18 +131,16 @@
                     callback   : null
                 }
             };
-            //todo не забыть убрать это!
-            window['dialog'] = dialog;
         }
 
-        function execute(callback, args) {
+        function execute(description) {
             var timer = setTimeout(function () {
-                if (callback && jQuery.isFunction(callback)) {
-                    (debug) && console.log('Dialog: Executing Callback', {id: instance.id, callback: callback, args: args});
-                    callback.apply(null, args);
+                if (description.handler && jQuery.isFunction(description.handler)) {
+                    (debug) && console.log('Dialog: Executing Callback', {id: instance.id, description: description});
+                    description.handler.apply(null, (description.args || null));
 
                 } else {
-                    (debug) && console.log('Dialog: Skip Executing Callback', {id: instance.id, callback: callback, args: args});
+                    (debug) && console.log('Dialog: Skip Executing Callback', {id: instance.id, description: description});
                 }
 
                 clearTimeout(timer);
@@ -154,7 +152,7 @@
                 dialog.content.close.callback = null;
             }
 
-            (instance && instance.shown) && (dialog.el.modal('hide'));
+            (instance && instance.shown && description && !description.prevent) && (dialog.el.modal('hide'));
         }
 
         this.config = function (description) {
@@ -243,7 +241,7 @@
                 }
                 if (destination && button && description.click && jQuery.isFunction(description.click.handler)) {
                     handler = function () {
-                        execute(description.click.handler, (description.click.args || null));
+                        execute(description.click);
                     };
 
                     if ((description.type === 'close') && dialog.content.close.hasButton) {
@@ -291,6 +289,12 @@
             (debug) && console.log('Dialog: Info', {dialog: dialog, instance: instance});
 
             return this;
+        };
+        this.refs = function () {
+            (!dialog.el) && (init.call(null));
+            (debug) && console.log('Dialog: Get Refs', {dialog: dialog, instance: instance});
+
+            return dialog;
         };
         this.show = function () {
             (!dialog.el) && (init.call(null));

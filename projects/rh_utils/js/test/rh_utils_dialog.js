@@ -63,6 +63,15 @@
                             },
                             text : 'Continue'
                         })
+                        .button({
+                            type  : 'danger', click: {
+                                handler: function () {
+                                    console.log('Prevent dialog close!');
+                                },
+                                prevent: true
+                            },
+                            'text': 'Prevent dialog close!'
+                        })
                         .show();
 
                     return deferred.promise();
