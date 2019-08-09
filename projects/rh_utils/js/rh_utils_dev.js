@@ -188,7 +188,14 @@
         this.body = function (body) {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Set Body', {id: instance.id, body: body});
-            (body && body.length) && dialog.content.body.html(body);
+
+            if (body && body.length) {
+                if (body instanceof jQuery) {
+                    dialog.content.body.empty().append(body);
+                } else {
+                    dialog.content.body.html(body)
+                }
+            }
 
             return this;
         };
