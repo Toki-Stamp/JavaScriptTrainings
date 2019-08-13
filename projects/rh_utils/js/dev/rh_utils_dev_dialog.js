@@ -280,6 +280,7 @@
         this.hide = function () {
             (!dialog.el) && (init.call(null));
             (debug) && console.log('Dialog: Hide', {id: instance.id, shown: instance.shown});
+            (instance && instance.shown) && (instance.shown = false);
             dialog.el.modal('hide');
 
             return this;
