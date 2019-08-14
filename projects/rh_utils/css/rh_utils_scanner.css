@@ -1,11 +1,11 @@
 table {
     font-family: arial, serif;
-    font-size:   10pt;
-    margin:      0;
+    font-size: 10pt;
+    margin: 0;
 }
 
 table * {
-    transition:  background-color ease-in-out 250ms;
+    transition: background-color ease-in-out 250ms;
     user-select: none;
 }
 
@@ -18,81 +18,111 @@ table > tbody > tr.warning {
 }
 
 table > tbody > tr.success {
-    outline:        3px solid rgb(0, 0, 0);
+    outline: 3px solid rgb(0, 0, 0);
     outline-offset: -3px;
 }
 
 table > thead > tr > th {
-    position:         sticky;
-    top:              0;
-    z-index:          10;
+    position: sticky;
+    top: 0;
+    z-index: 10;
     background-color: rgb(230, 238, 238);
-    text-align:       center;
-    vertical-align:   top !important;
-    font-weight:      normal;
+    text-align: center;
+    vertical-align: top !important;
+    font-weight: normal;
 }
 
 .controls {
-    position:        fixed;
-    left:            50%;
-    top:             10%;
-    transform:       translate(-50%, -10%);
-    display:         flex;
-    flex-direction:  row;
-    align-items:     center;
-    justify-content: center;
-    height:          80px;
-    width:           300px;
-    border:          1px solid #ddd;
-    border-radius:   4px;
-    box-shadow:      0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 80px;
+    width: 300px;
+    background-color: rgba(0, 128, 0, .15);
+    backdrop-filter: blur(1px);
+    transition: all ease-in-out 250ms;
+    border-radius: 2px;
+    z-index: 1;
 }
 
-.controls .background {
-    position:   absolute;
-    width:      100%;
-    height:     100%;
-    background: white;
-    filter:     blur(10px);
-}
-
-.controls .buttons {
+.controls:before {
+    content: "locked";
     position: absolute;
-    z-index:  100;
+    width: 100%;
+    text-align: center;
+    top: 20px;
+    text-transform: uppercase;
+    font-size: 10px;
+    opacity: 0;
+    z-index: 0;
+    color: white;
+    transition: all ease-in-out 250ms;
 }
 
-* {
-    margin:  0;
-    padding: 0;
+.controls:after {
+    content: "unlocked";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: -47px;
+    text-transform: uppercase;
+    font-size: 35px;
+    opacity: 1;
+    z-index: 0;
+    color: rgb(0, 128, 0);
+    transition: all ease-in-out 250ms;
 }
 
-body {
-    background-image:      url("http://bit.ly/2gPLxZ4");
-    background-repeat:     no-repeat;
-    background-attachment: fixed;
-    background-size:       cover;
+.controls.locked {
+    background-color: rgba(255, 0, 0, .15);
 }
 
-div {
-    left:       calc(50% - 125px);
-    top:        calc(50% - 175px);
-    background: inherit;
-    width:      250px;
-    height:     350px;
-    position:   absolute;
-    overflow:   hidden;
+.controls.locked:before {
+    top: -45px;
+    font-size: 35px;
+    color: red;
+    opacity: 1;
 }
 
-div:before {
-    content:    "";
-    background: inherit;
-    position:   absolute;
-    width:      300px;
-    height:     400px;
-    left:       -25px;
-    right:      0;
-    top:        -25px;
-    bottom:     0;
-    box-shadow: inset 0 0 0 200px rgba(255, 255, 255, .2);
-    filter:     blur(10px);
+.controls.locked:after {
+    bottom: 20px;
+    font-size: 10px;
+    color: white;
+    opacity: 0;
+}
+
+.controls:hover {
+    background-color: rgba(0, 128, 0, .3);
+    backdrop-filter: blur(2px);
+}
+
+.controls.locked:hover {
+    background-color: rgba(255, 0, 0, .3);
+    backdrop-filter: blur(2px);
+}
+
+.controls > .buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    border: 1px solid rgb(0, 128, 0);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+    transition: all ease-in-out 250ms;
+}
+
+.controls > .buttons.locked {
+    border-color: rgb(255, 0, 0);
+}
+
+.controls > .buttons > button {
+    margin: 2px;
+}
+
+.controls > .buttons > button:focus {
+    outline: none;
 }
