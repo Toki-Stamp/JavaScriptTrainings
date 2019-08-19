@@ -543,15 +543,6 @@
             }
         };
     })();
-    utils.scanner = (function () {
-        var singleton;
-
-        return {
-            getInstance: function () {
-                return (singleton || (singleton = new Scanner()));
-            }
-        };
-    })();
 
     /* return */
     window[referenceName] = utils;

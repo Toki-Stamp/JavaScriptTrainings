@@ -4,15 +4,12 @@
  */
 
 (function sif() {
-    const
-        content = $("#mainTableCont"),
+    var content = $("#mainTableCont"),
         tr = content.find('tbody tr'),
         buttonsContainer = $('.buttons'),
-        buttons = buttonsContainer.find('button');
-
-    let
-        debug = true,
+        buttons = buttonsContainer.find('button'),
         backup = {};
+    var halt = window['rh_utils'].halt.getInstance();
 
     function dummy(e) {
         console.log('dummy', e);
@@ -44,12 +41,6 @@
         });
     }
 
-    function lock_alt(target, type) {
-        var thisTarget = (target.get(0) || document.querySelector('body'));
-
-        thisTarget.addEventListener(type, dummy, true);
-    }
-
     function unlock(events) {
         if (backup && !jQuery.isEmptyObject(backup)) {
             events.forEach(function (event) {
@@ -59,28 +50,26 @@
         }
     }
 
-    function unlock_alt(target, type) {
-        var thisTarget = (target.get(0) || document.querySelector('body'));
-
-        thisTarget.removeEventListener(type, dummy, true);
-    }
-
     content.on('click', 'tbody tr', handler);
     tr.on('click', function (e) {
         $(this).addClass('success').siblings().removeClass('success');
     });
     buttons.eq(0).click(function () {
         console.log('locked');
-        buttonsContainer.add(buttonsContainer.parent()).addClass('locked');
+        // buttonsContainer.add(buttonsContainer.parent()).addClass('locked');
         // lock(getEvents(content, 'click'));
-        lock_alt(content, 'click');
-        $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
+        // $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
+        halt.lock({
+            target: null,
+            types : ['click', 'dblclick']
+        });
     });
     buttons.eq(1).click(function () {
         console.log('unlocked');
-        buttonsContainer.add(buttonsContainer.parent()).removeClass('locked');
+        // buttonsContainer.add(buttonsContainer.parent()).removeClass('locked');
         // unlock(getEvents(content, 'click'));
-        unlock_alt(content, 'click');
-        $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
+        // unlock_alt(content, 'click');
+        // $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
+        halt.unlock();
     });
 })();
