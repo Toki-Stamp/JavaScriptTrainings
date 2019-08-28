@@ -24,6 +24,18 @@
         console.log('handler-1', e.type, {event: e, 'this': self});
     }
 
+    function handler2(e) {
+        const self = $(this);
+
+        console.log('handler-2', e.type, {event: e, 'this': self});
+    }
+
+    function handler3(e) {
+        const self = $(this);
+
+        console.log('handler-3', e.type, {event: e, 'this': self});
+    }
+
     function getEvents(target, type, deep) {
         function recursion() {}
 
@@ -51,25 +63,23 @@
     }
 
     content.on('click', 'tbody tr', handler);
+    content.on('dblclick', 'tbody tr', handler2);
+    content.on('contextmenu', 'tbody tr', handler3);
     tr.on('click', function (e) {
         $(this).addClass('success').siblings().removeClass('success');
     });
     buttons.eq(0).click(function () {
-        console.log('locked');
-        // buttonsContainer.add(buttonsContainer.parent()).addClass('locked');
-        // lock(getEvents(content, 'click'));
-        // $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
+        buttonsContainer.add(buttonsContainer.parent()).addClass('locked');
+        $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
         halt.lock({
             target: null,
-            types : ['click', 'dblclick']
+            types : ['click', 'dblclick', 'contextmenu'],
+            except: buttons
         });
     });
     buttons.eq(1).click(function () {
-        console.log('unlocked');
-        // buttonsContainer.add(buttonsContainer.parent()).removeClass('locked');
-        // unlock(getEvents(content, 'click'));
-        // unlock_alt(content, 'click');
-        // $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
+        buttonsContainer.add(buttonsContainer.parent()).removeClass('locked');
+        $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
         halt.unlock();
     });
 })();

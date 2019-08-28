@@ -55,27 +55,38 @@
                 ]
             },
             halt = {
-                target: null,
-                types : null
+                target: defaultValues.target,
+                types : defaultValues.types,
+                except: null,
+                init  : false
             };
 
         function handler(e) {
-            console.log('stop!');
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            var me = $(e.target);
 
-            return false;
-        }
+            if (halt.except && me.is(halt.except)) {
+                (debug) && console.log('Halt: Pass Event Through', {id: instance.id, type: e.type, e: e, me: me});
+            } else {
+                (debug) && console.log('Halt: Block Event Propagation', {id: instance.id, type: e.type, e: e, me: me});
+                e.stopImmediatePropagation();
 
-        function init(description) {
-            halt = {
-                target: (description && description.target && description.target.length && (description.target instanceof jQuery)) ? description.target : defaultValues.target,
-                types : (description && description.types && jQuery.isArray(description.types)) ? description.types : defaultValues.types
+                return false;
             }
         }
 
+        function init(description) {
+            (debug) && console.log('Halt: Init', {id: instance.id});
+
+            (description.target && description.target.length && (description.target instanceof jQuery)) && (halt.target = description.target);
+            (description.types && description.types.length && jQuery.isArray(description.types)) && (halt.types = description.types);
+            (description.except && description.except.length && (description.except instanceof jQuery)) && (halt.except = description.except);
+
+            halt.init = true;
+        }
+
         this.lock = function (description) {
-            (!halt.target) && (init(description));
+            (!halt.init) && (init(description));
+            (debug) && console.log('Halt: Lock', {id: instance.id});
 
             halt.types.forEach(function (type) {
                 halt.target.each(function () {
@@ -88,7 +99,8 @@
             return this;
         };
         this.unlock = function () {
-            (!halt.target) && (init({}));
+            (!halt.init) && (init({}));
+            (debug) && console.log('Halt: Unlock', {id: instance.id});
 
             halt.types.forEach(function (type) {
                 halt.target.each(function () {
@@ -97,12 +109,13 @@
             });
 
             (instance && instance.locked) && (instance.locked = false);
+            (halt.init) && (halt.init = false);
 
             return this;
         }
     }
 
-    utils.halt = (function () {
+    utils.halt = (function haltFactory() {
         var counter = 0,
             storage = {};
 
@@ -117,18 +130,14 @@
                         },
                         locked: {
                             set: function (value) {
-                                (debug) && (console.log('Dialog Factory: Setting Lock State', {
+                                (debug) && (console.log('Halt Factory: Setting Lock State', {
                                     id: id, from: state, to: value
                                 }));
-
-                                if (value === false) {
-                                    storage[id] = null;
-                                }
 
                                 state = value;
                             },
                             get: function () {
-                                (debug) && (console.log('Dialog Factory: Getting Lock State', {id: id, locked: state}));
+                                (debug) && (console.log('Halt Factory: Getting Lock State', {id: id, locked: state}));
 
                                 return state;
                             }
