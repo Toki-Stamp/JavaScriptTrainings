@@ -4,14 +4,14 @@
  */
 
 (function init_utils(referenceName) {
-    var utils       = (window[referenceName] || {}),
-        debug       = true,
+    var utils = (window[referenceName] || {}),
+        debug = true,
         greetingMsg = '... rh_utils successfully loaded!';
-    
+
     function /* constructor */ Halt(instance) {
         var defaultValues = {
                 target: $('body'),
-                types : [
+                events: [
                     "click",
                     "contextmenu",
                     "dblclick",
@@ -54,120 +54,137 @@
                     "touchstart"
                 ]
             },
-            halt          = {
+            halt = {
                 target: defaultValues.target,
-                types : defaultValues.types,
-                except: {keyCodes: null, selector: null, object: null},
-                init  : false,
+                events: [],
+                except: {
+                    keys    : ['F5', 'F12'],
+                    codes   : [],
+                    keyCodes: [],
+                    selector: '',
+                    object  : null,
+                    getEx   : function () {
+                        if (halt.type === 'keyboard') {
+                            if (this.keys.length) return this.keys;
+                            if (this.codes.length) return this.codes;
+                            if (this.keyCodes.length) return this.keyCodes;
+                        } else if (halt.type === 'mouse') {
+                            if (this.selector.length) return $(this.selector);
+                            if (this.object.length) return this.object;
+                        }
+                    }
+                },
                 type  : null
             };
-        
-        // function handler(e) {
-        //     var me = $(e.target);
-        //
-        //     if (halt.except && me.is(halt.except)) {
-        //         (debug) && console.log('Halt: Pass Event Through', {id: instance.id, type: e.type, e: e, me: me});
-        //     } else {
-        //         (debug) && console.log('Halt: Block Event Propagation', {id: instance.id, type: e.type, e: e, me: me});
-        //         e.stopImmediatePropagation();
-        //
-        //         return false;
-        //     }
-        // }
-        
-        function handler(e) {
-            var me = $(e.target);
-            
-            if (halt.except && me.is(halt.except)) {
-                (debug) && console.log('Halt: Pass Event Through', {id: instance.id, type: e.type, e: e, me: me});
-            } else {
-                (debug) && console.log('Halt: Block Event Propagation', {id: instance.id, type: e.type, e: e, me: me});
-                e.stopImmediatePropagation();
-                
-                return false;
-            }
-        }
-        
-        function init(description) {
-            (debug) && console.log('Halt: Init', {id: instance.id});
-            
-            (description.target && description.target.length && (description.target instanceof jQuery)) && (halt.target = description.target);
-            (description.types && description.types.length && jQuery.isArray(description.types)) && (halt.types = description.types);
-            (description.except && description.except.length && (description.except instanceof jQuery)) && (halt.except = description.except);
-            
-            halt.init = true;
-        }
-        
-        // this.lock = function (description) {
-        //     (!halt.init) && (init(description));
-        //     (debug) && console.log('Halt: Lock', {id: instance.id});
-        //
-        //     halt.types.forEach(function (type) {
-        //         halt.target.each(function () {
-        //             this.addEventListener(type, handler, true);
-        //         })
-        //     });
-        //
-        //     (instance && !instance.locked) && (instance.locked = true);
-        //
-        //     return this;
-        // };
-        this.lock = function (description) {
-            (!halt.init) && (init(description));
-            (debug) && console.log('Halt: Lock', {id: instance.id});
-            
-            if (halt.type) {
-                if (halt.type === 'mouse') {
-                    halt.types = [];
-                } else if (halt.type === 'keyboard') {
-                    halt.types = ['keyup', 'keydown', 'keypress'];
+
+        function handler(event) {
+            var me,
+                ex = halt.except.getEx(),
+                key;
+
+            if ((halt.type === 'all') || (halt.type === 'mouse')) {
+                me = $(event.target);
+
+                if (ex.is(me)) {
+                    return;
+                }
+            } else if (halt.type === 'keyboard') {
+                key = (event.key || event.code || event.keyCode);
+
+                if (ex.includes(key)) {
+                    return;
                 }
             }
-            
-            halt.types.forEach(function (type) {
+
+            (debug) && (console.log('Halt: Prevent & Stop', {id: instance.id, event: event}));
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+
+        this.except = function (ex) {
+            (debug) && (console.log('Halt: Set Except', {id: instance.id, ex: ex}));
+
+            if (ex) {
+                if (ex.keys && jQuery.isArray(ex.keys) && ex.keys.length) {
+                    halt.except.keys = halt.except.keys.concat(ex.keys);
+                } else if (ex.object && (ex.object instanceof jQuery) && ex.object.length) {
+                    halt.except.object = ex.object;
+                }
+            }
+
+            return this;
+        };
+        this.lock = function () {
+            (debug) && (console.log('Halt: %cLock', 'color: red', {id: instance.id, halt: halt}));
+
+            halt.events.forEach(function (event) {
                 halt.target.each(function () {
-                    this.addEventListener(type, handler, true);
+                    this.addEventListener(event, handler, true);
                 })
             });
-            
+
             (instance && !instance.locked) && (instance.locked = true);
-            
+
+            return this;
+        };
+        this.type = function (type) {
+            (debug) && (console.log('Halt: Set Lock Type', {id: instance.id, type: type}));
+
+            if (type) {
+                if (type === 'keyboard') {
+                    halt.events = [
+                        'keypress',
+                        'keydown',
+                        'keyup'
+                    ];
+                } else if (type === 'mouse') {
+                    halt.events = [
+                        "click",
+                        "contextmenu",
+                        "dblclick",
+                        "mousedown",
+                        "mouseenter",
+                        "mouseleave",
+                        "mousemove",
+                        "mouseover",
+                        "mouseout",
+                        "mouseup",
+                        "mousewheel",
+                        "wheel"
+                    ];
+                } else if (type === 'all') {
+                    halt.events = defaultValues.events.slice();
+                }
+
+                halt.type = type;
+            }
+
             return this;
         };
         this.unlock = function () {
-            (!halt.init) && (init({}));
-            (debug) && console.log('Halt: Unlock', {id: instance.id});
-            
-            halt.types.forEach(function (type) {
+            (debug) && (console.log('Halt: %cUnlock', 'color: lime', {id: instance.id, halt: halt}));
+
+            halt.events.forEach(function (event) {
                 halt.target.each(function () {
-                    this.removeEventListener(type, handler, true);
+                    this.removeEventListener(event, handler, true);
                 })
             });
-            
+
             (instance && instance.locked) && (instance.locked = false);
-            (halt.init) && (halt.init = false);
-            
+
             return this;
         };
-        
-        this.type = function (type) {
-            if (type) {
-                halt.type = type;
-            }
-        };
-        this.except = function (what) {
-        };
     }
-    
+
     utils.halt = (function haltFactory() {
         var counter = 0,
             storage = {};
-        
+
         return {
             getInstance: function () {
-                var id    = ++counter,
+                var id = ++counter,
                     state = false,
-                    item  = Object.create({locked: state}, {
+                    item = Object.create({locked: state}, {
                         id    : {
                             /* non mutable */
                             value: id
@@ -177,21 +194,21 @@
                                 (debug) && (console.log('Halt Factory: Setting Lock State', {
                                     id: id, from: state, to: value
                                 }));
-                            
+
                                 state = value;
                             },
                             get: function () {
                                 (debug) && (console.log('Halt Factory: Getting Lock State', {id: id, locked: state}));
-                            
+
                                 return state;
                             }
                         }
                     });
-                
+
                 Object.defineProperty(item, 'ref', {value: new Halt(item)});
-                
+
                 storage[id] = item;
-                
+
                 return item.ref;
             },
             status     : function () {
