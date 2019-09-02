@@ -65,70 +65,49 @@
                 type: null
             };
 
-        function haltHandler(event) {
+        function haltHandler(e) {
             var pass = false,
+                msg,
                 i, size;
 
-            if (event instanceof MouseEvent) {
+            if (e instanceof MouseEvent) {
                 if (halt.except.object.length) {
                     for (i = 0, size = halt.except.object.length; i < size; i += 1) {
-                        if ($(event.target).is(halt.except.object.get(i))) {
+                        if ($(e.target).is(halt.except.object.get(i))) {
                             pass = true;
 
                             break;
                         }
                     }
                 }
-            } else if ((event instanceof KeyboardEvent) && halt.except.keys.includes(event.key)) {
+            } else if ((e instanceof KeyboardEvent) && halt.except.keys.includes(e.key)) {
                 pass = true;
             }
 
             if (pass) {
                 (debug) && (console.log('Halt: %cPass Through', 'color: lime', {
                     id: instance.id,
-                    type: event.type,
-                    event: event,
+                    type: e.type,
+                    event: e,
                     halt: halt
                 }));
             } else {
-                (debug) && (console.log('Halt: %cPrevent Default Handler & Stop Event Propagation', 'color: red', {
-                    id: instance.id,
-                    type: event.type,
-                    event: event,
-                    halt: halt
-                }));
+                msg = 'Stop Event Propagation';
 
-                // event.preventDefault();
-                event.stopPropagation();
-            }
-        }
-
-        function updateExcept(except) {
-            var key,
-                tmp = {};
-
-            for (key in except) {
-                if (except.hasOwnProperty(key) && except[key] && (except[key].length || verify(except[key]))) {
-                    tmp[key] = except[key];
+                if (e.type === 'contextmenu') {
+                    msg += ' & Prevent Default Handler';
+                    e.preventDefault();
                 }
+
+                e.stopPropagation();
+
+                (debug) && (console.log('Halt: %c' + msg, 'color: red', {
+                    id: instance.id,
+                    type: e.type,
+                    event: e,
+                    halt: halt
+                }));
             }
-
-            return tmp;
-        }
-
-        function addObject(object) {
-            if (halt.except.object) {
-                halt.except.object = halt.except.object.add(object);
-            } else {
-                halt.except.object = object;
-            }
-        }
-
-        function verify(ref) {
-            return !jQuery.isEmptyObject(ref) &&
-                ref.trigger && (jQuery.type(ref.trigger) === 'string') && ref.trigger.length &&
-                ref.selector && (jQuery.type(ref.selector) === 'string') && ref.selector.length &&
-                ref.handler && jQuery.isFunction(ref.handler);
         }
 
         function dispatcher(e) {
@@ -158,6 +137,34 @@
                 trigger: halt.except.event.trigger,
                 type: halt.except.event.name
             });
+        }
+
+        function updateExcept(except) {
+            var key,
+                tmp = {};
+
+            for (key in except) {
+                if (except.hasOwnProperty(key) && except[key] && (except[key].length || verify(except[key]))) {
+                    tmp[key] = except[key];
+                }
+            }
+
+            return tmp;
+        }
+
+        function verify(except) {
+            return !jQuery.isEmptyObject(except) &&
+                except.trigger && (jQuery.type(except.trigger) === 'string') && except.trigger.length &&
+                except.selector && (jQuery.type(except.selector) === 'string') && except.selector.length &&
+                except.handler && jQuery.isFunction(except.handler);
+        }
+
+        function addObject(object) {
+            if (halt.except.object) {
+                halt.except.object = halt.except.object.add(object);
+            } else {
+                halt.except.object = object;
+            }
         }
 
         function bindExceptEvent(description) {

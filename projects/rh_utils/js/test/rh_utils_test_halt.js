@@ -11,9 +11,9 @@
         backup = {};
     var halt = window['rh_utils'].halt.getInstance();
     var keyCodes = {
-        up  : 38,
+        up: 38,
         down: 40,
-        esc : 27
+        esc: 27
     };
 
     function dummy(e) {
@@ -43,7 +43,8 @@
     }
 
     function getEvents(target, type, deep) {
-        function recursion() {}
+        function recursion() {
+        }
 
         const all = jQuery._data(target.get(0), 'events');
 
@@ -51,7 +52,8 @@
     }
 
     function lock(events) {
-        function dummy() {/*dummy*/}
+        function dummy() {/*dummy*/
+        }
 
         events.forEach(function (event) {
             (!backup[event.guid]) && (backup[event.guid] = jQuery.extend(true, {}, event));
@@ -134,14 +136,19 @@
         halt
             .type('all')
             .except({
-                keys  : ['Escape'],
+                keys: ['Escape'],
                 object: buttons,
-                event : {
-                    trigger : 'click',
+                event: {
+                    trigger: 'click',
                     selector: 'tr.warning',
-                    handler : function (event) {
+                    handler: function (event) {
+                        var prev = tr.filter('.success'),
+                            current = $(event.target);
+
                         console.log('%cRunning Except Event Handler', 'color: pink');
-                        highlight($(event.target));
+                        (current && current.length && current.hasClass('warning')) && (current.removeClass('warning'));
+                        (prev && prev.length && !prev.hasClass('warning')) && (prev.addClass('warning'));
+                        highlight(current);
                     }
                 }
             })
