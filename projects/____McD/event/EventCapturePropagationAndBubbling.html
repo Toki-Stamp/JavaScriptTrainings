@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Capture Propagation And Bubbling</title>
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        div {
+            width: 100%;
+            padding: 100px;
+        }
+
+        .one {
+            background: thistle;
+        }
+
+        .two {
+            background: mistyrose;
+        }
+
+        .three {
+            background: coral;
+        }
+    </style>
+</head>
+<body>
+    <div class="one"><h1>one</h1>
+        <div class="two"><h3>two</h3>
+            <div class="three"><h5>three</h5></div>
+        </div>
+    </div>
+    <script>
+        const divs = document.querySelectorAll('div');
+
+        function logText(e) {
+            console.log(this);
+            // e.stopPropagation();
+        }
+
+        divs.forEach(div => div.addEventListener('click', logText, {
+            // capture: true // на погружении
+            capture: false // на всплытии bubbling
+        }))
+    </script>
+</body>
+</html>

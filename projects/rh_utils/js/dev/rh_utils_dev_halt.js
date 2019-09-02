@@ -16,12 +16,12 @@
                     "contextmenu",
                     "dblclick",
                     "mousedown",
-                    "mouseenter",
-                    "mouseleave",
-                    "mousemove",
-                    "mouseover",
-                    "mouseout",
-                    "mouseup",
+                    // "mouseenter",
+                    // "mouseleave",
+                    // "mousemove",
+                    // "mouseover",
+                    // "mouseout",
+                    // "mouseup",
                     "keydown",
                     "keypress",
                     "keyup",
@@ -58,57 +58,136 @@
                 target: defaultValues.target,
                 events: [],
                 except: {
-                    keys    : ['F5', 'F12'],
-                    codes   : [],
-                    keyCodes: [],
-                    selector: '',
-                    object  : null,
-                    getEx   : function () {
-                        if (halt.type === 'keyboard') {
-                            if (this.keys.length) return this.keys;
-                            if (this.codes.length) return this.codes;
-                            if (this.keyCodes.length) return this.keyCodes;
-                        } else if (halt.type === 'mouse') {
-                            if (this.selector.length) return $(this.selector);
-                            if (this.object.length) return this.object;
-                        }
-                    }
+                    keys  : ['F1', 'F5', 'F12'],
+                    object: null,
+                    event : null
                 },
                 type  : null
             };
 
-        function handler(event) {
-            var me,
-                ex = halt.except.getEx(),
-                key;
+        function haltHandler(event) {
+            var pass = false,
+                i, size;
 
-            if ((halt.type === 'all') || (halt.type === 'mouse')) {
-                me = $(event.target);
+            if (event instanceof MouseEvent) {
+                if (halt.except.object.length) {
+                    for (i = 0, size = halt.except.object.length; i < size; i += 1) {
+                        if ($(event.target).is(halt.except.object.get(i))) {
+                            pass = true;
 
-                if (ex.is(me)) {
-                    return;
+                            break;
+                        }
+                    }
                 }
-            } else if (halt.type === 'keyboard') {
-                key = (event.key || event.code || event.keyCode);
+            } else if ((event instanceof KeyboardEvent) && halt.except.keys.includes(event.key)) {
+                pass = true;
+            }
 
-                if (ex.includes(key)) {
-                    return;
+            if (pass) {
+                (debug) && (console.log('Halt: %cPass Through', 'color: lime', {id: instance.id, type: event.type, event: event, halt: halt}));
+            } else {
+                (debug) && (console.log('Halt: %cPrevent Default Handler & Stop Event Propagation', 'color: red', {id: instance.id, type: event.type, event: event, halt: halt}));
+
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }
+
+        function actualizeExcept(ref) {
+            var key,
+                tmp = {};
+
+            for (key in ref) {
+                if (ref.hasOwnProperty(key) && ref[key] && (ref[key].length || verify(ref[key]))) {
+                    tmp[key] = ref[key];
                 }
             }
 
-            (debug) && (console.log('Halt: Prevent & Stop', {id: instance.id, event: event}));
-            event.preventDefault();
-            event.stopImmediatePropagation();
+            return tmp;
+        }
+
+        function addObject(object) {
+            if (halt.except.object) {
+                halt.except.object = halt.except.object.add(object);
+            } else {
+                halt.except.object = object;
+            }
+        }
+
+        function verify(ref) {
+            return !jQuery.isEmptyObject(ref) &&
+                ref.trigger && (jQuery.type(ref.trigger) === 'string') && ref.trigger.length &&
+                ref.selector && (jQuery.type(ref.selector) === 'string') && ref.selector.length &&
+                ref.handler && jQuery.isFunction(ref.handler);
+        }
+
+        function bindExceptEvent(ref) {
+            var name = 'exceptEvent',
+                exceptEvent = new CustomEvent(name, {detail: {/*empty*/}});
+
+            function dispatcher(e) {
+                var i, size, el;
+
+                if (e.detail && (e.detail === 1)) {
+                    for (i = 0, size = e.path.length; i < size; i += 1) {
+                        el = $(e.path[i]);
+
+                        if (el.is(ref.selector)) {
+                            exceptEvent.detail.el = el;
+                            document.body.dispatchEvent(exceptEvent);
+
+                            break;
+                        }
+                    }
+                }
+            }
+
+            function exceptEventHandler(e) {
+                ref.handler.call(null, {
+                    target: e.detail.el,
+                    type  : name
+                });
+            }
+
+            (debug) && (console.log('Halt: %cBind Except Event', 'color: yellow', {id: instance.id, ref: ref, halt: halt}));
+
+            document.body.addEventListener(ref.trigger, dispatcher, {capture: true});
+            document.body.addEventListener(name, exceptEventHandler);
+
+            return jQuery.extend(ref, {
+                name         : name,
+                dispatcher   : dispatcher,
+                exceptHandler: exceptEventHandler
+            });
+        }
+
+        function unbindExceptEvent(ref) {
+            (debug) && (console.log('Halt: %cUnbind Except Event', 'color: orange', {id: instance.id, ref: ref, halt: halt}));
+
+            document.body.removeEventListener(ref.trigger, ref.dispatcher, {capture: true});
+            document.body.removeEventListener(ref.name, ref.exceptEventHandler);
         }
 
         this.except = function (ex) {
-            (debug) && (console.log('Halt: Set Except', {id: instance.id, ex: ex}));
+            var object;
+
+            (debug) && (console.log('Halt: Set Except', {id: instance.id, ex: ex, halt: halt}));
 
             if (ex) {
                 if (ex.keys && jQuery.isArray(ex.keys) && ex.keys.length) {
-                    halt.except.keys = halt.except.keys.concat(ex.keys);
-                } else if (ex.object && (ex.object instanceof jQuery) && ex.object.length) {
-                    halt.except.object = ex.object;
+                    ex.keys.forEach(function (item) {
+                        (!halt.except.keys.includes(item)) && (halt.except.keys.push(item));
+                    });
+                }
+                if (ex.object && (ex.object instanceof jQuery) && ex.object.length) {
+                    addObject.call(null, ex.object)
+                }
+                if (ex.selector && (jQuery.type(ex.selector) === 'string') && ex.selector.length) {
+                    object = $(ex.selector);
+                    (object.length) && (addObject.call(null, object));
+                }
+                if (ex.event && verify(ex.event)) {
+                    halt.except.event = bindExceptEvent.call(null, ex.event);
                 }
             }
 
@@ -117,9 +196,10 @@
         this.lock = function () {
             (debug) && (console.log('Halt: %cLock', 'color: red', {id: instance.id, halt: halt}));
 
+            halt.except = actualizeExcept.call(null, halt.except);
             halt.events.forEach(function (event) {
                 halt.target.each(function () {
-                    this.addEventListener(event, handler, true);
+                    this.addEventListener(event, haltHandler, {capture: true});
                 })
             });
 
@@ -128,7 +208,7 @@
             return this;
         };
         this.type = function (type) {
-            (debug) && (console.log('Halt: Set Lock Type', {id: instance.id, type: type}));
+            (debug) && (console.log('Halt: Set Lock Type', {id: instance.id, type: type, halt: halt}));
 
             if (type) {
                 if (type === 'keyboard') {
@@ -166,9 +246,10 @@
 
             halt.events.forEach(function (event) {
                 halt.target.each(function () {
-                    this.removeEventListener(event, handler, true);
+                    this.removeEventListener(event, haltHandler, true);
                 })
             });
+            (halt.except.event) && (unbindExceptEvent.call(null, halt.except.event));
 
             (instance && instance.locked) && (instance.locked = false);
 

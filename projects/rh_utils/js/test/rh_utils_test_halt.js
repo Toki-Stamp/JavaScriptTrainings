@@ -9,8 +9,7 @@
         buttonsContainer = $('.buttons'),
         buttons = buttonsContainer.find('button'),
         backup = {};
-    var halt = window['rh_utils'].halt.getInstance(),
-        halt2 = window['rh_utils'].halt.getInstance();
+    var halt = window['rh_utils'].halt.getInstance();
     var keyCodes = {
         up  : 38,
         down: 40,
@@ -110,19 +109,58 @@
     buttons.eq(0).click(function doLock() {
         buttonsContainer.add(buttonsContainer.parent()).addClass('locked');
         $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
-        // halt.lock({
-        //     target: null,
-        //     types : ['click', 'dblclick', 'contextmenu'],
-        //     except: buttons
-        // });
+        tr.each(function () {
+            var me = $(this);
 
-        halt.type('mouse').except({object: buttons}).lock();
-        halt2.type('keyboard').except({keys: ['Escape']}).lock();
+            if (Math.round(Math.random())) {
+                me.removeClass().addClass('warning');
+            }
+        });
+        // document.body.addEventListener('click', function (e) {
+        //     if (e.detail && (e.detail === 1)) {
+        //         for (let i = 0, size = e.path.length, el; i < size; i += 1) {
+        //             el = $(e.path[i]);
+        //
+        //             if (el.is('tr.warning')) {
+        //                 event.detail.el = el;
+        //                 document.body.dispatchEvent(event);
+        //
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }, {capture: true});
+        halt
+            .type('all')
+            .except({keys: ['Escape'], object: buttons})
+            .except({
+                event: {
+                    trigger : 'click',
+                    selector: 'tr.warning',
+                    handler : function (event) {
+                        console.log('%cEXCEPT EVENT', 'color: pink');
+                        highlight($(event.target));
+                    }
+                }
+            })
+            .lock();
     });
+
+    // const event = new CustomEvent('except', {detail: {/*empty*/}});
+
+    // document.body.addEventListener('except', function (e) {
+    //     console.log('%cEXCEPT EVENT', 'color: pink', e);
+    //     highlight(e.detail.el);
+    // }, true);
+
+    content.find('tbody > tr.warning').on('click', function (e) {
+        console.log('content tbody > tr.warning', this, e);
+    });
+
     buttons.eq(1).click(function doUnlock() {
         buttonsContainer.add(buttonsContainer.parent()).removeClass('locked');
         $(this).attr('disabled', 'disabled').siblings().removeAttr('disabled');
         halt.unlock();
-        halt2.unlock();
+        tr.removeClass();
     });
 })();
