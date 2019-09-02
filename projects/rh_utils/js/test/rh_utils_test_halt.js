@@ -33,6 +33,7 @@
         const self = $(this);
 
         console.log('handler-2', e.type, {event: e, 'this': self});
+        alert('dblclick')
     }
 
     function handler3(e) {
@@ -132,13 +133,14 @@
         // }, {capture: true});
         halt
             .type('all')
-            .except({keys: ['Escape'], object: buttons})
             .except({
-                event: {
+                keys  : ['Escape'],
+                object: buttons,
+                event : {
                     trigger : 'click',
                     selector: 'tr.warning',
                     handler : function (event) {
-                        console.log('%cEXCEPT EVENT', 'color: pink');
+                        console.log('%cRunning Except Event Handler', 'color: pink');
                         highlight($(event.target));
                     }
                 }

@@ -93,7 +93,7 @@
             }
         }
 
-        function actualizeExcept(ref) {
+        function refreshExcept(ref) {
             var key,
                 tmp = {};
 
@@ -173,6 +173,7 @@
 
             (debug) && (console.log('Halt: Set Except', {id: instance.id, ex: ex, halt: halt}));
 
+            //todo не допустить двойного бинда на ex.event
             if (ex) {
                 if (ex.keys && jQuery.isArray(ex.keys) && ex.keys.length) {
                     ex.keys.forEach(function (item) {
@@ -196,7 +197,7 @@
         this.lock = function () {
             (debug) && (console.log('Halt: %cLock', 'color: red', {id: instance.id, halt: halt}));
 
-            halt.except = actualizeExcept.call(null, halt.except);
+            halt.except = refreshExcept.call(null, halt.except);
             halt.events.forEach(function (event) {
                 halt.target.each(function () {
                     this.addEventListener(event, haltHandler, {capture: true});
@@ -275,6 +276,12 @@
                                 (debug) && (console.log('Halt Factory: Setting Lock State', {
                                     id: id, from: state, to: value
                                 }));
+
+                                // if (value === false) {
+                                //     item.ref = null;
+                                //     item = null;
+                                //     storage[id] = null;
+                                // }
 
                                 state = value;
                             },
