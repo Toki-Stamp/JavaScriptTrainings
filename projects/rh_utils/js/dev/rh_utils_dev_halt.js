@@ -58,11 +58,11 @@
                 target: defaultValues.target,
                 events: [],
                 except: {
-                    keys  : ['F1', 'F5', 'F12'],
+                    keys: ['F1', 'F5', 'F12'],
                     object: null,
-                    event : null
+                    event: null
                 },
-                type  : null
+                type: null
             };
 
         function haltHandler(event) {
@@ -84,22 +84,32 @@
             }
 
             if (pass) {
-                (debug) && (console.log('Halt: %cPass Through', 'color: lime', {id: instance.id, type: event.type, event: event, halt: halt}));
+                (debug) && (console.log('Halt: %cPass Through', 'color: lime', {
+                    id: instance.id,
+                    type: event.type,
+                    event: event,
+                    halt: halt
+                }));
             } else {
-                (debug) && (console.log('Halt: %cPrevent Default Handler & Stop Event Propagation', 'color: red', {id: instance.id, type: event.type, event: event, halt: halt}));
+                (debug) && (console.log('Halt: %cPrevent Default Handler & Stop Event Propagation', 'color: red', {
+                    id: instance.id,
+                    type: event.type,
+                    event: event,
+                    halt: halt
+                }));
 
-                event.preventDefault();
+                // event.preventDefault();
                 event.stopPropagation();
             }
         }
 
-        function refreshExcept(ref) {
+        function updateExcept(except) {
             var key,
                 tmp = {};
 
-            for (key in ref) {
-                if (ref.hasOwnProperty(key) && ref[key] && (ref[key].length || verify(ref[key]))) {
-                    tmp[key] = ref[key];
+            for (key in except) {
+                if (except.hasOwnProperty(key) && except[key] && (except[key].length || verify(except[key]))) {
+                    tmp[key] = except[key];
                 }
             }
 
@@ -121,18 +131,17 @@
                 ref.handler && jQuery.isFunction(ref.handler);
         }
 
-        function bindExceptEvent(ref) {
-            var name = 'exceptEvent',
-                exceptEvent = new CustomEvent(name, {detail: {/*empty*/}});
+        function dispatcher(e) {
+            var i, size, el,
+                exceptEvent = new CustomEvent(halt.except.event.name, {detail: {/*empty*/}});
 
-            function dispatcher(e) {
-                var i, size, el;
-
-                if (e.detail && (e.detail === 1)) {
+            if (e.detail) {
+                if ((halt.except.event.trigger === 'click') && (e.detail === 1) ||
+                    (halt.except.event.trigger === 'dblclick') && (e.detail === 2)) {
                     for (i = 0, size = e.path.length; i < size; i += 1) {
                         el = $(e.path[i]);
 
-                        if (el.is(ref.selector)) {
+                        if (el.is(halt.except.event.selector)) {
                             exceptEvent.detail.el = el;
                             document.body.dispatchEvent(exceptEvent);
 
@@ -141,31 +150,42 @@
                     }
                 }
             }
+        }
 
-            function exceptEventHandler(e) {
-                ref.handler.call(null, {
-                    target: e.detail.el,
-                    type  : name
-                });
-            }
-
-            (debug) && (console.log('Halt: %cBind Except Event', 'color: yellow', {id: instance.id, ref: ref, halt: halt}));
-
-            document.body.addEventListener(ref.trigger, dispatcher, {capture: true});
-            document.body.addEventListener(name, exceptEventHandler);
-
-            return jQuery.extend(ref, {
-                name         : name,
-                dispatcher   : dispatcher,
-                exceptHandler: exceptEventHandler
+        function exceptEventHandler(e) {
+            halt.except.event.handler.call(null, {
+                target: e.detail.el,
+                trigger: halt.except.event.trigger,
+                type: halt.except.event.name
             });
         }
 
-        function unbindExceptEvent(ref) {
-            (debug) && (console.log('Halt: %cUnbind Except Event', 'color: orange', {id: instance.id, ref: ref, halt: halt}));
+        function bindExceptEvent(description) {
+            var name = 'exceptEvent';
 
-            document.body.removeEventListener(ref.trigger, ref.dispatcher, {capture: true});
-            document.body.removeEventListener(ref.name, ref.exceptEventHandler);
+            (debug) && (console.log('Halt: %cBind Except Event', 'color: yellow', {
+                id: instance.id,
+                halt: halt
+            }));
+
+            document.body.addEventListener(description.trigger, dispatcher, {capture: true});
+            document.body.addEventListener(name, exceptEventHandler);
+
+            return jQuery.extend(description, {
+                name: name,
+                dispatcher: dispatcher,
+                exceptEventHandler: exceptEventHandler
+            });
+        }
+
+        function unbindExceptEvent() {
+            (debug) && (console.log('Halt: %cUnbind Except Event', 'color: orange', {
+                id: instance.id,
+                halt: halt
+            }));
+
+            document.body.removeEventListener(halt.except.event.trigger, dispatcher, {capture: true});
+            document.body.removeEventListener(halt.except.event.name, exceptEventHandler);
         }
 
         this.except = function (ex) {
@@ -173,7 +193,6 @@
 
             (debug) && (console.log('Halt: Set Except', {id: instance.id, ex: ex, halt: halt}));
 
-            //todo не допустить двойного бинда на ex.event
             if (ex) {
                 if (ex.keys && jQuery.isArray(ex.keys) && ex.keys.length) {
                     ex.keys.forEach(function (item) {
@@ -197,7 +216,7 @@
         this.lock = function () {
             (debug) && (console.log('Halt: %cLock', 'color: red', {id: instance.id, halt: halt}));
 
-            halt.except = refreshExcept.call(null, halt.except);
+            halt.except = updateExcept.call(null, halt.except);
             halt.events.forEach(function (event) {
                 halt.target.each(function () {
                     this.addEventListener(event, haltHandler, {capture: true});
@@ -250,7 +269,7 @@
                     this.removeEventListener(event, haltHandler, true);
                 })
             });
-            (halt.except.event) && (unbindExceptEvent.call(null, halt.except.event));
+            (halt.except.event) && (unbindExceptEvent.call(null));
 
             (instance && instance.locked) && (instance.locked = false);
 
@@ -267,7 +286,7 @@
                 var id = ++counter,
                     state = false,
                     item = Object.create({locked: state}, {
-                        id    : {
+                        id: {
                             /* non mutable */
                             value: id
                         },
@@ -299,7 +318,7 @@
 
                 return item.ref;
             },
-            status     : function () {
+            status: function () {
                 console.info('Status', {counter: counter, storage: storage});
             }
         };
