@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RH Intro</title>
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+            padding: 0;
+            margin: 0;
+        }
+
+        div.wrapper {
+            cursor: pointer;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vmin;
+            height: 50vmin;
+        }
+
+        div.picture {
+            width: inherit;
+            height: inherit;
+            background: url("RH_v.3.3.0_gray.jpg") no-repeat center;
+            background-size: 100%;
+            transition: all 750ms ease-in-out;
+        }
+
+        div.picture:hover {
+            background-image: url("RH_v.3.3.0_color.jpg");
+            transition: all 750ms ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="picture"></div>
+    </div>
+</body>
+</html>
