@@ -19,12 +19,12 @@
 
 <script>
     import setEvent from './mixins/SetEvent.js';
-    import {mapGetters} from 'vuex';
-    import {mapActions} from 'vuex';
+    import data from './mixins/Data.js';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default {
-        name    : 'App',
-        mixins  : [setEvent],
+        name: 'App',
+        mixins: [setEvent, data],
         data() {
             return {
                 form: {
@@ -40,12 +40,12 @@
         },
         created() {
             this.setEvent({
-                type    : 'keydown',
-                trigger : {key: 'B', modifiers: ['alt']},
+                type: 'keydown',
+                trigger: {key: 'B', modifiers: ['alt']},
                 callback: this.printState
             });
         },
-        methods : {
+        methods: {
             printState() {
                 /* de-reactivate */
                 console.log(JSON.parse(JSON.stringify({...this.form, ...this.types})));
@@ -57,17 +57,16 @@
 
 <style>
     #app {
-        font-family:             "Times New Roman", serif;
-        -webkit-font-smoothing:  antialiased;
+        font-family: "Times New Roman", serif;
+        -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align:              center;
-        color:                   #2c3e50;
+        text-align: center;
+        color: #2c3e50;
     }
 
     input, button {
         font-family: "Times New Roman", serif;
     }
-
 
     .el-form {
         width: 640px;
