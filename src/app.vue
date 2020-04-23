@@ -1,89 +1,21 @@
 <template>
     <div id="app">
+        <br>
         <el-form ref="formSearchExtended"
                  v-bind:model="formData"
-                 v-bind:rules="formRules"
                  class="search-extended">
             <el-form-item label="Вид объекта"
                           prop="objectType">
                 <el-select v-model="formData.objectType.value"
                            placeholder="Выберите вид объекта..."
                            clearable>
-                    <el-option v-for="type in objectTypes"
+                    <el-option v-for="type in objectTypesForSearch"
                                v-bind:key="type.code"
                                v-bind:value="type.code"
                                v-bind:label="type.name"/>
                 </el-select>
             </el-form-item>
-            <el-divider/>
-            <el-form-item label="Номер объекта">
-                <el-tooltip placement="top"
-                            v-bind:disabled="formData.objectNumber.disabled">
-                    <div slot="content">
-                        Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br>
-                        <hr>
-                        – Первые <strong>10 цифр</strong> - Код СОАТО;<br>
-                        – Следующие <strong>2 цифры</strong> - Кадастровый блок земельного участка;<br>
-                        – Последние <strong>6 цифр</strong> - Порядковый номер земельного участка в соответствующем кадастровом блоке.<br>
-                    </div>
-                    <el-input placeholder="Введите номер объекта..."
-                              v-model="formData.objectNumber.raw"
-                              clearable
-                              v-bind:minlength="formData.objectNumber.size"
-                              v-bind:maxlength="formData.objectNumber.size"
-                              show-word-limit
-                              v-bind:disabled="formData.objectNumber.disabled"/>
-                </el-tooltip>
-            </el-form-item>
-            <el-form-item class="except-this-one">
-                <el-row :gutter="24">
-                    <el-col :span="10">
-                        <el-tooltip placement="top-start">
-                            <div slot="content">Код СОАТО <strong>(10 цифр)</strong></div>
-                            <el-input v-model="formData.objectNumber.detailed.soato"
-                                      clearable
-                                      minlength="10"
-                                      maxlength="10"
-                                      show-word-limit/>
-                        </el-tooltip>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-tooltip placement="top">
-                            <div slot="content">Кадастровый блок земельного участка <strong>(2 цифры)</strong></div>
-                            <el-input v-model="formData.objectNumber.detailed.block"
-                                      clearable
-                                      minlength="2"
-                                      maxlength="2"
-                                      show-word-limit/>
-                        </el-tooltip>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-tooltip placement="top-end">
-                            <div slot="content">Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong></div>
-                            <el-input v-model="formData.objectNumber.detailed.order"
-                                      clearable
-                                      minlength="6"
-                                      maxlength="6"
-                                      show-word-limit/>
-                        </el-tooltip>
-                    </el-col>
-                </el-row>
-            </el-form-item>
-            <el-divider/>
-            <el-form-item label="Адрес объекта">
-                <el-input disabled/>
-            </el-form-item>
-            <el-collapse v-on:change="changeCollapse">
-                <el-collapse-item v-bind:title="formData.extended.title" name="extended-search-params">
-                    <el-form-item label="Ещё какая-то строка 1">
-                        <el-input disabled/>
-                    </el-form-item>
-                    <el-divider/>
-                    <el-form-item label="Ещё какая-то строка 2">
-                        <el-input disabled/>
-                    </el-form-item>
-                </el-collapse-item>
-            </el-collapse>
+            <component v-bind:is="type"/>
             <el-button v-on:click="handleSearch">Поиск</el-button>
         </el-form>
     </div>
@@ -91,50 +23,53 @@
 
 <script>
     import setEvent from './mixins/SetEvent.js';
+    import c1 from './components/c1.vue';
+    import c2 from './components/c2.vue';
+    import c3 from './components/c3.vue';
     import {mapGetters} from 'vuex';
 
     const formDataDefaults = {
-        objectType: {
-            value: null,
+        objectType  : {
+            value : null,
             regexp: null
         },
         objectNumber: {
-            disabled: false,
-            size: 18,
-            raw: '',
+            size    : 18,
+            raw     : '',
             detailed: {
                 soato: '',
                 block: '',
                 order: ''
             },
-            pattern: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
+            pattern : '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
         },
-        extended: {state: false, title: 'Показать дополнительные критерии поиска'}
+        extended    : {state: false, title: 'Показать дополнительные критерии поиска'}
     };
     const eventOptions = {
-        type: 'keydown',
-        trigger: {key: 'B', modifiers: ['alt']},
+        type    : 'keydown',
+        trigger : {key: 'B', modifiers: ['alt']},
         callback: null
     };
 
     export default {
-        name: 'App',
-        mixins: [setEvent],
+        name      : 'App',
+        components: {c1, c2, c3},
+        mixins    : [setEvent],
         data() {
             return {
-                formData: JSON.parse(JSON.stringify(formDataDefaults)),
+                formData : JSON.parse(JSON.stringify(formDataDefaults)),
                 formRules: {
                     objectType: [
                         {
-                            type: 'object',
+                            type    : 'object',
                             required: true,
-                            message: 'Внимание! Не выбран «Вид объекта»!',
-                            trigger: 'change',
-                            fields: {
+                            message : 'Внимание! Не выбран «Вид объекта»!',
+                            trigger : 'change',
+                            fields  : {
                                 code: {
-                                    type: 'number',
+                                    type    : 'number',
                                     required: true,
-                                    message: 'Внимание! Не выбран «Вид объекта»!'
+                                    message : 'Внимание! Не выбран «Вид объекта»!'
                                 }
                             }
                         }
@@ -142,10 +77,13 @@
                 }
             }
         },
-        computed: {
-            ...mapGetters(['objectTypes'])
+        computed  : {
+            type() {
+                return `c${this.formData.objectType.value}`;
+            },
+            ...mapGetters(['objectTypesForSearch'])
         },
-        watch: {
+        watch     : {
             //     'formData.objectNumber.raw': function (newValue) {
             //         if (newValue && (newValue.length === this.formData.objectNumber.size)) {
             //             const match = new RegExp(this.formData.objectNumber.pattern, 'g').exec(newValue);
@@ -169,14 +107,12 @@
         mounted() {
             this.printClassifiers.call(this);
         },
-        methods: {
+        methods   : {
             printState() {
                 /* de-reactivate */
                 console.log(JSON.parse(JSON.stringify({...this.formData})), {formDataDefaults, eventOptions});
             },
-            changeCollapse() {
-                this.formData.extended.state = !this.formData.extended.state;
-            },
+
             printClassifiers() {
                 let data = this.$store.state.classifiers;
 
@@ -192,7 +128,7 @@
                 }
             },
             handleSearch() {
-                console.log();
+                console.log('handle search');
             }
         }
     }
@@ -200,20 +136,25 @@
 
 <style>
     #app {
-        font-family: "Times New Roman", serif;
-        -webkit-font-smoothing: antialiased;
+        font-family:             "Times New Roman", serif;
+        -webkit-font-smoothing:  antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
+        text-align:              center;
+        color:                   rgb(44, 62, 80);
+    }
+
+    p {
+        color:       darkorange;
+        font-weight: bold;
     }
 
     /* :root */
     .search-extended {
-        --form-width: 640px;
-        --form-item-label-width: 160px;
-        --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
+        --form-width:                      640px;
+        --form-item-label-width:           160px;
+        --form-item-content-width:         calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
-        --border-color: rgb(220, 223, 230);
+        --border-color:                    rgb(220, 223, 230);
     }
 
     .el-form.search-extended {
@@ -236,7 +177,7 @@
 
     .el-form.search-extended .el-form-item .el-form-item__content {
         margin-left: var(--form-item-label-width);
-        text-align: left;
+        text-align:  left;
     }
 
     .el-form.search-extended .el-form-item:not(.except-this-one) .el-form-item__content .el-input {
@@ -248,9 +189,9 @@
     }
 
     .el-form.search-extended .el-collapse {
-        margin-top: 26px;
+        margin-top:    26px;
         margin-bottom: 26px;
-        border-top: 1px solid var(--border-color);
+        border-top:    1px solid var(--border-color);
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -264,11 +205,11 @@
     }
 
     .el-form.search-extended .el-collapse .el-collapse-item__header {
-        display: inline-block;
-        font-weight: bold;
-        padding-top: 12px;
+        display:        inline-block;
+        font-weight:    bold;
+        padding-top:    12px;
         padding-bottom: 12px;
-        transition: none;
+        transition:     none;
     }
 
     .el-form.search-extended .el-collapse .el-collapse-item__header i {
