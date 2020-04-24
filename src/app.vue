@@ -1,118 +1,40 @@
 <template>
     <div id="app">
-        <br>
-        <el-form ref="formSearchExtended"
-                 v-bind:model="formData"
-                 class="search-extended">
-            <el-form-item label="Вид объекта"
-                          prop="objectType">
-                <el-select v-model="formData.objectType.value"
-                           placeholder="Выберите вид объекта..."
-                           clearable>
-                    <el-option v-for="type in objectTypesForSearch"
-                               v-bind:key="type.code"
-                               v-bind:value="type.code"
-                               v-bind:label="type.name"/>
-                </el-select>
-            </el-form-item>
-            <component v-bind:is="type"/>
-            <el-button v-on:click="handleSearch">Поиск</el-button>
-        </el-form>
+        <h1>Transition Demo</h1>
+        <hr>
+        <h3>Transitions begins here</h3>
+        <hr>
+        <transition name="fade" mode="out-in">
+            <div v-if="show" key="show">
+                <p>{{jsonText}}</p>
+            </div>
+            <div v-else key="hide">
+                <p>Nothing here...</p>
+            </div>
+        </transition>
+        <hr>
+        <h3>Transitions ends here</h3>
+        <el-button v-on:click="handleClick">{{(show ? 'Hide' : 'Show')}} Content</el-button>
     </div>
 </template>
 
 <script>
-    import setEvent from './mixins/SetEvent.js';
-    import c1 from './components/c1.vue';
-    import c2 from './components/c2.vue';
-    import c3 from './components/c3.vue';
-    import {mapGetters} from 'vuex';
-
-    const formDataDefaults = {
-        objectType  : {
-            value : null,
-            regexp: null
-        },
-        objectNumber: {
-            size    : 18,
-            raw     : '',
-            detailed: {
-                soato: '',
-                block: '',
-                order: ''
-            },
-            pattern : '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
-        },
-        extended    : {state: false, title: 'Показать дополнительные критерии поиска'}
-    };
-    const eventOptions = {
-        type    : 'keydown',
-        trigger : {key: 'B', modifiers: ['alt']},
-        callback: null
-    };
+    import json from './config/form'
 
     export default {
-        name      : 'App',
-        components: {c1, c2, c3},
-        mixins    : [setEvent],
+        name: 'App',
         data() {
             return {
-                formData : JSON.parse(JSON.stringify(formDataDefaults)),
-                formRules: {
-                    objectType: [
-                        {
-                            type    : 'object',
-                            required: true,
-                            message : 'Внимание! Не выбран «Вид объекта»!',
-                            trigger : 'change',
-                            fields  : {
-                                code: {
-                                    type    : 'number',
-                                    required: true,
-                                    message : 'Внимание! Не выбран «Вид объекта»!'
-                                }
-                            }
-                        }
-                    ]
-                }
+                show: false
             }
         },
-        computed  : {
-            type() {
-                return `c${this.formData.objectType.value}`;
-            },
-            ...mapGetters(['objectTypesForSearch'])
-        },
-        watch     : {
-            //     'formData.objectNumber.raw': function (newValue) {
-            //         if (newValue && (newValue.length === this.formData.objectNumber.size)) {
-            //             const match = new RegExp(this.formData.objectNumber.pattern, 'g').exec(newValue);
-            //
-            //             if (match) {
-            //                 this.formData.objectNumber.detailed.soato = match[1];
-            //                 this.formData.objectNumber.detailed.block = match[2];
-            //                 this.formData.objectNumber.detailed.order = match[3];
-            //             }
-            //         } else if (!newValue) {
-            //             this.formData.objectNumber.detailed = Object.assign({}, formDataDefaults.objectNumber.detailed);
-            //         }
-            //     }
-            'formData.extended.state'(state) {
-                this.formData.extended.title = (state ? 'Скрыть' : 'Показать') + ' дополнительные критерии поиска';
+        computed: {
+            jsonText() {
+                return json;
             }
         },
-        created() {
-            this.setEvent({...eventOptions, callback: this.printState});
-        },
-        mounted() {
-            this.printClassifiers.call(this);
-        },
-        methods   : {
-            printState() {
-                /* de-reactivate */
-                console.log(JSON.parse(JSON.stringify({...this.formData})), {formDataDefaults, eventOptions});
-            },
-
+        watch: {},
+        methods: {
             printClassifiers() {
                 let data = this.$store.state.classifiers;
 
@@ -127,34 +49,47 @@
                     );
                 }
             },
-            handleSearch() {
-                console.log('handle search');
+            handleClick() {
+                this.show = !this.show;
             }
-        }
+        },
+        created() {
+        },
+        mounted() {
+            this.printClassifiers.call(this);
+        },
     }
 </script>
 
 <style>
     #app {
-        font-family:             "Times New Roman", serif;
-        -webkit-font-smoothing:  antialiased;
+        font-family: "Times New Roman", serif;
+        -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align:              center;
-        color:                   rgb(44, 62, 80);
+        text-align: center;
+        color: rgb(44, 62, 80);
     }
 
     p {
-        color:       darkorange;
+        color: magenta;
         font-weight: bold;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 250ms ease-in-out;
+    }
+
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 
     /* :root */
     .search-extended {
-        --form-width:                      640px;
-        --form-item-label-width:           160px;
-        --form-item-content-width:         calc(var(--form-width) - var(--form-item-label-width));
+        --form-width: 640px;
+        --form-item-label-width: 160px;
+        --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
-        --border-color:                    rgb(220, 223, 230);
+        --border-color: rgb(220, 223, 230);
     }
 
     .el-form.search-extended {
@@ -177,21 +112,22 @@
 
     .el-form.search-extended .el-form-item .el-form-item__content {
         margin-left: var(--form-item-label-width);
-        text-align:  left;
+        text-align: left;
     }
 
     .el-form.search-extended .el-form-item:not(.except-this-one) .el-form-item__content .el-input {
         width: var(--form-item-content-width);
     }
 
+    /* количество введённых символов и общее число доступных для ввода "0/18" */
     .el-form.search-extended .el-form-item .el-form-item__content .el-input .el-input__count {
         color: rgb(220, 220, 220);
     }
 
     .el-form.search-extended .el-collapse {
-        margin-top:    26px;
+        margin-top: 26px;
         margin-bottom: 26px;
-        border-top:    1px solid var(--border-color);
+        border-top: 1px solid var(--border-color);
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -205,11 +141,11 @@
     }
 
     .el-form.search-extended .el-collapse .el-collapse-item__header {
-        display:        inline-block;
-        font-weight:    bold;
-        padding-top:    12px;
+        display: inline-block;
+        font-weight: bold;
+        padding-top: 12px;
         padding-bottom: 12px;
-        transition:     none;
+        transition: none;
     }
 
     .el-form.search-extended .el-collapse .el-collapse-item__header i {
