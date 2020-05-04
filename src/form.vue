@@ -4,97 +4,95 @@
                  v-bind:model="formData"
                  class="search-extended">
             <!-- Вид объекта -->
-            <el-form-item v-bind:label="formDescription.objectType.label"
+            <el-form-item v-bind:label="formDescription.objectTypeForSearch.label"
                           prop="objectType">
-                <el-select v-model="formData.objectType"
-                           v-bind:placeholder="formDescription.objectType.placeholder">
+                <el-select v-model="formData.objectTypeForSearch"
+                           v-bind:placeholder="formDescription.objectTypeForSearch.placeholder">
                     <el-option v-for="type in objectTypesForSearch"
                                v-bind:key="type.code"
                                v-bind:value="type.code"
                                v-bind:label="type.name"/>
                 </el-select>
             </el-form-item>
-            <template v-if="formData.objectType">
-                <!-- Номер объекта -->
-                <el-form-item v-bind:label="formDescription.objectNumber.label"
-                              prop="objectNumber">
-                    <el-tooltip placement="bottom">
-                        <template v-slot:content>
-                            <div v-html="formDescription.objectNumber.validation[formData.objectType].tooltip"></div>
+            <!-- Номер объекта -->
+            <el-form-item v-if="formData.objectTypeForSearch"
+                          v-bind:label="formDescription.objectNumber.label"
+                          prop="objectNumber">
+                <el-tooltip placement="bottom">
+                    <template v-slot:content>
+                        <div v-html="formDescription.objectNumber.validation[formData.objectTypeForSearch].tooltip"></div>
+                    </template>
+                    <el-input v-bind:placeholder="formDescription.objectNumber.placeholder"
+                              v-model="formData.objectNumber"
+                              v-bind:minlength="formDescription.objectNumber.validation[formData.objectTypeForSearch].size.min"
+                              v-bind:maxlength="formDescription.objectNumber.validation[formData.objectTypeForSearch].size.max"
+                              show-word-limit/>
+                </el-tooltip>
+            </el-form-item>
+            <!-- Структурированный номер объекта -->
+            <el-form-item v-if="formData.objectTypeForSearch"
+                          class="object-number-structured">
+                <el-row :gutter="24">
+                    <el-col v-for="(item, key) in formDescription.objectNumberStructured.validation[formData.objectTypeForSearch]"
+                            v-bind:span="item.span"
+                            v-bind:key="key">
+                        <template v-if="item.type === 'input'">
+                            <el-input v-model="formData.objectNumberStructured[key]"
+                                      v-bind:minlength="item.size.min"
+                                      v-bind:maxlength="item.size.max"
+                                      show-word-limit/>
                         </template>
-                        <el-input v-bind:placeholder="formDescription.objectNumber.placeholder"
-                                  v-model="formData.objectNumber"
-                                  v-bind:minlength="formDescription.objectNumber.validation[formData.objectType].size.min"
-                                  v-bind:maxlength="formDescription.objectNumber.validation[formData.objectType].size.max"
-                                  show-word-limit/>
-                    </el-tooltip>
-                </el-form-item>
-                <!-- Структурированный номер объекта -->
-                <el-form-item class="except-this-one">
-                    <el-row :gutter="24">
-                        <el-col v-for="(item, key) in formDescription.objectNumberStructured.validation[formData.objectType]"
-                                v-bind:span="item.span"
-                                v-bind:key="key">
-                            <template v-if="item.tooltip">
-                                <el-tooltip v-bind:placement="item.placement">
-                                    <template v-slot:content>
-                                        <div v-html="item.tooltip"></div>
-                                    </template>
-                                    <template v-if="item.type === 'input'">
-                                        <el-input v-model="formData.objectNumberStructured[key]"
-                                                  v-bind:minlength="item.size.min"
-                                                  v-bind:maxlength="item.size.max"
-                                                  show-word-limit/>
-                                    </template>
-                                    <template v-else-if="item.type === 'select'">
-                                        <el-select v-model="formData.objectNumberStructured[key]"
-                                                   placeholder=""
-                                                   v-bind:disabled="(item.options.length <= 1)">
-                                            <el-option v-for="(char, key) in item.options"
-                                                       v-bind:key="key"
-                                                       v-bind:value="char"
-                                                       v-bind:label="char"/>
-                                        </el-select>
-                                    </template>
-                                </el-tooltip>
-                            </template>
-                            <template v-else>
-                                <template v-if="item.type === 'input'">
-                                    <el-input v-model="formData.objectNumberStructured[key]"
-                                              v-bind:minlength="item.size.min"
-                                              v-bind:maxlength="item.size.max"
-                                              show-word-limit/>
-                                </template>
-                                <template v-else-if="item.type === 'select'">
-                                    <el-select v-model="formData.objectNumberStructured[key]"
-                                               placeholder=""
-                                               v-bind:disabled="(item.options.length <= 1)">
-                                        <el-option v-for="(char, key) in item.options"
-                                                   v-bind:key="key"
-                                                   v-bind:value="char"
-                                                   v-bind:label="char"/>
-                                    </el-select>
-                                </template>
-                            </template>
-                        </el-col>
-                    </el-row>
-                </el-form-item>
-                <!-- Дополнительные критерии поиска -->
-                <el-collapse v-on:change="formData._extended = !formData._extended">
-                    <el-collapse-item v-bind:title="`${(formData._extended ? 'Скрыть' : 'Показать')} дополнительные критерии поиска`">
-                        <el-form-item label="Ещё какая-то строка 1">
-                            <el-input disabled/>
-                        </el-form-item>
-                        <el-form-item label="Ещё какая-то строка 2">
-                            <el-input disabled/>
-                        </el-form-item>
-                    </el-collapse-item>
-                </el-collapse>
-            </template>
+                        <template v-else-if="item.type === 'select'">
+                            <el-select v-model="formData.objectNumberStructured[key]"
+                                       placeholder=""
+                                       v-bind:disabled="(item.options.length <= 1)">
+                                <el-option v-for="(char, key) in item.options"
+                                           v-bind:key="key"
+                                           v-bind:value="char"
+                                           v-bind:label="char"/>
+                            </el-select>
+                        </template>
+                    </el-col>
+                </el-row>
+            </el-form-item>
             <!-- Адрес объекта -->
-            <el-form-item v-bind:label="formDescription.objectAddress.label"
+            <el-form-item v-if="formData.objectTypeForSearch"
+                          v-bind:label="formDescription.objectAddress.label"
                           prop="objectAddress">
                 <el-input v-bind:placeholder="formDescription.objectAddress.placeholder" disabled/>
+            </el-form-item>
+            <!-- Объект -->
+            <el-form-item v-if="(formData.objectTypeForSearch > 1) && (formData.objectTypeForSearch < 3)"
+                          v-bind:label="formDescription._extended_objectType.label">
+                <el-select v-model="formData._extended_objectType"
+                           v-bind:placeholder="formDescription._extended_objectType.placeholder">
+                    <el-option v-for="type in objectTypes"
+                               v-bind:key="type.code"
+                               v-bind:value="type.code"
+                               v-bind:label="type.name"/>
+                </el-select>
+            </el-form-item>
+            <!-- ТОР -->
+            <el-form-item v-bind:label="formDescription._extended_tor.label">
+                <el-select v-model="formData._extended_tor"
+                           v-bind:placeholder="formDescription._extended_tor.placeholder">
+                    <el-option v-for="org in regOrgs"
+                               v-bind:key="org.idReg"
+                               v-bind:value="org.idReg"
+                               v-bind:label="`${org.idReg} - ${org.orgShortName}`"/>
+                </el-select>
+            </el-form-item>
+            <!-- Назначение -->
+            <el-form-item v-if="(formData.objectTypeForSearch === 1) || (formData.objectTypeForSearch === 3)"
+                          v-bind:label="formDescription._extended_purpose.label">
+                <el-select v-model="formData._extended_purpose"
+                           v-bind:placeholder="formDescription._extended_purpose.placeholder"
+                           popper-class="object-purpose">
+                    <el-option v-for="purpose in objectPurposes"
+                               v-bind:key="purpose.code"
+                               v-bind:value="purpose.code"
+                               v-bind:label="purpose.name"/>
+                </el-select>
             </el-form-item>
         </el-form>
     </div>
@@ -108,7 +106,7 @@
         data() {
             return {
                 formData: {
-                    objectType: null,
+                    objectTypeForSearch: null,
                     objectNumber: null,
                     objectNumberStructured: {
                         1: null,
@@ -116,10 +114,12 @@
                         3: null
                     },
                     objectAddress: null,
-                    _extended: false
+                    _extended: true,
+                    _extended_objectType: null,
+                    _extended_tor: null
                 },
                 formDescription: {
-                    objectType: {
+                    objectTypeForSearch: {
                         label: 'Вид объекта',
                         placeholder: 'Выберите вид объекта...',
                     },
@@ -280,8 +280,43 @@
             }
         },
         computed: {
-            ...mapGetters(['objectTypesForSearch'])
+            ...mapGetters([
+                'objectTypesForSearch',
+                'objectTypes',
+                'regOrgs',
+                'objectPurposeLP',
+                'objectPurposeCS',
+                'objectPurposeNZCS',
+                'objectPurposeIP',
+                'objectPurposeMM'
+            ]),
+            objectPurposes() {
+                let type = ((t1, t2) => {
+                    console.log({t1, t2});
+                    if (t2) {
+                        return parseInt(t2, 10);
+                    } else if (t1 && (parseInt(t1, 10) === 1)) {
+                        return 3;
+                    }
+                })(this.formData.objectTypeForSearch, this.formData._extended_objectType);
+
+                switch (type) {
+                    case 1:
+                        return this.objectPurposeCS;
+                    case 2:
+                        return this.objectPurposeIP;
+                    case 3:
+                        return this.objectPurposeLP;
+                    case 4:
+                        return this.objectPurposeNZCS;
+                    case 5:
+                        return this.objectPurposeMM;
+                }
+
+                return null;
+            }
         },
+
         watch: {
             'formData.objectType'(newValue) {
                 switch (parseInt(newValue, 10)) {
@@ -374,7 +409,7 @@
         text-align: left;
     }
 
-    .el-form.search-extended .el-form-item:not(.except-this-one) .el-form-item__content .el-input {
+    .el-form.search-extended .el-form-item:not(.object-number-structured) .el-form-item__content .el-input {
         width: var(--form-item-content-width);
     }
 

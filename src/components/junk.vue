@@ -14,7 +14,12 @@
             </el-select>
         </el-form-item>
         <component v-bind:is="type"/>
-        <el-button>Поиск</el-button>
+        <!-- Дополнительные критерии поиска -->
+        <el-collapse v-on:change="formData._extended = !formData._extended">
+            <el-collapse-item v-bind:title="`${(formData._extended ? 'Скрыть' : 'Показать')} дополнительные критерии поиска`">
+                <el-button>Скрытая кнопка</el-button>
+            </el-collapse-item>
+        </el-collapse>
         <el-form-item v-bind:label="formData.objectType.label"
                       prop="objectType">
             <el-select v-model="formData.objectType.value"
