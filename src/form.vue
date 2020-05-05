@@ -36,7 +36,8 @@
                 <el-row :gutter="24">
                     <el-col v-for="(item, key) in formDescription.objectNumberStructured.validation[formData.objectTypeForSearch]"
                             v-bind:span="item.span"
-                            v-bind:key="key">
+                            v-bind:key="key"
+                            v-bind:class="((parseInt(key, 10) === 1) ? 'from': (parseInt(key, 10) === Object.keys(formDescription.objectNumberStructured.validation[formData.objectTypeForSearch]).length) ? 'to' : '')">
                         <template v-if="item.type === 'input'">
                             <el-input v-model="formData.objectNumberStructured[key]"
                                       v-bind:minlength="item.size.min"
@@ -103,21 +104,55 @@
             <el-form-item prop="extended-square"
                           v-if="formData.objectTypeForSearch"
                           class="extended-square"
-                          v-bind:label="formDescription._extended_square.label">
+                          v-bind:label="`${formDescription._extended_square.label}, ${formDescription._extended_square.unit}`">
                 <el-row v-bind:gutter="24">
-                    <el-col v-bind:span="11">
+                    <el-col v-bind:span="12"
+                            class="from">
                         <el-input v-model="formData._extended_square.from">
                             <template slot="prepend">{{formDescription._extended_square.from.label}}</template>
-                            <template slot="append">{{formDescription._extended_square.unit}}</template>
                         </el-input>
                     </el-col>
-                    <el-col v-bind:span="12">
+                    <el-col v-bind:span="12"
+                            class="to">
                         <el-input v-model="formData._extended_square.to">
                             <template slot="prepend">{{formDescription._extended_square.to.label}}</template>
-                            <template slot="append">{{formDescription._extended_square.unit}}</template>
                         </el-input>
                     </el-col>
                 </el-row>
+            </el-form-item>
+            <!-- Дата созания -->
+            <el-form-item prop="extended-creation-date"
+                          v-if="formData.objectTypeForSearch"
+                          class="extended-creation-date"
+                          v-bind:label="formDescription._extended_creationDate.label">
+                <el-row v-bind:gutter="24">
+                    <el-col v-bind:span="12"
+                            class="from">
+                        <el-input v-model="formData._extended_creationDate.from"
+                                  suffix-icon="el-icon-date">
+                            <template slot="prepend">{{formDescription._extended_creationDate.from.label}}</template>
+                        </el-input>
+                    </el-col>
+                    <el-col v-bind:span="12"
+                            class="to">
+                        <el-input v-model="formData._extended_creationDate.to"
+                                  suffix-icon="el-icon-date">
+                            <template slot="prepend">{{formDescription._extended_creationDate.to.label}}</template>
+                        </el-input>
+                    </el-col>
+                </el-row>
+            </el-form-item>
+            <!-- Статус объекта -->
+            <el-form-item prop="extended-status"
+                          v-if="formData.objectTypeForSearch === 1"
+                          v-bind:label="formDescription._extended_objectStatus.label">
+                <el-select v-model="formData._extended_objectStatus"
+                           v-bind:placeholder="formDescription._extended_objectStatus.placeholder">
+                    <el-option v-for="status in objectStatuses"
+                               v-bind:key="status.code"
+                               v-bind:value="status.code"
+                               v-bind:label="status.name"/>
+                </el-select>
             </el-form-item>
         </el-form>
     </div>
@@ -127,31 +162,33 @@
     import {mapGetters} from "vuex";
 
     export default {
-        name: "the-form",
+        name    : "the-form",
         data() {
             return {
-                formData: {
-                    objectTypeForSearch: null,
-                    objectNumber: null,
+                formData       : {
+                    objectTypeForSearch   : null,
+                    objectNumber          : null,
                     objectNumberStructured: {1: null, 2: null, 3: null},
-                    objectAddress: null,
-                    _extended: true,
-                    _extended_objectType: null,
-                    _extended_tor: null,
-                    _extended_purpose: null,
-                    _extended_square: {from: null, to: null}
+                    objectAddress         : null,
+                    _extended             : true,
+                    _extended_objectType  : null,
+                    _extended_tor         : null,
+                    _extended_purpose     : null,
+                    _extended_square      : {from: null, to: null},
+                    _extended_creationDate: {from: null, to: null},
+                    _extended_objectStatus: null
                 },
                 formDescription: {
-                    objectTypeForSearch: {
-                        label: 'Вид объекта',
+                    objectTypeForSearch   : {
+                        label      : 'Вид объекта',
                         placeholder: 'Выберите вид объекта...',
                     },
-                    objectNumber: {
-                        label: 'Номер объекта',
+                    objectNumber          : {
+                        label      : 'Номер объекта',
                         placeholder: 'Введите номер объекта...',
-                        validation: {
+                        validation : {
                             1: /* Земельный участок */ {
-                                size: {min: 18, max: 18},
+                                size   : {min: 18, max: 18},
                                 pattern: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
                                 tooltip: 'Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br><hr>' +
                                     '– Первые <strong>10 цифр</strong> - Код СОАТО;<br>' +
@@ -159,7 +196,7 @@
                                     '– Последние <strong>6 цифр</strong> - Порядковый номер земельного участка в соответствующем кадастровом блоке.'
                             },
                             2: /* КС (НЗКС) */ {
-                                size: {min: 5, max: 34},
+                                size   : {min: 5, max: 34},
                                 pattern: '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
                                 tooltip: 'Маска для ввода номера объекта, где:<br><hr>' +
                                     '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
@@ -167,7 +204,7 @@
                                     '– Последние <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>'
                             },
                             3: /* ИП (ММ) */ {
-                                size: {min: 5, max: 34},
+                                size   : {min: 5, max: 34},
                                 pattern: '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$',
                                 tooltip: 'Маска для ввода номера объекта, где:<br><hr>' +
                                     '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
@@ -181,129 +218,127 @@
                         validation: {
                             1: /* Земельный участок */ {
                                 1: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top-start',
-                                    size: {min: 10, max: 10},
-                                    pattern: '^[1-9][0-9]{9}$',
-                                    span: 10,
-                                    tooltip: 'Код СОАТО <strong>(10 цифр)</strong>'
+                                    size     : {min: 10, max: 10},
+                                    pattern  : '^[1-9][0-9]{9}$',
+                                    span     : 10,
+                                    tooltip  : 'Код СОАТО <strong>(10 цифр)</strong>'
                                 },
                                 2: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top',
-                                    size: {min: 2, max: 2},
-                                    pattern: '^[0-9]{2}$',
-                                    span: 6,
-                                    tooltip: 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
+                                    size     : {min: 2, max: 2},
+                                    pattern  : '^[0-9]{2}$',
+                                    span     : 6,
+                                    tooltip  : 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
                                 },
                                 3: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top-end',
-                                    size: {min: 6, max: 6},
-                                    pattern: '^[0-9]{6}$',
-                                    span: 8,
-                                    tooltip: 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
+                                    size     : {min: 6, max: 6},
+                                    pattern  : '^[0-9]{6}$',
+                                    span     : 8,
+                                    tooltip  : 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
                                 }
                             },
                             2: /* КС (НЗКС) */ {
                                 1: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top-start',
-                                    size: {min: 3, max: 3},
-                                    pattern: '^[1-9][0-9]{2}$',
-                                    span: 5,
-                                    tooltip: 'Код ТОР <strong>(3 цифры)</strong>'
+                                    size     : {min: 3, max: 3},
+                                    pattern  : '^[1-9][0-9]{2}$',
+                                    span     : 5,
+                                    tooltip  : 'Код ТОР <strong>(3 цифры)</strong>'
                                 },
                                 2: {
-                                    type: 'select',
+                                    type     : 'select',
                                     placement: 'top',
-                                    size: {min: 1, max: 1},
-                                    options: ['C', 'U'],
-                                    span: 4,
-                                    tooltip: 'Литера'
+                                    size     : {min: 1, max: 1},
+                                    options  : ['C', 'U'],
+                                    span     : 4,
+                                    tooltip  : 'Литера'
                                 },
                                 3: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top-end',
-                                    size: {min: 1, max: 30},
-                                    pattern: '^[1-9][0-9]{0,29}$',
-                                    span: 15,
-                                    tooltip: 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
+                                    size     : {min: 1, max: 30},
+                                    pattern  : '^[1-9][0-9]{0,29}$',
+                                    span     : 15,
+                                    tooltip  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                 }
                             },
                             3: /* ИП (ММ) */ {
                                 1: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top-start',
-                                    size: {min: 3, max: 3},
-                                    pattern: '^[1-9][0-9]{2}$',
-                                    span: 5,
-                                    tooltip: 'Код ТОР <strong>(3 цифры)</strong>'
+                                    size     : {min: 3, max: 3},
+                                    pattern  : '^[1-9][0-9]{2}$',
+                                    span     : 5,
+                                    tooltip  : 'Код ТОР <strong>(3 цифры)</strong>'
                                 },
                                 2: {
-                                    type: 'select',
+                                    type     : 'select',
                                     placement: 'top',
-                                    size: {min: 1, max: 1},
-                                    options: ['D'],
-                                    span: 4,
-                                    tooltip: 'Литера'
+                                    size     : {min: 1, max: 1},
+                                    options  : ['D'],
+                                    span     : 4,
+                                    tooltip  : 'Литера'
                                 },
                                 3: {
-                                    type: 'input',
+                                    type     : 'input',
                                     placement: 'top-end',
-                                    size: {min: 1, max: 30},
-                                    pattern: '^[1-9][0-9]{0,29}$',
-                                    span: 15,
-                                    tooltip: 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
+                                    size     : {min: 1, max: 30},
+                                    pattern  : '^[1-9][0-9]{0,29}$',
+                                    span     : 15,
+                                    tooltip  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                 }
                             },
                             4: /* ПИК */ null
                         }
                     },
-                    objectAddress: {
-                        label: 'Адрес объекта',
+                    objectAddress         : {
+                        label      : 'Адрес объекта',
                         placeholder: 'Укажите адрес объекта...'
                     },
-                    _extended_objectType: {
-                        label: 'Объект',
+                    _extended_objectType  : {
+                        label      : 'Объект',
                         placeholder: 'Выберите вид объекта'
                     },
-                    _extended_tor: {
-                        label: 'ТОР',
+                    _extended_tor         : {
+                        label      : 'ТОР',
                         placeholder: 'Выберите ТОР...'
                     },
-                    _extended_purpose: {
-                        label: 'Назначение',
+                    _extended_purpose     : {
+                        label      : 'Назначение',
                         placeholder: 'Выберите назначение объекта...'
                     },
-                    _extended_square: {
+                    _extended_square      : {
                         label: 'Площадь',
-                        from: {
-                            label: 'От',
-                        },
-                        to: {
-                            label: 'До'
-                        },
-                        unit: 'Га'
+                        from : {label: 'От',},
+                        to   : {label: 'До'},
+                        unit : 'Га'
                     },
                     _extended_squareLength: {
                         label: 'Площадь\nПротяжённость'
                     },
                     _extended_creationDate: {
-                        label: 'Дата создания'
+                        label: 'Дата создания',
+                        from : {label: 'С'},
+                        to   : {label: 'По'}
                     },
                     _extended_objectStatus: {
-                        label: 'Статус объекта',
+                        label      : 'Статус объекта',
                         placeholder: 'Выберите статус объекта...'
                     },
                     _extended_wallMaterial: {
-                        label: 'Материал стен',
+                        label      : 'Материал стен',
                         placeholder: 'Выберите материал стен...'
                     },
-                    _extended_roomsNumber: {
+                    _extended_roomsNumber : {
                         label: 'Количество комнат'
                     },
-                    _extended_floor: {
+                    _extended_floor       : {
                         label: 'Этаж'
                     }
                 }
@@ -314,11 +349,12 @@
                 'objectTypesForSearch',
                 'objectTypes',
                 'regOrgs',
-                'objectPurposeLP',
-                'objectPurposeCS',
-                'objectPurposeNZCS',
-                'objectPurposeIP',
-                'objectPurposeMM'
+                'objectPurposesLP',
+                'objectPurposesCS',
+                'objectPurposesNZCS',
+                'objectPurposesIP',
+                'objectPurposesMM',
+                'objectStatuses'
             ]),
             objectPurposes() {
                 let type = ((t1, t2) => {
@@ -332,21 +368,21 @@
 
                 switch (type) {
                     case 1:
-                        return this.objectPurposeCS;
+                        return this.objectPurposesCS;
                     case 2:
-                        return this.objectPurposeIP;
+                        return this.objectPurposesIP;
                     case 3:
-                        return this.objectPurposeLP;
+                        return this.objectPurposesLP;
                     case 4:
-                        return this.objectPurposeNZCS;
+                        return this.objectPurposesNZCS;
                     case 5:
-                        return this.objectPurposeMM;
+                        return this.objectPurposesMM;
                 }
 
                 return null;
             }
         },
-        watch: {
+        watch   : {
             'formData.objectType'(newValue) {
                 switch (parseInt(newValue, 10)) {
                     case 1:
@@ -363,7 +399,7 @@
                 console.log('change type', newValue);
             },
         },
-        methods: {
+        methods : {
             printClassifiers() {
                 let classifiers = this.$store.state.classifiers;
 
@@ -387,11 +423,11 @@
 
 <style>
     #form {
-        font-family: "Times New Roman", serif;
-        -webkit-font-smoothing: antialiased;
+        font-family:             "Times New Roman", serif;
+        -webkit-font-smoothing:  antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: rgb(44, 62, 80);
+        text-align:              center;
+        color:                   rgb(44, 62, 80);
     }
 
     .fade-enter-active, .fade-leave-active {
@@ -402,16 +438,16 @@
         /*font-size:      5px;*/
         /*letter-spacing: 10px;*/
         opacity: .25;
-        filter: blur(4px);
+        filter:  blur(4px);
     }
 
     /* :root */
     .search-extended {
-        --form-width: 800px;
-        --form-item-label-width: 160px;
-        --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
+        --form-width:                      800px;
+        --form-item-label-width:           160px;
+        --form-item-content-width:         calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
-        --border-color: rgb(220, 223, 230);
+        --border-color:                    rgb(220, 223, 230);
     }
 
     .el-form.search-extended {
@@ -435,16 +471,29 @@
 
     .search-extended .el-form-item .el-form-item__content {
         margin-left: var(--form-item-label-width);
-        text-align: left;
+        text-align:  left;
     }
 
     /*.el-form.search-extended .el-form-item:not(.object-number-structured) .el-form-item__content .el-input {*/
     /*    width: var(--form-item-content-width);*/
     /*}*/
 
-    .search-extended .el-form-item.extended-square .el-form-item__content .label {
-        /*text-align: center;*/
-        color: red;
+    .search-extended .el-form-item .el-form-item__content .el-row {
+        margin-left:  0 !important;
+        margin-right: 0 !important;
+    }
+
+    .search-extended .el-form-item .el-form-item__content .el-row > .el-col.from {
+        padding-left: 0 !important;
+    }
+
+    .search-extended .el-form-item .el-form-item__content .el-row > .el-col.to {
+        padding-right: 0 !important;
+    }
+
+    .search-extended .el-form-item .el-form-item__content .el-input-group__prepend {
+        width:      24px;
+        text-align: center;
     }
 
     /* количество введённых символов и общее число доступных для ввода "0/18" */
@@ -453,9 +502,9 @@
     }
 
     .el-form.search-extended .el-collapse {
-        margin-top: 26px;
+        margin-top:    26px;
         margin-bottom: 26px;
-        border-top: 1px solid var(--border-color);
+        border-top:    1px solid var(--border-color);
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -469,11 +518,11 @@
     }
 
     .el-form.search-extended .el-collapse .el-collapse-item__header {
-        display: inline-block;
-        font-weight: bold;
-        padding-top: 12px;
+        display:        inline-block;
+        font-weight:    bold;
+        padding-top:    12px;
         padding-bottom: 12px;
-        transition: none;
+        transition:     none;
     }
 
     .el-form.search-extended .el-collapse .el-collapse-item__header i {
