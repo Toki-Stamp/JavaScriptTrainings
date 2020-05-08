@@ -5,23 +5,24 @@
                  class="form-search-extended">
             <!-- Всегда видимый контент  -->
             <template v-for="element in formDescription.main">
-                <template v-if="element.item.type === 'input'">
-                    <el-form-item :prop="element.prop"
-                                  :key="element.prop"
-                                  :label="element.label">
-                        <el-tooltip :disabled="hasRoot(element, 'tooltip')" :placement="getProperty(element, 'tooltip', 'placement')">
-                            <template #content>
-                                <div v-html="getProperty(element, 'tooltip', 'content')"></div>
-                            </template>
+                <el-form-item :prop="element.prop"
+                              :key="element.prop"
+                              :label="element.label">
+                    <el-tooltip :disabled="hasRoot(element, 'tooltip')"
+                                :placement="getProperty(element, 'tooltip', 'placement')">
+                        <template #content>
+                            <div v-html="getProperty(element, 'tooltip', 'content')"></div>
+                        </template>
+                        <template v-if="element.item.type === 'input'">
                             <el-input :placeholder="element.placeholder"
                                       :minlength="getProperty(element, 'validation','min')"
                                       :maxlength="getProperty(element, 'validation','max')"
                                       :show-word-limit="getProperty(element, 'validation','wordLimit')"/>
-                        </el-tooltip>
-                    </el-form-item>
-                </template>
-                <template v-else-if="element.item.type === 'select'"></template>
-                <template v-else></template>
+                        </template>
+                        <template v-else-if="element.item.type === 'select'"></template>
+                        <template v-else></template>
+                    </el-tooltip>
+                </el-form-item>
             </template>
             <!-- Скрытый за спойлером контент  -->
             <el-collapse @change="handleCollapseChange">
@@ -509,10 +510,12 @@
                 if (root) {
                     if (this.hasRoot(item, root)) {
                         return item[root];
-                    } else {
+                    } else if (item.depData && item.depData.objectTypeForSearch) {
                         return item.depData.objectTypeForSearch[objectType][root];
                     }
                 }
+
+                return null;
             },
             getProperty(item, root, property) {
                 let rootObject = this.getRoot(item, root);
@@ -520,6 +523,8 @@
                 if (rootObject && property) {
                     return rootObject[property];
                 }
+
+                return null;
             },
             /* logic */
             hasRoot(item, root) {
