@@ -70,7 +70,7 @@
             <el-input disabled/>
         </el-form-item>
         <el-collapse v-on:change="changeCollapse">
-            <el-collapse-item v-bind:title="formData.extended.title"
+            <el-collapse-item v-bind:title="formData.expanded.title"
                               name="extended-search-params">
                 <el-form-item label="Ещё какая-то строка 1">
                     <el-input disabled/>

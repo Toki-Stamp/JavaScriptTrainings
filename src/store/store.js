@@ -4909,7 +4909,8 @@ export default new Vuex.Store({
             return state.classifiers.commonSelTypeObject.defData;
         },
         objectTypesForSearch(state) {
-            return state.classifiers.commonSelTypeObjectForSearch.defData;
+            /* для ПИК (code = 4) нет интерфейса, его пока не возвращаем */
+            return state.classifiers.commonSelTypeObjectForSearch.defData.filter(type => (type.code < 4));
         },
         regOrgs(state) {
             return state.classifiers.regOrgs;
@@ -4931,6 +4932,9 @@ export default new Vuex.Store({
         },
         objectStatuses(state) {
             return state.classifiers.searchObjectStatus.defData;
+        },
+        objectWallsMaterials(state) {
+            return state.classifiers.formCSWallMaterial.defData;
         }
     },
     mutations: {},

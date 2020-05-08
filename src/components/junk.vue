@@ -14,23 +14,6 @@
             </el-select>
         </el-form-item>
         <component v-bind:is="type"/>
-        <!-- Дополнительные критерии поиска -->
-        <el-collapse v-on:change="formData._extended = !formData._extended">
-            <el-collapse-item v-bind:title="`${(formData._extended ? 'Скрыть' : 'Показать')} дополнительные критерии поиска`">
-                <el-button>Скрытая кнопка</el-button>
-            </el-collapse-item>
-        </el-collapse>
-        <el-form-item v-bind:label="formData.objectType.label"
-                      prop="objectType">
-            <el-select v-model="formData.objectType.value"
-                       v-bind:placeholder="formData.objectType.placeholder"
-                       clearable>
-                <el-option v-for="type in objectTypesForSearch"
-                           v-bind:key="type.code"
-                           v-bind:value="type.code"
-                           v-bind:label="type.name"/>
-            </el-select>
-        </el-form-item>
         <transition name="fade" mode="out-in">
             <div v-if="formData.objectType.value === 1" key="1">
                 <el-form-item v-bind:label="formData.objectNumber.label">
@@ -126,6 +109,172 @@
                 <h1>FUCK!</h1>
             </div>
         </transition>
+        <!-- Вид объекта для поиска (без ПИК) -->
+        <el-form-item :prop="formDescription.objectTypeForSearch.prop"
+                      :label="formDescription.objectTypeForSearch.label">
+            <el-select v-model="formData.objectTypeForSearch"
+                       v-bind:placeholder="formDescription.objectTypeForSearch.placeholder">
+                <el-option v-for="type in objectTypesForSearch"
+                           v-bind:key="type.code"
+                           v-bind:value="type.code"
+                           v-bind:label="type.name"/>
+            </el-select>
+        </el-form-item>
+        <!-- Номер объекта -->
+        <el-form-item :prop="formDescription.objectNumber.prop"
+                      v-bind:label="formDescription.objectNumber.label">
+            <template v-if="formData.objectTypeForSearch">
+                <el-tooltip v-bind:placement="formDescription.objectNumber.placement">
+                    <template v-slot:content>
+                        <div v-html="formDescription.objectNumber.validation[formData.objectTypeForSearch].tooltip"></div>
+                    </template>
+                    <el-input v-bind:placeholder="formDescription.objectNumber.placeholder"
+                              v-model="formData.objectNumber"
+                              v-bind:minlength="formDescription.objectNumber.validation[formData.objectTypeForSearch].size.min"
+                              v-bind:maxlength="formDescription.objectNumber.validation[formData.objectTypeForSearch].size.max"
+                              show-word-limit/>
+                </el-tooltip>
+            </template>
+            <template v-else>
+                <el-input v-bind:placeholder="formDescription.objectNumber.placeholder"
+                          v-model="formData.objectNumber"/>
+            </template>
+        </el-form-item>
+        <!-- Структурированный номер объекта -->
+        <el-form-item :prop="formDescription.objectNumberStructured.prop"
+                      v-if="isVisible(formDescription.objectNumberStructured.prop)"
+                      class="object-number-structured">
+            <el-row :gutter="24">
+                <el-col v-for="(item, key) in formDescription.objectNumberStructured.validation[formData.objectTypeForSearch]"
+                        v-bind:span="item.span"
+                        v-bind:key="key"
+                        v-bind:class="getObjectNumberStructuredClass(key)">
+                    <template v-if="item.type === 'input'">
+                        <el-input v-model="formData.objectNumberStructured[key]"
+                                  v-bind:minlength="item.size.min"
+                                  v-bind:maxlength="item.size.max"
+                                  show-word-limit/>
+                    </template>
+                    <template v-else-if="item.type === 'select'">
+                        <el-select v-model="formData.objectNumberStructured[key]">
+                            <el-option v-for="(char, key) in item.options"
+                                       v-bind:key="key"
+                                       v-bind:value="char"
+                                       v-bind:label="char"/>
+                        </el-select>
+                    </template>
+                </el-col>
+            </el-row>
+        </el-form-item>
+        <!-- Адрес объекта -->
+        <el-form-item prop="object-address"
+                      v-bind:label="formDescription.objectAddress.label">
+            <el-input v-bind:placeholder="formDescription.objectAddress.placeholder" disabled/>
+        </el-form-item>
+        <!-- Вид объекта (уточняющий) -->
+        <el-form-item prop="expanded-object-type"
+                      v-if="isVisible('extendedType')"
+                      v-bind:label="formDescription._extended_type.label">
+            <el-select v-model="formData._extended_type"
+                       v-bind:placeholder="formDescription._extended_type.placeholder">
+                <el-option v-for="type in objectAvailableTypes"
+                           v-bind:key="type.code"
+                           v-bind:value="type.code"
+                           v-bind:label="type.name"/>
+            </el-select>
+        </el-form-item>
+        <!-- ТОР -->
+        <el-form-item prop="extended-tor"
+                      v-if="formData.objectTypeForSearch"
+                      v-bind:label="formDescription._extended_TOR.label">
+            <el-select v-model="formData._extended_tor"
+                       v-bind:placeholder="formDescription._extended_TOR.placeholder">
+                <el-option v-for="org in regOrgs"
+                           v-bind:key="org.idReg"
+                           v-bind:value="org.idReg"
+                           v-bind:label="`${org.idReg} - ${org.orgShortName}`"/>
+            </el-select>
+        </el-form-item>
+        <!-- Назначение -->
+        <el-form-item prop="extended-purpose"
+                      v-if="(formData.objectTypeForSearch === 1) || (formData.objectTypeForSearch === 2) || (formData.objectTypeForSearch === 3)"
+                      v-bind:label="formDescription._extended_purpose.label">
+            <el-select v-model="formData._extended_purpose"
+                       v-bind:placeholder="formDescription._extended_purpose.placeholder"
+                       popper-class="object-purpose">
+                <el-option v-for="purpose in objectPurposes"
+                           v-bind:key="purpose.code"
+                           v-bind:value="purpose.code"
+                           v-bind:label="purpose.name"
+                           v-bind:title="purpose.name"/>
+            </el-select>
+        </el-form-item>
+        <!-- Площадь -->
+        <el-form-item prop="extended-square"
+                      v-if="(formData.objectTypeForSearch === 1) || (formData.objectTypeForSearch === 3)"
+                      class="extended-square"
+                      v-bind:label="`${formDescription._extended_square.label}, ${formDescription._extended_square.unit}`">
+            <el-row v-bind:gutter="24">
+                <el-col v-bind:span="12"
+                        class="from">
+                    <el-input v-model="formData._extended_square.from">
+                        <template slot="prepend">{{formDescription._extended_square.from.label}}</template>
+                    </el-input>
+                </el-col>
+                <el-col v-bind:span="12"
+                        class="to">
+                    <el-input v-model="formData._extended_square.to">
+                        <template slot="prepend">{{formDescription._extended_square.to.label}}</template>
+                    </el-input>
+                </el-col>
+            </el-row>
+        </el-form-item>
+        <!-- Дата созания -->
+        <el-form-item prop="extended-creation-date"
+                      v-if="formData.objectTypeForSearch"
+                      class="extended-creation-date"
+                      v-bind:label="formDescription._extended_creationDate.label">
+            <el-row v-bind:gutter="24">
+                <el-col v-bind:span="12"
+                        class="from">
+                    <el-input v-model="formData._extended_creationDate.from"
+                              suffix-icon="el-icon-date">
+                        <template slot="prepend">{{formDescription._extended_creationDate.from.label}}</template>
+                    </el-input>
+                </el-col>
+                <el-col v-bind:span="12"
+                        class="to">
+                    <el-input v-model="formData._extended_creationDate.to"
+                              suffix-icon="el-icon-date">
+                        <template slot="prepend">{{formDescription._extended_creationDate.to.label}}</template>
+                    </el-input>
+                </el-col>
+            </el-row>
+        </el-form-item>
+        <!-- Статус объекта -->
+        <el-form-item prop="extended-status"
+                      v-if="(formData.objectTypeForSearch === 1) || (formData.objectTypeForSearch === 2)"
+                      v-bind:label="formDescription._extended_status.label">
+            <el-select v-model="formData._extended_status"
+                       v-bind:placeholder="formDescription._extended_status.placeholder">
+                <el-option v-for="status in objectStatuses"
+                           v-bind:key="status.code"
+                           v-bind:value="status.code"
+                           v-bind:label="status.name"/>
+            </el-select>
+        </el-form-item>
+        <!-- Материал стен -->
+        <el-form-item prop="extended-wall-material"
+                      v-if="(formData.objectTypeForSearch === 2)"
+                      v-bind:label="formDescription._extended_wallMaterial.label">
+            <el-select v-model="formData._extended_wallMaterial"
+                       v-bind:placeholder="formDescription._extended_wallMaterial.placeholder">
+                <el-option v-for="material in objectWallMaterials"
+                           v-bind:key="material.code"
+                           v-bind:value="material.code"
+                           v-bind:label="material.name"/>
+            </el-select>
+        </el-form-item>
     </el-form>
 </template>
 
