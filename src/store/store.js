@@ -4905,36 +4905,36 @@ export default new Vuex.Store({
         }
     },
     getters  : {
-        objectTypes(state) {
+        objectTypesList(state) {
             return state.classifiers.commonSelTypeObject.defData;
         },
-        objectTypesForSearch(state) {
+        objectTypesForSearchList(state) {
             /* для ПИК (code = 4) нет интерфейса, его пока не возвращаем */
             return state.classifiers.commonSelTypeObjectForSearch.defData.filter(type => (type.code < 4));
         },
-        regOrgs(state) {
-            return state.classifiers.regOrgs;
-        },
-        objectPurposesLP(state) {
+        objectPurposesLPList(state) {
             return state.classifiers.formLPObjectAssignment.defData;
         },
-        objectPurposesCS(state) {
+        objectPurposesCSList(state) {
             return state.classifiers.formCSObjectAssignment.defData;
         },
-        objectPurposesNZCS(state) {
+        objectPurposesNZCSList(state) {
             return state.classifiers.formNCSObjectAssignment.defData;
         },
-        objectPurposesIP(state) {
+        objectPurposesIPList(state) {
             return state.classifiers.formIPObjectAssignment.defData;
         },
-        objectPurposesMM(state) {
+        objectPurposesMMList(state) {
             return state.classifiers.formIPObjectAssignmentMP.defData;
         },
-        objectStatuses(state) {
+        objectStatusesList(state) {
             return state.classifiers.searchObjectStatus.defData;
         },
-        objectWallsMaterials(state) {
+        objectWallsMaterialsList(state) {
             return state.classifiers.formCSWallMaterial.defData;
+        },
+        regOrgsList(state) {
+            return state.classifiers.regOrgs;
         }
     },
     mutations: {},

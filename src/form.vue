@@ -1,38 +1,44 @@
 <template>
     <div id="app">
         <el-form ref="form-search-extended"
-                 :model="formData"
                  class="form-search-extended">
             <!-- Всегда видимый контент  -->
-            <template v-for="element in formDescription.main">
-                <el-form-item :prop="element.prop"
-                              :key="element.prop"
-                              :label="element.label">
-                    <el-tooltip :disabled="hasRoot(element, 'tooltip')"
-                                :placement="getProperty(element, 'tooltip', 'placement')">
-                        <template #content>
-                            <div v-html="getProperty(element, 'tooltip', 'content')"></div>
-                        </template>
-                        <template v-if="element.item.type === 'input'">
-                            <el-input :placeholder="element.placeholder"
-                                      :minlength="getProperty(element, 'validation','min')"
-                                      :maxlength="getProperty(element, 'validation','max')"
-                                      :show-word-limit="getProperty(element, 'validation','wordLimit')"/>
-                        </template>
-                        <template v-else-if="element.item.type === 'select'"></template>
-                        <template v-else></template>
-                    </el-tooltip>
-                </el-form-item>
+            <template v-if="!!formDescription.main">
+                <template v-for="element in formDescription.main">
+                    <template v-if="(element.item.type === 'input') || (element.item.type === 'select')">
+                        <el-form-item :key="element.prop"
+                                      :prop="element.prop"
+                                      :label="element.label">
+                            <template v-if="(element.item.type === 'input')">
+                                <el-input
+                                        v-model="formData[element.prop]"
+                                        :placeholder="element.placeholder"
+                                        :minlength="getProperty(element, 'min')"
+                                        :maxlength="getProperty(element, 'max')"
+                                        :show-word-limit="getProperty(element, 'wordLimit')"/>
+                            </template>
+                            <template v-else-if="(element.item.type === 'select')">
+                                <el-select
+                                        v-model="formData[element.prop]"
+                                        :placeholder="element.placeholder">
+                                    <el-option v-for="option in getProperty(this, getProperty(element, 'options'))"
+                                               :key="option.code"
+                                               :value="option.code"
+                                               :label="option.name"/>
+                                </el-select>
+                            </template>
+                            <template v-else></template>
+                        </el-form-item>
+                    </template>
+                </template>
             </template>
             <!-- Скрытый за спойлером контент  -->
+            <template v-if="formDescription.collapsed"></template>
             <el-collapse @change="handleCollapseChange">
                 <el-collapse-item :title="collapseTitle">
                     <el-button>Скрытая кнопка</el-button>
                 </el-collapse-item>
             </el-collapse>
-            <template v-for="collapse in formDescription.collapsed">
-                <div :key="collapse.prop">- {{collapse.prop}}</div>
-            </template>
         </el-form>
     </div>
 </template>
@@ -55,7 +61,7 @@
                             prop       : 'objectTypeForSearch',
                             item       : {
                                 type   : 'select',
-                                options: this.objectTypesForSearch
+                                options: 'objectTypesForSearchList'
                             },
                             label      : 'Вид объекта',
                             placeholder: 'Выберите вид объекта для поиска...',
@@ -277,25 +283,25 @@
                     ],
                     collapsed: [
                         {
-                            prop       : '_ex_objectType',
+                            prop       : 'objectType',
                             item       : {
                                 type   : 'select',
-                                options: this.availableObjectTypes
+                                options: 'availableObjectTypes'
                             },
                             label      : 'Объект',
                             placeholder: 'Выберите (уточняющий) вид объекта...'
                         },
                         {
-                            prop       : '_ex_objectPurpose',
+                            prop       : 'objectPurpose',
                             item       : {
                                 type   : 'select',
-                                options: this.availableObjectPurposes
+                                options: 'availableObjectPurposes'
                             },
                             label      : 'Назначение',
                             placeholder: 'Выберите назначение объекта...'
                         },
                         {
-                            prop : '_ex_objectSquare',
+                            prop : 'objectSquare',
                             item : {
                                 type : 'input-group',
                                 group: [
@@ -314,7 +320,7 @@
                             label: 'Площадь, га'
                         },
                         {
-                            prop : '_ex_objectSquareLength',
+                            prop : 'objectSquareLength',
                             item : {
                                 type : 'input-group',
                                 group: [
@@ -333,7 +339,7 @@
                             label: 'Площадь, кв.м.\n(Протяжённость, м.п.)'
                         },
                         {
-                            prop : '_ex_objectCreationDate',
+                            prop : 'objectCreationDate',
                             item : {
                                 type : 'input-group',
                                 group: [
@@ -358,7 +364,7 @@
                             label: 'Дата создания'
                         },
                         {
-                            prop       : '_ex_objectStatus',
+                            prop       : 'objectStatus',
                             item       : {
                                 type   : 'select',
                                 options: this.objectStatuses
@@ -367,16 +373,16 @@
                             placeholder: 'Выберите статус объекта...'
                         },
                         {
-                            prop       : '_ex_objectWallsMaterial',
+                            prop       : 'objectWallsMaterial',
                             item       : {
                                 type   : 'select',
-                                options: this.objectWallsMaterials
+                                options: 'objectWallsMaterialsList'
                             },
                             label      : 'Материал стен',
                             placeholder: 'Выберите материал стен...'
                         },
                         {
-                            prop : '_ex_objectRoomsNumber',
+                            prop : 'objectRoomsNumber',
                             item : {
                                 type : 'input-group',
                                 group: [
@@ -395,7 +401,7 @@
                             label: 'Количество комнат'
                         },
                         {
-                            prop : '_ex_objectFloor',
+                            prop : 'objectFloor',
                             item : {
                                 type : 'input-group',
                                 group: [
@@ -414,10 +420,10 @@
                             label: 'Этаж'
                         },
                         {
-                            prop       : '_ex_tor',
+                            prop       : 'tor',
                             item       : {
                                 type   : 'select',
-                                options: this.regOrgs
+                                options: 'regOrgsList'
                             },
                             label      : 'ТОР',
                             placeholder: 'Выберите ТОР...'
@@ -428,60 +434,24 @@
         },
         computed: {
             ...mapGetters([
-                'objectTypesForSearch',
-                'objectTypes',
-                'regOrgs',
-                'objectPurposesLP',
-                'objectPurposesCS',
-                'objectPurposesNZCS',
-                'objectPurposesIP',
-                'objectPurposesMM',
-                'objectStatuses',
-                'objectWallsMaterials'
+                'objectTypesForSearchList',
+                'objectTypesList',
+                'regOrgsList',
+                'objectPurposesLPList',
+                'objectPurposesCSList',
+                'objectPurposesNZCSList',
+                'objectPurposesIPList',
+                'objectPurposesMMList',
+                'objectStatusesList',
+                'objectWallsMaterialsList'
             ]),
-            availableObjectTypes() {
-                let type = parseInt(this.formData.objectTypeForSearch, 10);
-
-                switch (type) {
-                    case 1:
-                }
-                return type;
-            },
-            availableObjectPurposes() {
-                let type = ((t1, t2) => {
-                    console.log({t1, t2});
-                    if (t2) {
-                        return parseInt(t2, 10);
-                    } else if (t1 && (parseInt(t1, 10) === 1)) {
-                        return 3;
-                    }
-                })(this.formData.objectTypeForSearch, this.formData._extended_type);
-
-                switch (type) {
-                    case 1:
-                        return this.objectPurposesCS;
-                    case 2:
-                        return this.objectPurposesIP;
-                    case 3:
-                        return this.objectPurposesLP;
-                    case 4:
-                        return this.objectPurposesNZCS;
-                    case 5:
-                        return this.objectPurposesMM;
-                }
-
-                return null;
-            },
             collapseTitle() {
                 return `${this.controls.isExpanded ? 'Скрыть' : 'Показать'} дополнительные критерии поиска`;
             }
         },
         watch   : {
-            'formData.objectType'(newValue) {
-                console.log('change type', newValue);
-            },
-            'formData._extended_type'(newValue) {
-                console.log('change expanded object type', newValue);
+            'formData.objectType'(newValue, preValue) {
+                console.log(`change type from ${preValue} to ${newValue}`);
             }
         },
         methods : {
@@ -503,51 +473,55 @@
             handleCollapseChange() {
                 this.controls.isExpanded = !this.controls.isExpanded;
             },
-            /* getters */
-            getRoot(item, root) {
-                let objectType = (this.formData.objectTypeForSearch || 1);
+            getProperty(object, property, deep) {
+                let result = null;
+                let key;
+                let recursive = (deep || true);
 
-                if (root) {
-                    if (this.hasRoot(item, root)) {
-                        return item[root];
-                    } else if (item.depData && item.depData.objectTypeForSearch) {
-                        return item.depData.objectTypeForSearch[objectType][root];
+                function isObject(o) {
+                    return o && (typeof o === 'object')
+                }
+
+                function scan(o, p) {
+                    if (o[p]) {
+                        result = o[p];
+                    } else {
+                        Object.entries(o).forEach(([, value]) => {
+                            if (isObject(value)) {
+                                result = scan(value, p);
+                            }
+                        })
                     }
+
+                    return result;
                 }
 
-                return null;
-            },
-            getProperty(item, root, property) {
-                let rootObject = this.getRoot(item, root);
-
-                if (rootObject && property) {
-                    return rootObject[property];
+                if (property === 'options') {
+                    console.log('options');
+                }
+                if (property === 'objectTypesForSearchList') {
+                    console.log('objectTypesForSearchList');
                 }
 
-                return null;
-            },
-            /* logic */
-            hasRoot(item, root) {
-                let objectType = this.formData.objectTypeForSearch;
+                if (!object) {
+                    return this[property];
+                } else if (isObject(object)) {
+                    if (recursive && object.depData && scan(object.depData, property)) {
+                        key = Object.keys(object.depData).shift();
 
-                if (item[root]) {
-                    return true;
-                } else if (objectType && item.depData.objectTypeForSearch[objectType][root]) {
-                    return true;
+                        if (this.formData[key]) {
+                            result = scan(object.depData[key][this.formData[key]], property);
+                        } else {
+                            return null;
+                        }
+                    } else if (!recursive) {
+                        return object[property];
+                    }
+
+                    result = scan(object, property);
                 }
 
-                return false;
-            },
-            isDisabledTooltip(item) {
-                let type = this.formData.objectTypeForSearch;
-
-                if (item.tooltip) {
-                    return false;
-                } else if (type) {
-                    return !item.depData.objectTypeForSearch[type].tooltip;
-                }
-
-                return true;
+                return result;
             }
         },
         mounted() {

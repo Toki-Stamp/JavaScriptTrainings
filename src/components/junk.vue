@@ -283,46 +283,46 @@
     import {mapGetters} from 'vuex';
 
     const formDataDefaults = {
-        objectType: {
-            value: null,
+        objectType  : {
+            value : null,
             regexp: null
         },
         objectNumber: {
-            size: 18,
-            raw: '',
+            size    : 18,
+            raw     : '',
             detailed: {
                 soato: '',
                 block: '',
                 order: ''
             },
-            pattern: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
+            pattern : '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
         },
-        extended: {state: false, title: 'Показать дополнительные критерии поиска'}
+        extended    : {state: false, title: 'Показать дополнительные критерии поиска'}
     };
     const eventOptions = {
-        type: 'keydown',
-        trigger: {key: 'B', modifiers: ['alt']},
+        type    : 'keydown',
+        trigger : {key: 'B', modifiers: ['alt']},
         callback: null
     };
 
     export default {
-        name: "junk",
-        mixins: [SetEvent],
+        name    : "junk",
+        mixins  : [SetEvent],
         data() {
             return {
-                formData: JSON.parse(JSON.stringify(formDataDefaults)),
+                formData : JSON.parse(JSON.stringify(formDataDefaults)),
                 formRules: {
                     objectType: [
                         {
-                            type: 'object',
+                            type    : 'object',
                             required: true,
-                            message: 'Внимание! Не выбран «Вид объекта»!',
-                            trigger: 'change',
-                            fields: {
+                            message : 'Внимание! Не выбран «Вид объекта»!',
+                            trigger : 'change',
+                            fields  : {
                                 code: {
-                                    type: 'number',
+                                    type    : 'number',
                                     required: true,
-                                    message: 'Внимание! Не выбран «Вид объекта»!'
+                                    message : 'Внимание! Не выбран «Вид объекта»!'
                                 }
                             }
                         }
@@ -334,9 +334,42 @@
             type() {
                 return `c${this.formData.objectType.value}`;
             },
-            ...mapGetters(['objectTypesForSearch'])
+            ...mapGetters(['objectTypesForSearch']),
+            availableObjectTypesList() {
+                let type = parseInt(this.formData.objectTypeForSearch, 10);
+
+                switch (type) {
+                    case 1:
+                }
+                return type;
+            },
+            availableObjectPurposesList() {
+                let type = ((t1, t2) => {
+                    console.log({t1, t2});
+                    if (t2) {
+                        return parseInt(t2, 10);
+                    } else if (t1 && (parseInt(t1, 10) === 1)) {
+                        return 3;
+                    }
+                })(this.formData.objectTypeForSearch, this.formData._extended_type);
+
+                switch (type) {
+                    case 1:
+                        return this.objectPurposesCS;
+                    case 2:
+                        return this.objectPurposesIP;
+                    case 3:
+                        return this.objectPurposesLP;
+                    case 4:
+                        return this.objectPurposesNZCS;
+                    case 5:
+                        return this.objectPurposesMM;
+                }
+
+                return null;
+            }
         },
-        watch: {
+        watch   : {
             'formData.objectNumber.raw'(newValue) {
                 if (newValue && (newValue.length === this.formData.objectNumber.size)) {
                     const match = new RegExp(this.formData.objectNumber.pattern, 'g').exec(newValue);
@@ -354,11 +387,57 @@
                 this.formData.extended.title = (state ? 'Скрыть' : 'Показать') + ' дополнительные критерии поиска';
             }
         },
-        methods: {
+        methods : {
             printData() {
                 /* de-reactivate */
                 console.log(JSON.parse(JSON.stringify({...this.$data})));
             },
+            /* getters */
+            getRoot(item, root) {
+                let objectType = (this.formData.objectTypeForSearch || 1);
+
+                if (root) {
+                    if (this.hasRoot(item, root)) {
+                        return item[root];
+                    } else if (item.depData && item.depData.objectTypeForSearch) {
+                        return item.depData.objectTypeForSearch[objectType][root];
+                    }
+                }
+
+                return null;
+            },
+            getProperty(item, root, property) {
+                let rootObject = this.getRoot(item, root);
+
+                if (rootObject && property) {
+                    return rootObject[property];
+                }
+
+                return null;
+            },
+            /* logic */
+            hasRoot(item, root) {
+                let objectType = this.formData.objectTypeForSearch;
+
+                if (item[root]) {
+                    return true;
+                } else if (objectType && item.depData.objectTypeForSearch[objectType][root]) {
+                    return true;
+                }
+
+                return false;
+            },
+            isDisabledTooltip(item) {
+                let type = this.formData.objectTypeForSearch;
+
+                if (item.tooltip) {
+                    return false;
+                } else if (type) {
+                    return !item.depData.objectTypeForSearch[type].tooltip;
+                }
+
+                return true;
+            }
         },
         mounted() {
             this.setEvent({...eventOptions, callback: this.printData});
