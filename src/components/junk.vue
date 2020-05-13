@@ -340,46 +340,46 @@
     import {mapGetters} from 'vuex';
 
     const formDataDefaults = {
-        objectType  : {
-            value : null,
+        objectType: {
+            value: null,
             regexp: null
         },
         objectNumber: {
-            size    : 18,
-            raw     : '',
+            size: 18,
+            raw: '',
             detailed: {
                 soato: '',
                 block: '',
                 order: ''
             },
-            pattern : '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
+            pattern: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$'
         },
-        extended    : {state: false, title: 'Показать дополнительные критерии поиска'}
+        extended: {state: false, title: 'Показать дополнительные критерии поиска'}
     };
     const eventOptions = {
-        type    : 'keydown',
-        trigger : {key: 'B', modifiers: ['alt']},
+        type: 'keydown',
+        trigger: {key: 'B', modifiers: ['alt']},
         callback: null
     };
 
     export default {
-        name    : "junk",
-        mixins  : [SetEvent],
+        name: "junk",
+        mixins: [SetEvent],
         data() {
             return {
-                formData : JSON.parse(JSON.stringify(formDataDefaults)),
+                formData: JSON.parse(JSON.stringify(formDataDefaults)),
                 formRules: {
                     objectType: [
                         {
-                            type    : 'object',
+                            type: 'object',
                             required: true,
-                            message : 'Внимание! Не выбран «Вид объекта»!',
-                            trigger : 'change',
-                            fields  : {
+                            message: 'Внимание! Не выбран «Вид объекта»!',
+                            trigger: 'change',
+                            fields: {
                                 code: {
-                                    type    : 'number',
+                                    type: 'number',
                                     required: true,
-                                    message : 'Внимание! Не выбран «Вид объекта»!'
+                                    message: 'Внимание! Не выбран «Вид объекта»!'
                                 }
                             }
                         }
@@ -426,7 +426,7 @@
                 return null;
             }
         },
-        watch   : {
+        watch: {
             'formData.objectNumber.raw'(newValue) {
                 if (newValue && (newValue.length === this.formData.objectNumber.size)) {
                     const match = new RegExp(this.formData.objectNumber.pattern, 'g').exec(newValue);
@@ -444,7 +444,7 @@
                 this.formData.extended.title = (state ? 'Скрыть' : 'Показать') + ' дополнительные критерии поиска';
             }
         },
-        methods : {
+        methods: {
             printData() {
                 /* de-reactivate */
                 console.log(JSON.parse(JSON.stringify({...this.$data})));
@@ -463,7 +463,7 @@
 
                 return null;
             },
-            getProperty(item, root, property) {
+            getPropertyOld(item, root, property) {
                 let rootObject = this.getRoot(item, root);
 
                 if (rootObject && property) {
@@ -494,7 +494,50 @@
                 }
 
                 return true;
-            }
+            },
+            getProperty(object, property, deep, native) {
+                let result = null;
+                let key;
+                let recursive = (deep || true);
+
+                function isObject(o) {
+                    return o && (typeof o === 'object')
+                }
+
+                function scan(o, p) {
+                    if (o[p]) {
+                        return o[p];
+                    } else {
+                        Object.entries(o).filter(([, value]) => {
+                            return isObject(value);
+                        }).forEach(([, value]) => {
+                            if (!result) {
+                                result = scan(value, p);
+                            }
+                        })
+                    }
+
+                    return result;
+                }
+
+                if (isObject(object)) {
+                    if (recursive && object.depData && scan(object.depData, property)) {
+                        key = Object.keys(object.depData).shift();
+
+                        if (this.formData[key]) {
+                            result = scan(object.depData[key][this.formData[key]], property);
+                        } else {
+                            return null;
+                        }
+                    } else if (!recursive) {
+                        return object[property];
+                    }
+
+                    result = scan(object, property);
+                }
+
+                return (native ? this[result] : result);
+            },
         },
         mounted() {
             this.setEvent({...eventOptions, callback: this.printData});
