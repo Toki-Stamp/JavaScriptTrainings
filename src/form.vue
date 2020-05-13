@@ -131,7 +131,7 @@
                                 </el-select>
                             </el-form-item>
                         </template>
-                        <!-- Площадь или протяжённость -->
+                        <!-- Площадь / протяжённость -->
                         <template v-if="!!formData.objectTypeForSearch">
                             <el-form-item :prop="formDescription.collapsed[3].prop"
                                           :class="formDescription.collapsed[3].depData.depValues[formData[formDescription.collapsed[3].depData.depProp]].class"
@@ -143,13 +143,30 @@
                                                 :span="item.span"
                                                 :class="item.class">
                                             <el-input v-model="formData[formDescription.collapsed[3].prop][(index + 1)]">
-                                                <template #prepend>{{item.prepend}}</template>
+                                                <template v-if="!!item.prepend" #prepend>{{item.prepend}}</template>
                                             </el-input>
                                         </el-col>
                                     </el-row>
                                 </template>
                             </el-form-item>
                         </template>
+                        <!-- Дата создания -->
+                        <el-form-item :prop="formDescription.collapsed[4].prop"
+                                      :label="formDescription.collapsed[4].label">
+                            <template v-if="formDescription.collapsed[4].item.group">
+                                <el-row :gutter="24">
+                                    <el-col v-for="(item, index) in formDescription.collapsed[4].item.group"
+                                            :key="index"
+                                            :span="item.span"
+                                            :class="item.class">
+                                        <el-input v-model="formData[formDescription.collapsed[4].prop][(index + 1)]"
+                                                  :disabled="item.item.disabled">
+                                            <template v-if="!!item.prepend" #prepend>{{item.prepend}}</template>
+                                        </el-input>
+                                    </el-col>
+                                </el-row>
+                            </template>
+                        </el-form-item>
                     </el-collapse-item>
                 </el-collapse>
             </template>
@@ -482,7 +499,7 @@
                             placeholder: 'Выберите назначение объекта...'
                         },
                         {
-                            prop: 'objectSquareOrLength',
+                            prop: 'objectSquareLength',
                             item: {
                                 type: 'input-group',
                                 group: [
@@ -504,16 +521,14 @@
                                 depProp: 'objectTypeForSearch',
                                 depValues: {
                                     1: {
-                                        label: 'Площадь, га',
-                                        class: 'object-square'
+                                        label: 'Площадь, га'
                                     },
                                     2: {
                                         label: 'Площадь, кв.м.\n(Протяжённость, м.п.)',
-                                        class: 'object-length '
+                                        class: 'object-length'
                                     },
                                     3: {
-                                        label: 'Площадь, кв.м.',
-                                        class: 'object-square'
+                                        label: 'Площадь, кв.м.'
                                     }
                                 }
                             }
@@ -654,6 +669,7 @@
                         case 1:
                             return this.objectPurposesLPList;
                         case 2:
+                            //todo убрать дубли, 120 и 149
                             return [...this.objectPurposesCSList, ...this.objectPurposesNZCSList];
                         case 3:
                             return [...this.objectPurposesIPList, ...this.objectPurposesMMList];
