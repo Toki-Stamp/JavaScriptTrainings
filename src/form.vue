@@ -98,9 +98,9 @@
                                        :placeholder="formDescription.collapsed[0].placeholder"
                                        clearable>
                                 <el-option v-for="org in regOrgsList"
-                                           v-bind:key="org.idReg"
-                                           v-bind:value="org.idReg"
-                                           v-bind:label="`${org.idReg} - ${org.orgShortName}`"/>
+                                           :key="org.idReg"
+                                           :value="org.idReg"
+                                           :label="`${org.idReg} - ${org.orgShortName}`"/>
                             </el-select>
                         </el-form-item>
                         <!-- Объект -->
@@ -117,6 +117,12 @@
                                 </el-select>
                             </el-form-item>
                         </template>
+                        <div v-evaluate="formDescription.collapsed[1].expression">
+                            HHOORAY!
+                        </div>
+                        <div v-if="evaluateExpression(formDescription.collapsed[1].expression)">
+                            HHOORAY!
+                        </div>
                         <!-- Назначение -->
                         <template v-if="!!formData.objectTypeForSearch">
                             <el-form-item :prop="formDescription.collapsed[2].prop"
@@ -167,6 +173,18 @@
                                 </el-row>
                             </template>
                         </el-form-item>
+                        <!-- Статус объекта -->
+                        <el-form-item :prop="formDescription.collapsed[5].prop"
+                                      :label="formDescription.collapsed[5].label">
+                            <el-select v-model="formData[formDescription.collapsed[5].prop]"
+                                       :placeholder="formDescription.collapsed[5].placeholder"
+                                       clearable>
+                                <el-option v-for="item in getOptions(formDescription.collapsed[5].item.options)"
+                                           :key="item.code"
+                                           :value="item.code"
+                                           :label="item.name"/>
+                            </el-select>
+                        </el-form-item>
                     </el-collapse-item>
                 </el-collapse>
             </template>
@@ -213,6 +231,7 @@
         name: "the-form",
         data() {
             return {
+                some: -5,
                 formDescription: {
                     main: [
                         {
@@ -487,7 +506,9 @@
                                 options: 'availableObjectTypesList'
                             },
                             label: 'Объект',
-                            placeholder: 'Выберите (уточняющий) вид объекта...'
+                            placeholder: 'Выберите (уточняющий) вид объекта...',
+                            // expression: 'formData.objectTypeForSearch && (formData.objectTypeForSearch > 1)'
+                            expression: 'this.formDescription.main[0].prop === "objectID"'
                         },
                         {
                             prop: 'objectPurpose',
@@ -544,7 +565,8 @@
                                             disabled: true
                                         },
                                         span: 12,
-                                        prepend: 'C'
+                                        prepend: 'C',
+                                        class: 'from'
                                     },
                                     {
                                         item: {
@@ -552,7 +574,8 @@
                                             disabled: true
                                         },
                                         span: 12,
-                                        prepend: 'По'
+                                        prepend: 'По',
+                                        class: 'to'
                                     },
                                 ]
                             },
@@ -562,7 +585,7 @@
                             prop: 'objectStatus',
                             item: {
                                 type: 'select',
-                                options: 'objectStatuses'
+                                options: 'objectStatusesList'
                             },
                             label: 'Статус объекта',
                             placeholder: 'Выберите статус объекта...'
@@ -707,6 +730,17 @@
             getOptions(key) {
                 return this[key];
             },
+            evaluateExpression(expression) {
+                console.log(this, expression);
+
+                let res = (function fn(expr) {
+                    console.log(this);
+
+                    return eval(expr);
+                }).call(this, expression);
+
+                console.log('methods => evaluateExpression', res);
+            },
             /* events handlers */
             handleCollapseChange() {
                 this.controls.isExpanded = !this.controls.isExpanded;
@@ -714,6 +748,22 @@
             handleSecretKeydown() {
                 this.controls.isObjectIDVisible = !this.controls.isObjectIDVisible;
             },
+        },
+        directives: {
+            evaluate: {
+                bind(el, binding, vnode, oldVnode) {
+                    console.log(vnode.context);
+
+                    let res = (function fn(expr) {
+                        console.log(this);
+
+                        return eval(expr);
+                    }).call(vnode.context, '5 + this.some');
+
+                    console.log('directives.evaluate.bind', res);
+                    console.log({el, binding, vnode, oldVnode});
+                }
+            }
         },
         mounted() {
             this.printClassifiers.call(this);
