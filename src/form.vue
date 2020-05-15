@@ -194,6 +194,78 @@
                                 </el-select>
                             </el-form-item>
                         </template>
+                        <!-- Количество комнат -->
+                        <template v-if="!!formData.objectTypeForSearch && (formData.objectTypeForSearch === 3)">
+                            <el-form-item :prop="formDescription.collapsed[7].prop"
+                                          :label="formDescription.collapsed[7].label">
+                                <template v-if="formDescription.collapsed[7].item.group">
+                                    <el-row :gutter="24">
+                                        <el-col v-for="(item, index) in formDescription.collapsed[7].item.group"
+                                                :key="index"
+                                                :span="item.span"
+                                                :class="item.class">
+                                            <el-input v-model="formData[formDescription.collapsed[7].prop][(index + 1)]">
+                                                <template v-if="!!item.prepend" #prepend>{{item.prepend}}</template>
+                                            </el-input>
+                                        </el-col>
+                                    </el-row>
+                                </template>
+                            </el-form-item>
+                        </template>
+                        <!-- Этаж -->
+                        <template v-if="!!formData.objectTypeForSearch && (formData.objectTypeForSearch === 3)">
+                            <el-form-item :prop="formDescription.collapsed[8].prop"
+                                          :label="formDescription.collapsed[8].label">
+                                <template v-if="formDescription.collapsed[8].item.group">
+                                    <el-row :gutter="24">
+                                        <el-col v-for="(item, index) in formDescription.collapsed[8].item.group"
+                                                :key="index"
+                                                :span="item.span"
+                                                :class="item.class">
+                                            <el-input v-model="formData[formDescription.collapsed[8].prop][(index + 1)]">
+                                                <template v-if="!!item.prepend" #prepend>{{item.prepend}}</template>
+                                            </el-input>
+                                        </el-col>
+                                    </el-row>
+                                </template>
+                            </el-form-item>
+                        </template>
+                        <!-- Этажность (надземная) -->
+                        <template v-if="!!formData.objectTypeForSearch && (formData.objectTypeForSearch === 2)">
+                            <el-form-item :prop="formDescription.collapsed[9].prop"
+                                          :label="formDescription.collapsed[9].label">
+                                <template v-if="formDescription.collapsed[9].item.group">
+                                    <el-row :gutter="24">
+                                        <el-col v-for="(item, index) in formDescription.collapsed[9].item.group"
+                                                :key="index"
+                                                :span="item.span"
+                                                :class="item.class">
+                                            <el-input v-model="formData[formDescription.collapsed[9].prop][(index + 1)]">
+                                                <template v-if="!!item.prepend" #prepend>{{item.prepend}}</template>
+                                            </el-input>
+                                        </el-col>
+                                    </el-row>
+                                </template>
+                            </el-form-item>
+                        </template>
+                        <!-- Этажность (подземная) -->
+                        <template v-if="!!formData.objectTypeForSearch && (formData.objectTypeForSearch === 2)">
+                            <el-form-item :prop="formDescription.collapsed[10].prop"
+                                          :label="formDescription.collapsed[10].label">
+                                <template v-if="formDescription.collapsed[10].item.group">
+                                    <el-row :gutter="24">
+                                        <el-col v-for="(item, index) in formDescription.collapsed[10].item.group"
+                                                :key="index"
+                                                :span="item.span"
+                                                :class="item.class">
+                                            <el-input v-model="formData[formDescription.collapsed[10].prop][(index + 1)]">
+                                                <template v-if="!!item.prepend" #prepend>{{item.prepend}}</template>
+                                            </el-input>
+                                        </el-col>
+                                    </el-row>
+                                </template>
+                            </el-form-item>
+                        </template>
                     </el-collapse-item>
                 </el-collapse>
             </template>
@@ -237,82 +309,82 @@
     };
 
     export default {
-        name    : "the-form",
+        name: "the-form",
         data() {
             return {
-                form           : {
+                form: {
                     description: {
-                        main     : [
+                        main: [
                             {
-                                prop       : 'objectID',
-                                item       : {
+                                prop: 'objectID',
+                                item: {
                                     type: 'input'
                                 },
-                                label      : 'ID объекта',
+                                label: 'ID объекта',
                                 placeholder: 'Введите ID объекта...',
-                                class      : 'shake'
+                                class: 'shake'
                             },
                             {
-                                prop       : 'objectTypeForSearch',
-                                item       : {
-                                    type   : 'select',
+                                prop: 'objectTypeForSearch',
+                                item: {
+                                    type: 'select',
                                     options: 'objectTypesForSearchList'
                                 },
-                                label      : 'Вид объекта',
+                                label: 'Вид объекта',
                                 placeholder: 'Выберите вид объекта для поиска...'
                             },
                             {
-                                prop       : 'objectNumber',
-                                item       : {
+                                prop: 'objectNumber',
+                                item: {
                                     type: 'input'
                                 },
-                                label      : 'Номер объекта',
+                                label: 'Номер объекта',
                                 placeholder: 'Введите номер объекта...',
-                                depData    : {
-                                    depProp  : 'objectTypeForSearch',
+                                depData: {
+                                    depProp: 'objectTypeForSearch',
                                     depValues: {
                                         1: /* Земельный участок */ {
-                                            tooltip   : {
+                                            tooltip: {
                                                 placement: 'bottom',
-                                                content  : 'Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br><hr>' +
+                                                content: 'Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br><hr>' +
                                                     '– Первые <strong>10 цифр</strong> - Код СОАТО;<br>' +
                                                     '– Следующие <strong>2 цифры</strong> - Кадастровый блок земельного участка;<br>' +
                                                     '– Последние <strong>6 цифр</strong> - Порядковый номер земельного участка в соответствующем кадастровом блоке.'
                                             },
                                             validation: {
-                                                min      : 18,
-                                                max      : 18,
-                                                pattern  : '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
+                                                min: 18,
+                                                max: 18,
+                                                pattern: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
                                                 wordLimit: true
                                             }
                                         },
                                         2: /* КС (НЗКС) */ {
-                                            tooltip   : {
+                                            tooltip: {
                                                 placement: 'bottom',
-                                                content  : 'Маска для ввода номера объекта, где:<br><hr>' +
+                                                content: 'Маска для ввода номера объекта, где:<br><hr>' +
                                                     '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
                                                     '– Следующий <strong>1 символ C или U</strong> - Литера;<br>' +
                                                     '– Последние <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>'
                                             },
                                             validation: {
-                                                min      : 5,
-                                                max      : 34,
-                                                pattern  : '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
+                                                min: 5,
+                                                max: 34,
+                                                pattern: '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
                                                 wordLimit: true
                                             }
                                         },
                                         3: /* ИП (ММ) */ {
-                                            tooltip   : {
+                                            tooltip: {
                                                 placement: 'bottom',
-                                                content  : 'Маска для ввода номера объекта, где:<br><hr>' +
+                                                content: 'Маска для ввода номера объекта, где:<br><hr>' +
                                                     '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
                                                     '– Следующий <strong>1 символ D</strong> - Литера;<br>' +
                                                     '– Последующие <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>'
                                             },
                                             validation: {
-                                                min      : 5,
-                                                max      : 34,
-                                                pattern  : '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$',
+                                                min: 5,
+                                                max: 34,
+                                                pattern: '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$',
                                                 wordLimit: true
                                             }
                                         }
@@ -320,56 +392,56 @@
                                 }
                             },
                             {
-                                prop   : 'objectNumberStructured',
-                                item   : {
+                                prop: 'objectNumberStructured',
+                                item: {
                                     type: 'input-group'
                                 },
                                 depData: {
-                                    depProp  : 'objectTypeForSearch',
+                                    depProp: 'objectTypeForSearch',
                                     depValues: {
                                         1: /* Земельный участок */ {
                                             item: {
                                                 group: [
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 10,
+                                                        item: {type: 'input'},
+                                                        span: 10,
                                                         validation: {
-                                                            min      : 10,
-                                                            max      : 10,
-                                                            pattern  : '^[1-9][0-9]{9}$',
+                                                            min: 10,
+                                                            max: 10,
+                                                            pattern: '^[1-9][0-9]{9}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top-start',
-                                                            content  : 'Код СОАТО <strong>(10 цифр)</strong>'
+                                                            content: 'Код СОАТО <strong>(10 цифр)</strong>'
                                                         }
                                                     },
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 6,
+                                                        item: {type: 'input'},
+                                                        span: 6,
                                                         validation: {
-                                                            min      : 2,
-                                                            max      : 2,
-                                                            pattern  : '^[0-9]{2}$',
+                                                            min: 2,
+                                                            max: 2,
+                                                            pattern: '^[0-9]{2}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top',
-                                                            content  : 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
+                                                            content: 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
                                                         }
                                                     },
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 8,
+                                                        item: {type: 'input'},
+                                                        span: 8,
                                                         validation: {
-                                                            min      : 6,
-                                                            max      : 6,
-                                                            pattern  : '^[0-9]{6}$',
+                                                            min: 6,
+                                                            max: 6,
+                                                            pattern: '^[0-9]{6}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top-end',
-                                                            content  : 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
+                                                            content: 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
                                                         }
                                                     }
                                                 ]
@@ -379,51 +451,51 @@
                                             item: {
                                                 group: [
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 5,
+                                                        item: {type: 'input'},
+                                                        span: 5,
                                                         validation: {
-                                                            min      : 3,
-                                                            max      : 3,
-                                                            pattern  : '^[1-9][0-9]{2}$',
+                                                            min: 3,
+                                                            max: 3,
+                                                            pattern: '^[1-9][0-9]{2}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top-start',
-                                                            content  : 'Код ТОР <strong>(3 цифры)</strong>'
+                                                            content: 'Код ТОР <strong>(3 цифры)</strong>'
                                                         },
-                                                        class     : 'from'
+                                                        class: 'from'
                                                     },
                                                     {
-                                                        item       : {
-                                                            type   : 'select',
+                                                        item: {
+                                                            type: 'select',
                                                             options: ['C', 'U']
                                                         },
-                                                        span       : 4,
-                                                        validation : {
-                                                            min    : 1,
-                                                            max    : 1,
+                                                        span: 4,
+                                                        validation: {
+                                                            min: 1,
+                                                            max: 1,
                                                             pattern: '^[CcUu]$',
                                                         },
-                                                        tooltip    : {
+                                                        tooltip: {
                                                             placement: 'top',
-                                                            content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
+                                                            content: 'Литера <strong>(1 буква латинского алфавита)</strong>'
                                                         },
                                                         placeholder: ''
                                                     },
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 15,
+                                                        item: {type: 'input'},
+                                                        span: 15,
                                                         validation: {
-                                                            min      : 1,
-                                                            max      : 30,
-                                                            pattern  : '^[1-9][0-9]{0,29}$',
+                                                            min: 1,
+                                                            max: 30,
+                                                            pattern: '^[1-9][0-9]{0,29}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top-end',
-                                                            content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
+                                                            content: 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                                         },
-                                                        class     : 'to'
+                                                        class: 'to'
                                                     }
                                                 ]
                                             }
@@ -432,120 +504,120 @@
                                             item: {
                                                 group: [
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 5,
+                                                        item: {type: 'input'},
+                                                        span: 5,
                                                         validation: {
-                                                            min      : 3,
-                                                            max      : 3,
-                                                            pattern  : '^[1-9][0-9]{2}$',
+                                                            min: 3,
+                                                            max: 3,
+                                                            pattern: '^[1-9][0-9]{2}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top-start',
-                                                            content  : 'Код ТОР <strong>(3 цифры)</strong>'
+                                                            content: 'Код ТОР <strong>(3 цифры)</strong>'
                                                         },
-                                                        class     : 'from'
+                                                        class: 'from'
                                                     },
                                                     {
-                                                        item       : {
-                                                            type   : 'select',
+                                                        item: {
+                                                            type: 'select',
                                                             options: ['D']
                                                         },
-                                                        span       : 4,
-                                                        validation : {
-                                                            min    : 1,
-                                                            max    : 1,
+                                                        span: 4,
+                                                        validation: {
+                                                            min: 1,
+                                                            max: 1,
                                                             pattern: '^[Dd]$',
                                                         },
-                                                        tooltip    : {
+                                                        tooltip: {
                                                             placement: 'top',
-                                                            content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
+                                                            content: 'Литера <strong>(1 буква латинского алфавита)</strong>'
                                                         },
                                                         placeholder: ''
                                                     },
                                                     {
-                                                        item      : {type: 'input'},
-                                                        span      : 15,
+                                                        item: {type: 'input'},
+                                                        span: 15,
                                                         validation: {
-                                                            min      : 1,
-                                                            max      : 30,
-                                                            pattern  : '^[1-9][0-9]{0,29}$',
+                                                            min: 1,
+                                                            max: 30,
+                                                            pattern: '^[1-9][0-9]{0,29}$',
                                                             wordLimit: true
                                                         },
-                                                        tooltip   : {
+                                                        tooltip: {
                                                             placement: 'top-end',
-                                                            content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
+                                                            content: 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                                         },
-                                                        class     : 'to'
+                                                        class: 'to'
                                                     }
                                                 ]
                                             }
                                         }
                                     }
                                 },
-                                class  : 'object-number-structured'
+                                class: 'object-number-structured'
                             },
                             {
-                                prop       : 'objectAddress',
-                                item       : {
-                                    type    : 'input',
+                                prop: 'objectAddress',
+                                item: {
+                                    type: 'input',
                                     disabled: true
                                 },
-                                label      : 'Адрес объекта',
+                                label: 'Адрес объекта',
                                 placeholder: 'Укажите адрес объекта...'
                             },
                         ],
                         collapsed: [
                             {
-                                prop       : 'tor',
-                                item       : {
-                                    type   : 'select',
+                                prop: 'tor',
+                                item: {
+                                    type: 'select',
                                     options: 'regOrgsList'
                                 },
-                                label      : 'ТОР',
+                                label: 'ТОР',
                                 placeholder: 'Выберите ТОР...'
                             },
                             {
-                                prop       : 'objectType',
-                                item       : {
-                                    type   : 'select',
+                                prop: 'objectType',
+                                item: {
+                                    type: 'select',
                                     options: 'availableObjectTypesList'
                                 },
-                                label      : 'Объект',
+                                label: 'Объект',
                                 placeholder: 'Выберите (уточняющий) вид объекта...',
                                 // expression: 'formData.objectTypeForSearch && (formData.objectTypeForSearch > 1)'
-                                expression : 'this.formDescription.main[0].prop === "objectID"'
+                                expression: 'this.formDescription.main[0].prop === "objectID"'
                             },
                             {
-                                prop       : 'objectPurpose',
-                                item       : {
-                                    type   : 'select',
+                                prop: 'objectPurpose',
+                                item: {
+                                    type: 'select',
                                     options: 'availableObjectPurposesList'
                                 },
-                                label      : 'Назначение',
+                                label: 'Назначение',
                                 placeholder: 'Выберите назначение объекта...'
                             },
                             {
-                                prop   : 'objectSquareLength',
-                                item   : {
-                                    type : 'input-group',
+                                prop: 'objectSquareLength',
+                                item: {
+                                    type: 'input-group',
                                     group: [
                                         {
-                                            item   : {type: 'input'},
-                                            span   : 12,
+                                            item: {type: 'input'},
+                                            span: 12,
                                             prepend: 'От',
-                                            class  : 'from'
+                                            class: 'from'
                                         },
                                         {
-                                            item   : {type: 'input'},
-                                            span   : 12,
+                                            item: {type: 'input'},
+                                            span: 12,
                                             prepend: 'До',
-                                            class  : 'to'
+                                            class: 'to'
                                         },
                                     ]
                                 },
                                 depData: {
-                                    depProp  : 'objectTypeForSearch',
+                                    depProp: 'objectTypeForSearch',
                                     depValues: {
                                         1: {
                                             label: 'Площадь, га'
@@ -561,63 +633,63 @@
                                 }
                             },
                             {
-                                prop : 'objectCreationDate',
-                                item : {
-                                    type : 'input-group',
+                                prop: 'objectCreationDate',
+                                item: {
+                                    type: 'input-group',
                                     group: [
                                         {
-                                            item   : {
-                                                type    : 'input',
+                                            item: {
+                                                type: 'input',
                                                 disabled: true
                                             },
-                                            span   : 12,
+                                            span: 12,
                                             prepend: 'C',
-                                            class  : 'from'
+                                            class: 'from'
                                         },
                                         {
-                                            item   : {
-                                                type    : 'input',
+                                            item: {
+                                                type: 'input',
                                                 disabled: true
                                             },
-                                            span   : 12,
+                                            span: 12,
                                             prepend: 'По',
-                                            class  : 'to'
+                                            class: 'to'
                                         },
                                     ]
                                 },
                                 label: 'Дата создания'
                             },
                             {
-                                prop       : 'objectStatus',
-                                item       : {
-                                    type   : 'select',
+                                prop: 'objectStatus',
+                                item: {
+                                    type: 'select',
                                     options: 'objectStatusesList'
                                 },
-                                label      : 'Статус объекта',
+                                label: 'Статус объекта',
                                 placeholder: 'Выберите статус объекта...'
                             },
                             {
-                                prop       : 'objectWallsMaterial',
-                                item       : {
-                                    type   : 'select',
+                                prop: 'objectWallsMaterial',
+                                item: {
+                                    type: 'select',
                                     options: 'objectWallsMaterialsList'
                                 },
-                                label      : 'Материал стен',
+                                label: 'Материал стен',
                                 placeholder: 'Выберите материал стен...'
                             },
                             {
-                                prop : 'objectRoomsNumber',
-                                item : {
-                                    type : 'input-group',
+                                prop: 'objectRoomsNumber',
+                                item: {
+                                    type: 'input-group',
                                     group: [
                                         {
-                                            item   : {type: 'input'},
-                                            span   : 12,
+                                            item: {type: 'input'},
+                                            span: 12,
                                             prepend: 'От'
                                         },
                                         {
-                                            item   : {type: 'input'},
-                                            span   : 12,
+                                            item: {type: 'input'},
+                                            span: 12,
                                             prepend: 'До'
                                         },
                                     ]
@@ -625,18 +697,18 @@
                                 label: 'Количество комнат'
                             },
                             {
-                                prop : 'objectFloor',
-                                item : {
-                                    type : 'input-group',
+                                prop: 'objectFloor',
+                                item: {
+                                    type: 'input-group',
                                     group: [
                                         {
-                                            item   : {type: 'input'},
-                                            span   : 12,
+                                            item: {type: 'input'},
+                                            span: 12,
                                             prepend: 'От'
                                         },
                                         {
-                                            item   : {type: 'input'},
-                                            span   : 12,
+                                            item: {type: 'input'},
+                                            span: 12,
                                             prepend: 'До'
                                         },
                                     ]
@@ -645,53 +717,53 @@
                             }
                         ],
                     },
-                    triggers   : {
+                    triggers: {
                         isExpanded: false
                     },
-                    output     : {}
+                    output: {}
                 },
                 formDescription: {
-                    main     : [
+                    main: [
                         {
-                            prop       : 'objectID',
-                            item       : {
-                                type : 'input',
+                            prop: 'objectID',
+                            item: {
+                                type: 'input',
                                 class: 'shake'
                             },
-                            label      : 'ID объекта',
+                            label: 'ID объекта',
                             placeholder: 'Введите ID объекта...'
                         },
                         {
-                            prop       : 'objectTypeForSearch',
-                            item       : {
-                                type     : 'select',
-                                options  : 'objectTypesForSearchList',
+                            prop: 'objectTypeForSearch',
+                            item: {
+                                type: 'select',
+                                options: 'objectTypesForSearchList',
                                 clearable: true,
-                                value    : 'code',
-                                label    : 'name'
+                                value: 'code',
+                                label: 'name'
                             },
-                            label      : 'Вид объекта',
+                            label: 'Вид объекта',
                             placeholder: 'Выберите вид объекта для поиска...'
                         },
                         {
-                            prop       : 'objectNumber',
-                            item       : {
+                            prop: 'objectNumber',
+                            item: {
                                 type: 'input'
                             },
-                            label      : 'Номер объекта',
+                            label: 'Номер объекта',
                             placeholder: 'Введите номер объекта...',
-                            depData    : {
-                                depProp  : 'objectTypeForSearch',
+                            depData: {
+                                depProp: 'objectTypeForSearch',
                                 depValues: {
                                     1: /* Земельный участок */ {
-                                        item      : {
-                                            min      : 18,
-                                            max      : 18,
+                                        item: {
+                                            min: 18,
+                                            max: 18,
                                             wordLimit: true
                                         },
-                                        tooltip   : {
+                                        tooltip: {
                                             placement: 'bottom',
-                                            content  : 'Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br><hr>' +
+                                            content: 'Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br><hr>' +
                                                 '– Первые <strong>10 цифр</strong> - Код СОАТО;<br>' +
                                                 '– Следующие <strong>2 цифры</strong> - Кадастровый блок земельного участка;<br>' +
                                                 '– Последние <strong>6 цифр</strong> - Порядковый номер земельного участка в соответствующем кадастровом блоке.'
@@ -701,14 +773,14 @@
                                         }
                                     },
                                     2: /* КС (НЗКС) */ {
-                                        item      : {
-                                            min      : 5,
-                                            max      : 34,
+                                        item: {
+                                            min: 5,
+                                            max: 34,
                                             wordLimit: true
                                         },
-                                        tooltip   : {
+                                        tooltip: {
                                             placement: 'bottom',
-                                            content  : 'Маска для ввода номера объекта, где:<br><hr>' +
+                                            content: 'Маска для ввода номера объекта, где:<br><hr>' +
                                                 '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
                                                 '– Следующий <strong>1 символ C или U</strong> - Литера;<br>' +
                                                 '– Последние <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>'
@@ -718,14 +790,14 @@
                                         }
                                     },
                                     3: /* ИП (ММ) */ {
-                                        item      : {
-                                            min      : 5,
-                                            max      : 34,
+                                        item: {
+                                            min: 5,
+                                            max: 34,
                                             wordLimit: true
                                         },
-                                        tooltip   : {
+                                        tooltip: {
                                             placement: 'bottom',
-                                            content  : 'Маска для ввода номера объекта, где:<br><hr>' +
+                                            content: 'Маска для ввода номера объекта, где:<br><hr>' +
                                                 '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
                                                 '– Следующий <strong>1 символ D</strong> - Литера;<br>' +
                                                 '– Последующие <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>'
@@ -738,59 +810,59 @@
                             }
                         },
                         {
-                            prop   : 'objectNumberStructured',
-                            item   : {
+                            prop: 'objectNumberStructured',
+                            item: {
                                 type: 'input-group'
                             },
                             depData: {
-                                depProp  : 'objectTypeForSearch',
+                                depProp: 'objectTypeForSearch',
                                 depValues: {
                                     1: /* Земельный участок */ {
                                         item: {
                                             group: [
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 10,
+                                                    item: {type: 'input'},
+                                                    span: 10,
                                                     validation: {
-                                                        min      : 10,
-                                                        max      : 10,
-                                                        pattern  : '^[1-9][0-9]{9}$',
+                                                        min: 10,
+                                                        max: 10,
+                                                        pattern: '^[1-9][0-9]{9}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top-start',
-                                                        content  : 'Код СОАТО <strong>(10 цифр)</strong>'
+                                                        content: 'Код СОАТО <strong>(10 цифр)</strong>'
                                                     },
-                                                    class     : 'from'
+                                                    class: 'from'
                                                 },
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 6,
+                                                    item: {type: 'input'},
+                                                    span: 6,
                                                     validation: {
-                                                        min      : 2,
-                                                        max      : 2,
-                                                        pattern  : '^[0-9]{2}$',
+                                                        min: 2,
+                                                        max: 2,
+                                                        pattern: '^[0-9]{2}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top',
-                                                        content  : 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
+                                                        content: 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
                                                     }
                                                 },
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 8,
+                                                    item: {type: 'input'},
+                                                    span: 8,
                                                     validation: {
-                                                        min      : 6,
-                                                        max      : 6,
-                                                        pattern  : '^[0-9]{6}$',
+                                                        min: 6,
+                                                        max: 6,
+                                                        pattern: '^[0-9]{6}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top-end',
-                                                        content  : 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
+                                                        content: 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
                                                     },
-                                                    class     : 'to'
+                                                    class: 'to'
                                                 }
                                             ]
                                         }
@@ -799,51 +871,51 @@
                                         item: {
                                             group: [
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 5,
+                                                    item: {type: 'input'},
+                                                    span: 5,
                                                     validation: {
-                                                        min      : 3,
-                                                        max      : 3,
-                                                        pattern  : '^[1-9][0-9]{2}$',
+                                                        min: 3,
+                                                        max: 3,
+                                                        pattern: '^[1-9][0-9]{2}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top-start',
-                                                        content  : 'Код ТОР <strong>(3 цифры)</strong>'
+                                                        content: 'Код ТОР <strong>(3 цифры)</strong>'
                                                     },
-                                                    class     : 'from'
+                                                    class: 'from'
                                                 },
                                                 {
-                                                    item       : {
-                                                        type   : 'select',
+                                                    item: {
+                                                        type: 'select',
                                                         options: ['C', 'U']
                                                     },
-                                                    span       : 4,
-                                                    validation : {
-                                                        min    : 1,
-                                                        max    : 1,
+                                                    span: 4,
+                                                    validation: {
+                                                        min: 1,
+                                                        max: 1,
                                                         pattern: '^[CcUu]$',
                                                     },
-                                                    tooltip    : {
+                                                    tooltip: {
                                                         placement: 'top',
-                                                        content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
+                                                        content: 'Литера <strong>(1 буква латинского алфавита)</strong>'
                                                     },
                                                     placeholder: ''
                                                 },
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 15,
+                                                    item: {type: 'input'},
+                                                    span: 15,
                                                     validation: {
-                                                        min      : 1,
-                                                        max      : 30,
-                                                        pattern  : '^[1-9][0-9]{0,29}$',
+                                                        min: 1,
+                                                        max: 30,
+                                                        pattern: '^[1-9][0-9]{0,29}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top-end',
-                                                        content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
+                                                        content: 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                                     },
-                                                    class     : 'to'
+                                                    class: 'to'
                                                 }
                                             ]
                                         }
@@ -852,136 +924,136 @@
                                         item: {
                                             group: [
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 5,
+                                                    item: {type: 'input'},
+                                                    span: 5,
                                                     validation: {
-                                                        min      : 3,
-                                                        max      : 3,
-                                                        pattern  : '^[1-9][0-9]{2}$',
+                                                        min: 3,
+                                                        max: 3,
+                                                        pattern: '^[1-9][0-9]{2}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top-start',
-                                                        content  : 'Код ТОР <strong>(3 цифры)</strong>'
+                                                        content: 'Код ТОР <strong>(3 цифры)</strong>'
                                                     },
-                                                    class     : 'from'
+                                                    class: 'from'
                                                 },
                                                 {
-                                                    item       : {
-                                                        type   : 'select',
+                                                    item: {
+                                                        type: 'select',
                                                         options: ['D']
                                                     },
-                                                    span       : 4,
-                                                    validation : {
-                                                        min    : 1,
-                                                        max    : 1,
+                                                    span: 4,
+                                                    validation: {
+                                                        min: 1,
+                                                        max: 1,
                                                         pattern: '^[Dd]$',
                                                     },
-                                                    tooltip    : {
+                                                    tooltip: {
                                                         placement: 'top',
-                                                        content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
+                                                        content: 'Литера <strong>(1 буква латинского алфавита)</strong>'
                                                     },
                                                     placeholder: ''
                                                 },
                                                 {
-                                                    item      : {type: 'input'},
-                                                    span      : 15,
+                                                    item: {type: 'input'},
+                                                    span: 15,
                                                     validation: {
-                                                        min      : 1,
-                                                        max      : 30,
-                                                        pattern  : '^[1-9][0-9]{0,29}$',
+                                                        min: 1,
+                                                        max: 30,
+                                                        pattern: '^[1-9][0-9]{0,29}$',
                                                         wordLimit: true
                                                     },
-                                                    tooltip   : {
+                                                    tooltip: {
                                                         placement: 'top-end',
-                                                        content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
+                                                        content: 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                                     },
-                                                    class     : 'to'
+                                                    class: 'to'
                                                 }
                                             ]
                                         }
                                     }
                                 }
                             },
-                            class  : 'object-number-structured'
+                            class: 'object-number-structured'
                         },
                         {
-                            prop       : 'objectAddress',
-                            item       : {
-                                type    : 'input',
+                            prop: 'objectAddress',
+                            item: {
+                                type: 'input',
                                 disabled: true
                             },
-                            label      : 'Адрес объекта',
+                            label: 'Адрес объекта',
                             placeholder: 'Укажите адрес объекта...'
                         },
                     ],
                     collapsed: [
                         {
-                            prop       : 'tor',
-                            item       : {
-                                type     : 'select',
-                                options  : 'regOrgsList',
+                            prop: 'tor',
+                            item: {
+                                type: 'select',
+                                options: 'regOrgsList',
                                 clearable: true,
-                                value    : 'idReg',
-                                label    : 'orgShortName'
+                                value: 'idReg',
+                                label: 'orgShortName'
                             },
-                            label      : 'ТОР',
+                            label: 'ТОР',
                             placeholder: 'Выберите ТОР...'
                         },
                         {
-                            prop       : 'objectType',
-                            item       : {
-                                type     : 'select',
-                                options  : 'availableObjectTypesList',
+                            prop: 'objectType',
+                            item: {
+                                type: 'select',
+                                options: 'availableObjectTypesList',
                                 clearable: true,
-                                value    : 'code',
-                                label    : 'name'
+                                value: 'code',
+                                label: 'name'
                             },
-                            label      : 'Объект',
+                            label: 'Объект',
                             placeholder: 'Выберите (уточняющий) вид объекта...',
                             // expression: 'formData.objectTypeForSearch && (formData.objectTypeForSearch > 1)'
-                            expression : 'this.formDescription.main[0].prop === "objectID"'
+                            expression: 'this.formDescription.main[0].prop === "objectID"'
                         },
                         {
-                            prop       : 'objectPurpose',
-                            item       : {
-                                type     : 'select',
-                                options  : 'availableObjectPurposesList',
+                            prop: 'objectPurpose',
+                            item: {
+                                type: 'select',
+                                options: 'availableObjectPurposesList',
                                 clearable: true,
-                                value    : 'code',
-                                label    : 'name'
+                                value: 'code',
+                                label: 'name'
                             },
-                            label      : 'Назначение',
+                            label: 'Назначение',
                             placeholder: 'Выберите назначение объекта...'
                         },
                         {
-                            prop   : 'objectSquareLength',
-                            item   : {
-                                type : 'input-group',
+                            prop: 'objectSquareLength',
+                            item: {
+                                type: 'input-group',
                                 group: [
                                     {
-                                        item   : {type: 'input'},
-                                        span   : 12,
+                                        item: {type: 'input'},
+                                        span: 12,
                                         prepend: 'От',
-                                        class  : 'from'
+                                        class: 'from'
                                     },
                                     {
-                                        item   : {type: 'input'},
-                                        span   : 12,
+                                        item: {type: 'input'},
+                                        span: 12,
                                         prepend: 'До',
-                                        class  : 'to'
+                                        class: 'to'
                                     },
                                 ]
                             },
                             depData: {
-                                depProp  : 'objectTypeForSearch',
+                                depProp: 'objectTypeForSearch',
                                 depValues: {
                                     1: {
                                         label: 'Площадь, га'
                                     },
                                     2: {
                                         label: 'Площадь, кв.м.\n(Протяжённость, м.п.)',
-                                        class: 'object-length'
+                                        class: 'two-rows-label'
                                     },
                                     3: {
                                         label: 'Площадь, кв.м.'
@@ -990,99 +1062,153 @@
                             }
                         },
                         {
-                            prop : 'objectCreationDate',
-                            item : {
-                                type : 'input-group',
+                            prop: 'objectCreationDate',
+                            item: {
+                                type: 'input-group',
                                 group: [
                                     {
-                                        item   : {
-                                            type    : 'input',
+                                        item: {
+                                            type: 'input',
                                             disabled: true
                                         },
-                                        span   : 12,
+                                        span: 12,
                                         prepend: 'C',
-                                        class  : 'from'
+                                        class: 'from'
                                     },
                                     {
-                                        item   : {
-                                            type    : 'input',
+                                        item: {
+                                            type: 'input',
                                             disabled: true
                                         },
-                                        span   : 12,
+                                        span: 12,
                                         prepend: 'По',
-                                        class  : 'to'
+                                        class: 'to'
                                     },
                                 ]
                             },
                             label: 'Дата создания'
                         },
                         {
-                            prop       : 'objectStatus',
-                            item       : {
-                                type     : 'select',
-                                options  : 'objectStatusesList',
+                            prop: 'objectStatus',
+                            item: {
+                                type: 'select',
+                                options: 'objectStatusesList',
                                 clearable: true,
-                                value    : 'code',
-                                label    : 'name'
+                                value: 'code',
+                                label: 'name'
                             },
-                            label      : 'Статус объекта',
+                            label: 'Статус объекта',
                             placeholder: 'Выберите статус объекта...'
                         },
                         {
-                            prop       : 'objectWallsMaterial',
-                            item       : {
-                                type     : 'select',
-                                options  : 'objectWallsMaterialsList',
+                            prop: 'objectWallsMaterial',
+                            item: {
+                                type: 'select',
+                                options: 'objectWallsMaterialsList',
                                 clearable: true,
-                                value    : 'code',
-                                label    : 'name'
+                                value: 'code',
+                                label: 'name'
                             },
-                            label      : 'Материал стен',
+                            label: 'Материал стен',
                             placeholder: 'Выберите материал стен...'
                         },
                         {
-                            prop : 'objectRoomsNumber',
-                            item : {
-                                type : 'input-group',
+                            prop: 'objectRoomsNumber',
+                            item: {
+                                type: 'input-group',
                                 group: [
                                     {
-                                        item   : {type: 'input'},
-                                        span   : 12,
-                                        prepend: 'От'
+                                        item: {type: 'input'},
+                                        span: 12,
+                                        prepend: 'От',
+                                        class: 'from'
                                     },
                                     {
-                                        item   : {type: 'input'},
-                                        span   : 12,
-                                        prepend: 'До'
+                                        item: {type: 'input'},
+                                        span: 12,
+                                        prepend: 'До',
+                                        class: 'to'
                                     },
                                 ]
                             },
                             label: 'Количество комнат'
                         },
                         {
-                            prop : 'objectFloor',
-                            item : {
-                                type : 'input-group',
+                            prop: 'objectFloor',
+                            item: {
+                                type: 'input-group',
                                 group: [
                                     {
-                                        item   : {type: 'input'},
-                                        span   : 12,
-                                        prepend: 'От'
+                                        item: {type: 'input'},
+                                        span: 12,
+                                        prepend: 'От',
+                                        class: 'from'
                                     },
                                     {
-                                        item   : {type: 'input'},
-                                        span   : 12,
-                                        prepend: 'До'
+                                        item: {type: 'input'},
+                                        span: 12,
+                                        prepend: 'До',
+                                        class: 'to'
                                     },
                                 ]
                             },
                             label: 'Этаж'
-                        }
+                        },
+                        {
+                            prop: 'objectFloorsAboveGround',
+                            item: {
+                                type: 'input-group',
+                                group: [
+                                    {
+                                        item: {
+                                            type: 'input'
+                                        },
+                                        span: 12,
+                                        prepend: 'От',
+                                        class: 'from'
+                                    },
+                                    {
+                                        item: {
+                                            type: 'input'
+                                        },
+                                        span: 12,
+                                        prepend: 'До',
+                                        class: 'to'
+                                    },
+                                ]
+                            },
+                            label: 'Этажность (надземная)',
+                        },
+                        {
+                            prop: 'objectFloorsUnderGround',
+                            item: {
+                                type: 'input-group',
+                                group: [
+                                    {
+                                        item: {
+                                            type: 'input'
+                                        },
+                                        span: 12,
+                                        prepend: 'От',
+                                        class: 'from'
+                                    },
+                                    {
+                                        item: {
+                                            type: 'input'
+                                        },
+                                        span: 12,
+                                        prepend: 'До',
+                                        class: 'to'
+                                    },
+                                ]
+                            },
+                            label: 'Этажность (подземная)'
+                        },
                     ],
                 },
-                formData       : {},
-                controls       : {
-                    isExpanded       : false,
+                formData: {},
+                controls: {
+                    isExpanded: false,
                     isObjectIDVisible: false,
                 }
             }
@@ -1143,7 +1269,7 @@
                 return null;
             }
         },
-        watch   : {
+        watch: {
             'formData.objectTypeForSearch'(newValue, preValue) {
                 console.log(`change objectTypeForSearch from ${preValue} to ${newValue}`);
                 if (newValue) {
@@ -1153,7 +1279,7 @@
                 }
             }
         },
-        methods : {
+        methods: {
             printClassifiers() {
                 let classifiers = this.$store.state.classifiers;
 
@@ -1201,11 +1327,11 @@
 
 <style>
     #form {
-        font-family:             "Times New Roman", serif;
-        -webkit-font-smoothing:  antialiased;
+        font-family: "Times New Roman", serif;
+        -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align:              center;
-        color:                   rgb(44, 62, 80);
+        text-align: center;
+        color: rgb(44, 62, 80);
     }
 
     .fade-enter-active, .fade-leave-active {
@@ -1216,16 +1342,16 @@
         /*font-size:      5px;*/
         /*letter-spacing: 10px;*/
         opacity: .25;
-        filter:  blur(4px);
+        filter: blur(4px);
     }
 
     /* :root */
     .search-extended {
-        --form-width:                      800px;
-        --form-item-label-width:           160px;
-        --form-item-content-width:         calc(var(--form-width) - var(--form-item-label-width));
+        --form-width: 800px;
+        --form-item-label-width: 160px;
+        --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
-        --border-color:                    rgb(220, 223, 230);
+        --border-color: rgb(220, 223, 230);
     }
 
     .search-extended {
@@ -1243,7 +1369,7 @@
         color: rgb(96, 98, 102);
     }
 
-    .search-extended .el-form-item.object-length .el-form-item__label {
+    .search-extended .el-form-item.two-rows-label .el-form-item__label {
         line-height: 19px;
     }
 
@@ -1253,7 +1379,7 @@
 
     .search-extended .el-form-item .el-form-item__content {
         margin-left: var(--form-item-label-width);
-        text-align:  left;
+        text-align: left;
     }
 
     .search-extended .el-form-item .el-form-item__content .el-select, .el-input {
@@ -1261,7 +1387,7 @@
     }
 
     .search-extended .el-form-item .el-form-item__content .el-row {
-        margin-left:  0 !important;
+        margin-left: 0 !important;
         margin-right: 0 !important;
     }
 
@@ -1274,7 +1400,7 @@
     }
 
     .search-extended .el-form-item .el-form-item__content .el-input-group__prepend {
-        width:      24px;
+        width: 24px;
         text-align: center;
     }
 
@@ -1284,9 +1410,9 @@
     }
 
     .search-extended .el-collapse {
-        margin-top:    26px;
+        margin-top: 26px;
         margin-bottom: 26px;
-        border-top:    1px solid var(--border-color);
+        border-top: 1px solid var(--border-color);
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -1300,11 +1426,11 @@
     }
 
     .search-extended .el-collapse .el-collapse-item__header {
-        display:        inline-block;
-        font-weight:    bold;
-        padding-top:    12px;
+        display: inline-block;
+        font-weight: bold;
+        padding-top: 12px;
         padding-bottom: 12px;
-        transition:     none;
+        transition: none;
     }
 
     .search-extended .el-collapse .el-collapse-item__header i {
@@ -1322,43 +1448,43 @@
     @-webkit-keyframes shake {
         0%, to {
             -webkit-transform: translateZ(0);
-            transform:         translateZ(0)
+            transform: translateZ(0)
         }
 
         10%, 30%, 50%, 70%, 90% {
             -webkit-transform: translate3d(-10px, 0, 0);
-            transform:         translate3d(-10px, 0, 0)
+            transform: translate3d(-10px, 0, 0)
         }
 
         20%, 40%, 60%, 80% {
             -webkit-transform: translate3d(10px, 0, 0);
-            transform:         translate3d(10px, 0, 0)
+            transform: translate3d(10px, 0, 0)
         }
     }
 
     @keyframes shake {
         0%, to {
             -webkit-transform: translateZ(0);
-            transform:         translateZ(0)
+            transform: translateZ(0)
         }
 
         10%, 30%, 50%, 70%, 90% {
             -webkit-transform: translate3d(-10px, 0, 0);
-            transform:         translate3d(-10px, 0, 0)
+            transform: translate3d(-10px, 0, 0)
         }
 
         20%, 40%, 60%, 80% {
             -webkit-transform: translate3d(10px, 0, 0);
-            transform:         translate3d(10px, 0, 0)
+            transform: translate3d(10px, 0, 0)
         }
     }
 
     .shake {
-        -webkit-animation-name:      shake;
-        animation-name:              shake;
-        -webkit-animation-duration:  1s;
-        animation-duration:          1s;
+        -webkit-animation-name: shake;
+        animation-name: shake;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
         -webkit-animation-fill-mode: both;
-        animation-fill-mode:         both;
+        animation-fill-mode: both;
     }
 </style>
