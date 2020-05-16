@@ -233,13 +233,19 @@
                             <el-row :gutter="24">
                                 <el-col :span="12"
                                         class="first">
-                                    <el-input v-model="form.data.objectFloor[1]">
+                                    <el-input v-model="form.data.objectFloor[1]"
+                                              minlength="1"
+                                              maxlength="3"
+                                              show-word-limi>
                                         <template #prepend>От</template>
                                     </el-input>
                                 </el-col>
                                 <el-col :span="12"
                                         class="last">
-                                    <el-input v-model="form.data.objectFloor[2]">
+                                    <el-input v-model="form.data.objectFloor[2]"
+                                              minlength="1"
+                                              maxlength="3"
+                                              show-word-limi>
                                         <template #prepend>До</template>
                                     </el-input>
                                 </el-col>
@@ -634,7 +640,7 @@
                 this.form.triggers.isExpanded = !this.form.triggers.isExpanded;
             },
             handleSecretKeydown() {
-                this.form.triggers.isObjectID = !this.form.triggers.isObjectID;
+                this.form.triggers.objectID = !this.form.triggers.objectID;
             },
             handleSelectChange(prop) {
                 function errorHandler(error) {
@@ -665,9 +671,9 @@
             submitForm() {
                 this.$refs[this.form.name].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        alert('Submit!');
                     } else {
-                        console.log('error submit!!');
+                        alert('Внимание, необходимо указать вид объекта!');
                         return false;
                     }
                 });
