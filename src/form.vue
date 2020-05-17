@@ -7,19 +7,19 @@
                  :rules="form.rules">
             <!-- Всегда видимый контент  -->
             <!-- ID Объекта -->
-            <template v-if="form.triggers.objectID">
+            <template v-if="form.triggers.visible.objectID">
                 <el-form-item prop="objectID"
                               label="ID объекта">
                     <el-input v-model="form.data.objectID"
-                              placeholder="Введите ID объекта..."
-                              class="shake"/>
+                              :class="(form.triggers.visible.objectID ? '' : 'shake')"
+                              placeholder="Введите ID объекта..."/>
                 </el-form-item>
             </template>
             <!-- Вид объекта для поиска (без ПИК) -->
             <el-form-item prop="objectTypeForSearch"
                           label="Вид объекта">
                 <el-select v-model="form.data.objectTypeForSearch"
-                           :class="(form.triggers.objectTypeForSearch ? '' : 'shake')"
+                           :class="(form.triggers.validation.objectTypeForSearch ? '' : 'shake')"
                            placeholder="Выберите вид объекта для поиска..."
                            clearable>
                     <el-option v-for="option in objectTypesForSearchList"
@@ -32,7 +32,9 @@
             <el-form-item prop="objectNumber"
                           label="Номер объекта">
                 <template v-if="!!form.data.objectTypeForSearch">
-                    <el-tooltip placement="bottom">
+                    <el-tooltip placement="bottom"
+                                effect="light"
+                                :disabled="form.triggers.disabled.objectNumber">
                         <template #content>
                             <div v-html="objectNumberTooltip.content"></div>
                         </template>
@@ -40,12 +42,14 @@
                                   placeholder="Введите номер объекта..."
                                   :minlength="objectNumberTooltip.min"
                                   :maxlength="objectNumberTooltip.max"
+                                  :disabled="form.triggers.disabled.objectNumber"
                                   show-word-limit/>
                     </el-tooltip>
                 </template>
                 <template v-else>
                     <el-input v-model="form.data.objectNumber"
-                              placeholder="Введите номер объекта..."/>
+                              placeholder="Введите номер объекта..."
+                              :disabled="form.triggers.disabled.objectNumber"/>
                 </template>
             </el-form-item>
             <!-- Структурированный номер объекта -->
@@ -57,12 +61,12 @@
                                 :key="index"
                                 :class="groupItem.class">
                             <template v-if="groupItem.item.type === 'input'">
-                                <el-tooltip :placement="groupItem.tooltip.placement">
+                                <el-tooltip :placement="groupItem.tooltip.placement"
+                                            effect="light">
                                     <template #content>
                                         <div v-html="groupItem.tooltip.content"></div>
                                     </template>
                                     <el-input v-model="form.data.objectNumberStructured[index + 1]"
-                                              @input="handleObjectNumberStructuredChange"
                                               :minlength="groupItem.min"
                                               :maxlength="groupItem.max"
                                               show-word-limit/>
@@ -70,7 +74,6 @@
                             </template>
                             <template v-else>
                                 <el-select v-model="form.data.objectNumberStructured[index + 1]"
-                                           @change="handleObjectNumberStructuredChange"
                                            :placeholder="groupItem.placeholder"
                                            clearable>
                                     <el-option v-for="(option) in groupItem.item.options"
@@ -93,12 +96,12 @@
             <el-collapse v-model="form.collapse.value">
                 <el-collapse-item name="expanded-content"
                                   :title="form.collapse.title()"
-                                  :disabled="form.collapse.isDisabled">
+                                  :disabled="form.triggers.disabled.collapse">
                     <!-- ТОР -->
                     <el-form-item prop="tor"
                                   label="ТОР">
                         <el-select v-model="form.data.tor"
-                                   :class="(form.triggers.tor ? '' : 'shake')"
+                                   :class="(form.triggers.validation.tor ? '' : 'shake')"
                                    placeholder="Выберите ТОР..."
                                    clearable>
                             <el-option v-for="option in regOrgsList"
@@ -334,9 +337,17 @@
                     name      : 'form-search-extended',
                     class     : 'search-extended',
                     triggers  : {
-                        objectID           : false,
-                        objectTypeForSearch: true,
-                        tor                : true,
+                        visible   : {
+                            objectID: false,
+                        },
+                        disabled  : {
+                            collapse    : false,
+                            objectNumber: false,
+                        },
+                        validation: {
+                            objectTypeForSearch: true,
+                            tor                : true,
+                        }
                     },
                     data      : {
                         objectID               : null,
@@ -375,8 +386,14 @@
                         ],
                         objectNumber       : [
                             {
-                                validator: this.validateObjectNumber,
-                                trigger  : 'blur'
+                                validator: this.validateInputChange,
+                                trigger  : 'change',
+                                message  : 'Пожалуйста, введите корректный номер объекта, согласно указанной маске!',
+                                pattern  : {
+                                    1: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
+                                    2: '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
+                                    3: '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$'
+                                }
                             }
                         ],
                     },
@@ -388,8 +405,7 @@
                         }
                     },
                     collapse  : {
-                        isDisabled: false,
-                        value     : [],
+                        value: [],
                         title() {
                             return `${this.value.length ? 'Скрыть' : 'Показать'} дополнительные критерии поиска`;
                         }
@@ -410,9 +426,6 @@
                 'objectStatusesList',
                 'objectWallsMaterialsList'
             ]),
-            collapseTitle() {
-                return `${this.form.triggers.collapsed.length ? 'Скрыть' : 'Показать'} дополнительные критерии поиска`;
-            },
             availableObjectTypesList() {
                 let type = this.form.data.objectTypeForSearch ? parseInt(this.form.data.objectTypeForSearch, 10) : null;
                 let objectTypeForSearch = type ? this.objectTypesForSearchList.filter(element => element.code === type).shift() : null;
@@ -647,6 +660,23 @@
         watch   : {
             'form.data.objectTypeForSearch'(newValue, preValue) {
                 console.log(`change objectTypeForSearch from ${preValue} to ${newValue}`);
+            },
+            'form.data.objectNumber'(newValue) {
+                console.log('form.data.objectNumber', newValue);
+            },
+            'form.data.objectNumberStructured': {
+                handler(newValue) {
+                    let test = Object.entries(newValue).some(([, value]) => value);
+
+                    if (test) {
+                        this.form.collapse.value.shift();
+                        this.form.triggers.disabled.collapse = true;
+                    } else {
+                        this.form.collapse.value.push('expanded-content');
+                        this.form.triggers.disabled.collapse = false;
+                    }
+                },
+                deep: true
             }
         },
         methods : {
@@ -665,22 +695,7 @@
                 }
             },
             handleSecretKeydown() {
-                this.form.triggers.objectID = !this.form.triggers.objectID;
-            },
-            handleObjectNumberStructuredChange() {
-                let check = Object.entries(this.form.data.objectNumberStructured).some(([, value]) => value);
-
-                console.log('handle object number structured change');
-
-                if (check) {
-                    this.form.collapse.value.shift();
-                    this.form.collapse.value.isDisabled = true;
-                } else {
-                    this.form.collapse.value.push('expanded-content');
-                    this.form.collapse.isDisabled = false;
-                }
-
-                console.log('change object number structured', check);
+                this.form.triggers.visible.objectID = !this.form.triggers.visible.objectID;
             },
             validateSelectChange(rule, value, callback) {
                 const prop = rule.field;
@@ -694,21 +709,34 @@
                     }
                 }
 
-                if (!value) {
+                if ((value === undefined) || (value === null) || (value === '')) {
                     callback(new Error(errorMessage));
-                    (this.form.triggers[prop] !== undefined) && (this.form.triggers[prop] = false);
+                    (this.form.triggers.validation[prop] !== undefined) && (this.form.triggers.validation[prop] = false);
 
                     return false;
                 }
 
-                (this.form.triggers[prop] !== undefined) && (this.form.triggers[prop] = true);
+                (this.form.triggers.validation[prop] !== undefined) && (this.form.triggers.validation[prop] = true);
                 callback();
             },
-            validateObjectNumber(rule, value, callback) {
-                console.log('validate object number');
-                console.log({rule, value, callback});
+            validateInputChange(rule, value, callback) {
+                let type;
 
-                callback(new Error('Two inputs don\'t match!'));
+                if ((value !== undefined) && (value !== null) && (value !== '')) {
+                    if (rule && rule.pattern) {
+                        type = this.form.data.objectTypeForSearch;
+
+                        if (rule.pattern[type]) {
+                            if (!(new RegExp(rule.pattern[type])).test(value)) {
+                                callback(new Error(rule.message));
+
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                callback();
             },
             disabledDate(date) {
                 const now   = new Date(),
@@ -738,15 +766,16 @@
             resetForm() {
                 this.$refs[this.form.name].resetFields();
                 this.form.data.objectCreationDate = {1: null, 2: null};
+                Object.keys(this.form.triggers.disabled).forEach((key) => this.form.triggers.disabled[key] = false);
             }
         },
         mounted() {
             this.printClassifiers.call(this);
         },
         created() {
-            // initValues.call(null, this);
-            //todo органищация по умолчанию
+            //todo организация по умолчанию
             this.form.data.tor = 0;
+
         },
     }
 </script>
