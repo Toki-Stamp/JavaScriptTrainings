@@ -20,7 +20,6 @@
                           label="Вид объекта">
                 <el-select v-model="form.data.objectTypeForSearch"
                            :class="(form.triggers.objectTypeForSearch ? '' : 'shake')"
-                           @change="handleSelectChange('objectTypeForSearch')"
                            placeholder="Выберите вид объекта для поиска..."
                            clearable>
                     <el-option v-for="option in objectTypesForSearchList"
@@ -91,16 +90,15 @@
                           disabled/>
             </el-form-item>
             <!-- Скрытый за спойлером контент -->
-            <el-collapse v-model="form.triggers.collapsed">
+            <el-collapse v-model="form.collapse.value">
                 <el-collapse-item name="expanded-content"
-                                  :title="collapseTitle"
-                                  :disabled="form.triggers.isDisabled">
+                                  :title="form.collapse.title()"
+                                  :disabled="form.collapse.isDisabled">
                     <!-- ТОР -->
                     <el-form-item prop="tor"
                                   label="ТОР">
                         <el-select v-model="form.data.tor"
                                    :class="(form.triggers.tor ? '' : 'shake')"
-                                   @change="handleSelectChange('tor')"
                                    placeholder="Выберите ТОР..."
                                    clearable>
                             <el-option v-for="option in regOrgsList"
@@ -336,11 +334,9 @@
                     name      : 'form-search-extended',
                     class     : 'search-extended',
                     triggers  : {
-                        isDisabled         : false,
                         objectID           : false,
                         objectTypeForSearch: true,
                         tor                : true,
-                        collapsed          : []
                     },
                     data      : {
                         objectID               : null,
@@ -363,18 +359,26 @@
                     rules     : {
                         objectTypeForSearch: [
                             {
-                                required: true,
-                                message : 'Пожалуйста, выберите вид объекта для поиска!',
-                                trigger : 'blur'
+                                required : true,
+                                validator: this.validateSelectChange,
+                                trigger  : 'change',
+                                message  : 'Пожалуйста, выберите вид объекта для поиска!'
                             },
                         ],
                         tor                : [
                             {
-                                required: true,
-                                message : 'Пожалуйста, выберите ТОР!',
-                                trigger : 'blur'
+                                required : true,
+                                validator: this.validateSelectChange,
+                                trigger  : 'change',
+                                message  : 'Пожалуйста, выберите ТОР!'
                             },
-                        ]
+                        ],
+                        objectNumber       : [
+                            {
+                                validator: this.validateObjectNumber,
+                                trigger  : 'blur'
+                            }
+                        ],
                     },
                     datepicker: {
                         editable: false,
@@ -382,7 +386,14 @@
                             firstDayOfWeek: 1,
                             disabledDate  : this.disabledDate
                         }
-                    }
+                    },
+                    collapse  : {
+                        isDisabled: false,
+                        value     : [],
+                        title() {
+                            return `${this.value.length ? 'Скрыть' : 'Показать'} дополнительные критерии поиска`;
+                        }
+                    },
                 }
             }
         },
@@ -653,26 +664,8 @@
                     );
                 }
             },
-            handleCollapseChange(name) {
-                console.log('handle collapse change', name);
-            },
             handleSecretKeydown() {
                 this.form.triggers.objectID = !this.form.triggers.objectID;
-            },
-            handleSelectChange(prop) {
-                function errorHandler(error) {
-                    if (!error) {
-                        (this.form.triggers[prop] !== undefined) && (this.form.triggers[prop] = true);
-                    } else {
-                        (this.form.triggers[prop] !== undefined) && (this.form.triggers[prop] = false);
-
-                        return false;
-                    }
-                }
-
-                if (prop) {
-                    this.$refs[this.form.name].validateField(prop, errorHandler.bind(this));
-                }
             },
             handleObjectNumberStructuredChange() {
                 let check = Object.entries(this.form.data.objectNumberStructured).some(([, value]) => value);
@@ -680,14 +673,42 @@
                 console.log('handle object number structured change');
 
                 if (check) {
-                    this.form.triggers.collapsed.shift();
-                    this.form.triggers.isDisabled = true;
+                    this.form.collapse.value.shift();
+                    this.form.collapse.value.isDisabled = true;
                 } else {
-                    this.form.triggers.collapsed.push('expanded-content');
-                    this.form.triggers.isDisabled = false;
+                    this.form.collapse.value.push('expanded-content');
+                    this.form.collapse.isDisabled = false;
                 }
 
                 console.log('change object number structured', check);
+            },
+            validateSelectChange(rule, value, callback) {
+                const prop = rule.field;
+                let errorMessage = rule.message;
+
+                if (prop && !errorMessage) {
+                    switch (prop) {
+                        case 'objectTypeForSearch':
+                            errorMessage = 'Пожалуйста, выберите вид объекта для поиска!';
+                            break;
+                    }
+                }
+
+                if (!value) {
+                    callback(new Error(errorMessage));
+                    (this.form.triggers[prop] !== undefined) && (this.form.triggers[prop] = false);
+
+                    return false;
+                }
+
+                (this.form.triggers[prop] !== undefined) && (this.form.triggers[prop] = true);
+                callback();
+            },
+            validateObjectNumber(rule, value, callback) {
+                console.log('validate object number');
+                console.log({rule, value, callback});
+
+                callback(new Error('Two inputs don\'t match!'));
             },
             disabledDate(date) {
                 const now   = new Date(),
