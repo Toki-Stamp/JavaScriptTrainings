@@ -91,8 +91,7 @@
                           disabled/>
             </el-form-item>
             <!-- Скрытый за спойлером контент -->
-            <el-collapse v-model="form.triggers.collapsed"
-                         @change="handleCollapseChange">
+            <el-collapse v-model="form.triggers.collapsed">
                 <el-collapse-item name="expanded-content"
                                   :title="collapseTitle"
                                   :disabled="form.triggers.isDisabled">
@@ -637,7 +636,6 @@
             },
             handleCollapseChange(name) {
                 console.log('handle collapse change', name);
-                this.form.triggers.isExpanded = !this.form.triggers.isExpanded;
             },
             handleSecretKeydown() {
                 this.form.triggers.objectID = !this.form.triggers.objectID;
@@ -660,10 +658,14 @@
             handleObjectNumberStructuredChange() {
                 let check = Object.entries(this.form.data.objectNumberStructured).some(([, value]) => value);
 
+                console.log('handle object number structured change');
+
                 if (check) {
                     this.form.triggers.collapsed.shift();
+                    this.form.triggers.isDisabled = true;
                 } else {
                     this.form.triggers.collapsed.push('expanded-content');
+                    this.form.triggers.isDisabled = false;
                 }
 
                 console.log('change object number structured', check);
@@ -687,6 +689,8 @@
         },
         created() {
             // initValues.call(null, this);
+            //todo органищация по умолчанию
+            this.form.data.tor = 0;
         },
     }
 </script>
