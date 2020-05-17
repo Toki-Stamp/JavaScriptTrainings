@@ -166,15 +166,27 @@
                             <el-row :gutter="24">
                                 <el-col :span="12"
                                         class="first">
-                                    <el-input v-model="form.data.objectCreationDate[1]">
-                                        <template #prepend>С</template>
-                                    </el-input>
+                                    <el-date-picker
+                                            v-model="form.data.objectCreationDate[1]"
+                                            type="date"
+                                            placeholder="Укажите дату начала периода..."
+                                            format="dd.MM.yyyy"
+                                            align="left"
+                                            :editable="form.datepicker.editable"
+                                            :picker-options="form.datepicker.options">
+                                    </el-date-picker>
                                 </el-col>
                                 <el-col :span="12"
                                         class="last">
-                                    <el-input v-model="form.data.objectCreationDate[2]">
-                                        <template #prepend>По</template>
-                                    </el-input>
+                                    <el-date-picker
+                                            v-model="form.data.objectCreationDate[2]"
+                                            type="date"
+                                            placeholder="Укажите дату конца периода..."
+                                            format="dd.MM.yyyy"
+                                            align="right"
+                                            :editable="form.datepicker.editable"
+                                            :picker-options="form.datepicker.options">
+                                    </el-date-picker>
                                 </el-col>
                             </el-row>
                         </el-form-item>
@@ -321,16 +333,16 @@
         data() {
             return {
                 form: {
-                    name    : 'form-search-extended',
-                    class   : 'search-extended',
-                    triggers: {
+                    name      : 'form-search-extended',
+                    class     : 'search-extended',
+                    triggers  : {
                         isDisabled         : false,
                         objectID           : false,
                         objectTypeForSearch: true,
                         tor                : true,
                         collapsed          : []
                     },
-                    data    : {
+                    data      : {
                         objectID               : null,
                         objectTypeForSearch    : null,
                         objectNumber           : null,
@@ -348,7 +360,7 @@
                         objectFloorsAboveGround: {1: null, 2: null},
                         objectFloorsUnderGround: {1: null, 2: null}
                     },
-                    rules   : {
+                    rules     : {
                         objectTypeForSearch: [
                             {
                                 required: true,
@@ -363,6 +375,13 @@
                                 trigger : 'blur'
                             },
                         ]
+                    },
+                    datepicker: {
+                        editable: false,
+                        options : {
+                            firstDayOfWeek: 1,
+                            disabledDate  : this.disabledDate
+                        }
                     }
                 }
             }
@@ -670,6 +689,21 @@
 
                 console.log('change object number structured', check);
             },
+            disabledDate(date) {
+                const now   = new Date(),
+                      start = this.form.data.objectCreationDate[1],
+                      end   = this.form.data.objectCreationDate[2];
+
+                if (start && !end) {
+                    return (date < start) || (date > now);
+                } else if (end && !start) {
+                    return (date > end) || (date > now);
+                } else if (end && start) {
+                    return (date < start) || (date > end);
+                }
+
+                return (date > now);
+            },
             submitForm() {
                 this.$refs[this.form.name].validate((valid) => {
                     if (valid) {
@@ -682,6 +716,7 @@
             },
             resetForm() {
                 this.$refs[this.form.name].resetFields();
+                this.form.data.objectCreationDate = {1: null, 2: null};
             }
         },
         mounted() {
