@@ -12,7 +12,8 @@
                               label="ID объекта">
                     <el-input v-model="form.data.objectID"
                               :class="(form.triggers.visible.objectID ? '' : 'shake')"
-                              placeholder="Введите ID объекта..."/>
+                              placeholder="Введите ID объекта..."
+                              clearable/>
                 </el-form-item>
             </template>
             <!-- Вид объекта для поиска (без ПИК) -->
@@ -34,6 +35,7 @@
                 <template v-if="!!form.data.objectTypeForSearch">
                     <el-tooltip placement="bottom"
                                 :hide-after="2000"
+                                :open-delay="250"
                                 :disabled="form.triggers.disabled.objectNumber">
                         <template #content>
                             <div v-html="objectNumberTooltip.content"></div>
@@ -64,7 +66,8 @@
                                 :class="groupItem.class">
                             <template v-if="groupItem.item.type === 'input'">
                                 <el-tooltip :placement="groupItem.tooltip.placement"
-                                            :hide-after="2000">
+                                            :hide-after="2000"
+                                            :open-delay="250">
                                     <template #content>
                                         <div v-html="groupItem.tooltip.content"></div>
                                     </template>
@@ -99,6 +102,7 @@
                     <template v-if="!!!form.data.objectAddress">
                         <el-tooltip slot="append"
                                     :hide-after="2000"
+                                    :open-delay="250"
                                     content="Добавить адрес"
                                     placement="top-end">
                             <el-button @click="form.data.objectAddress = 'Какой-то адрес...'"
@@ -109,6 +113,7 @@
                     <template v-else>
                         <el-tooltip slot="append"
                                     :hide-after="2000"
+                                    :open-delay="250"
                                     content="Редактировать адрес"
                                     placement="top-end">
                             <el-button @click="form.data.objectAddress = 'Какой-то адрес (отредактирован)'"
@@ -117,6 +122,7 @@
                         </el-tooltip>
                         <el-tooltip slot="append"
                                     :hide-after="2000"
+                                    :open-delay="250"
                                     content="Удалить адрес"
                                     placement="top-end">
                             <el-button @click="form.data.objectAddress = null"
@@ -137,6 +143,7 @@
                         <el-select v-model="form.data.tor"
                                    :class="(form.triggers.validation.tor ? '' : 'shake')"
                                    placeholder="Выберите ТОР..."
+                                   filterable
                                    clearable>
                             <el-option v-for="option in regOrgsList"
                                        :key="option.idReg"
@@ -165,11 +172,14 @@
                                       label="Назначение">
                             <el-select v-model="form.data.objectPurpose"
                                        placeholder="Выберите назначение объекта..."
+                                       popper-class="object-purpose"
+                                       filterable
                                        clearable>
                                 <el-option v-for="option in availableObjectPurposesList"
                                            :key="option.code"
                                            :value="option.code"
-                                           :label="option.name"/>
+                                           :label="option.name"
+                                           :title="option.name"/>
                             </el-select>
                         </el-form-item>
                     </template>
@@ -181,13 +191,15 @@
                             <el-row :gutter="24">
                                 <el-col :span="12"
                                         class="first">
-                                    <el-input v-model="form.data.objectSquareLength[1]">
+                                    <el-input v-model="form.data.objectSquareLength[1]"
+                                              clearable>
                                         <template #prepend>От</template>
                                     </el-input>
                                 </el-col>
                                 <el-col :span="12"
                                         class="last">
-                                    <el-input v-model="form.data.objectSquareLength[2]">
+                                    <el-input v-model="form.data.objectSquareLength[2]"
+                                              clearable>
                                         <template #prepend>До</template>
                                     </el-input>
                                 </el-col>
@@ -244,6 +256,7 @@
                                       label="Материал стен">
                             <el-select v-model="form.data.objectWallsMaterial"
                                        placeholder="Выберите материал стен..."
+                                       filterable
                                        clearable>
                                 <el-option v-for="option in objectWallsMaterialsList"
                                            :key="option.code"
@@ -259,13 +272,15 @@
                             <el-row :gutter="24">
                                 <el-col :span="12"
                                         class="first">
-                                    <el-input v-model="form.data.objectRoomsNumber[1]">
+                                    <el-input v-model="form.data.objectRoomsNumber[1]"
+                                              clearable>
                                         <template #prepend>От</template>
                                     </el-input>
                                 </el-col>
                                 <el-col :span="12"
                                         class="last">
-                                    <el-input v-model="form.data.objectRoomsNumber[2]">
+                                    <el-input v-model="form.data.objectRoomsNumber[2]"
+                                              clearable>
                                         <template #prepend>До</template>
                                     </el-input>
                                 </el-col>
@@ -282,7 +297,8 @@
                                     <el-input v-model="form.data.objectFloor[1]"
                                               minlength="1"
                                               maxlength="3"
-                                              show-word-limi>
+                                              show-word-limi
+                                              clearable>
                                         <template #prepend>От</template>
                                     </el-input>
                                 </el-col>
@@ -291,7 +307,8 @@
                                     <el-input v-model="form.data.objectFloor[2]"
                                               minlength="1"
                                               maxlength="3"
-                                              show-word-limi>
+                                              show-word-limi
+                                              clearable>
                                         <template #prepend>До</template>
                                     </el-input>
                                 </el-col>
@@ -308,7 +325,8 @@
                                     <el-input v-model="form.data.objectFloorsAboveGround[1]"
                                               :minlength="1"
                                               :maxlength="3"
-                                              show-word-limit>
+                                              show-word-limit
+                                              clearable>
                                         <template #prepend>От</template>
                                     </el-input>
                                 </el-col>
@@ -317,7 +335,8 @@
                                     <el-input v-model="form.data.objectFloorsAboveGround[2]"
                                               :minlength="1"
                                               :maxlength="3"
-                                              show-word-limit>
+                                              show-word-limit
+                                              clearable>
                                         <template #prepend>До</template>
                                     </el-input>
                                 </el-col>
@@ -334,7 +353,8 @@
                                     <el-input v-model="form.data.objectFloorsUnderGround[1]"
                                               :minlength="1"
                                               :maxlength="3"
-                                              show-word-limit>
+                                              show-word-limit
+                                              clearable>
                                         <template #prepend>От</template>
                                     </el-input>
                                 </el-col>
@@ -343,7 +363,8 @@
                                     <el-input v-model="form.data.objectFloorsUnderGround[2]"
                                               :minlength="1"
                                               :maxlength="3"
-                                              show-word-limit>
+                                              show-word-limit
+                                              clearable>
                                         <template #prepend>До</template>
                                     </el-input>
                                 </el-col>
@@ -472,7 +493,7 @@
                         ]
                     },
                     datepicker: {
-                        editable: false,
+                        editable: true,
                         options : {
                             firstDayOfWeek: 1,
                             disabledDate  : this.disabledDate
