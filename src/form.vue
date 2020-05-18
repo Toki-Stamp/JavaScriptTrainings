@@ -88,9 +88,40 @@
             </template>
             <!-- Адрес объекта -->
             <el-form-item prop="objectAddress"
+                          class="object-address"
                           label="Адрес объекта">
-                <el-input placeholder="Укажите адрес объекта..."
-                          disabled/>
+                <el-input v-model="form.data.objectAddress"
+                          placeholder="Добавьте адрес объекта..."
+                          readonly>
+                    <template v-if="!!!form.data.objectAddress">
+                        <el-tooltip slot="append"
+                                    :hide-after="2000"
+                                    content="Добавить адрес"
+                                    placement="top-start">
+                            <el-button @click="form.data.objectAddress = 'Какой-то адрес...'"
+                                       icon="el-icon-plus"
+                                       class="first"/>
+                        </el-tooltip>
+                    </template>
+                    <template v-else>
+                        <el-tooltip slot="append"
+                                    :hide-after="2000"
+                                    content="Редактировать адрес"
+                                    placement="top-start">
+                            <el-button @click="form.data.objectAddress = 'Какой-то адрес (отредактирован)'"
+                                       icon="el-icon-edit"
+                                       class="first"/>
+                        </el-tooltip>
+                        <el-tooltip slot="append"
+                                    :hide-after="2000"
+                                    content="Удалить адрес"
+                                    placement="top-end">
+                            <el-button @click="form.data.objectAddress = null"
+                                       icon="el-icon-delete"
+                                       class="last"/>
+                        </el-tooltip>
+                    </template>
+                </el-input>
             </el-form-item>
             <!-- Скрытый за спойлером контент -->
             <el-collapse v-model="form.collapse.value">
@@ -814,8 +845,7 @@
 
     }
 
-    .search-extended input,
-    .search-extended button {
+    .search-extended input {
         font-family: "Times New Roman", serif;
     }
 
@@ -857,6 +887,19 @@
     .search-extended .el-form-item .el-form-item__content .el-input-group__prepend {
         width:      24px;
         text-align: center;
+    }
+
+    .search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button {
+        transition: color 250ms ease-in-out;
+        font-size: 18px;
+    }
+
+    .search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button.first:hover {
+        color: #409eff;
+    }
+
+    .search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button.last:hover {
+        color: #f56c6c;
     }
 
     /* количество введённых символов и общее число доступных для ввода "0/18" */
