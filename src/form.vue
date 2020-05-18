@@ -33,7 +33,7 @@
                           label="Номер объекта">
                 <template v-if="!!form.data.objectTypeForSearch">
                     <el-tooltip placement="bottom"
-                                effect="light"
+                                :hide-after="2000"
                                 :disabled="form.triggers.disabled.objectNumber">
                         <template #content>
                             <div v-html="objectNumberTooltip.content"></div>
@@ -43,13 +43,15 @@
                                   :minlength="objectNumberTooltip.min"
                                   :maxlength="objectNumberTooltip.max"
                                   :disabled="form.triggers.disabled.objectNumber"
-                                  show-word-limit/>
+                                  show-word-limit
+                                  clearable/>
                     </el-tooltip>
                 </template>
                 <template v-else>
                     <el-input v-model="form.data.objectNumber"
                               placeholder="Введите номер объекта..."
-                              :disabled="form.triggers.disabled.objectNumber"/>
+                              :disabled="form.triggers.disabled.objectNumber"
+                              clearable/>
                 </template>
             </el-form-item>
             <!-- Структурированный номер объекта -->
@@ -62,14 +64,15 @@
                                 :class="groupItem.class">
                             <template v-if="groupItem.item.type === 'input'">
                                 <el-tooltip :placement="groupItem.tooltip.placement"
-                                            effect="light">
+                                            :hide-after="2000">
                                     <template #content>
                                         <div v-html="groupItem.tooltip.content"></div>
                                     </template>
                                     <el-input v-model="form.data.objectNumberStructured[index + 1]"
                                               :minlength="groupItem.min"
                                               :maxlength="groupItem.max"
-                                              show-word-limit/>
+                                              show-word-limit
+                                              clearable/>
                                 </el-tooltip>
                             </template>
                             <template v-else>
@@ -97,7 +100,7 @@
                         <el-tooltip slot="append"
                                     :hide-after="2000"
                                     content="Добавить адрес"
-                                    placement="top-start">
+                                    placement="top-end">
                             <el-button @click="form.data.objectAddress = 'Какой-то адрес...'"
                                        icon="el-icon-plus"
                                        class="first"/>
@@ -107,7 +110,7 @@
                         <el-tooltip slot="append"
                                     :hide-after="2000"
                                     content="Редактировать адрес"
-                                    placement="top-start">
+                                    placement="top-end">
                             <el-button @click="form.data.objectAddress = 'Какой-то адрес (отредактирован)'"
                                        icon="el-icon-edit"
                                        class="first"/>
@@ -125,7 +128,7 @@
             </el-form-item>
             <!-- Скрытый за спойлером контент -->
             <el-collapse v-model="form.collapse.value">
-                <el-collapse-item name="expanded-content"
+                <el-collapse-item :name="form.collapse.name"
                                   :title="form.collapse.title()"
                                   :disabled="form.triggers.disabled.collapse">
                     <!-- ТОР -->
@@ -399,7 +402,7 @@
                         objectFloorsUnderGround: {1: null, 2: null}
                     },
                     rules     : {
-                        objectTypeForSearch: [
+                        objectTypeForSearch   : [
                             {
                                 required : true,
                                 validator: this.validateSelectChange,
@@ -407,7 +410,7 @@
                                 message  : 'Пожалуйста, выберите вид объекта для поиска!'
                             },
                         ],
-                        tor                : [
+                        tor                   : [
                             {
                                 required : true,
                                 validator: this.validateSelectChange,
@@ -415,7 +418,7 @@
                                 message  : 'Пожалуйста, выберите ТОР!'
                             },
                         ],
-                        objectNumber       : [
+                        objectNumber          : [
                             {
                                 validator: this.validateInputChange,
                                 trigger  : 'change',
@@ -427,6 +430,46 @@
                                 }
                             }
                         ],
+                        objectNumberStructured: [
+                            {
+                                validator: this.validateInputChange,
+                                trigger  : 'change',
+                                message  : {
+                                    1: {
+                                        1: '^[1-9][0-9]{9}$',
+                                        2: '^[0-9]{2}$',
+                                        3: '^[0-9]{6}$'
+                                    },
+                                    2: {
+                                        1: '^[1-9][0-9]{2}$',
+                                        2: null,
+                                        3: '^[1-9][0-9]{0,29}$'
+                                    },
+                                    3: {
+                                        1: '^[1-9][0-9]{2}$',
+                                        2: null,
+                                        3: '^[1-9][0-9]{0,29}$'
+                                    }
+                                },
+                                pattern  : {
+                                    1: {
+                                        1: '^[1-9][0-9]{9}$',
+                                        2: '^[0-9]{2}$',
+                                        3: '^[0-9]{6}$'
+                                    },
+                                    2: {
+                                        1: '^[1-9][0-9]{2}$',
+                                        2: null,
+                                        3: '^[1-9][0-9]{0,29}$'
+                                    },
+                                    3: {
+                                        1: '^[1-9][0-9]{2}$',
+                                        2: null,
+                                        3: '^[1-9][0-9]{0,29}$'
+                                    }
+                                }
+                            }
+                        ]
                     },
                     datepicker: {
                         editable: false,
@@ -436,6 +479,7 @@
                         }
                     },
                     collapse  : {
+                        name : 'expanded-content',
                         value: [],
                         title() {
                             return `${this.value.length ? 'Скрыть' : 'Показать'} дополнительные критерии поиска`;
@@ -703,7 +747,6 @@
                         this.form.collapse.value.shift();
                         this.form.triggers.disabled.collapse = true;
                     } else {
-                        this.form.collapse.value.push('expanded-content');
                         this.form.triggers.disabled.collapse = false;
                     }
                 },
@@ -796,7 +839,14 @@
             },
             resetForm() {
                 this.$refs[this.form.name].resetFields();
+                this.form.data.objectSquareLength = {1: null, 2: null};
                 this.form.data.objectCreationDate = {1: null, 2: null};
+                this.form.data.objectRoomsNumber = {1: null, 2: null};
+                this.form.data.objectFloor = {1: null, 2: null};
+                this.form.data.objectFloorsAboveGround = {1: null, 2: null};
+                this.form.data.objectFloorsUnderGround = {1: null, 2: null};
+                this.form.data.objectNumberStructured = {1: null, 2: null, 3: null};
+                this.form.collapse.value.shift();
                 Object.keys(this.form.triggers.disabled).forEach((key) => this.form.triggers.disabled[key] = false);
             }
         },
@@ -891,7 +941,7 @@
 
     .search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button {
         transition: color 250ms ease-in-out;
-        font-size: 18px;
+        font-size:  16px;
     }
 
     .search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button.first:hover {
