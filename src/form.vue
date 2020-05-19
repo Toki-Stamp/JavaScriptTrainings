@@ -428,7 +428,7 @@
                             tor: true
                         }
                     },
-                    data: {...initialData},
+                    data: Object.assign({}, JSON.parse(JSON.stringify(initialData))),
                     rules: {
                         objectTypeForSearch: [
                             {
@@ -774,18 +774,9 @@
             },
         },
         watch: {
-            // 'form.data.objectTypeForSearch'(newValue, preValue) {
-            //     console.log(`change objectTypeForSearch from ${preValue} to ${newValue}`);
-            //     this.$forceUpdate();
-            // },
-            'form.data.objectNumber'(newValue) {
-                console.log('form.data.objectNumber', newValue);
-            },
             'form.data.objectNumberStructured': {
                 handler(newValue) {
-                    let test = Object.entries(newValue).some(([, value]) => value);
-
-                    if (test) {
+                    if (Object.entries(newValue).some(([, value]) => value)) {
                         this.form.collapse.value.shift();
                         this.form.triggers.disabled.collapse = true;
                     } else {
@@ -901,8 +892,9 @@
                 this.$refs[this.form.name].validate((valid) => {
                     if (valid) {
                         alert('Submit!');
+                        console.log(JSON.parse(JSON.stringify(this.form.data)));
                     } else {
-                        alert('Внимание, необходимо указать вид объекта!');
+                        alert('Внимание! Заполните форму корректными данными и повторите отправку!');
                         return false;
                     }
                 });
@@ -920,7 +912,10 @@
                 this.resetTriggers('visibility');
                 this.resetTriggers('disabled');
                 this.resetTriggers('validation', true);
-                this.form.data = {...initialData};
+                Object.assign(this.form.data, JSON.parse(JSON.stringify(initialData)));
+                console.log('reset');
+                console.log('initial', initialData);
+                console.log('data', JSON.parse(JSON.stringify(this.form.data)));
             }
         },
         mounted() {
