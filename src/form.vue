@@ -460,7 +460,7 @@
                         ],
                         objectNumberStructured: [
                             {
-                                validator: this.validateInputChange,
+                                validator: this.validateObjectNumberStructured,
                                 trigger: 'change',
                                 message: {
                                     1: {
@@ -776,6 +776,11 @@
         watch: {
             'form.data.objectNumberStructured': {
                 handler(newValue) {
+                    /**
+                     * Еесли элементы поля "Структурированный номер объекта"
+                     * заполнены хоть какими-либо данными, то сворачиваем блок
+                     * "Дополнительные критерии поиска" и делаем его недоступным
+                     * */
                     if (Object.entries(newValue).some(([, value]) => value)) {
                         this.form.collapse.value.shift();
                         this.form.triggers.disabled.collapse = true;
@@ -873,6 +878,47 @@
 
                 callback();
             },
+            validateObjectNumberStructured(rule, value, callback) {
+                let type;
+
+                if ((value !== undefined) && (value !== null)) {
+                    if (rule && rule.pattern) {
+                        type = this.form.data.objectTypeForSearch;
+
+                        if (rule.pattern[type]) {
+
+                            let test = Object.values(value).every((v, i) => {
+                                const pattern = rule.pattern[type];
+                                const message = rule.message[type];
+                                const r = {
+                                    field: "objectNumberStructured",
+                                    fullField: "objectNumberStructured.1",
+                                    message: message[(i + 1)],
+                                    pattern: (function () {
+                                        let object = {};
+
+                                        object[(i + 1)] = pattern[(i + 1)];
+
+                                        return object;
+                                    })(),
+                                };
+
+                                return this.validateInputChange(r, v, callback);
+                            });
+
+                            console.log(test);
+
+                            // if (!(new RegExp(rule.pattern[type])).test(value)) {
+                            //     callback(new Error(rule.message));
+                            //
+                            //     return false;
+                            // }
+                        }
+                    }
+                }
+
+                callback();
+            },
             disabledDate(date) {
                 const now = new Date(),
                     start = this.form.data.objectCreationDate[1],
@@ -888,6 +934,13 @@
 
                 return (date > now);
             },
+            resetTriggers(name, value) {
+                if (name && this.form.triggers[name]) {
+                    Object
+                        .keys(this.form.triggers[name])
+                        .filter(key => ((key.toString() === 'objectID') ? false : !(this.form.triggers[name][key] = (value || false))), this);
+                }
+            },
             submitForm() {
                 this.$refs[this.form.name].validate((valid) => {
                     if (valid) {
@@ -898,13 +951,6 @@
                         return false;
                     }
                 });
-            },
-            resetTriggers(name, value) {
-                if (name && this.form.triggers[name]) {
-                    Object
-                        .keys(this.form.triggers[name])
-                        .filter(key => ((key.toString() === 'objectID') ? false : !(this.form.triggers[name][key] = (value || false))), this);
-                }
             },
             resetForm() {
                 this.$refs[this.form.name].resetFields();
