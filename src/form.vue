@@ -58,31 +58,34 @@
                             :span="groupItem.span"
                             :key="`${form.data.objectTypeForSearch}-${(index + 1)}`"
                             :class="groupItem.class">
-                        <el-tooltip :placement="groupItem.tooltip.placement"
-                                    :hide-after="2000"
-                                    :open-delay="250"
-                                    popper-class="search-extended-tooltip">
-                            <template #content>
-                                <div v-html="groupItem.tooltip.content"></div>
-                            </template>
-                            <template v-if="groupItem.item.type === 'input'">
-                                <el-input v-model="form.data.objectNumberStructured[index + 1]"
-                                          :minlength="groupItem.min"
-                                          :maxlength="groupItem.max"
-                                          show-word-limit
-                                          clearable/>
-                            </template>
-                            <template v-else>
-                                <el-select v-model="form.data.objectNumberStructured[index + 1]"
-                                           :placeholder="groupItem.placeholder"
-                                           clearable>
-                                    <el-option v-for="(option) in groupItem.item.options"
-                                               :key="option"
-                                               :value="option"
-                                               :label="option"/>
-                                </el-select>
-                            </template>
-                        </el-tooltip>
+                        <el-form-item :prop="`objectNumberStructured.${(index + 1)}`"
+                                      label-width="0">
+                            <el-tooltip :placement="groupItem.tooltip.placement"
+                                        :hide-after="2000"
+                                        :open-delay="250"
+                                        popper-class="search-extended-tooltip">
+                                <template #content>
+                                    <div v-html="groupItem.tooltip.content"></div>
+                                </template>
+                                <template v-if="groupItem.item.type === 'input'">
+                                    <el-input v-model="form.data.objectNumberStructured[index + 1]"
+                                              :minlength="groupItem.min"
+                                              :maxlength="groupItem.max"
+                                              show-word-limit
+                                              clearable/>
+                                </template>
+                                <template v-else>
+                                    <el-select v-model="form.data.objectNumberStructured[index + 1]"
+                                               :placeholder="groupItem.placeholder"
+                                               clearable>
+                                        <el-option v-for="(option) in groupItem.item.options"
+                                                   :key="option"
+                                                   :value="option"
+                                                   :label="option"/>
+                                    </el-select>
+                                </template>
+                            </el-tooltip>
+                        </el-form-item>
                     </el-col>
                 </el-row>
             </el-form-item>
@@ -186,17 +189,23 @@
                         <el-row :gutter="24">
                             <el-col :span="12"
                                     class="first">
-                                <el-input v-model="form.data.objectSquareLength[1]"
-                                          clearable>
-                                    <template #prepend>От</template>
-                                </el-input>
+                                <el-form-item :prop="'objectSquareLength.1'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectSquareLength[1]"
+                                              clearable>
+                                        <template #prepend>От</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                             <el-col :span="12"
                                     class="last">
-                                <el-input v-model="form.data.objectSquareLength[2]"
-                                          clearable>
-                                    <template #prepend>До</template>
-                                </el-input>
+                                <el-form-item :prop="'objectSquareLength.2'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectSquareLength[2]"
+                                              clearable>
+                                        <template #prepend>До</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                         </el-row>
                     </el-form-item>
@@ -264,17 +273,29 @@
                         <el-row :gutter="24">
                             <el-col :span="12"
                                     class="first">
-                                <el-input v-model="form.data.objectRoomsNumber[1]"
-                                          clearable>
-                                    <template #prepend>От</template>
-                                </el-input>
+                                <el-form-item :prop="'objectRoomsNumber.1'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectRoomsNumber[1]"
+                                              minlength="1"
+                                              maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>От</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                             <el-col :span="12"
                                     class="last">
-                                <el-input v-model="form.data.objectRoomsNumber[2]"
-                                          clearable>
-                                    <template #prepend>До</template>
-                                </el-input>
+                                <el-form-item :prop="'objectRoomsNumber.2'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectRoomsNumber[2]"
+                                              minlength="1"
+                                              maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>До</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                         </el-row>
                     </el-form-item>
@@ -285,23 +306,29 @@
                         <el-row :gutter="24">
                             <el-col :span="12"
                                     class="first">
-                                <el-input v-model="form.data.objectFloor[1]"
-                                          minlength="1"
-                                          maxlength="3"
-                                          show-word-limi
-                                          clearable>
-                                    <template #prepend>От</template>
-                                </el-input>
+                                <el-form-item :prop="'objectFloor.1'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectFloor[1]"
+                                              minlength="1"
+                                              maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>От</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                             <el-col :span="12"
                                     class="last">
-                                <el-input v-model="form.data.objectFloor[2]"
-                                          minlength="1"
-                                          maxlength="3"
-                                          show-word-limi
-                                          clearable>
-                                    <template #prepend>До</template>
-                                </el-input>
+                                <el-form-item :prop="'objectFloor.2'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectFloor[2]"
+                                              minlength="1"
+                                              maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>До</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                         </el-row>
                     </el-form-item>
@@ -312,23 +339,29 @@
                         <el-row :gutter="24">
                             <el-col :span="12"
                                     class="first">
-                                <el-input v-model="form.data.objectFloorsAboveGround[1]"
-                                          :minlength="1"
-                                          :maxlength="3"
-                                          show-word-limit
-                                          clearable>
-                                    <template #prepend>От</template>
-                                </el-input>
+                                <el-form-item :prop="'objectFloorsAboveGround.1'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectFloorsAboveGround[1]"
+                                              :minlength="1"
+                                              :maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>От</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                             <el-col :span="12"
                                     class="last">
-                                <el-input v-model="form.data.objectFloorsAboveGround[2]"
-                                          :minlength="1"
-                                          :maxlength="3"
-                                          show-word-limit
-                                          clearable>
-                                    <template #prepend>До</template>
-                                </el-input>
+                                <el-form-item :prop="'objectFloorsAboveGround.2'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectFloorsAboveGround[2]"
+                                              :minlength="1"
+                                              :maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>До</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                         </el-row>
                     </el-form-item>
@@ -339,23 +372,29 @@
                         <el-row :gutter="24">
                             <el-col :span="12"
                                     class="first">
-                                <el-input v-model="form.data.objectFloorsUnderGround[1]"
-                                          :minlength="1"
-                                          :maxlength="3"
-                                          show-word-limit
-                                          clearable>
-                                    <template #prepend>От</template>
-                                </el-input>
+                                <el-form-item :prop="'objectFloorsUnderGround.1'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectFloorsUnderGround[1]"
+                                              :minlength="1"
+                                              :maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>От</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                             <el-col :span="12"
                                     class="last">
-                                <el-input v-model="form.data.objectFloorsUnderGround[2]"
-                                          :minlength="1"
-                                          :maxlength="3"
-                                          show-word-limit
-                                          clearable>
-                                    <template #prepend>До</template>
-                                </el-input>
+                                <el-form-item :prop="'objectFloorsUnderGround.2'"
+                                              label-width="0">
+                                    <el-input v-model="form.data.objectFloorsUnderGround[2]"
+                                              :minlength="1"
+                                              :maxlength="3"
+                                              show-word-limit
+                                              clearable>
+                                        <template #prepend>До</template>
+                                    </el-input>
+                                </el-form-item>
                             </el-col>
                         </el-row>
                     </el-form-item>
@@ -422,74 +461,101 @@
                     },
                     data      : Object.assign({}, JSON.parse(JSON.stringify(initialData))),
                     rules     : {
-                        objectTypeForSearch   : [
-                            {
-                                required : true,
-                                validator: this.validateSelectChange,
-                                trigger  : 'change',
-                                message  : 'Пожалуйста, выберите вид объекта для поиска!'
-                            },
-                        ],
-                        objectTOR             : [
-                            {
-                                required : true,
-                                validator: this.validateSelectChange,
-                                trigger  : 'change',
-                                message  : 'Пожалуйста, выберите ТОР!'
-                            },
-                        ],
-                        objectNumber          : [
-                            {
-                                validator: this.validateInputChange,
-                                trigger  : 'change',
-                                message  : 'Пожалуйста, введите корректный номер объекта, согласно указанной маске!',
-                                pattern  : {
-                                    1: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
-                                    2: '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
-                                    3: '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$'
-                                }
+                        objectTypeForSearch        : {
+                            required : true,
+                            validator: this.validateSelectChange,
+                            trigger  : 'change',
+                            message  : 'Пожалуйста, выберите вид объекта для поиска!'
+                        },
+                        objectTOR                  : {
+                            required : true,
+                            validator: this.validateSelectChange,
+                            trigger  : 'change',
+                            message  : 'Пожалуйста, укажите организацию по регистрации!'
+                        },
+                        objectNumber               : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            message  : 'Пожалуйста, введите корректный номер объекта, согласно указанной маске!',
+                            pattern  : {
+                                1: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
+                                2: '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
+                                3: '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$'
                             }
-                        ],
-                        objectNumberStructured: [
-                            {
-                                validator: this.validateObjectNumberStructured,
-                                trigger  : 'change',
-                                message  : {
-                                    1: {
-                                        1: '^[1-9][0-9]{9}$',
-                                        2: '^[0-9]{2}$',
-                                        3: '^[0-9]{6}$'
-                                    },
-                                    2: {
-                                        1: '^[1-9][0-9]{2}$',
-                                        2: null,
-                                        3: '^[1-9][0-9]{0,29}$'
-                                    },
-                                    3: {
-                                        1: '^[1-9][0-9]{2}$',
-                                        2: null,
-                                        3: '^[1-9][0-9]{0,29}$'
-                                    }
-                                },
-                                pattern  : {
-                                    1: {
-                                        1: '^[1-9][0-9]{9}$',
-                                        2: '^[0-9]{2}$',
-                                        3: '^[0-9]{6}$'
-                                    },
-                                    2: {
-                                        1: '^[1-9][0-9]{2}$',
-                                        2: null,
-                                        3: '^[1-9][0-9]{0,29}$'
-                                    },
-                                    3: {
-                                        1: '^[1-9][0-9]{2}$',
-                                        2: null,
-                                        3: '^[1-9][0-9]{0,29}$'
-                                    }
-                                }
+                        },
+                        'objectNumberStructured.1' : {
+                            validator: this.validateObjectNumberStructured,
+                            trigger  : 'change',
+                            index    : 0,
+                        },
+                        'objectNumberStructured.2' : {
+                            validator: this.validateObjectNumberStructured,
+                            trigger  : 'change',
+                            index    : 1,
+                        },
+                        'objectNumberStructured.3' : {
+                            validator: this.validateObjectNumberStructured,
+                            trigger  : 'change',
+                            index    : 2,
+                        },
+                        'objectSquareLength.1'     : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : {
+                                1: '^(?!0\\d|$)\\d*(\\.\\d{1,4})?$',
+                                2: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
+                                3: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
                             }
-                        ]
+                        },
+                        'objectSquareLength.2'     : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : {
+                                1: '^(?!0\\d|$)\\d*(\\.\\d{1,4})?$',
+                                2: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
+                                3: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
+                            }
+                        },
+                        'objectFloorsAboveGround.1': {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectFloorsAboveGround.2': {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectFloorsUnderGround.1': {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectFloorsUnderGround.2': {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectRoomsNumber.1'      : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectRoomsNumber.2'      : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectFloor.1'            : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
+                        'objectFloor.2'            : {
+                            validator: this.validateInputChange,
+                            trigger  : 'change',
+                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                        },
                     },
                     datepicker: {
                         editable: true,
@@ -629,6 +695,7 @@
                                         placement: 'top-start',
                                         content  : 'Код СОАТО <strong>(10 цифр)</strong>'
                                     },
+                                    pattern: '^[1-9][0-9]{9}$',
                                     class  : 'first',
                                     min    : 10,
                                     max    : 10
@@ -640,8 +707,9 @@
                                         placement: 'top',
                                         content  : 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
                                     },
+                                    pattern: '^[0-9]{2}$',
                                     min    : 2,
-                                    max    : 2,
+                                    max    : 2
                                 },
                                 {
                                     item   : {type: 'input'},
@@ -650,9 +718,10 @@
                                         placement: 'top-end',
                                         content  : 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
                                     },
+                                    pattern: '^[0-9]{6}$',
                                     class  : 'last',
                                     min    : 6,
-                                    max    : 6,
+                                    max    : 6
                                 }
                             ];
                             break;
@@ -665,6 +734,7 @@
                                         placement: 'top-start',
                                         content  : 'Код ТОР <strong>(3 цифры)</strong>'
                                     },
+                                    pattern: '^[1-9][0-9]{2}$',
                                     class  : 'first',
                                     min    : 3,
                                     max    : 3
@@ -679,6 +749,7 @@
                                         placement: 'top',
                                         content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
                                     },
+                                    pattern    : '^[CcUu]$',
                                     placeholder: ''
                                 },
                                 {
@@ -688,6 +759,7 @@
                                         placement: 'top-end',
                                         content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                     },
+                                    pattern: '^[1-9][0-9]{0,29}$',
                                     class  : 'last',
                                     min    : 1,
                                     max    : 30
@@ -703,6 +775,7 @@
                                         placement: 'top-start',
                                         content  : 'Код ТОР <strong>(3 цифры)</strong>'
                                     },
+                                    pattern: '^[1-9][0-9]{2}$',
                                     class  : 'first',
                                     min    : 3,
                                     max    : 3
@@ -717,6 +790,7 @@
                                         placement: 'top',
                                         content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
                                     },
+                                    pattern    : '^[Dd]$',
                                     placeholder: ''
                                 },
                                 {
@@ -726,6 +800,7 @@
                                         placement: 'top-end',
                                         content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
                                     },
+                                    pattern: '^[1-9][0-9]{0,29}$',
                                     class  : 'last',
                                     min    : 1,
                                     max    : 30
@@ -831,18 +906,9 @@
             },
             validateSelectChange(rule, value, callback) {
                 const prop = rule.field;
-                let errorMessage = rule.message;
-
-                if (prop && !errorMessage) {
-                    switch (prop) {
-                        case 'objectTypeForSearch':
-                            errorMessage = 'Пожалуйста, выберите вид объекта для поиска!';
-                            break;
-                    }
-                }
 
                 if ((value === undefined) || (value === null) || (value === '')) {
-                    callback(new Error(errorMessage));
+                    callback(new Error(rule.message));
                     (this.form.triggers.validation[prop] !== undefined) && (this.form.triggers.validation[prop] = false);
 
                     return false;
@@ -852,60 +918,45 @@
                 callback();
             },
             validateInputChange(rule, value, callback) {
-                let type;
+                const message = 'Пожалуйста, введите корректные данные!';
+                let pattern;
+
+                function getPattern() {
+                    const type = this.form.data.objectTypeForSearch;
+
+                    if (rule && rule.pattern) {
+                        if ((typeof rule.pattern === 'object') && (rule.pattern !== null)) {
+                            return rule.pattern[type];
+                        }
+
+                        return rule.pattern;
+                    }
+
+                    return null;
+                }
 
                 if ((value !== undefined) && (value !== null) && (value !== '')) {
-                    if (rule && rule.pattern) {
-                        type = this.form.data.objectTypeForSearch;
+                    pattern = getPattern.call(this);
 
-                        if (rule.pattern[type]) {
-                            if (!(new RegExp(rule.pattern[type])).test(value)) {
-                                callback(new Error(rule.message));
+                    if (pattern && !(new RegExp(pattern)).test(value)) {
+                        callback(new Error(rule.message || message));
 
-                                return false;
-                            }
-                        }
+                        return false;
                     }
                 }
 
                 callback();
             },
-            validateObjectNumberStructured(rule, value, callback) {
-                let type;
+            validateObjectNumberStructured(rule, value, callback/*, source, options*/) {
+                const group = this.objectNumberStructuredInputGroup;
+                const description = (rule && (rule.index !== undefined)) ? group[rule.index] : null;
+                const message = 'Ошибка валидации!';
 
-                if ((value !== undefined) && (value !== null)) {
-                    if (rule && rule.pattern) {
-                        type = this.form.data.objectTypeForSearch;
+                if ((value !== undefined) && (value !== null) && (value !== '') && description && description.pattern) {
+                    if (!(new RegExp(description.pattern)).test(value)) {
+                        callback(new Error(rule.message || message));
 
-                        if (rule.pattern[type]) {
-
-                            let test = Object.values(value).every((v, i) => {
-                                const pattern = rule.pattern[type];
-                                const message = rule.message[type];
-                                const r = {
-                                    field    : "objectNumberStructured",
-                                    fullField: "objectNumberStructured.1",
-                                    message  : message[(i + 1)],
-                                    pattern  : (function () {
-                                        let object = {};
-
-                                        object[(i + 1)] = pattern[(i + 1)];
-
-                                        return object;
-                                    })(),
-                                };
-
-                                return this.validateInputChange(r, v, callback);
-                            });
-
-                            console.log(test);
-
-                            // if (!(new RegExp(rule.pattern[type])).test(value)) {
-                            //     callback(new Error(rule.message));
-                            //
-                            //     return false;
-                            // }
-                        }
+                        return false;
                     }
                 }
 
@@ -951,9 +1002,6 @@
                 this.resetTriggers('disabled');
                 this.resetTriggers('validation', true);
                 Object.assign(this.form.data, JSON.parse(JSON.stringify(initialData)));
-                console.log('reset');
-                console.log('initial', initialData);
-                console.log('data', JSON.parse(JSON.stringify(this.form.data)));
             }
         },
         mounted() {
