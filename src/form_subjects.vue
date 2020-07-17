@@ -4,17 +4,35 @@
                  :class="form.class"
                  :model="form.data">
             <!-- Вид субъекта -->
+            <!--            <el-form-item prop="subjectType"-->
+            <!--                          :label="form.fields.subjectType.label">-->
+            <!--                <el-select v-model="form.data.subjectType"-->
+            <!--                           :placeholder="getPlaceholder({label: form.fields.subjectType.label, type: 'select'})"-->
+            <!--                           clearable>-->
+            <!--                    <el-option v-for="option in objectTypesForSearchList"-->
+            <!--                               :key="option.code"-->
+            <!--                               :value="option.code"-->
+            <!--                               :label="option.name"/>-->
+            <!--                </el-select>-->
+            <!--            </el-form-item>-->
             <el-form-item prop="subjectType"
                           :label="form.fields.subjectType.label">
                 <el-select v-model="form.data.subjectType"
-                           :placeholder="getPlaceholder({label: form.fields.subjectType.label, type: 'select'})"
+                           :placeholder="getPlaceholder(form.fields.subjectType, {type: 'select'})"
                            clearable>
-                    <el-option v-for="option in objectTypesForSearchList"
+                    <el-option v-for="option in subjectTypes"
                                :key="option.code"
                                :value="option.code"
                                :label="option.name"/>
                 </el-select>
             </el-form-item>
+            <el-form-item prop="subjectCountry"
+                          :label="form.fields.subjectCountry.label">
+                <el-input v-model="form.data.subjectCountry"
+                          placeholder="Укажите страну субъекта"
+                          clearable/>
+            </el-form-item>
+
             <!-- Статус субъекта -->
             <el-form-item prop="subjectStatus"
                           :label="form.fields.subjectStatus.label">
@@ -27,7 +45,7 @@
                                :label="option.name"/>
                 </el-select>
             </el-form-item>
-            <!-- Адрес объекта -->
+            <!-- Адрес субъекта -->
             <el-form-item prop="subjectAddress"
                           :class="form.fields.subjectAddress.class"
                           :label="form.fields.subjectAddress.label">
@@ -240,7 +258,6 @@
                     </el-col>
                 </el-row>
             </el-form-item>
-
             <!-- Материал стен -->
             <el-form-item prop="objectWallsMaterial"
                           v-if="form.triggers.visibility.objectWallsMaterial"
@@ -388,33 +405,33 @@
                 </el-row>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm">Create</el-button>
-                <el-button type="danger" @click="resetForm">Reset</el-button>
+                <el-button type="primary" @click="formSubmit">Submit</el-button>
+                <el-button type="danger" @click="formReset">Reset</el-button>
             </el-form-item>
         </el-form>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    // import {mapGetters} from 'vuex';
 
     const fields = {
-        subjectEnteringPeriodFrom        : null, // период внесения с
-        subjectEnteringPeriodTo          : null, // период внесения по
-        subjectType                      : {label: 'Вид субъекта'},
-        subjectStatus                    : {label: 'Статус субъекта'},
-        subjectAddress                   : {label: 'Адрес субъекта', 'class': 'subject-address'},
-        subjectCountry                   : null, // страна
-        subjectSurname                   : null, // фамилия
-        subjectPersonalName              : null, // собственное имя
-        subjectPatronymic                : null, // отчество
-        subjectIdentificationNumber      : null, // идентификационный номер
-        subjectBirthDate                 : null, // дата рождения
-        subjectOrganizationName          : null, // наименование
-        subjectPayersAccountNumber       : null, // УНП
-        subjectRegistrationNumber        : null, // регистрационный номер
+        subjectEnteringPeriodFrom: null, // период внесения с
+        subjectEnteringPeriodTo: null, // период внесения по
+        subjectType: {label: 'Вид субъекта'},
+        subjectCountry: {label: 'Страна субъекта'},
+        subjectStatus: {label: 'Статус субъекта'},
+        subjectAddress: {label: 'Адрес субъекта', 'class': 'subject-address'},
+        subjectSurname: null, // фамилия
+        subjectPersonalName: null, // собственное имя
+        subjectPatronymic: null, // отчество
+        subjectIdentificationNumber: null, // идентификационный номер
+        subjectBirthDate: null, // дата рождения
+        subjectOrganizationName: null, // наименование
+        subjectPayersAccountNumber: null, // УНП
+        subjectRegistrationNumber: null, // регистрационный номер
         subjectOrganizationalAndLegalForm: null, // организационно-правовая форма
-        subjectRegistrationDate          : null, // дата регистрации
+        subjectRegistrationDate: null, // дата регистрации
     };
 
     function initData(object) {
@@ -424,35 +441,35 @@
     }
 
     export default {
-        name    : "subjects-search-extended-form",
+        name: "subjects-search-extended-form",
         data() {
             return {
                 form: {
-                    name      : 'subjects-search-extended-form',
-                    class     : 'subjects-search-extended',
-                    triggers  : {
+                    name: 'subjects-search-extended-form',
+                    class: 'subjects-search-extended',
+                    triggers: {
                         visibility: {
-                            objectID               : false,
-                            objectNumberStructured : false,
-                            objectTypeExact        : false,
-                            objectPurpose          : false,
-                            objectSquareLength     : false,
-                            objectCreationDate     : false,
-                            objectWallsMaterial    : false,
-                            objectRoomsNumber      : false,
-                            objectFloor            : false,
+                            objectID: false,
+                            objectNumberStructured: false,
+                            objectTypeExact: false,
+                            objectPurpose: false,
+                            objectSquareLength: false,
+                            objectCreationDate: false,
+                            objectWallsMaterial: false,
+                            objectRoomsNumber: false,
+                            objectFloor: false,
                             objectFloorsAboveGround: false,
                             objectFloorsUnderGround: false
                         },
-                        disabled  : {
+                        disabled: {
                             collapse: false
                         },
                         validation: /* reverse logic */ {
                             objectTypeForSearch: true,
-                            objectTOR          : true
+                            objectTOR: true
                         },
-                        tooltip   : /* reverse logic */ {
-                            objectNumber          : true,
+                        tooltip: /* reverse logic */ {
+                            objectNumber: true,
                             objectNumberStructured: {
                                 1: true,
                                 2: true,
@@ -460,59 +477,59 @@
                             }
                         }
                     },
-                    fields    : Object.assign({}, JSON.parse(JSON.stringify(fields))),
-                    data      : initData.call(this, fields),
-                    rules     : {
-                        objectTypeForSearch        : {
-                            required : true,
+                    fields: Object.assign({}, JSON.parse(JSON.stringify(fields))),
+                    data: initData.call(this, fields),
+                    rules: {
+                        objectTypeForSearch: {
+                            required: true,
                             validator: this.validateSelectChange,
-                            trigger  : 'change',
-                            message  : 'Пожалуйста, выберите вид объекта для поиска!'
+                            trigger: 'change',
+                            message: 'Пожалуйста, выберите вид объекта для поиска!'
                         },
-                        objectTOR                  : {
-                            required : true,
+                        objectTOR: {
+                            required: true,
                             validator: this.validateSelectChange,
-                            trigger  : 'change',
-                            message  : 'Пожалуйста, укажите организацию по регистрации!'
+                            trigger: 'change',
+                            message: 'Пожалуйста, укажите организацию по регистрации!'
                         },
-                        objectNumber               : {
+                        objectNumber: {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            message  : 'Пожалуйста, введите корректный номер объекта, согласно указанной маске!',
-                            pattern  : {
+                            trigger: 'change',
+                            message: 'Пожалуйста, введите корректный номер объекта, согласно указанной маске!',
+                            pattern: {
                                 1: '^([1-9][0-9]{9})([0-9]{2})([0-9]{6})$',
                                 2: '^([1-9][0-9]{2})([CcUu])([1-9][0-9]{0,29})$',
                                 3: '^([1-9][0-9]{2})([Dd])([1-9][0-9]{0,29})$'
                             }
                         },
-                        'objectNumberStructured.1' : {
+                        'objectNumberStructured.1': {
                             validator: this.validateObjectNumberStructured,
-                            trigger  : 'change',
-                            index    : 0,
+                            trigger: 'change',
+                            index: 0,
                         },
-                        'objectNumberStructured.2' : {
+                        'objectNumberStructured.2': {
                             validator: this.validateObjectNumberStructured,
-                            trigger  : 'change',
-                            index    : 1,
+                            trigger: 'change',
+                            index: 1,
                         },
-                        'objectNumberStructured.3' : {
+                        'objectNumberStructured.3': {
                             validator: this.validateObjectNumberStructured,
-                            trigger  : 'change',
-                            index    : 2,
+                            trigger: 'change',
+                            index: 2,
                         },
-                        'objectSquareLength.1'     : {
+                        'objectSquareLength.1': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : {
+                            trigger: 'change',
+                            pattern: {
                                 1: '^(?!0\\d|$)\\d*(\\.\\d{1,4})?$',
                                 2: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
                                 3: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
                             }
                         },
-                        'objectSquareLength.2'     : {
+                        'objectSquareLength.2': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : {
+                            trigger: 'change',
+                            pattern: {
                                 1: '^(?!0\\d|$)\\d*(\\.\\d{1,4})?$',
                                 2: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
                                 3: '^(?!0\\d|$)\\d*(\\.\\d{1,2})?$',
@@ -520,369 +537,81 @@
                         },
                         'objectFloorsAboveGround.1': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
                         'objectFloorsAboveGround.2': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
                         'objectFloorsUnderGround.1': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
                         'objectFloorsUnderGround.2': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
-                        'objectRoomsNumber.1'      : {
+                        'objectRoomsNumber.1': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
-                        'objectRoomsNumber.2'      : {
+                        'objectRoomsNumber.2': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
-                        'objectFloor.1'            : {
+                        'objectFloor.1': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
-                        'objectFloor.2'            : {
+                        'objectFloor.2': {
                             validator: this.validateInputChange,
-                            trigger  : 'change',
-                            pattern  : '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
+                            trigger: 'change',
+                            pattern: '^([0-9]|[1-8][0-9]|9[0-9]|[1-4][0-9]{2}|500)$'
                         },
                     },
                     datepicker: {
                         editable: true,
-                        options : {
+                        options: {
                             firstDayOfWeek: 1,
-                            disabledDate  : this.disabledDate
+                            disabledDate: this.disabledDate
                         }
                     },
                 }
             }
         },
         computed: {
-            ...mapGetters([
-                'objectTypesForSearchList',
-                'objectTypesList',
-                'regOrgsList',
-                'objectPurposesLPList',
-                'objectPurposesCSList',
-                'objectPurposesNZCSList',
-                'objectPurposesIPList',
-                'objectPurposesMMList',
-                'objectStatusesList',
-                'objectWallsMaterialsList'
-            ]),
-            availableObjectTypesList() {
-                let type = this.form.data.objectTypeForSearch ? parseInt(this.form.data.objectTypeForSearch, 10) : null;
-                let objectTypeForSearch = type ? this.objectTypesForSearchList.filter(element => element.code === type).shift() : null;
-                let split = objectTypeForSearch ? objectTypeForSearch['name1'].split(/,\s*/g).map(item => parseInt(item, 10)) : null;
-                let availableObjectTypes = split ? this.objectTypesList.filter(element => split.includes(element.code)) : null;
+            subjectTypes() {
 
-                return availableObjectTypes;
-            },
-            availableObjectPurposesList() {
-                let objectTypeExact = (this.form.data.objectTypeExact || null);
-                let type = this.form.data.objectTypeForSearch;
-
-                function merge() {
-                    let object = {};
-
-                    Array
-                    .from(arguments)
-                    .forEach(
-                        array => array.forEach(
-                            item => (!Object.prototype.hasOwnProperty.call(object, item.code)) && (object[item.code] = item)
-                        )
-                    );
-
-                    return Object.values(object);
-                }
-
-                if (objectTypeExact) {
-                    /* для кокретного типа */
-                    switch (objectTypeExact) {
-                        case 1:
-                            return this.objectPurposesCSList;
-                        case 2:
-                            return this.objectPurposesIPList;
-                        case 4:
-                            return this.objectPurposesNZCSList;
-                        case 5:
-                            return this.objectPurposesMMList;
-                    }
-                } else {
-                    /* без деления на типы */
-                    switch (type) {
-                        case 1:
-                            return this.objectPurposesLPList;
-                        case 2:
-                            return merge.call(this, this.objectPurposesCSList, this.objectPurposesNZCSList);
-                        case 3:
-                            return merge.call(this, this.objectPurposesIPList, this.objectPurposesMMList);
-                    }
-                }
-
-                return null;
-            },
-            objectNumberTooltip() {
-                let objectTypeForSearch = this.form.data.objectTypeForSearch;
-                let tooltip;
-
-                if (objectTypeForSearch) {
-                    switch (parseInt(objectTypeForSearch, 10)) {
-                        case 1: /* Земельный участок */
-                            tooltip = {
-                                content: 'Маска для ввода номера объекта <strong>(18 цифр)</strong>, где:<br><hr>' +
-                                    '– Первые <strong>10 цифр</strong> - Код СОАТО;<br>' +
-                                    '– Следующие <strong>2 цифры</strong> - Кадастровый блок земельного участка;<br>' +
-                                    '– Последние <strong>6 цифр</strong> - Порядковый номер земельного участка в соответствующем кадастровом блоке.',
-                                title  : 'Маска для ввода номера объекта (18 цифр), где:\n' +
-                                    '– Первые 10 цифр - Код СОАТО;\n' +
-                                    '– Следующие 2 цифры - Кадастровый блок земельного участка;\n' +
-                                    '– Последние 6 цифр - Порядковый номер земельного участка в соответствующем кадастровом блоке.',
-                                min    : 18,
-                                max    : 18
-                            };
-                            break;
-                        case 2: /* КС (НЗКС) */
-                            tooltip = {
-                                content: 'Маска для ввода номера объекта, где:<br><hr>' +
-                                    '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
-                                    '– Следующий <strong>1 символ C или U</strong> - Литера;<br>' +
-                                    '– Последние <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>',
-                                title  : 'Маска для ввода номера объекта, где:\n' +
-                                    '– Первые 3 цифры - Код ТОР;\n' +
-                                    '– Следующий 1 символ C или U - Литера;' +
-                                    '– Последние от 1 до 30 цифр - Порядковый номер объекта.',
-                                min    : 5,
-                                max    : 34
-                            };
-                            break;
-                        case 3: /* ИП (ММ) */
-                            tooltip = {
-                                content: 'Маска для ввода номера объекта, где:<br><hr>' +
-                                    '– Первые <strong>3 цифры</strong> - Код ТОР;<br>' +
-                                    '– Следующий <strong>1 символ D</strong> - Литера;<br>' +
-                                    '– Последующие <strong>от 1 до 30 цифр</strong> - Порядковый номер объекта.<br>',
-                                title  : 'Маска для ввода номера объекта, где:\n' +
-                                    '– Первые 3 цифры - Код ТОР;\n' +
-                                    '– Следующий 1 символ D - Литера;\n' +
-                                    '– Последующие от 1 до 30 цифр - Порядковый номер объекта.',
-                                min    : 5,
-                                max    : 34
-                            };
-                            break;
-                    }
-                }
-
-                return tooltip;
-            },
-            objectNumberStructuredInputGroup() {
-                let objectTypeForSearch = this.form.data.objectTypeForSearch;
-                let inputGroup;
-
-                if (objectTypeForSearch) {
-                    switch (parseInt(objectTypeForSearch, 10)) {
-                        case 1: /* Земельный участок */
-                            inputGroup = [
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 10,
-                                    tooltip: {
-                                        placement: 'top-start',
-                                        content  : 'Код СОАТО <strong>(10 цифр)</strong>'
-                                    },
-                                    pattern: '^[1-9][0-9]{9}$',
-                                    class  : 'first',
-                                    min    : 10,
-                                    max    : 10
-                                },
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 6,
-                                    tooltip: {
-                                        placement: 'top',
-                                        content  : 'Кадастровый блок земельного участка <strong>(2 цифры)</strong>'
-                                    },
-                                    pattern: '^[0-9]{2}$',
-                                    min    : 2,
-                                    max    : 2
-                                },
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 8,
-                                    tooltip: {
-                                        placement: 'top-end',
-                                        content  : 'Порядковый номер земельного участка в соответствующем кадастровом блоке <strong>(6 цифр)</strong>'
-                                    },
-                                    pattern: '^[0-9]{6}$',
-                                    class  : 'last',
-                                    min    : 6,
-                                    max    : 6
-                                }
-                            ];
-                            break;
-                        case 2: /* КС (НЗКС) */
-                            inputGroup = [
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 5,
-                                    tooltip: {
-                                        placement: 'top-start',
-                                        content  : 'Код ТОР <strong>(3 цифры)</strong>'
-                                    },
-                                    pattern: '^[1-9][0-9]{2}$',
-                                    class  : 'first',
-                                    min    : 3,
-                                    max    : 3
-                                },
-                                {
-                                    item       : {
-                                        type   : 'select',
-                                        options: ['C', 'U']
-                                    },
-                                    span       : 4,
-                                    tooltip    : {
-                                        placement: 'top',
-                                        content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
-                                    },
-                                    pattern    : '^[CcUu]$',
-                                    placeholder: ''
-                                },
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 15,
-                                    tooltip: {
-                                        placement: 'top-end',
-                                        content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
-                                    },
-                                    pattern: '^[1-9][0-9]{0,29}$',
-                                    class  : 'last',
-                                    min    : 1,
-                                    max    : 30
-                                }
-                            ];
-                            break;
-                        case 3: /* ИП (ММ) */
-                            inputGroup = [
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 5,
-                                    tooltip: {
-                                        placement: 'top-start',
-                                        content  : 'Код ТОР <strong>(3 цифры)</strong>'
-                                    },
-                                    pattern: '^[1-9][0-9]{2}$',
-                                    class  : 'first',
-                                    min    : 3,
-                                    max    : 3
-                                },
-                                {
-                                    item       : {
-                                        type   : 'select',
-                                        options: ['D']
-                                    },
-                                    span       : 4,
-                                    tooltip    : {
-                                        placement: 'top',
-                                        content  : 'Литера <strong>(1 буква латинского алфавита)</strong>'
-                                    },
-                                    pattern    : '^[Dd]$',
-                                    placeholder: ''
-                                },
-                                {
-                                    item   : {type: 'input'},
-                                    span   : 15,
-                                    tooltip: {
-                                        placement: 'top-end',
-                                        content  : 'Порядковый номер объекта <strong>(от 1 до 30 цифр)</strong>'
-                                    },
-                                    pattern: '^[1-9][0-9]{0,29}$',
-                                    class  : 'last',
-                                    min    : 1,
-                                    max    : 30
-                                }
-                            ];
-                            break;
-                    }
-                }
-
-                return inputGroup;
-            },
-            objectSquareLengthLabelClass() {
-                let objectTypeForSearch = this.form.data.objectTypeForSearch;
-                let labelClass;
-
-                if (objectTypeForSearch) {
-                    switch (parseInt(objectTypeForSearch, 10)) {
-                        case 1: /* Земельный участок */
-                            labelClass = {
-                                label: 'Площадь, га'
-                            };
-                            break;
-                        case 2: /* КС (НЗКС) */
-                            labelClass = {
-                                label: 'Площадь, кв.м.\n(Протяжённость, м.п.)',
-                                class: 'two-rows-label'
-                            };
-                            break;
-                        case 3: /* ИП (ММ) */
-                            labelClass = {
-                                label: 'Площадь, кв.м.'
-                            };
-                            break;
-                    }
-                }
-
-                return labelClass;
-            },
-        },
-        watch   : {
-            'form.data.objectNumberStructured': {
-                handler(newValue) {
-                    /**
-                     * Еесли элементы поля "Структурированный номер объекта"
-                     * заполнены хоть какими-либо данными, то сворачиваем блок
-                     * "Дополнительные критерии поиска" и делаем его недоступным
-                     * */
-                    if (Object.entries(newValue).some(([, value]) => value)) {
-                        this.form.collapse.value.shift();
-                        this.form.triggers.disabled.collapse = true;
-                    } else {
-                        this.form.triggers.disabled.collapse = false;
-                    }
-                },
-                deep: true
             }
         },
-        methods : {
-            getPlaceholder(options) {
+        watch: {},
+        methods: {
+            getPlaceholder(field, options) {
                 let placeholder = 'Укажите'; // по умолчанию
 
-                if (options && (typeof options === 'object') && options !== null) {
-                    if (options.label && (typeof options.label === 'string')) {
-                        if (options.type && !options.action) {
-                            if (options.type === 'input') {
-                                placeholder = 'Введите';
-                            } else if (options.type === 'select') {
-                                placeholder = 'Выберите'
+                if (field && (typeof field === 'object') && field !== null) {
+                    if (field.label && (typeof field.label === 'string')) {
+                        if (options && (typeof options === 'object') && options !== null) {
+                            if (options.type && !options.action) {
+                                if (options.type === 'input') {
+                                    placeholder = 'Введите';
+                                } else if (options.type === 'select') {
+                                    placeholder = 'Выберите'
+                                }
+                            } else if (options.action && !options.type) {
+                                /* капитализация (т.е. первая буква загланая) */
+                                placeholder = `${options.action.charAt(0).toUpperCase() + options.action.slice(1)}`;
                             }
-                        } else if (options.action && !options.type) {
-                            /* капитализация (т.е. первая буква загланая) */
-                            placeholder = `${options.action.charAt(0).toUpperCase() + options.action.slice(1)}`;
                         }
 
-                        placeholder += ` ${options.label.toLowerCase()}...`;
+                        placeholder += ` ${field.label.toLowerCase()}...`;
                     }
                 }
 
@@ -902,172 +631,24 @@
                     );
                 }
             },
-            handleSecretKeydown() {
-                this.form.triggers.visibility.objectID = !this.form.triggers.visibility.objectID;
+            formSubmit() {
             },
-            handleObjectTypeForSearchChange(value) {
-                const name = 'visibility';
-                const visibility = this.form.triggers[name];
-
-                this.resetTriggers(name);
-
-                if (value) {
-                    visibility.objectNumberStructured = true;
-                    visibility.objectPurpose = true;
-                    visibility.objectSquareLength = true;
-                    visibility.objectCreationDate = true;
-
-                    value = parseInt(value, 10);
-
-                    if (value > 1) {
-                        visibility.objectTypeExact = true;
-
-                        if (value === 2) {
-                            visibility.objectWallsMaterial = true;
-                            visibility.objectFloorsAboveGround = true;
-                            visibility.objectFloorsUnderGround = true;
-                        } else if (value === 3) {
-                            visibility.objectRoomsNumber = true;
-                            visibility.objectFloor = true;
-                        }
-                    }
-                }
-            },
-            handleTooltipVisibility(name, value) {
-                const reachTo = (str, context) => {
-                    let path = str.split('.');
-                    let current = path.shift();
-
-                    if (path.length) {
-                        return reachTo(path.join('.'), context[current]);
-                    }
-
-                    return (typeof context[current] === 'object') ? context[current] : context;
-                };
-                const remaining = name.split('.');
-                const target = remaining.pop();
-                /* обратная логига value для disable свойств */
-                reachTo(remaining.join('.'), this)[target] = !value;
-            },
-            handleDateChange(a, b, c) {
-                console.log({a, b, c, 'this': this});
-            },
-            validateSelectChange(rule, value, callback) {
-                const prop = rule.field;
-
-                if ((value === undefined) || (value === null) || (value === '')) {
-                    callback(new Error(rule.message));
-                    (this.form.triggers.validation[prop] !== undefined) && (this.form.triggers.validation[prop] = false);
-
-                    return false;
-                }
-
-                (this.form.triggers.validation[prop] !== undefined) && (this.form.triggers.validation[prop] = true);
-                callback();
-            },
-            validateInputChange(rule, value, callback) {
-                const message = 'Пожалуйста, введите корректные данные!';
-                let pattern;
-
-                function getPattern() {
-                    const type = this.form.data.objectTypeForSearch;
-
-                    if (rule && rule.pattern) {
-                        if ((typeof rule.pattern === 'object') && (rule.pattern !== null)) {
-                            return rule.pattern[type];
-                        }
-
-                        return rule.pattern;
-                    }
-
-                    return null;
-                }
-
-                if ((value !== undefined) && (value !== null) && (value !== '')) {
-                    pattern = getPattern.call(this);
-
-                    if (pattern && !(new RegExp(pattern)).test(value)) {
-                        callback(new Error(rule.message || message));
-
-                        return false;
-                    }
-                }
-
-                callback();
-            },
-            validateObjectNumberStructured(rule, value, callback/*, source, options*/) {
-                const group = this.objectNumberStructuredInputGroup;
-                const description = (rule && (rule.index !== undefined)) ? group[rule.index] : null;
-                const message = 'Ошибка валидации!';
-
-                if ((value !== undefined) && (value !== null) && (value !== '') && description && description.pattern) {
-                    if (!(new RegExp(description.pattern)).test(value)) {
-                        callback(new Error(rule.message || message));
-
-                        return false;
-                    }
-                }
-
-                callback();
-            },
-            disabledDate(date) {
-                const now   = new Date(),
-                      start = this.form.data.objectCreationDate[1],
-                      end   = this.form.data.objectCreationDate[2];
-
-                if (start && !end) {
-                    return (date < start) || (date > now);
-                } else if (end && !start) {
-                    return (date > end) || (date > now);
-                } else if (end && start) {
-                    return (date < start) || (date > end);
-                }
-
-                return (date > now);
-            },
-            resetTriggers(name, value) {
-                if (name && this.form.triggers[name]) {
-                    Object
-                    .keys(this.form.triggers[name])
-                    .filter(key => ((key.toString() === 'objectID') ? false : !(this.form.triggers[name][key] = (value || false))), this);
-                }
-            },
-            submitForm() {
-                this.$refs[this.form.name].validate((valid) => {
-                    if (valid) {
-                        alert('Submit!');
-                        console.log(JSON.parse(JSON.stringify(this.form.data)));
-                    } else {
-                        alert('Внимание! Заполните форму корректными данными и повторите отправку!');
-                        return false;
-                    }
-                });
-            },
-            resetForm() {
-                this.$refs[this.form.name].resetFields();
-                this.form.collapse.value.shift();
-                this.resetTriggers('visibility');
-                this.resetTriggers('disabled');
-                this.resetTriggers('validation', true);
-                Object.assign(this.form.data, initData.call(this, this.fields));
+            formReset() {
             }
         },
         mounted() {
             this.printClassifiers.call(this);
-            const date = new Date(2000, 4, 5);
-            console.log(date);
-            console.log(date.toLocaleDateString());
         },
     }
 </script>
 
 <style>
     #form {
-        font-family:             "Times New Roman", serif;
-        -webkit-font-smoothing:  antialiased;
+        font-family: "Times New Roman", serif;
+        -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        text-align:              center;
-        color:                   rgb(44, 62, 80);
+        text-align: center;
+        color: rgb(44, 62, 80);
     }
 
     .fade-enter-active, .fade-leave-active {
@@ -1078,16 +659,16 @@
         /*font-size:      5px;*/
         /*letter-spacing: 10px;*/
         opacity: .25;
-        filter:  blur(4px);
+        filter: blur(4px);
     }
 
     /* :root */
     .subjects-search-extended {
-        --form-width:                      800px;
-        --form-item-label-width:           160px;
-        --form-item-content-width:         calc(var(--form-width) - var(--form-item-label-width));
+        --form-width: 800px;
+        --form-item-label-width: 160px;
+        --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
-        --border-color:                    rgb(220, 223, 230);
+        --border-color: rgb(220, 223, 230);
     }
 
     .subjects-search-extended {
@@ -1101,7 +682,8 @@
 
     .subjects-search-extended .el-form-item {
         width: 100%;
-        color: rgb(96, 98, 102);
+        /*color: rgb(96, 98, 102);*/
+        color: red !important;
     }
 
     .subjects-search-extended .el-form-item.two-rows-label .el-form-item__label {
@@ -1114,7 +696,7 @@
 
     .subjects-search-extended .el-form-item .el-form-item__content {
         margin-left: var(--form-item-label-width);
-        text-align:  left;
+        text-align: left;
     }
 
     .subjects-search-extended .el-form-item .el-form-item__content .el-select, .el-input {
@@ -1122,7 +704,7 @@
     }
 
     .subjects-search-extended .el-form-item .el-form-item__content .el-row {
-        margin-left:  0 !important;
+        margin-left: 0 !important;
         margin-right: 0 !important;
     }
 
@@ -1135,13 +717,13 @@
     }
 
     .subjects-search-extended .el-form-item .el-form-item__content .el-input-group__prepend {
-        width:      24px;
+        width: 24px;
         text-align: center;
     }
 
     .subjects-search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button {
         transition: color 250ms ease-in-out;
-        font-size:  16px;
+        font-size: 16px;
     }
 
     .subjects-search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button.first:hover {
@@ -1158,9 +740,9 @@
     }
 
     .subjects-search-extended .el-collapse {
-        margin-top:    26px;
+        margin-top: 26px;
         margin-bottom: 26px;
-        border-top:    1px solid var(--border-color);
+        border-top: 1px solid var(--border-color);
         border-bottom: 1px solid var(--border-color);
     }
 
@@ -1174,11 +756,11 @@
     }
 
     .subjects-search-extended .el-collapse .el-collapse-item__header {
-        display:        inline-block;
-        font-weight:    bold;
-        padding-top:    12px;
+        display: inline-block;
+        font-weight: bold;
+        padding-top: 12px;
         padding-bottom: 12px;
-        transition:     none;
+        transition: none;
     }
 
     .subjects-search-extended .el-collapse .el-collapse-item__header i {
@@ -1200,48 +782,48 @@
     @-webkit-keyframes shake {
         0%, to {
             -webkit-transform: translateZ(0);
-            transform:         translateZ(0)
+            transform: translateZ(0)
         }
 
         10%, 30%, 50%, 70%, 90% {
             -webkit-transform: translate3d(-10px, 0, 0);
-            transform:         translate3d(-10px, 0, 0)
+            transform: translate3d(-10px, 0, 0)
         }
 
         20%, 40%, 60%, 80% {
             -webkit-transform: translate3d(10px, 0, 0);
-            transform:         translate3d(10px, 0, 0)
+            transform: translate3d(10px, 0, 0)
         }
     }
 
     @keyframes shake {
         0%, to {
             -webkit-transform: translateZ(0);
-            transform:         translateZ(0)
+            transform: translateZ(0)
         }
 
         10%, 30%, 50%, 70%, 90% {
             -webkit-transform: translate3d(-10px, 0, 0);
-            transform:         translate3d(-10px, 0, 0)
+            transform: translate3d(-10px, 0, 0)
         }
 
         20%, 40%, 60%, 80% {
             -webkit-transform: translate3d(10px, 0, 0);
-            transform:         translate3d(10px, 0, 0)
+            transform: translate3d(10px, 0, 0)
         }
     }
 
     .shake {
-        -webkit-animation-name:      shake;
-        animation-name:              shake;
-        -webkit-animation-duration:  1s;
-        animation-duration:          1s;
+        -webkit-animation-name: shake;
+        animation-name: shake;
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
         -webkit-animation-fill-mode: both;
-        animation-fill-mode:         both;
+        animation-fill-mode: both;
     }
 
     .nca-date-picker .el-date-table td.default {
-        color:       #66b1ff;
+        color: #66b1ff;
         font-weight: 700;
     }
 
