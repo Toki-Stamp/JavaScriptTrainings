@@ -3,18 +3,35 @@
         <el-form :ref="form.name"
                  :class="form.class"
                  :model="form.data">
+            <!-- Период внесения -->
+            <el-form-item :label="form.fields.subjectEnteringPeriodFrom.label">
+                <el-row :gutter="24">
+                    <el-col :span="12"
+                            class="first">
+                        <el-date-picker
+                                v-model="form.data.subjectEnteringPeriodFrom"
+                                type="date"
+                                placeholder="Укажите дату начала периода..."
+                                format="dd.MM.yyyy"
+                                popper-class="nca-date-picker"
+                                align="left"
+                                :editable="true">
+                        </el-date-picker>
+                    </el-col>
+                    <el-col :span="12"
+                            class="last">
+                        <el-date-picker
+                                v-model="form.data.subjectEnteringPeriodTo"
+                                type="date"
+                                placeholder="Укажите дату конца периода..."
+                                format="dd.MM.yyyy"
+                                align="right"
+                                :editable="true">
+                        </el-date-picker>
+                    </el-col>
+                </el-row>
+            </el-form-item>
             <!-- Вид субъекта -->
-            <!--            <el-form-item prop="subjectType"-->
-            <!--                          :label="form.fields.subjectType.label">-->
-            <!--                <el-select v-model="form.data.subjectType"-->
-            <!--                           :placeholder="getPlaceholder({label: form.fields.subjectType.label, type: 'select'})"-->
-            <!--                           clearable>-->
-            <!--                    <el-option v-for="option in objectTypesForSearchList"-->
-            <!--                               :key="option.code"-->
-            <!--                               :value="option.code"-->
-            <!--                               :label="option.name"/>-->
-            <!--                </el-select>-->
-            <!--            </el-form-item>-->
             <el-form-item prop="subjectType"
                           :label="form.fields.subjectType.label">
                 <el-select v-model="form.data.subjectType"
@@ -26,20 +43,25 @@
                                :label="option.name"/>
                 </el-select>
             </el-form-item>
+            <!-- Страна субъекта -->
             <el-form-item prop="subjectCountry"
                           :label="form.fields.subjectCountry.label">
-                <el-input v-model="form.data.subjectCountry"
-                          placeholder="Укажите страну субъекта"
-                          clearable/>
+                <el-select v-model="form.data.subjectCountry"
+                           placeholder="Выберите страну субъекта.."
+                           clearable>
+                    <el-option v-for="option in subjectCountries"
+                               :key="option.code"
+                               :value="option.code"
+                               :label="option.name"/>
+                </el-select>
             </el-form-item>
-
             <!-- Статус субъекта -->
             <el-form-item prop="subjectStatus"
                           :label="form.fields.subjectStatus.label">
                 <el-select v-model="form.data.subjectStatus"
                            :placeholder="getPlaceholder({label: form.fields.subjectStatus.label, type: 'select'})"
                            clearable>
-                    <el-option v-for="option in objectStatusesList"
+                    <el-option v-for="option in subjectStatuses"
                                :key="option.code"
                                :value="option.code"
                                :label="option.name"/>
@@ -91,80 +113,37 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <!-- Номер объекта -->
-            <el-form-item prop="objectNumber"
-                          label="Номер объекта">
-                <el-tooltip placement="top"
-                            :hide-after="2000"
-                            :open-delay="250"
-                            :key="form.data.objectTypeForSearch"
-                            :disabled="!objectNumberTooltip"
-                            popper-class="search-extended-tooltip">
-                    <template v-if="!!objectNumberTooltip" #content>
-                        <div v-html="objectNumberTooltip.content"></div>
-                    </template>
-                    <el-input v-model="form.data.objectNumber"
-                              placeholder="Введите номер объекта..."
-                              :minlength="objectNumberTooltip ? objectNumberTooltip.min : false"
-                              :maxlength="objectNumberTooltip ? objectNumberTooltip.max : false"
-                              show-word-limit
-                              clearable/>
-                </el-tooltip>
-            </el-form-item>
             <!-- Структурированный номер объекта -->
-            <el-form-item prop="objectNumberStructured"
-                          v-if="form.triggers.visibility.objectNumberStructured">
+            <el-form-item label-width="0">
                 <el-row :gutter="24">
-                    <el-col v-for="(groupItem, index) in objectNumberStructuredInputGroup"
-                            :span="groupItem.span"
-                            :key="`${form.data.objectTypeForSearch}-${(index + 1)}`"
-                            :class="groupItem.class">
-                        <el-form-item :prop="`objectNumberStructured.${(index + 1)}`"
-                                      label-width="0">
-                            <el-tooltip :placement="groupItem.tooltip.placement"
-                                        :hide-after="2000"
-                                        :open-delay="250"
-                                        popper-class="search-extended-tooltip">
-                                <template #content>
-                                    <div v-html="groupItem.tooltip.content"></div>
-                                </template>
-                                <template v-if="groupItem.item.type === 'input'">
-                                    <el-input v-model="form.data.objectNumberStructured[index + 1]"
-                                              :minlength="groupItem.min"
-                                              :maxlength="groupItem.max"
-                                              show-word-limit
-                                              clearable/>
-                                </template>
-                                <template v-else>
-                                    <el-select v-model="form.data.objectNumberStructured[index + 1]"
-                                               :placeholder="groupItem.placeholder"
-                                               clearable>
-                                        <el-option v-for="(option) in groupItem.item.options"
-                                                   :key="option"
-                                                   :value="option"
-                                                   :label="option"/>
-                                    </el-select>
-                                </template>
-                            </el-tooltip>
+                    <el-col :span="8"
+                            class="first">
+                        <el-form-item prop="subjectSurname"
+                                      :label="form.fields.subjectSurname.label">
+                            <el-input v-model="form.data.subjectSurname"
+                                      clearable>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item prop="subjectPersonalName"
+                                      class="two-rows-label"
+                                      :label="form.fields.subjectPersonalName.label">
+                            <el-input v-model="form.data.subjectPersonalName"
+                                      clearable>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8"
+                            class="last">
+                        <el-form-item prop="subjectPatronymic"
+                                      :label="form.fields.subjectPatronymic.label">
+                            <el-input v-model="form.data.subjectPatronymic"
+                                      clearable>
+                            </el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
-            </el-form-item>
-
-            <!-- ТОР -->
-            <el-form-item prop="objectTOR"
-                          label="ТОР">
-                <el-select v-model="form.data.objectTOR"
-                           :class="(form.triggers.validation.objectTOR ? '' : 'shake')"
-                           placeholder="Укажите организацию по регистрации..."
-                           filterable
-                           clearable>
-                    <el-option v-for="option in regOrgsList"
-                               :key="option.idReg"
-                               :value="option.idReg"
-                               :label="`${option.idReg} - ${option.orgShortName}`">
-                    </el-option>
-                </el-select>
             </el-form-item>
             <!-- Объект -->
             <el-form-item prop="objectTypeExact"
@@ -223,41 +202,7 @@
                     </el-col>
                 </el-row>
             </el-form-item>
-            <!-- Дата создания -->
-            <el-form-item prop="objectCreationDate"
-                          v-if="form.triggers.visibility.objectCreationDate"
-                          label="Дата создания">
-                <el-row :gutter="24">
-                    <el-col :span="12"
-                            class="first">
-                        <el-date-picker
-                                v-model="form.data.objectCreationDate[1]"
-                                type="date"
-                                placeholder="Укажите дату начала периода..."
-                                format="dd.MM.yyyy"
-                                :default-value="'2000-4-5'"
-                                popper-class="nca-date-picker"
-                                @focus="handleDateChange.call(this, 1)"
-                                align="left"
-                                :editable="form.datepicker.editable"
-                                :picker-options="form.datepicker.options">
-                        </el-date-picker>
-                    </el-col>
-                    <el-col :span="12"
-                            class="last">
-                        <el-date-picker
-                                v-model="form.data.objectCreationDate[2]"
-                                type="date"
-                                placeholder="Укажите дату конца периода..."
-                                format="dd.MM.yyyy"
-                                @focus="handleDateChange(2)"
-                                align="right"
-                                :editable="form.datepicker.editable"
-                                :picker-options="form.datepicker.options">
-                        </el-date-picker>
-                    </el-col>
-                </el-row>
-            </el-form-item>
+
             <!-- Материал стен -->
             <el-form-item prop="objectWallsMaterial"
                           v-if="form.triggers.visibility.objectWallsMaterial"
@@ -413,18 +358,18 @@
 </template>
 
 <script>
-    // import {mapGetters} from 'vuex';
+    import {mapGetters} from 'vuex';
 
     const fields = {
-        subjectEnteringPeriodFrom: null, // период внесения с
-        subjectEnteringPeriodTo: null, // период внесения по
+        subjectEnteringPeriodFrom: {label: 'Период внесения'},
+        subjectEnteringPeriodTo: {label: 'Период внесения'},
         subjectType: {label: 'Вид субъекта'},
         subjectCountry: {label: 'Страна субъекта'},
         subjectStatus: {label: 'Статус субъекта'},
         subjectAddress: {label: 'Адрес субъекта', 'class': 'subject-address'},
-        subjectSurname: null, // фамилия
-        subjectPersonalName: null, // собственное имя
-        subjectPatronymic: null, // отчество
+        subjectSurname: {label: 'Фамилия'},
+        subjectPersonalName: {label: 'Собственное имя'},
+        subjectPatronymic: {label: 'Отчество'},
         subjectIdentificationNumber: null, // идентификационный номер
         subjectBirthDate: null, // дата рождения
         subjectOrganizationName: null, // наименование
@@ -587,9 +532,12 @@
             }
         },
         computed: {
-            subjectTypes() {
-
-            }
+            ...mapGetters({
+                subjectTypes: 'getSubjectTypes',
+                subjectStatuses: 'getSubjectStatuses',
+                subjectCountries: 'getSubjectCountries',
+                subjectOrganizationalAndLegalForms: 'getSubjectOrganizationalAndLegalForms'
+            })
         },
         watch: {},
         methods: {

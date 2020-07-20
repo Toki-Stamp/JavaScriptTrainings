@@ -3189,7 +3189,16 @@ export default new Vuex.Store({
     },
     getters: {
         getSubjectTypes(state) {
-            return state.classifiers.commonSelStateSubject.defData;
+            return state.classifiers.commonSelTypeSubject;
+        },
+        getSubjectStatuses(state) {
+            return state.classifiers.commonSelStateSubject;
+        },
+        getSubjectCountries(state) {
+            return state.classifiers.formTypeCountry;
+        },
+        getSubjectOrganizationalAndLegalForms(state) {
+            return state.classifiers.formLegalOrganForm;
         }
     },
     mutations: {},
