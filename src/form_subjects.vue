@@ -4,14 +4,15 @@
                  :class="form.class"
                  :model="form.data">
             <!-- Период внесения -->
-            <el-form-item :label="form.fields.subjectEnteringPeriodFrom.label">
+            <el-form-item
+                    :label="form.fields.subjectEnteringPeriodFrom.label">
                 <el-row :gutter="24">
                     <el-col :span="12"
                             class="first">
                         <el-date-picker
                                 v-model="form.data.subjectEnteringPeriodFrom"
+                                :placeholder="form.fields.subjectEnteringPeriodFrom.placeholder"
                                 type="date"
-                                placeholder="Укажите дату начала периода..."
                                 format="dd.MM.yyyy"
                                 popper-class="nca-date-picker"
                                 align="left"
@@ -22,8 +23,8 @@
                             class="last">
                         <el-date-picker
                                 v-model="form.data.subjectEnteringPeriodTo"
+                                :placeholder="form.fields.subjectEnteringPeriodTo.placeholder"
                                 type="date"
-                                placeholder="Укажите дату конца периода..."
                                 format="dd.MM.yyyy"
                                 align="right"
                                 :editable="true">
@@ -35,6 +36,7 @@
             <el-form-item prop="subjectType"
                           :label="form.fields.subjectType.label">
                 <el-select v-model="form.data.subjectType"
+                           @change="handleSubjectTypeChange"
                            :placeholder="getPlaceholder(form.fields.subjectType, {type: 'select'})"
                            clearable>
                     <el-option v-for="option in subjectTypes"
@@ -45,9 +47,11 @@
             </el-form-item>
             <!-- Страна субъекта -->
             <el-form-item prop="subjectCountry"
+                          v-if="form.triggers.visibility.subjectCountry"
                           :label="form.fields.subjectCountry.label">
                 <el-select v-model="form.data.subjectCountry"
-                           placeholder="Выберите страну субъекта.."
+                           :placeholder="form.fields.subjectCountry.placeholder"
+                           multiple
                            clearable>
                     <el-option v-for="option in subjectCountries"
                                :key="option.code"
@@ -113,23 +117,28 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <!-- Структурированный номер объекта -->
-            <el-form-item label-width="0">
+            <!-- Фмилия / Собственное имя / Отчество -->
+            <el-form-item
+                    v-if="form.triggers.visibility.subjectSurname"
+                    label-width="0"
+                    class="subject-personal-data">
                 <el-row :gutter="24">
                     <el-col :span="8"
                             class="first">
                         <el-form-item prop="subjectSurname"
                                       :label="form.fields.subjectSurname.label">
                             <el-input v-model="form.data.subjectSurname"
+                                      :placeholder="form.fields.subjectSurname.placeholder"
                                       clearable>
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="8"
+                            class="middle">
                         <el-form-item prop="subjectPersonalName"
-                                      class="two-rows-label"
                                       :label="form.fields.subjectPersonalName.label">
                             <el-input v-model="form.data.subjectPersonalName"
+                                      :placeholder="getPlaceholder(form.fields.subjectPersonalName, {type: 'input'})"
                                       clearable>
                             </el-input>
                         </el-form-item>
@@ -139,216 +148,122 @@
                         <el-form-item prop="subjectPatronymic"
                                       :label="form.fields.subjectPatronymic.label">
                             <el-input v-model="form.data.subjectPatronymic"
+                                      :placeholder="getPlaceholder(form.fields.subjectPatronymic, {type: 'input'})"
                                       clearable>
                             </el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form-item>
-            <!-- Объект -->
-            <el-form-item prop="objectTypeExact"
-                          v-if="form.triggers.visibility.objectTypeExact"
-                          label="Объект">
-                <el-select v-model="form.data.objectTypeExact"
-                           placeholder="Выберите (уточняющий) вид объекта..."
-                           clearable>
-                    <el-option v-for="option in availableObjectTypesList"
-                               :key="option.code"
-                               :value="option.code"
-                               :label="option.name"/>
-                </el-select>
-            </el-form-item>
-            <!-- Назначение -->
-            <el-form-item prop="objectPurpose"
-                          v-if="form.triggers.visibility.objectPurpose"
-                          label="Назначение">
-                <el-select v-model="form.data.objectPurpose"
-                           placeholder="Укажите назначение объекта..."
-                           popper-class="object-purpose"
-                           filterable
-                           clearable>
-                    <el-option v-for="option in availableObjectPurposesList"
-                               :key="option.code"
-                               :value="option.code"
-                               :label="option.name"
-                               :title="option.name"/>
-                </el-select>
-            </el-form-item>
-            <!-- Площадь / протяжённость -->
-            <el-form-item prop="objectSquareLength"
-                          v-if="form.triggers.visibility.objectSquareLength"
-                          :class="objectSquareLengthLabelClass.class"
-                          :label="objectSquareLengthLabelClass.label">
+            <!-- Идентификационный номер / Дата рождения -->
+            <el-form-item
+                    v-if="form.triggers.visibility.subjectIdentificationNumber"
+                    label-width="0">
                 <el-row :gutter="24">
                     <el-col :span="12"
                             class="first">
-                        <el-form-item :prop="'objectSquareLength.1'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectSquareLength[1]"
+                        <el-form-item prop="subjectIdentificationNumber"
+                                      class="two-rows-label"
+                                      :label="form.fields.subjectIdentificationNumber.label">
+                            <el-input v-model="form.data.subjectIdentificationNumber"
+                                      :placeholder="getPlaceholder(form.fields.subjectIdentificationNumber, {type: 'input'})"
                                       clearable>
-                                <template #prepend>От</template>
                             </el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12"
                             class="last">
-                        <el-form-item :prop="'objectSquareLength.2'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectSquareLength[2]"
+                        <el-form-item prop="subjectBirthDate"
+                                      :label="form.fields.subjectBirthDate.label">
+                            <el-date-picker
+                                    v-model="form.data.subjectBirthDate"
+                                    :placeholder="form.fields.subjectBirthDate.placeholder"
+                                    type="date"
+                                    format="dd.MM.yyyy"
+                                    align="right"
+                                    :editable="true">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form-item>
+            <!-- Наименование / УНП / Регистрационный номер -->
+            <el-form-item
+                    v-if="form.triggers.visibility.subjectOrganizationName"
+                    label-width="0"
+                    class="subject-organization-data">
+                <el-row :gutter="24">
+                    <el-col :span="8"
+                            class="first">
+                        <el-form-item prop="subjectOrganizationName"
+                                      :label="form.fields.subjectOrganizationName.label">
+                            <el-input v-model="form.data.subjectOrganizationName"
+                                      :placeholder="getPlaceholder(form.fields.subjectOrganizationName, {type: 'input'})"
                                       clearable>
-                                <template #prepend>До</template>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8"
+                            class="middle">
+                        <el-form-item prop="subjectPayersAccountNumber"
+                                      :label="form.fields.subjectPayersAccountNumber.label">
+                            <el-input v-model="form.data.subjectPayersAccountNumber"
+                                      :placeholder="form.fields.subjectPayersAccountNumber.placeholder"
+                                      clearable>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8"
+                            class="last">
+                        <el-form-item prop="subjectRegistrationNumber"
+                                      class="two-rows-label"
+                                      :label="form.fields.subjectRegistrationNumber.label">
+                            <el-input v-model="form.data.subjectRegistrationNumber"
+                                      :placeholder="getPlaceholder(form.fields.subjectRegistrationNumber, {type: 'input'})"
+                                      clearable>
                             </el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form-item>
-
-            <!-- Материал стен -->
-            <el-form-item prop="objectWallsMaterial"
-                          v-if="form.triggers.visibility.objectWallsMaterial"
-                          label="Материал стен">
-                <el-select v-model="form.data.objectWallsMaterial"
-                           placeholder="Укажите материал стен..."
-                           filterable
-                           clearable>
-                    <el-option v-for="option in objectWallsMaterialsList"
-                               :key="option.code"
-                               :value="option.code"
-                               :label="option.name"/>
-                </el-select>
-            </el-form-item>
-            <!-- Количество комнат -->
-            <el-form-item prop="objectRoomsNumber"
-                          v-if="form.triggers.visibility.objectRoomsNumber"
-                          label="Количество комнат">
+            <!-- Организационно-правовая форма / Дата регистрации -->
+            <el-form-item
+                    v-if="form.triggers.visibility.subjectOrganizationalAndLegalForm"
+                    label-width="0">
                 <el-row :gutter="24">
                     <el-col :span="12"
                             class="first">
-                        <el-form-item :prop="'objectRoomsNumber.1'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectRoomsNumber[1]"
-                                      minlength="1"
-                                      maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>От</template>
-                            </el-input>
+                        <el-form-item prop="subjectIdentificationNumber"
+                                      class="two-rows-label"
+                                      :label="form.fields.subjectOrganizationalAndLegalForm.label">
+                            <el-select v-model="form.data.subjectOrganizationalAndLegalForm"
+                                       :placeholder="form.fields.subjectOrganizationalAndLegalForm.placeholder"
+                                       clearable>
+                                <el-option v-for="option in subjectOrganizationalAndLegalForms"
+                                           :key="option.code"
+                                           :value="option.code"
+                                           :label="option.name"/>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12"
                             class="last">
-                        <el-form-item :prop="'objectRoomsNumber.2'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectRoomsNumber[2]"
-                                      minlength="1"
-                                      maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>До</template>
-                            </el-input>
+                        <el-form-item prop="subjectRegistrationDate"
+                                      :label="form.fields.subjectRegistrationDate.label">
+                            <el-date-picker
+                                    v-model="form.data.subjectRegistrationDate"
+                                    :placeholder="form.fields.subjectRegistrationDate.placeholder"
+                                    type="date"
+                                    format="dd.MM.yyyy"
+                                    align="right"
+                                    :editable="true">
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form-item>
-            <!-- Этаж -->
-            <el-form-item prop="objectFloor"
-                          v-if="form.triggers.visibility.objectFloor"
-                          label="Этаж">
-                <el-row :gutter="24">
-                    <el-col :span="12"
-                            class="first">
-                        <el-form-item :prop="'objectFloor.1'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectFloor[1]"
-                                      minlength="1"
-                                      maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>От</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12"
-                            class="last">
-                        <el-form-item :prop="'objectFloor.2'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectFloor[2]"
-                                      minlength="1"
-                                      maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>До</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </el-form-item>
-            <!-- Этажность (надземная) -->
-            <el-form-item prop="objectFloorsAboveGround"
-                          v-if="form.triggers.visibility.objectFloorsAboveGround"
-                          label="Этажность (надземная)">
-                <el-row :gutter="24">
-                    <el-col :span="12"
-                            class="first">
-                        <el-form-item :prop="'objectFloorsAboveGround.1'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectFloorsAboveGround[1]"
-                                      :minlength="1"
-                                      :maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>От</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12"
-                            class="last">
-                        <el-form-item :prop="'objectFloorsAboveGround.2'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectFloorsAboveGround[2]"
-                                      :minlength="1"
-                                      :maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>До</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </el-form-item>
-            <!-- Этажность (подземная) -->
-            <el-form-item prop="objectFloorsUnderGround"
-                          v-if="form.triggers.visibility.objectFloorsUnderGround"
-                          label="Этажность (подземная)">
-                <el-row :gutter="24">
-                    <el-col :span="12"
-                            class="first">
-                        <el-form-item :prop="'objectFloorsUnderGround.1'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectFloorsUnderGround[1]"
-                                      :minlength="1"
-                                      :maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>От</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12"
-                            class="last">
-                        <el-form-item :prop="'objectFloorsUnderGround.2'"
-                                      label-width="0">
-                            <el-input v-model="form.data.objectFloorsUnderGround[2]"
-                                      :minlength="1"
-                                      :maxlength="3"
-                                      show-word-limit
-                                      clearable>
-                                <template #prepend>До</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-            </el-form-item>
+            <el-divider></el-divider>
+            <!-- Кнопки управления -->
             <el-form-item>
                 <el-button type="primary" @click="formSubmit">Submit</el-button>
                 <el-button type="danger" @click="formReset">Reset</el-button>
@@ -361,22 +276,22 @@
     import {mapGetters} from 'vuex';
 
     const fields = {
-        subjectEnteringPeriodFrom: {label: 'Период внесения'},
-        subjectEnteringPeriodTo: {label: 'Период внесения'},
+        subjectEnteringPeriodFrom: {label: 'Период внесения', placeholder: 'Укажите дату начала периода...'},
+        subjectEnteringPeriodTo: {label: 'Период внесения', placeholder: 'Укажите дату конца периода...'},
         subjectType: {label: 'Вид субъекта'},
-        subjectCountry: {label: 'Страна субъекта'},
+        subjectCountry: {label: 'Страна субъекта', placeholder: 'Выберите страну субъекта...'},
         subjectStatus: {label: 'Статус субъекта'},
         subjectAddress: {label: 'Адрес субъекта', 'class': 'subject-address'},
-        subjectSurname: {label: 'Фамилия'},
+        subjectSurname: {label: 'Фамилия', placeholder: 'Введите фамилию...'},
         subjectPersonalName: {label: 'Собственное имя'},
         subjectPatronymic: {label: 'Отчество'},
-        subjectIdentificationNumber: null, // идентификационный номер
-        subjectBirthDate: null, // дата рождения
-        subjectOrganizationName: null, // наименование
-        subjectPayersAccountNumber: null, // УНП
-        subjectRegistrationNumber: null, // регистрационный номер
-        subjectOrganizationalAndLegalForm: null, // организационно-правовая форма
-        subjectRegistrationDate: null, // дата регистрации
+        subjectIdentificationNumber: {label: 'Идентификационный номер'},
+        subjectBirthDate: {label: 'Дата рождения', placeholder: 'Укажите дату рождения...'},
+        subjectOrganizationName: {label: 'Наименование'},
+        subjectPayersAccountNumber: {label: 'УНП', placeholder: 'Введите УНП...'},
+        subjectRegistrationNumber: {label: 'Регистрационный номер'},
+        subjectOrganizationalAndLegalForm: {label: 'Организационно-правовая форма', placeholder: 'Укажите организационно-правовую форму...'},
+        subjectRegistrationDate: {label: 'Дата регистрации', placeholder: 'Укажите дату регистрации...'}, // дата регистрации
     };
 
     function initData(object) {
@@ -394,17 +309,17 @@
                     class: 'subjects-search-extended',
                     triggers: {
                         visibility: {
-                            objectID: false,
-                            objectNumberStructured: false,
-                            objectTypeExact: false,
-                            objectPurpose: false,
-                            objectSquareLength: false,
-                            objectCreationDate: false,
-                            objectWallsMaterial: false,
-                            objectRoomsNumber: false,
-                            objectFloor: false,
-                            objectFloorsAboveGround: false,
-                            objectFloorsUnderGround: false
+                            subjectCountry: false,
+                            subjectSurname: false,
+                            subjectPersonalName: false,
+                            subjectPatronymic: false,
+                            subjectIdentificationNumber: false,
+                            subjectBirthDate: false,
+                            subjectOrganizationName: false,
+                            subjectPayersAccountNumber: false,
+                            subjectRegistrationNumber: false,
+                            subjectOrganizationalAndLegalForm: false,
+                            subjectRegistrationDate: false
                         },
                         disabled: {
                             collapse: false
@@ -565,6 +480,35 @@
 
                 return placeholder;
             },
+            handleSubjectTypeChange(value) {
+                const keyName = 'visibility';
+                const visibility = this.form.triggers[keyName];
+
+                this.resetTriggers(keyName);
+
+                if (value) {
+                    value = parseInt(value, 10);
+
+                    /* для разных subjectType (Вид субъекта) доступен свой набор полей */
+                    if ([3, 5, 6, 8, 9, 10, 14].includes(value)) {
+                        visibility.subjectCountry = true;
+                    }
+                    if (![1, 2, 3, 7, 8, 9, 10, 11].includes(value)) {
+                        visibility.subjectSurname = true;
+                        visibility.subjectPersonalName = true;
+                        visibility.subjectPatronymic = true;
+                        visibility.subjectIdentificationNumber = true;
+                        visibility.subjectBirthDate = true;
+                    }
+                    if (![4, 5, 6].includes(value)) {
+                        visibility.subjectOrganizationName = true;
+                        visibility.subjectPayersAccountNumber = true;
+                        visibility.subjectRegistrationNumber = true;
+                        visibility.subjectOrganizationalAndLegalForm = true;
+                        visibility.subjectRegistrationDate = true;
+                    }
+                }
+            },
             printClassifiers() {
                 let classifiers = this.$store.state.classifiers;
 
@@ -577,6 +521,13 @@
                         'color:black; background: orange; font-weight: bold', `[ ${classifier} ]`,
                         'color:lightgray; background: inherit', ` Successfully Loaded. ${size} Record${((size > 1) ? 's' : '')} Found.`
                     );
+                }
+            },
+            resetTriggers(name, value) {
+                if (name && this.form.triggers[name]) {
+                    Object
+                        .keys(this.form.triggers[name])
+                        .forEach(key => (this.form.triggers[name][key] = (value || false)));
                 }
             },
             formSubmit() {
@@ -612,7 +563,7 @@
 
     /* :root */
     .subjects-search-extended {
-        --form-width: 800px;
+        --form-width: 1200px;
         --form-item-label-width: 160px;
         --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
@@ -630,8 +581,7 @@
 
     .subjects-search-extended .el-form-item {
         width: 100%;
-        /*color: rgb(96, 98, 102);*/
-        color: red !important;
+        color: rgb(96, 98, 102);
     }
 
     .subjects-search-extended .el-form-item.two-rows-label .el-form-item__label {
@@ -664,21 +614,53 @@
         padding-right: 0 !important;
     }
 
+    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item > .el-form-item__label,
+    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item > .el-form-item__content {
+        display: block;
+        margin-left: 0;
+    }
+
+    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item > .el-form-item__content {
+        width: 80%;
+    }
+
+    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col.first > .el-form-item > .el-form-item__label {
+        width: calc(var(--form-item-label-width));
+    }
+
+    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col.first > .el-form-item > .el-form-item__content {
+        width: 50%;
+    }
+
+
+    .subjects-search-extended .el-form-item.subject-organization-data .el-row > .el-col.last > .el-form-item > .el-form-item__label {
+        width: 120px;
+    }
+
+    .subjects-search-extended .el-form-item.subject-organization-data .el-row > .el-col.last > .el-form-item > .el-form-item__content {
+        margin-left: 122px;
+    }
+
     .subjects-search-extended .el-form-item .el-form-item__content .el-input-group__prepend {
         width: 24px;
         text-align: center;
     }
 
-    .subjects-search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button {
+    .subjects-search-extended .el-form-item.subject-address .el-form-item__content .el-input-group__append button {
         transition: color 250ms ease-in-out;
         font-size: 16px;
     }
 
-    .subjects-search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button.first:hover {
+    .subjects-search-extended .el-form-item.subject-address .el-form-item__content .el-input-group__append button.first:hover {
         color: #409eff;
     }
 
-    .subjects-search-extended .el-form-item.object-address .el-form-item__content .el-input-group__append button.last:hover {
+    .subjects-search-extended .el-form-item.subject-address .el-form-item__content .el-input-group__append button.last:hover {
         color: #f56c6c;
     }
 
