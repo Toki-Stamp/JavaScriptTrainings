@@ -48,6 +48,7 @@
             <!-- Страна субъекта -->
             <el-form-item prop="subjectCountry"
                           v-if="form.triggers.visibility.subjectCountry"
+                          :class="(form.triggers.visibility.subjectCountry ? 'shake': '')"
                           :label="form.fields.subjectCountry.label">
                 <el-select v-model="form.data.subjectCountry"
                            :placeholder="form.fields.subjectCountry.placeholder"
@@ -117,156 +118,125 @@
                     </template>
                 </el-input>
             </el-form-item>
-            <!-- Фмилия / Собственное имя / Отчество -->
-            <el-form-item
-                    v-if="form.triggers.visibility.subjectSurname"
-                    label-width="0"
-                    class="subject-personal-data">
-                <el-row :gutter="24">
-                    <el-col :span="8"
-                            class="first">
-                        <el-form-item prop="subjectSurname"
-                                      :label="form.fields.subjectSurname.label">
-                            <el-input v-model="form.data.subjectSurname"
-                                      :placeholder="form.fields.subjectSurname.placeholder"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8"
-                            class="middle">
-                        <el-form-item prop="subjectPersonalName"
-                                      :label="form.fields.subjectPersonalName.label">
-                            <el-input v-model="form.data.subjectPersonalName"
-                                      :placeholder="getPlaceholder(form.fields.subjectPersonalName, {type: 'input'})"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8"
-                            class="last">
-                        <el-form-item prop="subjectPatronymic"
-                                      :label="form.fields.subjectPatronymic.label">
-                            <el-input v-model="form.data.subjectPatronymic"
-                                      :placeholder="getPlaceholder(form.fields.subjectPatronymic, {type: 'input'})"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+            <!-- Фмилия -->
+            <el-form-item prop="subjectSurname"
+                          v-if="form.triggers.visibility.subjectSurname"
+                          :class="(form.triggers.visibility.subjectSurname ? 'shake': '')"
+                          :label="form.fields.subjectSurname.label">
+                <el-input v-model="form.data.subjectSurname"
+                          :placeholder="form.fields.subjectSurname.placeholder"
+                          clearable>
+                </el-input>
             </el-form-item>
-            <!-- Идентификационный номер / Дата рождения -->
-            <el-form-item
-                    v-if="form.triggers.visibility.subjectIdentificationNumber"
-                    label-width="0">
-                <el-row :gutter="24">
-                    <el-col :span="12"
-                            class="first">
-                        <el-form-item prop="subjectIdentificationNumber"
-                                      class="two-rows-label"
-                                      :label="form.fields.subjectIdentificationNumber.label">
-                            <el-input v-model="form.data.subjectIdentificationNumber"
-                                      :placeholder="getPlaceholder(form.fields.subjectIdentificationNumber, {type: 'input'})"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12"
-                            class="last">
-                        <el-form-item prop="subjectBirthDate"
-                                      :label="form.fields.subjectBirthDate.label">
-                            <el-date-picker
-                                    v-model="form.data.subjectBirthDate"
-                                    :placeholder="form.fields.subjectBirthDate.placeholder"
-                                    type="date"
-                                    format="dd.MM.yyyy"
-                                    align="right"
-                                    :editable="true">
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+            <!-- Собственное имя -->
+            <el-form-item prop="subjectPersonalName"
+                          v-if="form.triggers.visibility.subjectPersonalName"
+                          :class="(form.triggers.visibility.subjectPersonalName ? 'shake': '')"
+                          :label="form.fields.subjectPersonalName.label">
+                <el-input v-model="form.data.subjectPersonalName"
+                          :placeholder="getPlaceholder(form.fields.subjectPersonalName, {type: 'input'})"
+                          clearable>
+                </el-input>
             </el-form-item>
-            <!-- Наименование / УНП / Регистрационный номер -->
-            <el-form-item
-                    v-if="form.triggers.visibility.subjectOrganizationName"
-                    label-width="0"
-                    class="subject-organization-data">
-                <el-row :gutter="24">
-                    <el-col :span="8"
-                            class="first">
-                        <el-form-item prop="subjectOrganizationName"
-                                      :label="form.fields.subjectOrganizationName.label">
-                            <el-input v-model="form.data.subjectOrganizationName"
-                                      :placeholder="getPlaceholder(form.fields.subjectOrganizationName, {type: 'input'})"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8"
-                            class="middle">
-                        <el-form-item prop="subjectPayersAccountNumber"
-                                      :label="form.fields.subjectPayersAccountNumber.label">
-                            <el-input v-model="form.data.subjectPayersAccountNumber"
-                                      :placeholder="form.fields.subjectPayersAccountNumber.placeholder"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8"
-                            class="last">
-                        <el-form-item prop="subjectRegistrationNumber"
-                                      class="two-rows-label"
-                                      :label="form.fields.subjectRegistrationNumber.label">
-                            <el-input v-model="form.data.subjectRegistrationNumber"
-                                      :placeholder="getPlaceholder(form.fields.subjectRegistrationNumber, {type: 'input'})"
-                                      clearable>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+            <!-- Отчество -->
+            <el-form-item prop="subjectPatronymic"
+                          v-if="form.triggers.visibility.subjectPatronymic"
+                          :class="(form.triggers.visibility.subjectPatronymic ? 'shake': '')"
+                          :label="form.fields.subjectPatronymic.label">
+                <el-input v-model="form.data.subjectPatronymic"
+                          :placeholder="getPlaceholder(form.fields.subjectPatronymic, {type: 'input'})"
+                          clearable>
+                </el-input>
             </el-form-item>
-            <!-- Организационно-правовая форма / Дата регистрации -->
-            <el-form-item
-                    v-if="form.triggers.visibility.subjectOrganizationalAndLegalForm"
-                    label-width="0">
-                <el-row :gutter="24">
-                    <el-col :span="12"
-                            class="first">
-                        <el-form-item prop="subjectIdentificationNumber"
-                                      class="two-rows-label"
-                                      :label="form.fields.subjectOrganizationalAndLegalForm.label">
-                            <el-select v-model="form.data.subjectOrganizationalAndLegalForm"
-                                       :placeholder="form.fields.subjectOrganizationalAndLegalForm.placeholder"
-                                       clearable>
-                                <el-option v-for="option in subjectOrganizationalAndLegalForms"
-                                           :key="option.code"
-                                           :value="option.code"
-                                           :label="option.name"/>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12"
-                            class="last">
-                        <el-form-item prop="subjectRegistrationDate"
-                                      :label="form.fields.subjectRegistrationDate.label">
-                            <el-date-picker
-                                    v-model="form.data.subjectRegistrationDate"
-                                    :placeholder="form.fields.subjectRegistrationDate.placeholder"
-                                    type="date"
-                                    format="dd.MM.yyyy"
-                                    align="right"
-                                    :editable="true">
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
+            <!-- Идентификационный номер -->
+            <el-form-item prop="subjectIdentificationNumber"
+                          v-if="form.triggers.visibility.subjectIdentificationNumber"
+                          :class="(form.triggers.visibility.subjectIdentificationNumber ? 'shake': '')"
+                          class="two-rows-label"
+                          :label="form.fields.subjectIdentificationNumber.label">
+                <el-input v-model="form.data.subjectIdentificationNumber"
+                          :placeholder="getPlaceholder(form.fields.subjectIdentificationNumber, {type: 'input'})"
+                          clearable>
+                </el-input>
+            </el-form-item>
+            <!-- Дата рождения -->
+            <el-form-item prop="subjectBirthDate"
+                          v-if="form.triggers.visibility.subjectBirthDate"
+                          :class="(form.triggers.visibility.subjectBirthDate ? 'shake': '')"
+                          :label="form.fields.subjectBirthDate.label">
+                <el-date-picker
+                        v-model="form.data.subjectBirthDate"
+                        :placeholder="form.fields.subjectBirthDate.placeholder"
+                        type="date"
+                        format="dd.MM.yyyy"
+                        align="right"
+                        :editable="true">
+                </el-date-picker>
+            </el-form-item>
+            <!-- Наименование -->
+            <el-form-item prop="subjectOrganizationName"
+                          v-if="form.triggers.visibility.subjectOrganizationName"
+                          :class="(form.triggers.visibility.subjectOrganizationName ? 'shake': '')"
+                          :label="form.fields.subjectOrganizationName.label">
+                <el-input v-model="form.data.subjectOrganizationName"
+                          :placeholder="getPlaceholder(form.fields.subjectOrganizationName, {type: 'input'})"
+                          clearable>
+                </el-input>
+            </el-form-item>
+            <!-- УНП -->
+            <el-form-item prop="subjectPayersAccountNumber"
+                          v-if="form.triggers.visibility.subjectPayersAccountNumber"
+                          :class="(form.triggers.visibility.subjectPayersAccountNumber ? 'shake': '')"
+                          :label="form.fields.subjectPayersAccountNumber.label">
+                <el-input v-model="form.data.subjectPayersAccountNumber"
+                          :placeholder="form.fields.subjectPayersAccountNumber.placeholder"
+                          clearable>
+                </el-input>
+            </el-form-item>
+            <!-- Регистрационный номер -->
+            <el-form-item prop="subjectRegistrationNumber"
+                          v-if="form.triggers.visibility.subjectRegistrationNumber"
+                          :class="(form.triggers.visibility.subjectRegistrationNumber ? 'shake': '')"
+                          :label="form.fields.subjectRegistrationNumber.label">
+                <el-input v-model="form.data.subjectRegistrationNumber"
+                          :placeholder="getPlaceholder(form.fields.subjectRegistrationNumber, {type: 'input'})"
+                          clearable>
+                </el-input>
+            </el-form-item>
+            <!-- Организационно-правовая форма -->
+            <el-form-item prop="subjectOrganizationalAndLegalForm"
+                          v-if="form.triggers.visibility.subjectOrganizationalAndLegalForm"
+                          :class="(form.triggers.visibility.subjectOrganizationalAndLegalForm ? 'shake': '')"
+                          class="two-rows-label"
+                          :label="form.fields.subjectOrganizationalAndLegalForm.label">
+                <el-select v-model="form.data.subjectOrganizationalAndLegalForm"
+                           :placeholder="form.fields.subjectOrganizationalAndLegalForm.placeholder"
+                           clearable>
+                    <el-option v-for="option in subjectOrganizationalAndLegalForms"
+                               :key="option.code"
+                               :value="option.code"
+                               :label="option.name"/>
+                </el-select>
+            </el-form-item>
+            <!-- Дата регистрации -->
+            <el-form-item prop="subjectRegistrationDate"
+                          v-if="form.triggers.visibility.subjectRegistrationDate"
+                          :class="(form.triggers.visibility.subjectRegistrationDate ? 'shake': '')"
+                          :label="form.fields.subjectRegistrationDate.label">
+                <el-date-picker
+                        v-model="form.data.subjectRegistrationDate"
+                        :placeholder="form.fields.subjectRegistrationDate.placeholder"
+                        type="date"
+                        format="dd.MM.yyyy"
+                        align="right"
+                        :editable="true">
+                </el-date-picker>
             </el-form-item>
             <el-divider></el-divider>
             <!-- Кнопки управления -->
             <el-form-item>
-                <el-button type="primary" @click="formSubmit">Submit</el-button>
-                <el-button type="danger" @click="formReset">Reset</el-button>
+                <el-button type="primary" @click="submitForm">Submit</el-button>
+                <el-button type="danger" @click="resetForm">Reset</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -320,21 +290,6 @@
                             subjectRegistrationNumber: false,
                             subjectOrganizationalAndLegalForm: false,
                             subjectRegistrationDate: false
-                        },
-                        disabled: {
-                            collapse: false
-                        },
-                        validation: /* reverse logic */ {
-                            objectTypeForSearch: true,
-                            objectTOR: true
-                        },
-                        tooltip: /* reverse logic */ {
-                            objectNumber: true,
-                            objectNumberStructured: {
-                                1: true,
-                                2: true,
-                                3: true
-                            }
                         }
                     },
                     fields: Object.assign({}, JSON.parse(JSON.stringify(fields))),
@@ -530,9 +485,11 @@
                         .forEach(key => (this.form.triggers[name][key] = (value || false)));
                 }
             },
-            formSubmit() {
+            submitForm() {
             },
-            formReset() {
+            resetForm() {
+                this.resetTriggers('visibility');
+                this.form.data = initData.call(this, fields);
             }
         },
         mounted() {
@@ -563,7 +520,7 @@
 
     /* :root */
     .subjects-search-extended {
-        --form-width: 1200px;
+        --form-width: 800px;
         --form-item-label-width: 160px;
         --form-item-content-width: calc(var(--form-width) - var(--form-item-label-width));
         --form-item-content-popover-width: calc(var(--form-width) - var(--form-item-label-width) - 26px);
@@ -612,38 +569,6 @@
 
     .subjects-search-extended .el-form-item .el-form-item__content .el-row > .el-col.last {
         padding-right: 0 !important;
-    }
-
-    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item > .el-form-item__label,
-    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item > .el-form-item__content {
-        display: block;
-        margin-left: 0;
-    }
-
-    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col > .el-form-item > .el-form-item__content {
-        width: 80%;
-    }
-
-    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col.first > .el-form-item > .el-form-item__label {
-        width: calc(var(--form-item-label-width));
-    }
-
-    .subjects-search-extended .el-form-item.subject-personal-data .el-row > .el-col.first > .el-form-item > .el-form-item__content {
-        width: 50%;
-    }
-
-
-    .subjects-search-extended .el-form-item.subject-organization-data .el-row > .el-col.last > .el-form-item > .el-form-item__label {
-        width: 120px;
-    }
-
-    .subjects-search-extended .el-form-item.subject-organization-data .el-row > .el-col.last > .el-form-item > .el-form-item__content {
-        margin-left: 122px;
     }
 
     .subjects-search-extended .el-form-item .el-form-item__content .el-input-group__prepend {
