@@ -10,7 +10,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/Categories')
+    component: () => import('../views/Categories.vue')
   },
   {
     path: '/detail-record',
@@ -18,7 +18,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/DetailRecord')
+    component: () => import('../views/DetailRecord.vue')
   },
   {
     path: '/history',
@@ -26,7 +26,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/History')
+    component: () => import('../views/History.vue')
   },
   {
     path: '/',
@@ -34,7 +34,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/Home')
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/login',
@@ -42,7 +42,7 @@ const routes = [
     meta: {
       layout: 'auth'
     },
-    component: () => import('../views/Login')
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/planing',
@@ -50,7 +50,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/Planning')
+    component: () => import('../views/Planning.vue')
   },
   {
     path: '/profile',
@@ -58,7 +58,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/Profile')
+    component: () => import('../views/Profile.vue')
   },
   {
     path: '/record',
@@ -66,7 +66,7 @@ const routes = [
     meta: {
       layout: 'main'
     },
-    component: () => import('../views/Record')
+    component: () => import('../views/Record.vue')
   },
   {
     path: '/register',
@@ -74,13 +74,12 @@ const routes = [
     meta: {
       layout: 'auth'
     },
-    component: () => import('../views/Register')
+    component: () => import('../views/Register.vue')
   }
 ];
-const router = new VueRouter({
+
+export default new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 });
-
-export default router;
