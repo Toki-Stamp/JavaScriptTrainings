@@ -5,72 +5,72 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/categories',
     name: 'Categories',
+    path: '/categories',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/Categories.vue')
   },
   {
-    path: '/detail-record',
     name: 'DetailRecord',
+    path: '/detail-record',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/DetailRecord.vue')
   },
   {
-    path: '/history',
     name: 'History',
+    path: '/history',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/History.vue')
   },
   {
-    path: '/',
     name: 'Home',
+    path: '/',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/Home.vue')
   },
   {
-    path: '/login',
     name: 'Login',
+    path: '/login',
     meta: {
       layout: 'auth'
     },
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/planing',
-    name: 'Planing',
+    name: 'Planning',
+    path: '/planning',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/Planning.vue')
   },
   {
-    path: '/profile',
     name: 'Profile',
+    path: '/profile',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/Profile.vue')
   },
   {
-    path: '/record',
     name: 'Record',
+    path: '/record',
     meta: {
       layout: 'main'
     },
     component: () => import('../views/Record.vue')
   },
   {
-    path: '/register',
     name: 'Register',
+    path: '/register',
     meta: {
       layout: 'auth'
     },
