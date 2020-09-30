@@ -4,31 +4,29 @@
       <div class="navbar-left">
         <a href="#"
            @click.prevent="$emit('menuClick')">
-          <i class="material-icons black-text">dehaze</i>
+          <i class="material-icons black-text">menu</i>
         </a>
-        <span class="black-text">12.12.12</span>
+        <span class="black-text">{{date | dateFilter('datetime')}}</span>
       </div>
       <ul class="right hide-on-small-and-down">
         <li>
-          <a
-            class="dropdown-trigger black-text"
-            href="#"
-            data-target="dropdown"
-          >
+          <a ref="dropdown-trigger"
+             href="#"
+             class="dropdown-trigger black-text"
+             data-target="dropdown">
             USER NAME
             <i class="material-icons right">arrow_drop_down</i>
           </a>
-
           <ul id='dropdown' class='dropdown-content'>
             <li>
-              <a href="#" class="black-text">
-                <i class="material-icons">account_circle</i>Профиль
-              </a>
+              <router-link to="/profile" class="black-text">
+                <i class="material-icons">person</i>Профиль
+              </router-link>
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
-              <a href="#" class="black-text">
-                <i class="material-icons">assignment_return</i>Выйти
+              <a href="#" class="black-text" @click.prevent="logout">
+                <i class="material-icons">exit_to_app</i>Выйти
               </a>
             </li>
           </ul>
@@ -39,8 +37,37 @@
 </template>
 
 <script>
+  import M from 'materialize-css';
+
   export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    data: () => ({
+      date: new Date(),
+      interval: null,
+      dropdown: null
+    }),
+    methods: {
+      logout() {
+        console.log('logout');
+        this.$router.push('/login?message=logout');
+      }
+    },
+    mounted() {
+      this.interval = setInterval(() => {
+        this.date = new Date()
+      }, 1000);
+      this.dropdown = M.Dropdown.init(this.$refs['dropdown-trigger'], {
+        coverTrigger: false
+      })
+    },
+    beforeDestroy() {
+      console.log('before destroy');
+      clearInterval(this.interval);
+
+      if (this.dropdown && this.dropdown.destroy) {
+        this.dropdown.destroy();
+      }
+    }
   }
 </script>
 
