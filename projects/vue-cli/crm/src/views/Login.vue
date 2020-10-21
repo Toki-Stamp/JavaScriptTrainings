@@ -22,7 +22,8 @@
         <small v-if="$v.password.$dirty && !$v.password.required"
                class="helper-text invalid">Введите пароль</small>
         <small v-else-if="$v.password.$dirty && !$v.password.minLength"
-               class="helper-text invalid">Пароль не может быть меньше {{$v.password.$params.minLength.min}} символов. Сейчас введено:
+               class="helper-text invalid">Пароль не может быть меньше {{$v.password.$params.minLength.min}} символов.
+          Сейчас введено:
           {{password.length}}</small>
       </div>
     </div>
@@ -43,6 +44,7 @@
 
 <script>
   import {email, required, minLength} from 'vuelidate/lib/validators';
+  import messages from '../utils/messages.js';
 
   export default {
     name: 'Login',
@@ -56,15 +58,18 @@
     },
     methods: {
       handleSubmit() {
-        console.log(this.$v);
-
         if (this.$v.$invalid) {
           this.$v.$touch();
 
-          return;
+          return false;
         }
 
         this.$router.push('/');
+      }
+    },
+    mounted() {
+      if (messages[this.$route.query.message]) {
+        this.$message(messages[this.$route.query.message]);
       }
     }
   }
