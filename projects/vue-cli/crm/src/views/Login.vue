@@ -57,14 +57,22 @@
       password: {required, minLength: minLength(6)}
     },
     methods: {
-      handleSubmit() {
+      async handleSubmit() {
         if (this.$v.$invalid) {
           this.$v.$touch();
 
           return false;
         }
 
-        this.$router.push('/');
+        try {
+          await this.$store.dispatch('login', {
+            email: this.email,
+            password: this.password
+          });
+          await this.$router.push('/');
+        } catch (e) {
+          /* empty */
+        }
       }
     },
     mounted() {

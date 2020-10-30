@@ -13,7 +13,7 @@
   export default {
     computed: {
       layout() {
-        console.log(this.$route.meta);
+        (this.$route.meta && Object.getOwnPropertyNames(this.$route.meta).length) && console.log(this.$route.meta);
 
         return (this.$route.meta.layout || 'auth') + '-layout';
       }

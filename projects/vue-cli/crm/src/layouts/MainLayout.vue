@@ -15,7 +15,7 @@
 <script>
   import Navbar from '../components/Navbar.vue';
   import Sidebar from '../components/Sidebar.vue';
-  import FixedButton from "../components/FixedButton.vue";
+  import FixedButton from '../components/FixedButton.vue';
 
   export default {
     name: 'MainLayout',

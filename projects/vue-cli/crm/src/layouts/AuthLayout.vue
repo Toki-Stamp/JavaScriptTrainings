@@ -5,8 +5,20 @@
 </template>
 
 <script>
+  import messages from '../utils/messages.js';
+
   export default {
-    name: "AuthLayout"
+    name: 'AuthLayout',
+    computed: {
+      error() {
+        return this.$store.getters.error;
+      }
+    },
+    watch: {
+      error(firebaseError) {
+        this.$error(messages[firebaseError.code] || messages.default)
+      }
+    }
   }
 </script>
 

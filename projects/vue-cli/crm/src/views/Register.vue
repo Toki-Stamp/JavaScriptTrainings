@@ -77,7 +77,7 @@
       agree: {checked: v => v}
     },
     methods: {
-      handleSubmit() {
+      async handleSubmit() {
         if (this.$v.$invalid) {
           this.$v.$touch();
 
@@ -90,9 +90,12 @@
           name: this.name
         };
 
-        this.$router.push('/');
-
-        console.log(formData);
+        try {
+          await this.$store.dispatch('register', formData);
+          await this.$router.push('/');
+        } catch (e) {
+          /* empty */
+        }
       }
     }
   }
