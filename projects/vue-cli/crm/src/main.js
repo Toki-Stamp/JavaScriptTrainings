@@ -1,10 +1,12 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import App from './App.vue';
+import Loader from './components/app/Loader.vue';
 import router from './router/router.js';
-import store from './store/store.js';
-import dateFilter from './filters/date-filter.js'
-import messagePlugin from './utils/message.plugin.js'
+import store from './store';
+import dateFilter from './filters/date-filter.js';
+import currencyFilter from './filters/currency-filter.js';
+import messagePlugin from './utils/message.plugin.js';
 import './registerServiceWorker.js';
 import 'materialize-css/dist/js/materialize.min.js'
 import firebase from 'firebase/app';
@@ -15,6 +17,8 @@ Vue.config.productionTip = false;
 Vue.use(Vuelidate);
 Vue.use(messagePlugin);
 Vue.filter('dateFilter', dateFilter);
+Vue.filter('currencyFilter', currencyFilter);
+Vue.component('Loader', Loader);
 
 firebase.initializeApp({
   apiKey: "AIzaSyCiWwr69UUVFAeG6CgNy0wXzXGHHwaRbZU",
@@ -38,3 +42,8 @@ firebase.auth().onAuthStateChanged(() => {
     }).$mount('#app');
   }
 });
+
+/*
+* https://console.firebase.google.com/u/0/project/vue-cli-crm/database/vue-cli-crm/data/~2Fusers
+* https://fixer.io/quickstart
+* */
