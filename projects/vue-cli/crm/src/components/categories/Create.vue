@@ -29,7 +29,7 @@
         </div>
         <button class="btn waves-effect waves-light" type="submit">
           Создать
-          <i class="material-icons right">send</i>
+          <i class="material-icons right">add_box</i>
         </button>
       </form>
     </div>
