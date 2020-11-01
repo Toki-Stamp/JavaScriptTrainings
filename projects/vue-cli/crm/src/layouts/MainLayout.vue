@@ -19,6 +19,7 @@
   import Navbar from '../components/app/Navbar.vue';
   import Sidebar from '../components/app/Sidebar.vue';
   import FixedButton from '../components/app/FixedButton.vue';
+  import messages from '../utils/messages.js';
 
   export default {
     name: 'MainLayout',
@@ -26,6 +27,16 @@
       menuOpen: true,
       loading: true
     }),
+    computed: {
+      error() {
+        return this.$store.getters.error;
+      }
+    },
+    watch: {
+      error(firebaseError) {
+        this.$error(messages[firebaseError.code] || messages.default)
+      }
+    },
     components: {
       Navbar,
       Sidebar,

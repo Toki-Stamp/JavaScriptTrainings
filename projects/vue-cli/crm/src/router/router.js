@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import firebase from 'firebase/app';
 
 Vue.use(VueRouter);
 
@@ -8,7 +9,8 @@ const routes = [
     name: 'Categories',
     path: '/categories',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/Categories.vue')
   },
@@ -16,7 +18,8 @@ const routes = [
     name: 'DetailRecord',
     path: '/detail-record',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/DetailRecord.vue')
   },
@@ -24,7 +27,8 @@ const routes = [
     name: 'History',
     path: '/history',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/History.vue')
   },
@@ -32,7 +36,8 @@ const routes = [
     name: 'Home',
     path: '/',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/Home.vue')
   },
@@ -48,7 +53,8 @@ const routes = [
     name: 'Planning',
     path: '/planning',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/Planning.vue')
   },
@@ -56,7 +62,8 @@ const routes = [
     name: 'Profile',
     path: '/profile',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/Profile.vue')
   },
@@ -64,7 +71,8 @@ const routes = [
     name: 'Record',
     path: '/record',
     meta: {
-      layout: 'main'
+      layout: 'main',
+      auth: true
     },
     component: () => import('../views/Record.vue')
   },
@@ -77,9 +85,20 @@ const routes = [
     component: () => import('../views/Register.vue')
   }
 ];
-
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 });
+router.beforeEach((to, from, next) => {
+  const currentUser = firebase.auth().currentUser;
+  const requireAuth = to.matched.some(route => route.meta.auth);
+  debugger
+  if (requireAuth && !currentUser) {
+    next('/login?message=login');
+  } else {
+    next();
+  }
+});
+
+export default router;
