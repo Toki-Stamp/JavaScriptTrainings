@@ -16,7 +16,7 @@ const routes = [
   },
   {
     name: 'DetailRecord',
-    path: '/detail-record',
+    path: '/detail-record/:id',
     meta: {
       layout: 'main',
       auth: true
@@ -90,10 +90,11 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
+
 router.beforeEach((to, from, next) => {
   const currentUser = firebase.auth().currentUser;
   const requireAuth = to.matched.some(route => route.meta.auth);
-  debugger
+
   if (requireAuth && !currentUser) {
     next('/login?message=login');
   } else {
