@@ -6,7 +6,8 @@ import router from './router/router.js';
 import store from './store';
 import dateFilter from './filters/date-filter.js';
 import currencyFilter from './filters/currency-filter.js';
-import messagePlugin from './utils/message.plugin.js';
+import tooltipDirective from './directives/tooltip-directive.js';
+import messagePlugin from './utils/message-plugin.js';
 import './registerServiceWorker.js';
 import 'materialize-css/dist/js/materialize.min.js'
 import firebase from 'firebase/app';
@@ -18,6 +19,7 @@ Vue.use(Vuelidate);
 Vue.use(messagePlugin);
 Vue.filter('dateFilter', dateFilter);
 Vue.filter('currencyFilter', currencyFilter);
+Vue.directive('tooltip', tooltipDirective);
 Vue.component('Loader', Loader);
 
 firebase.initializeApp({
