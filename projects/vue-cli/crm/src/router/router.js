@@ -16,7 +16,7 @@ const routes = [
   },
   {
     name: 'DetailRecord',
-    path: '/detail-record/:id',
+    path: '/detail-record/:recordID',
     meta: {
       layout: 'main',
       auth: true
