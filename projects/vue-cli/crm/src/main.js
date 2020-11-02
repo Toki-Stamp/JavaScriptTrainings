@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
-import Paginate from 'vuejs-paginate'
+import Paginate from 'vuejs-paginate';
 import App from './App.vue';
 import Loader from './components/app/Loader.vue';
 import router from './router/router.js';
-import store from './store';
+import store from './store/index.js';
 import dateFilter from './filters/date-filter.js';
 import currencyFilter from './filters/currency-filter.js';
 import tooltipDirective from './directives/tooltip-directive.js';
@@ -24,7 +24,7 @@ Vue.directive('tooltip', tooltipDirective);
 Vue.component('Loader', Loader);
 Vue.component('Paginate', Paginate);
 
-firebase.initializeApp({
+const firebaseConfig = {
   apiKey: "AIzaSyCiWwr69UUVFAeG6CgNy0wXzXGHHwaRbZU",
   authDomain: "vue-cli-crm.firebaseapp.com",
   databaseURL: "https://vue-cli-crm.firebaseio.com",
@@ -33,13 +33,13 @@ firebase.initializeApp({
   messagingSenderId: "984886799976",
   appId: "1:984886799976:web:6c8eb737161597426355dd",
   measurementId: "G-PPWFRXX6W0"
-});
+};
+let application;
 
-let app;
-
+firebase.initializeApp(firebaseConfig);
 firebase.auth().onAuthStateChanged(() => {
-  if (!app) {
-    app = new Vue({
+  if (!application) {
+    application = new Vue({
       router,
       store,
       render: h => h(App)
@@ -48,6 +48,10 @@ firebase.auth().onAuthStateChanged(() => {
 });
 
 /*
+*
 * https://console.firebase.google.com/u/0/project/vue-cli-crm/database/vue-cli-crm/data/~2Fusers
 * https://fixer.io/quickstart
-* */
+* https://materializecss.com/getting-started.html
+* https://www.chartjs.org/docs/latest/getting-started/
+*
+*/
