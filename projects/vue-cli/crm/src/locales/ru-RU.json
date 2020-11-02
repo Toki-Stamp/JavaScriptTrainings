@@ -1,0 +1,14 @@
+{
+  "name": "Имя",
+  "message_enter_name": "Введите имя",
+  "message_edit_success": "Обновление прошло успешно",
+  "message_loading": "Идёт загрузка...",
+  "button_edit": "Редактировать",
+  "title_profile": "Профиль",
+  "title_bill": "Счёт и Курсы валют",
+  "title_history": "История",
+  "title_planning": "Планирование",
+  "title_record": "Новая запись",
+  "title_categories": "Категории",
+  "title_exit": "Выход"
+}

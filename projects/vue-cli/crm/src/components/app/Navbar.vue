@@ -20,13 +20,13 @@
           <ul id='dropdown' class='dropdown-content'>
             <li>
               <router-link to="/profile" class="black-text">
-                <i class="material-icons">person</i>Профиль
+                <i class="material-icons">person</i>{{'title_profile' | localizeFilter}}
               </router-link>
             </li>
             <li class="divider" tabindex="-1"></li>
             <li>
               <a href="#" class="black-text" @click.prevent="logout">
-                <i class="material-icons">exit_to_app</i>Выйти
+                <i class="material-icons">exit_to_app</i>{{'title_exit' | localizeFilter}}
               </a>
             </li>
           </ul>

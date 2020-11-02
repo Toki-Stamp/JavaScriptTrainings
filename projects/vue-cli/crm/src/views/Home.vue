@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Счет</h3>
+      <h3>{{'title_bill' | localizeFilter}}</h3>
 
-      <button class="btn waves-effect waves-light btn-small"
+      <button class="btn waves-effect waves-light"
+              v-tooltip="{position: 'left', html: 'Обновить курсы валют'}"
               @click="refresh">
         <i class="material-icons">refresh</i>
       </button>

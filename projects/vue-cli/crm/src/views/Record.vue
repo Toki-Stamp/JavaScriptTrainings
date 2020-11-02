@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Новая запись</h3>
+      <h3>{{'title_record' | localizeFilter}}</h3>
     </div>
     <Loader v-if="loading"/>
     <p v-else-if="!categories.length" class="center">Категорий нет, но Вы можете её

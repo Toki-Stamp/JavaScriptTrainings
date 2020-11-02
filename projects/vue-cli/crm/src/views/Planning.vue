@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>Планирование</h3>
+      <h3>{{'title_planning' | localizeFilter}}</h3>
       <h4>{{userInfo.bill | currencyFilter}}</h4>
     </div>
     <Loader v-if="loading"/>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>История записей</h3>
+      <h3>{{'title_history' | localizeFilter}}</h3>
     </div>
     <div class="history-chart">
       <canvas ref="canvas"></canvas>
@@ -13,15 +13,17 @@
     </p>
     <section v-else>
       <Table :records="items"/>
-      <Paginate
-        v-model="page"
-        :page-count="pageCount"
-        :click-handler="handlePageChange"
-        :prev-text="'Назад'"
-        :next-text="'Вперёд'"
-        :container-class="'pagination'"
-        :page-class="'waves-effect'">
-      </Paginate>
+      <div class="center">
+        <Paginate
+          v-model="page"
+          :page-count="pageCount"
+          :click-handler="handlePageChange"
+          :prev-text="'Назад'"
+          :next-text="'Вперёд'"
+          :container-class="'pagination'"
+          :page-class="'waves-effect'">
+        </Paginate>
+      </div>
     </section>
   </div>
 </template>

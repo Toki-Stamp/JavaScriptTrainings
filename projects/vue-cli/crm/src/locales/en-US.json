@@ -1,0 +1,14 @@
+{
+  "name": "Name",
+  "message_enter_name": "Enter name",
+  "message_edit_success": "Successfully updated",
+  "message_loading": "Loading in progress...",
+  "button_edit": "Edit",
+  "title_profile": "Profile",
+  "title_bill": "Bill & Currency",
+  "title_history": "History",
+  "title_planning": "Planning",
+  "title_record": "New Record",
+  "title_categories": "Categories",
+  "title_exit": "Exit"
+}

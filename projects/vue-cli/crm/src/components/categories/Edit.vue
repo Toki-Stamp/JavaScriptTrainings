@@ -37,7 +37,7 @@
           </span>
         </div>
         <button class="btn waves-effect waves-light" type="submit">
-          Обновить
+          Редактировать
           <i class="material-icons right">edit</i>
         </button>
       </form>

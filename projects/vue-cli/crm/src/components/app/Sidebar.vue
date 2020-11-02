@@ -13,30 +13,32 @@
 </template>
 
 <script>
+  import localizeFilter from '../../filters/localize-filter';
+
   export default {
     name: 'Sidebar',
     props: ['value'],
     data: () => ({
       links: [
         {
-          title: 'Счёт',
+          title: localizeFilter('title_bill'),
           url: '/',
           exact: true
         },
         {
-          title: 'История',
+          title: localizeFilter('title_history'),
           url: '/history'
         },
         {
-          title: 'Планирование',
+          title: localizeFilter('title_planning'),
           url: '/planning'
         },
         {
-          title: 'Новая запись',
+          title: localizeFilter('title_record'),
           url: '/record'
         },
         {
-          title: 'Категории',
+          title: localizeFilter('title_categories'),
           url: '/categories'
         }
       ]

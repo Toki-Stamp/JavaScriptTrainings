@@ -3,7 +3,7 @@
     <Loader v-if="loading"/>
     <div v-else class="app-main-layout">
       <Navbar @menuClick="menuOpen = !menuOpen"/>
-      <Sidebar v-model="menuOpen"/>
+      <Sidebar v-model="menuOpen" :key="locale"/>
       <FixedButton/>
       <main class="app-content"
             :class="{full: !menuOpen}">
@@ -30,6 +30,9 @@
     computed: {
       error() {
         return this.$store.getters.error;
+      },
+      locale() {
+        return this.$store.getters.userInfo.locale
       }
     },
     watch: {
