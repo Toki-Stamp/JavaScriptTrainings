@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import localizeFilter from '../../filters/localize-filter';
+  import localizeFilter from '../../filters/localize-filter.js';
 
   export default {
     name: 'Sidebar',
@@ -21,7 +21,7 @@
     data: () => ({
       links: [
         {
-          title: localizeFilter('title_bill'),
+          title: `${localizeFilter('title_bill')} ${localizeFilter("title_and")} ${localizeFilter('title_currency')}`,
           url: '/',
           exact: true
         },

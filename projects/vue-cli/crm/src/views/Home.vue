@@ -1,10 +1,9 @@
 <template>
   <div>
     <div class="page-title">
-      <h3>{{'title_bill' | localizeFilter}}</h3>
-
+      <h3>{{'title_bill' | localizeFilter}} {{'title_and' | localizeFilter}} {{'title_currency' | localizeFilter}}</h3>
       <button class="btn waves-effect waves-light"
-              v-tooltip="{position: 'left', html: 'Обновить курсы валют'}"
+              v-tooltip="{position: 'left', html: text}"
               @click="refresh">
         <i class="material-icons">refresh</i>
       </button>
@@ -21,6 +20,7 @@
 <script>
   import Bill from '../components/home/Bill.vue'
   import Currency from '../components/home/Currency.vue'
+  import localizeFilter from '../filters/localize-filter.js';
 
   export default {
     name: 'Home',
@@ -31,6 +31,11 @@
     components: {
       Bill,
       Currency
+    },
+    computed: {
+      text() {
+        return localizeFilter('button_refresh_bill');
+      }
     },
     methods: {
       async refresh() {
