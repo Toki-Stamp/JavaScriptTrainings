@@ -32,6 +32,11 @@
 
   export default {
     name: 'Planning',
+    metaInfo() {
+      return {
+        title: this.$title('title_planning')
+      }
+    },
     data: () => ({
       loading: true,
       categories: []

@@ -75,6 +75,11 @@
 
   export default {
     name: 'Record',
+    metaInfo() {
+      return {
+        title: this.$title('title_record')
+      }
+    },
     data: () => ({
       loading: true,
       categories: [],

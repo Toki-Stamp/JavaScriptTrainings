@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuelidate from 'vuelidate';
 import Paginate from 'vuejs-paginate';
+import VueMeta from 'vue-meta';
 import App from './App.vue';
 import Loader from './components/app/Loader.vue';
 import router from './router/router.js';
@@ -10,6 +11,7 @@ import currencyFilter from './filters/currency-filter.js';
 import localizeFilter from './filters/localize-filter.js';
 import tooltipDirective from './directives/tooltip-directive.js';
 import messagePlugin from './utils/message-plugin.js';
+import titlePlugin from './utils/title-plugin.js';
 import './registerServiceWorker.js';
 import 'materialize-css/dist/js/materialize.min.js'
 import firebase from 'firebase/app';
@@ -19,6 +21,8 @@ import 'firebase/database';
 Vue.config.productionTip = false;
 Vue.use(Vuelidate);
 Vue.use(messagePlugin);
+Vue.use(titlePlugin);
+Vue.use(VueMeta, {refreshOnceOnNavigation: true});
 Vue.filter('dateFilter', dateFilter);
 Vue.filter('currencyFilter', currencyFilter);
 Vue.filter('localizeFilter', localizeFilter);
@@ -55,5 +59,6 @@ firebase.auth().onAuthStateChanged(() => {
 * https://fixer.io/quickstart
 * https://materializecss.com/getting-started.html
 * https://www.chartjs.org/docs/latest/getting-started/
+* https://github.com/nuxt/vue-meta
 *
 */

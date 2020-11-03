@@ -37,6 +37,11 @@
 
   export default {
     name: 'Profile',
+    metaInfo() {
+      return {
+        title: this.$title('title_profile')
+      }
+    },
     data: () => ({
       name: '',
       isRuLocale: true

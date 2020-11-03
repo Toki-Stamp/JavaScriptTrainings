@@ -23,6 +23,11 @@
 
   export default {
     name: 'Categories',
+    metaInfo() {
+      return {
+        title: this.$title('title_categories')
+      }
+    },
     components: {
       Create,
       Edit

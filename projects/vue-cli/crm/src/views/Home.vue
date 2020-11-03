@@ -24,6 +24,13 @@
 
   export default {
     name: 'Home',
+    metaInfo() {
+      const app = process.env.VUE_APP_TITLE;
+
+      return {
+        title: `${localizeFilter('title_bill')} ${localizeFilter('title_and')} ${localizeFilter('title_currency')} | ${app}`
+      }
+    },
     data: () => ({
       loading: true,
       currency: null
