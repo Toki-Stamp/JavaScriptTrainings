@@ -20,6 +20,7 @@
   "message_login": "Войдите в систему",
   "message_new_record_success": "Запись успешно создана",
   "message_new_record_fail": "Недостаточно средств на счёте",
+  "message_record_not_found": "Запись с указанным ID не найдена",
   "message_excess": "Превышение на",
   "message_remain": "Осталось",
   "error_auth/user-not-found": "Пользователь с таким email не найден",

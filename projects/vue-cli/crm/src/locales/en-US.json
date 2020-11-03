@@ -20,6 +20,7 @@
   "message_login": "Sign in",
   "message_new_record_success": "New record successfully created",
   "message_new_record_fail": "Insufficient funds on the account",
+  "message_record_not_found": "No record with specified ID found",
   "message_excess": "Excess on",
   "message_remain": "Remaining",
   "error_auth/user-not-found": "User with this email not found",
