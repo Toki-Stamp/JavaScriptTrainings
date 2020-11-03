@@ -1,4 +1,5 @@
 import M from 'materialize-css';
+import localizeFilter from '../filters/localize-filter.js';
 
 export default {
   install(Vue, options) {
@@ -10,7 +11,7 @@ export default {
     };
 
     Vue.prototype.$error = function (html) {
-      M.toast({html: `<span style="color: red">[Ошибка]</span>: ${html}`});
+      M.toast({html: `<span style="color: red">${localizeFilter('error')}</span>: ${html}`});
     }
   }
 }

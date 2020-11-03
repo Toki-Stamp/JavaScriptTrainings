@@ -12,11 +12,17 @@ export default new Vuex.Store({
     error: null
   },
   actions: {
-    async fetchCurrency() {
-      const key = process.env.VUE_APP_FIXER;
-      const response = await fetch(`http://data.fixer.io/api/latest?access_key=${key}&symbols=BYN,RUB,USD,EUR`);
+    async fetchCurrency({commit}) {
+      try {
+        const key = process.env.VUE_APP_FIXER;
+        const response = await fetch(`http://data.fixer.io/api/latest?access_key=${key}&symbols=BYN,RUB,USD,EUR`);
 
-      return response.json();
+        return response.json();
+      } catch (e) {
+        commit('setError', e);
+
+        throw e;
+      }
     }
   },
   mutations: {

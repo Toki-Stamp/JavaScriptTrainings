@@ -38,7 +38,7 @@
     watch: {
       error(firebaseError) {
         const key = `error_${firebaseError.code}`;
-        const message = localizeFilter(key);
+        const message = (firebaseError.code ? localizeFilter(key) : null);
 
         this.$error(message || localizeFilter('error_default'))
       }
