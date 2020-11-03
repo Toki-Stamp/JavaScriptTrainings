@@ -14,6 +14,8 @@
   "message_login": "Войдите в систему",
   "message_new_record_success": "Запись успешно создана",
   "message_new_record_fail": "Недостаточно средств на счёте",
+  "message_excess": "Превышение на",
+  "message_remain": "Осталось",
   "error_auth/user-not-found": "Пользователь с таким email не найден",
   "error_auth/wrong-password": "Указан неверный пароль",
   "error_auth/email-already-in-use": "Пользователь с таким email уже существует",
@@ -42,5 +44,6 @@
   "title_agree": "С правилами согласен",
   "title_no_categories": "Категорий нет, но Вы можете",
   "title_select_category": "Выберите категорию",
-  "title_description": "Описание записи"
+  "title_description": "Описание записи",
+  "title_of": "из"
 }

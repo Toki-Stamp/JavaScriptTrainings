@@ -14,6 +14,8 @@
   "message_login": "Sign in",
   "message_new_record_success": "New record successfully created",
   "message_new_record_fail": "Insufficient funds on the account",
+  "message_excess": "Excess on",
+  "message_remain": "Remaining",
   "error_auth/user-not-found": "User with this email not found",
   "error_auth/wrong-password": "Invalid password",
   "error_auth/email-already-in-use": "User with this email already exists",
@@ -42,5 +44,6 @@
   "title_agree": "Agree with rules",
   "title_no_categories": "There is no categories yet, but you may",
   "title_select_category": "Select category",
-  "title_description": "Record description"
+  "title_description": "Record description",
+  "title_of": "of"
 }
