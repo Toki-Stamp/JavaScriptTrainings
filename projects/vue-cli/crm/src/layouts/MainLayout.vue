@@ -19,7 +19,7 @@
   import Navbar from '../components/app/Navbar.vue';
   import Sidebar from '../components/app/Sidebar.vue';
   import FixedButton from '../components/app/FixedButton.vue';
-  import messages from '../utils/messages.js';
+  import localizeFilter from '../filters/localize-filter.js';
 
   export default {
     name: 'MainLayout',
@@ -37,7 +37,10 @@
     },
     watch: {
       error(firebaseError) {
-        this.$error(messages[firebaseError.code] || messages.default)
+        const key = `error_${firebaseError.code}`;
+        const message = localizeFilter(key);
+
+        this.$error(message || localizeFilter('error_default'))
       }
     },
     components: {

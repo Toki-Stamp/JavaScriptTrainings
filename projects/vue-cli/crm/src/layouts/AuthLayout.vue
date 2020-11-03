@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import messages from '../utils/messages.js';
+  import localizeFilter from '../filters/localize-filter.js';
 
   export default {
     name: 'AuthLayout',
@@ -16,7 +16,10 @@
     },
     watch: {
       error(firebaseError) {
-        this.$error(messages[firebaseError.code] || messages.default)
+        const key = `error_${firebaseError.code}`;
+        const message = localizeFilter(key);
+
+        this.$error(message || localizeFilter('error_default'))
       }
     }
   }

@@ -1,42 +1,44 @@
 <template>
   <form class="card auth-card" @submit.prevent="handleSubmit">
     <div class="card-content">
-      <span class="card-title">Домашняя бухгалтерия</span>
+      <span class="card-title">{{'title_login' | localizeFilter}}</span>
       <div class="input-field">
         <input id="email"
                v-model.trim="email"
                type="text"
                :class="{invalid: (($v.email.$dirty && !$v.email.required) || ($v.email.$dirty && !$v.email.email))}">
-        <label for="email">Email</label>
+        <label for="email">{{'email' | localizeFilter}}</label>
         <small v-if="$v.email.$dirty && !$v.email.required"
-               class="helper-text invalid">Поле email обязательно для заполнения и не может быть пустым</small>
+               class="helper-text invalid">{{'message_enter_email' | localizeFilter}}</small>
         <small v-else-if="$v.email.$dirty && !$v.email.email"
-               class="helper-text invalid">Введите корректный email</small>
+               class="helper-text invalid">{{'error_email_incorrect' | localizeFilter}}</small>
       </div>
       <div class="input-field">
         <input id="password"
                v-model.trim="password"
                type="password"
                :class="{invalid: (($v.password.$dirty && !$v.password.required) || ($v.password.$dirty && !$v.password.minLength))}">
-        <label for="password">Пароль</label>
+        <label for="password">{{'password' | localizeFilter}}</label>
         <small v-if="$v.password.$dirty && !$v.password.required"
-               class="helper-text invalid">Введите пароль</small>
+               class="helper-text invalid">{{'message_enter_password' | localizeFilter}}</small>
         <small v-else-if="$v.password.$dirty && !$v.password.minLength"
-               class="helper-text invalid">Пароль не может быть меньше {{$v.password.$params.minLength.min}} символов.
-          Сейчас введено:
-          {{password.length}}</small>
+               class="helper-text invalid">
+          {{'error_password_length_1' | localizeFilter}} {{$v.password.$params.minLength.min}}
+          {{'error_password_length_2' | localizeFilter}}.
+          {{'error_password_length_3' | localizeFilter}}: {{password.length}}
+        </small>
       </div>
     </div>
     <div class="card-action">
       <div>
         <button class="btn waves-effect waves-light auth-submit"
-                type="submit">Войти
+                type="submit">{{'button_login' | localizeFilter}}
           <i class="material-icons right">login</i>
         </button>
       </div>
       <p class="center">
-        Нет аккаунта?
-        <router-link to="/register">Зарегистрироваться</router-link>
+        {{'title_no_account' | localizeFilter}}
+        <router-link to="/register">{{'button_create_account' | localizeFilter}}</router-link>
       </p>
     </div>
   </form>
@@ -44,7 +46,7 @@
 
 <script>
   import {email, required, minLength} from 'vuelidate/lib/validators';
-  import messages from '../utils/messages.js';
+  import localizeFilter from '../filters/localize-filter.js';
 
   export default {
     name: 'Login',
@@ -76,8 +78,11 @@
       }
     },
     mounted() {
-      if (messages[this.$route.query.message]) {
-        this.$message(messages[this.$route.query.message]);
+      const key = `message_${this.$route.query.message}`;
+      const message = this.$route.query.message ? localizeFilter(key) : null;
+
+      if (message) {
+        this.$message(message);
       }
     }
   }
