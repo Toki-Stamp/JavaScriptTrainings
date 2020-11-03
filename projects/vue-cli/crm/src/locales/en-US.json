@@ -27,6 +27,8 @@
   "title_record": "New Record",
   "title_categories": "Categories",
   "title_exit": "Exit",
-  "title_login": "Home bookkeeping",
-  "title_no_account": "New to application?"
+  "title_application": "Home bookkeeping",
+  "title_no_account": "New to application?",
+  "title_has_account": "Already has account?",
+  "title_agree": "Agree with rules"
 }

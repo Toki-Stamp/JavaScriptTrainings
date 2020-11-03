@@ -1,7 +1,7 @@
 <template>
   <form class="card auth-card" @submit.prevent="handleSubmit">
     <div class="card-content">
-      <span class="card-title">{{'title_login' | localizeFilter}}</span>
+      <span class="card-title">{{'title_application' | localizeFilter}}</span>
       <div class="input-field">
         <input id="email"
                v-model.trim="email"

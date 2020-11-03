@@ -27,6 +27,8 @@
   "title_record": "Новая запись",
   "title_categories": "Категории",
   "title_exit": "Выход",
-  "title_login": "Домашняя бухгалтерия",
-  "title_no_account": "Нет аккаунта?"
+  "title_application": "Домашняя бухгалтерия",
+  "title_no_account": "Нет аккаунта?",
+  "title_has_account": "Уже есть аккаунт?",
+  "title_agree": "С правилами согласен"
 }
