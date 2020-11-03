@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Редактировать</h4>
+        <h4>{{'edit' | localizeFilter}}</h4>
       </div>
       <form @submit.prevent="handleSubmit">
         <div class="input-field">
@@ -12,17 +12,17 @@
                     :value="category.id">{{category.title}}
             </option>
           </select>
-          <label>Выберите категорию</label>
+          <label>{{'title_select_category' | localizeFilter}}</label>
         </div>
         <div class="input-field">
           <input id="createName"
                  type="text"
                  v-model="title"
                  :class="{invalid: ($v.title.$dirty && !$v.title.required)}">
-          <label for="createName">Название</label>
+          <label for="createName">{{'name2' | localizeFilter}}</label>
           <span class="helper-text invalid"
                 v-if="($v.title.$dirty && !$v.title.required)">
-            Введите название категории
+            {{'message_enter_name2' | localizeFilter}}
           </span>
         </div>
         <div class="input-field">
@@ -30,14 +30,14 @@
                  type="number"
                  v-model.number="limit"
                  :class="{invalid: ($v.limit.$dirty && !$v.limit.minValue)}">
-          <label for="createLimit">Лимит</label>
+          <label for="createLimit">{{'limit' | localizeFilter}}</label>
           <span class="helper-text invalid"
                 v-if="($v.limit.$dirty && !$v.limit.minValue)">
-            Минимальное знчение {{$v.limit.$params.minValue.min}}
+            {{'error_min_value' | localizeFilter}} {{$v.limit.$params.minValue.min}}
           </span>
         </div>
         <button class="btn waves-effect waves-light" type="submit">
-          Редактировать
+          {{'button_edit_category' | localizeFilter}}
           <i class="material-icons right">edit</i>
         </button>
       </form>

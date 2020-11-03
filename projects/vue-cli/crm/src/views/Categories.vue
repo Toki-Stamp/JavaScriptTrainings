@@ -11,7 +11,7 @@
               :categories="categories"
               :key="(categories.length + updateCount)"
               @updated="updateCategory"/>
-        <p v-else class="center">Категорий пока нет</p>
+        <p v-else class="center">{{'title_empty_categories' | localizeFilter}}</p>
       </div>
     </section>
   </div>

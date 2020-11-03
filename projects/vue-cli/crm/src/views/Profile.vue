@@ -22,7 +22,7 @@
         </label>
       </div>
       <button class="btn waves-effect waves-light" type="submit">
-        {{'button_edit' | localizeFilter}}
+        {{'button_edit_profile' | localizeFilter}}
         <i class="material-icons right">edit</i>
       </button>
     </form>

@@ -2,7 +2,7 @@
   <div class="col s12 m6">
     <div>
       <div class="page-subtitle">
-        <h4>Создать</h4>
+        <h4>{{'create' | localizeFilter}}</h4>
       </div>
       <form @submit.prevent="handleSubmit">
         <div class="input-field">
@@ -10,10 +10,10 @@
                  type="text"
                  v-model="title"
                  :class="{invalid: ($v.title.$dirty && !$v.title.required)}">
-          <label for="createName">Название</label>
+          <label for="createName">{{'name2' | localizeFilter}}</label>
           <span class="helper-text invalid"
                 v-if="($v.title.$dirty && !$v.title.required)">
-            Введите название категории
+            {{'message_enter_name2' | localizeFilter}}
           </span>
         </div>
         <div class="input-field">
@@ -21,14 +21,14 @@
                  type="number"
                  v-model.number="limit"
                  :class="{invalid: ($v.limit.$dirty && !$v.limit.minValue)}">
-          <label for="createLimit">Лимит</label>
+          <label for="createLimit">{{'limit' | localizeFilter}}</label>
           <span class="helper-text invalid"
                 v-if="($v.limit.$dirty && !$v.limit.minValue)">
-            Минимальное знчение {{$v.limit.$params.minValue.min}}
+            {{'error_min_value' | localizeFilter}} {{$v.limit.$params.minValue.min}}
           </span>
         </div>
         <button class="btn waves-effect waves-light" type="submit">
-          Создать
+          {{'button_create_category' | localizeFilter}}
           <i class="material-icons right">add_box</i>
         </button>
       </form>
@@ -39,6 +39,7 @@
 <script>
   import M from 'materialize-css';
   import {required, minValue} from 'vuelidate/lib/validators';
+  import localizeFilter from '../../filters/localize-filter.js';
 
   export default {
     name: 'Create',
@@ -62,7 +63,7 @@
           this.title = '';
           this.limit = 1;
           this.$v.$reset();
-          this.$message(`Категория "${category.title}" была создана`);
+          this.$message(`${localizeFilter('message_new_category_success')}: "${category.title}"`);
           this.$emit('created', category);
         } catch (e) {
           /* nothing here */
