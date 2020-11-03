@@ -3,11 +3,11 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>Сумма</th>
-      <th>Дата</th>
-      <th>Категория</th>
-      <th>Тип</th>
-      <th>Открыть</th>
+      <th>{{'sum' | localizeFilter}}</th>
+      <th>{{'date' | localizeFilter}}</th>
+      <th>{{'category' | localizeFilter}}</th>
+      <th>{{'type' | localizeFilter}}</th>
+      <th>{{'open' | localizeFilter}}</th>
     </tr>
     </thead>
     <tbody>
@@ -25,7 +25,7 @@
       <td>
         <button class="btn-small btn"
                 @click="$router.push(`/detail-record/${record.id}`)"
-                v-tooltip="`Просмотреть запись`">
+                v-tooltip="tooltip">
           <i class="material-icons">open_in_new</i>
         </button>
       </td>
@@ -35,12 +35,19 @@
 </template>
 
 <script>
+  import localizeFilter from '../../filters/localize-filter.js';
+
   export default {
     name: 'Table',
     props: {
       records: {
         type: Array,
         required: true
+      }
+    },
+    computed: {
+      tooltip() {
+        return localizeFilter('button_view_record_details');
       }
     }
   }

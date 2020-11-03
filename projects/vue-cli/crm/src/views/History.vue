@@ -8,8 +8,8 @@
     </div>
 
     <Loader v-if="loading"/>
-    <p v-else-if="!records.length" class="center">Записей нет, но Вы можете их
-      <router-link to="/record">добавить здесь</router-link>
+    <p v-else-if="!records.length" class="center">{{'title_no_records' | localizeFilter}}
+      <router-link to="/record">{{'button_create_record' | localizeFilter}}</router-link>
     </p>
     <section v-else>
       <Table :records="items"/>
@@ -18,8 +18,8 @@
           v-model="page"
           :page-count="pageCount"
           :click-handler="handlePageChange"
-          :prev-text="'Назад'"
-          :next-text="'Вперёд'"
+          :prev-text="back"
+          :next-text="forward"
           :container-class="'pagination'"
           :page-class="'waves-effect'">
         </Paginate>
@@ -32,6 +32,7 @@
   import Table from '../components/history/Table.vue';
   import paginationMixin from '../mixins/pagination-mixin.js';
   import {Pie} from 'vue-chartjs';
+  import localizeFilter from '../filters/localize-filter.js';
 
   export default {
     name: 'History',
@@ -41,6 +42,14 @@
       loading: true,
       records: [],
     }),
+    computed: {
+      back() {
+        return localizeFilter('title_pagination_back');
+      },
+      forward() {
+        return localizeFilter('title_pagination_forward');
+      }
+    },
     components: {Table},
     methods: {
       setup(categories) {
@@ -49,12 +58,11 @@
           date: new Date(record.date),
           categoryName: categories.find(c => c.id === record.categoryID).title,
           typeClass: (record.type === 'income') ? 'green' : 'red',
-          typeText: (record.type === 'income') ? 'Доход' : 'Расход'
+          typeText: (record.type === 'income') ? localizeFilter('income') : localizeFilter('outcome')
         })));
         this.renderChart({
           labels: categories.map(c => c.title),
           datasets: [{
-            label: 'Расходы по категориям',
             data: categories.map(c => {
               return this.records.reduce((total, r) => {
                 if ((r.categoryID === c.id) && r.type === 'outcome') {

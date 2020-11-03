@@ -8,6 +8,9 @@
   "currency": "Валюта",
   "rate": "Курс",
   "date": "Дата",
+  "category": "Категория",
+  "type": "Тип",
+  "open": "Открыть",
   "message_enter_name": "Введите имя",
   "message_enter_email": "Введите адрес электронной почты",
   "message_enter_password": "Введите пароль",
@@ -35,6 +38,7 @@
   "button_create_category": "Создать категорию",
   "button_create_record": "Создать запись",
   "button_refresh_bill": "Обновить курсы валют",
+  "button_view_record_details": "Просмотреть подробности записи",
   "title_profile": "Профиль",
   "title_bill": "Счёт",
   "title_and": "и",
@@ -49,7 +53,10 @@
   "title_has_account": "Уже есть аккаунт?",
   "title_agree": "С правилами согласен",
   "title_no_categories": "Категорий нет, но Вы можете",
+  "title_no_records": "Записей нет, но Вы можете",
   "title_select_category": "Выберите категорию",
   "title_description": "Описание записи",
-  "title_of": "из"
+  "title_of": "из",
+  "title_pagination_back": "Назад",
+  "title_pagination_forward": "Вперёд"
 }

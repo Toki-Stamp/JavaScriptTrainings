@@ -8,6 +8,9 @@
   "currency": "Currency name",
   "rate": "Rate",
   "date": "Date",
+  "category": "Category",
+  "type": "Type",
+  "open": "Open",
   "message_enter_name": "Enter name",
   "message_enter_email": "Enter email",
   "message_enter_password": "Enter password",
@@ -35,6 +38,7 @@
   "button_create_category": "Create new category",
   "button_create_record": "Create new record",
   "button_refresh_bill": "Refresh currencies rates",
+  "button_view_record_details": "View record details",
   "title_profile": "Profile",
   "title_bill": "Bill",
   "title_and": "&",
@@ -49,7 +53,10 @@
   "title_has_account": "Already has account?",
   "title_agree": "Agree with rules",
   "title_no_categories": "There is no categories yet, but you may",
+  "title_no_records": "There is no records yet, but you may",
   "title_select_category": "Select category",
   "title_description": "Record description",
-  "title_of": "of"
+  "title_of": "of",
+  "title_pagination_back": "Back",
+  "title_pagination_forward": "Forward"
 }
