@@ -15,7 +15,7 @@
                :class="{'red': (record.type === 'outcome'), 'green': (record.type === 'income')}">
             <div class="card-content white-text">
               <p>{{'title_description' | localizeFilter}}: {{record.description}}</p>
-              <p>{{'sum' | localizeFilter}}: {{record.amount | currencyFilter}}</p>
+              <p>{{'amount' | localizeFilter}}: {{record.amount | currencyFilter}}</p>
               <p>{{'category' | localizeFilter}}: {{record.categoryName}}</p>
               <small>{{record.date | dateFilter('datetime')}}</small>
             </div>

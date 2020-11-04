@@ -3,7 +3,7 @@
     <thead>
     <tr>
       <th>#</th>
-      <th>{{'sum' | localizeFilter}}</th>
+      <th>{{'amount' | localizeFilter}}</th>
       <th>{{'date' | localizeFilter}}</th>
       <th>{{'category' | localizeFilter}}</th>
       <th>{{'type' | localizeFilter}}</th>

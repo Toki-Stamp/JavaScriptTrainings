@@ -5,7 +5,7 @@
   "password": "Пароль",
   "income": "Доход",
   "outcome": "Расход",
-  "sum": "Сумма",
+  "amount": "Сумма",
   "currency": "Валюта",
   "rate": "Курс",
   "date": "Дата",

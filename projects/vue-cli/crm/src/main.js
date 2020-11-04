@@ -10,8 +10,8 @@ import dateFilter from './filters/date-filter.js';
 import currencyFilter from './filters/currency-filter.js';
 import localizeFilter from './filters/localize-filter.js';
 import tooltipDirective from './directives/tooltip-directive.js';
-import messagePlugin from './utils/message-plugin.js';
-import titlePlugin from './utils/title-plugin.js';
+import messagePlugin from './plugins/message-plugin.js';
+import titlePlugin from './plugins/title-plugin.js';
 import './registerServiceWorker.js';
 import 'materialize-css/dist/js/materialize.min.js'
 import firebase from 'firebase/app';

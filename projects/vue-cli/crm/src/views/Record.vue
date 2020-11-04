@@ -42,7 +42,7 @@
                type="number"
                v-model.number="amount"
                :class="{invalid: ($v.amount.$dirty && !$v.amount.minValue)}">
-        <label for="amount">{{'sum' | localizeFilter}}</label>
+        <label for="amount">{{'amount' | localizeFilter}}</label>
         <span class="helper-text invalid"
               v-if="($v.amount.$dirty && !$v.amount.minValue)">
             {{'error_min_value' | localizeFilter}} {{$v.amount.$params.minValue.min}}

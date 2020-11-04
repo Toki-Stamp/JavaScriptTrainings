@@ -5,7 +5,7 @@
   "password": "Password",
   "income": "Income",
   "outcome": "Outcome",
-  "sum": "Sum",
+  "amount": "Amount",
   "currency": "Currency name",
   "rate": "Rate",
   "date": "Date",
